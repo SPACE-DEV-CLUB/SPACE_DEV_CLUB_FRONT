@@ -10,33 +10,18 @@ export const MEDIA_QUERY_END_POINT = {
 export const ROUTES = [
   {
     ID: 0,
-    PATH: "/info",
-    LABEL: "Info",
+    PATH: "/",
+    LABEL: "Home",
   },
   {
     ID: 1,
-    PATH: "/characters",
-    LABEL: "Characters",
+    PATH: "/recent",
+    LABEL: "Recent",
   },
   {
     ID: 2,
-    PATH: "/cast",
-    LABEL: "Cast",
-  },
-  {
-    ID: 3,
-    PATH: "/episodes",
-    LABEL: "Episodes",
-  },
-  {
-    ID: 4,
-    PATH: "/questions",
-    LABEL: "Questions",
-  },
-  {
-    ID: 5,
-    PATH: "/inventory",
-    LABEL: "Inventory",
+    PATH: "/search",
+    LABEL: "Search",
   },
 ];
 
