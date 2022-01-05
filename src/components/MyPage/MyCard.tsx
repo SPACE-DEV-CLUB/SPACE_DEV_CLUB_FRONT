@@ -5,22 +5,38 @@ import { MEDIA_QUERY_END_POINT } from "../../constants";
 import { Profile } from "./Profile";
 
 interface cardType {
-    imageUrl: string,
-    postTitle: string,
-    postDesc: string,
-    tags: Array<string>,
-    date: number,
-    comment: number
+    imageUrl: string;
+    postTitle: string;
+    postDesc: string;
+    tags: Array<string>;
+    date: number;
+    comment: number;
 }
 
-export const MyCard = ({imageUrl, postTitle, postDesc, tags, date, comment}: {imageUrl: string, postTitle: string, postDesc: string, tags: Array<string>, date: number, comment: number}) => {
+export const MyCard = ({
+    imageUrl,
+    postTitle,
+    postDesc,
+    tags,
+    date,
+    comment,
+}: {
+    imageUrl: string;
+    postTitle: string;
+    postDesc: string;
+    tags: Array<string>;
+    date: number;
+    comment: number;
+}) => {
     return (
         <MyCardContainer>
-        <Profile id={'jae04099'} />
+            <Profile id={"jae04099"} />
             <a href="/@id/dfjsfd">
                 <div className="image-wrap">
                     <Image
                         layout="responsive"
+                        width={100}
+                        height={100}
                         alt="sample image"
                         src={imageUrl}
                     />
@@ -29,12 +45,12 @@ export const MyCard = ({imageUrl, postTitle, postDesc, tags, date, comment}: {im
             <a href="/@id/dfjsfd">
                 <h2>{postTitle}</h2>
             </a>
-            <p>
-                {postDesc}
-            </p>
-            <div className="tags-wrap">
-                { tags.map((e, index) => <a key={index} href="/tags/lorem">{e}</a>)}
-            </div>
+            <p>{postDesc}</p>
+            {tags.map((e, index) => (
+                <div key={index} className="tags-wrap">
+                    <a href="/tags/lorem">{e}</a>
+                </div>
+            ))}
             <div className="comment">
                 <span>{date}일 전</span>
                 <span> · </span>
@@ -76,6 +92,7 @@ const MyCardContainer = styled.section`
     .tags-wrap {
         display: inline-block;
         margin: 0 14px 14px 0;
+        padding: 5px 0;
         background: #f1f3f5;
         border-radius: 15px;
         a {
@@ -89,20 +106,20 @@ const MyCardContainer = styled.section`
     }
     @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
         padding: 32px 0;
-      h2 {
-          font-size: 16px;
-      }
-      p {
-          font-size: 14px;
-      }
-      .tags-wrap {
-        a {
+        h2 {
+            font-size: 16px;
+        }
+        p {
+            font-size: 14px;
+        }
+        .tags-wrap {
+            a {
+                font-size: 12px;
+            }
+        }
+        .comment > span {
+            color: #868296;
             font-size: 12px;
         }
-    }
-    .comment > span {
-        color: #868296;
-        font-size: 12px;
-    }
     }
 `;

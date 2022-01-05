@@ -10,7 +10,7 @@ export const FindPost = () => {
 };
 
 const FindContainer = styled.div`
-padding: 18px 0 64px 0;
+padding: 18px 0 0 0;
 p {
     font-size: 18px;
 }

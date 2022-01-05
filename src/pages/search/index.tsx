@@ -100,7 +100,7 @@ const MyPage: NextPage = () => {
         <Container>
             <SearchBar />
             <FindPost />
-            {cardData.map((e, index) => <MyCard key={index} imageUrl="../../../public/image/sample.jpeg" postTitle={e.postTitle} postDesc={e.postDesc} tags={e.tags} date={e.date} comment={e.comment}/>)}
+            {cardData.map((e, index) => <MyCard key={index} imageUrl="/public/image/sample.jpeg" postTitle={e.postTitle} postDesc={e.postDesc} tags={e.tags} date={e.date} comment={e.comment}/>)}
         </Container>
     )
 }
