@@ -1,8 +1,8 @@
-import styled from "@emotion/styled"
-import { NextPage } from "next"
-import Image from "next/image"
-import React from "react"
-import { Header, Intro, Mymenu } from "../../components/Layout/Mypage"
+import styled from "@emotion/styled";
+import { NextPage } from "next";
+import Image from "next/image";
+import React from "react";
+import { Header, Intro, Mymenu } from "../../components/MyPage";
 
 const Mypage: NextPage = () => {
   return (
@@ -13,8 +13,8 @@ const Mypage: NextPage = () => {
         <Mymenu />
       </Main>
     </>
-  )
-}
+  );
+};
 
 const Main = styled.main`
   width: 768px;
@@ -23,6 +23,6 @@ const Main = styled.main`
   @media screen and (max-width: 768px) {
     width: 100%;
   }
-`
+`;
 
 export default Mypage;

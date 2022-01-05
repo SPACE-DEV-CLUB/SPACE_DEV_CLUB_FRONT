@@ -1,15 +1,15 @@
-import { css } from "@emotion/react"
-import styled from "@emotion/styled"
-import React, { useState } from "react"
-import { PALLETS } from "../../../constants"
-import { Content, Series, SelfIntro } from "./Menus"
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import React, { useState } from "react";
+import { PALLETS } from "../../constants";
+import { Content, Series, SelfIntro } from "./Menus";
 
 export const Mymenu: React.FC = () => {
-  const [menunum, setMenunum] = useState<number>(0)
+  const [menunum, setMenunum] = useState<number>(0);
 
   const handleMenu = (num: number) => {
-    setMenunum(num)
-  }
+    setMenunum(num);
+  };
 
   return (
     <section>
@@ -28,8 +28,8 @@ export const Mymenu: React.FC = () => {
       </Menubar>
       {menunum === 0 ? <Content /> : menunum === 1 ? <Series /> : <SelfIntro />}
     </section>
-  )
-}
+  );
+};
 
 const Menubar = styled.nav`
   width: 100%;
@@ -42,15 +42,15 @@ const Menubar = styled.nav`
     display: flex;
     justify-content: center;
   }
-`
+`;
 type FocusNum = {
-  index: boolean
-}
+  index: boolean;
+};
 
 const focus = (props: FocusNum) => css`
   color: ${props.index ? PALLETS.MAIN : "#000"};
   border-bottom: ${props.index ? `2px solid ${PALLETS.MAIN}` : "none"};
-`
+`;
 
 const Menu = styled.li`
   display: flex;
@@ -66,4 +66,4 @@ const Menu = styled.li`
   @media screen and (max-width: 768px) {
     width: 100%;
   }
-`
+`;
