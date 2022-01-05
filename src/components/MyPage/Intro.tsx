@@ -1,5 +1,7 @@
 import styled from "@emotion/styled"
 import Image from "next/image"
+import HomeIcon from "@mui/icons-material/Home"
+
 
 export const Intro: React.FC = () => {
   return (
@@ -20,7 +22,9 @@ export const Intro: React.FC = () => {
       </div>
       <ul className="introSns">
         <li>
-          <a>icon</a>
+          <a>
+            <HomeIcon />
+          </a>
         </li>
         <li>
           <a>icon</a>
