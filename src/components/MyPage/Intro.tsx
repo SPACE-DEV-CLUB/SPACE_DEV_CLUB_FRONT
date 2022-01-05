@@ -2,6 +2,7 @@ import styled from "@emotion/styled"
 import Image from "next/image"
 import HomeIcon from "@mui/icons-material/Home"
 
+
 export const Intro: React.FC = () => {
   return (
     <Introduce>
