@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { MyCard } from "../components/MyPage/Card/MyCard";
+import { MyCard } from "../components/MyPage/MyCard";
 
 const MyPage: NextPage = () => {
     return (

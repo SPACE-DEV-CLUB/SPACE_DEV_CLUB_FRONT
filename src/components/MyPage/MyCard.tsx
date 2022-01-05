@@ -1,10 +1,13 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
-import SAMPLE_IMG from "../../../../public/image/sample.jpeg";
+import SAMPLE_IMG from "../../../public/image/sample.jpeg";
+import { MEDIA_QUERY_END_POINT } from "../../constants";
+import { Profile } from "./Profile";
 
 export const MyCard = () => {
     return (
         <MyCardContainer>
+        <Profile id={'jae04099'} />
             <a href="/@id/dfjsfd">
                 <div className="image-wrap">
                     <Image
@@ -30,7 +33,7 @@ export const MyCard = () => {
             <div className="tags-wrap">
                 <a href="/tags/lorem">lorem</a>
             </div>
-            <div>
+            <div className="comment">
                 <span>1일 전</span>
                 <span> · </span>
                 <span>2개의 댓글</span>
@@ -43,7 +46,7 @@ const MyCardContainer = styled.section`
     width: 100%;
     max-width: 768px;
     padding: 64px 0;
-    border-top: 1px solid rgb(233, 236, 239);
+    border-bottom: 1px solid rgb(233, 236, 239);
     .image-wrap {
         background: pink;
         width: 100%;
@@ -79,7 +82,27 @@ const MyCardContainer = styled.section`
             color: #0ca678;
         }
     }
-    span {
+    .comment > span {
         color: #868296;
+    }
+
+    @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
+        padding: 32px 0;
+      h2 {
+          font-size: 16px;
+      }
+      p {
+          font-size: 14px;
+      }
+      .tags-wrap {
+        a {
+            font-size: 12px;
+
+        }
+    }
+    .comment > span {
+        color: #868296;
+        font-size: 12px;
+    }
     }
 `;
