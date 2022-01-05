@@ -25,5 +25,4 @@ const Main = styled.main`
   }
 `
 
-export default Mypage
-
+export default Mypage;

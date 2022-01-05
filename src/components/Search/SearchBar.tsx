@@ -16,37 +16,43 @@ export const SearchBar = () => {
 
 const BarContainer = styled.div`
     width: 734px;
-    height: 64px;
     margin: 0 auto;
-    
     form {
+        display: flex;
+        align-items: center;
         border: 1px solid rgb(173, 181, 189);
         padding: 0 24px;
+        height: 64px;
         &:focus,  &:active {
             border: 1px solid rgb(123, 129, 136);
         }
     }
     input {
-       width: 95%;
-       height: 62px;
+       width: 90%;
+       margin-left: 20px;
+       height: 32px;
        border: none;
        font-size: 28px;
-       padding: 32px;
-       color: rgb(173, 181, 189);
+       color: rgb(73, 80, 87);
        &:active, &:focus{
            outline: none;
        }
+       &::placeholder {
+           color: rgb(173, 181, 189);
+       }
     }
     @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
-        padding: 0;
+        margin-bottom: 24px;
         form {
             display: flex;
             align-items: center;
+            height: 34px;
+            padding: 0 16px;
         }
         input {
-            height: 100%;
+            height: 16px;
             font-size: 18px;
-            padding: 10px;
+            margin-left: 14px;
             vertical-align: center;
         }
   }
