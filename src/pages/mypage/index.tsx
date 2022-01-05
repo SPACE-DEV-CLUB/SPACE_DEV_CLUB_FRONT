@@ -1,12 +1,29 @@
-import type { NextPage } from "next";
-import { MyCard } from "../../components/MyPage/MyCard";
+import styled from "@emotion/styled"
+import { NextPage } from "next"
+import Image from "next/image"
+import React from "react"
+import { Header, Intro, Mymenu } from "../../components/Layout/Mypage"
 
-const MyPage: NextPage = () => {
-    return (
-        <div>
-            <MyCard />
-        </div>
-    )
+const Mypage: NextPage = () => {
+  return (
+    <>
+      <Header />
+      <Main>
+        <Intro />
+        <Mymenu />
+      </Main>
+    </>
+  )
 }
 
-export default MyPage; 
+const Main = styled.main`
+  width: 768px;
+  margin: 0 auto;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+`
+
+export default Mypage
+
