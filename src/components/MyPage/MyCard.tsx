@@ -4,7 +4,16 @@ import SAMPLE_IMG from "../../../public/image/sample.jpeg";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
 import { Profile } from "./Profile";
 
-export const MyCard = () => {
+interface cardType {
+    imageUrl: string,
+    postTitle: string,
+    postDesc: string,
+    tags: Array<string>,
+    date: number,
+    comment: number
+}
+
+export const MyCard = ({imageUrl, postTitle, postDesc, tags, date, comment}: {imageUrl: string, postTitle: string, postDesc: string, tags: Array<string>, date: number, comment: number}) => {
     return (
         <MyCardContainer>
         <Profile id={'jae04099'} />
@@ -13,30 +22,23 @@ export const MyCard = () => {
                     <Image
                         layout="responsive"
                         alt="sample image"
-                        src={SAMPLE_IMG}
+                        src={imageUrl}
                     />
                 </div>
             </a>
             <a href="/@id/dfjsfd">
-                <h2>lorem ipsum</h2>
+                <h2>{postTitle}</h2>
             </a>
             <p>
-                lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각
-                있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요
-                ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.
-                프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?
-                혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만
-                아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드
-                포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의
-                업무 범위 3. 잘하는 프론트엔드 개발자란?
+                {postDesc}
             </p>
             <div className="tags-wrap">
-                <a href="/tags/lorem">lorem</a>
+                { tags.map((e, index) => <a key={index} href="/tags/lorem">{e}</a>)}
             </div>
             <div className="comment">
-                <span>1일 전</span>
+                <span>{date}일 전</span>
                 <span> · </span>
-                <span>2개의 댓글</span>
+                <span>{comment}개의 댓글</span>
             </div>
         </MyCardContainer>
     );
@@ -55,6 +57,7 @@ const MyCardContainer = styled.section`
     }
     h2 {
         font-size: 24px;
+        margin-top: 20px;
     }
     p {
         color: #495057;
