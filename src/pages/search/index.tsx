@@ -4,7 +4,6 @@ import { SearchBar } from "../../components/Search/SearchBar";
 import { FindPost } from "../../components/Search/FindPost";
 import { MyCard } from "../../components/MyPage/MyCard";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
-import SAMPLE_IMG from "../../../public/image/sample.jpeg";
 
 const cardData = [
     {
@@ -101,7 +100,7 @@ const MyPage: NextPage = () => {
         <Container>
             <SearchBar />
             <FindPost />
-            {cardData.map((e, index) => <MyCard key={index} imageUrl={SAMPLE_IMG} postTitle={e.postTitle} postDesc={e.postDesc} tags={e.tags} date={e.date} comment={e.comment}/>)}
+            {cardData.map((e, index) => <MyCard key={index} imageUrl="../../../public/image/sample.jpeg" postTitle={e.postTitle} postDesc={e.postDesc} tags={e.tags} date={e.date} comment={e.comment}/>)}
         </Container>
     )
 }
