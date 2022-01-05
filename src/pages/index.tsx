@@ -1,6 +1,5 @@
 import type { NextPage } from "next"
 import Head from "next/head"
-import { Mypage } from "./mypage"
 
 const Home: NextPage = () => {
   return (
