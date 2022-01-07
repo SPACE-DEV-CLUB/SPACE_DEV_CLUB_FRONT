@@ -2,6 +2,12 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { PALLETS } from "../../constants/index";
 
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+
 export const SeriesContainer = () => {
   const [select, setSelect] = useState(false);
   const handleSeries = () => {
@@ -12,18 +18,7 @@ export const SeriesContainer = () => {
       <h3>
         <a href="#">시리즈제목</a>
       </h3>
-      <SeriesSVG
-        width="32"
-        height="48"
-        fill="none"
-        viewBox="0 0 32 48"
-        className="series-corner-image"
-      >
-        <path
-          fill={`${PALLETS.MAIN}`}
-          d="M32 0H0v48h.163l16-16L32 47.836V0z"
-        ></path>
-      </SeriesSVG>
+      <BookmarkIcon className="BookmarkIcon" />
       {select && (
         <ol>
           <li className="aaaa">
@@ -41,61 +36,17 @@ export const SeriesContainer = () => {
       )}
       <SPContainer>
         <SelectBox onClick={handleSeries}>
-          {select ? (
-            <svg
-              stroke="currentColor"
-              fill="currentColor"
-              strokeWidth="0"
-              viewBox="0 0 24 24"
-              height="1em"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M7 14l5-5 5 5z"></path>
-            </svg>
-          ) : (
-            <svg
-              stroke="currentColor"
-              fill="currentColor"
-              strokeWidth="0"
-              viewBox="0 0 24 24"
-              height="20px"
-              width="20px"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M7 10l5 5 5-5z"></path>
-            </svg>
-          )}
+          {select ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
           <span>{select ? "숨기기" : "목록 보기"}</span>
         </SelectBox>
         <Pagination>
           <span>2/3</span>
           <div>
             <button>
-              <svg
-                stroke="currentColor"
-                fill="currentColor"
-                strokeWidth="0"
-                viewBox="0 0 24 24"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
-              </svg>
+              <ArrowBackIosIcon className="series-arrow" />
             </button>
             <button>
-              <svg
-                stroke="currentColor"
-                fill="currentColor"
-                strokeWidth="0"
-                viewBox="0 0 24 24"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
-              </svg>
+              <ArrowForwardIosIcon className="series-arrow" />
             </button>
           </div>
         </Pagination>
@@ -119,6 +70,14 @@ const Container = styled.article`
   h3 > a:hover {
     color: #868296;
     text-decoration: underline;
+  }
+  .BookmarkIcon {
+    position: absolute;
+    top: -10px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    color: ${PALLETS.MAIN};
   }
   div {
     display: flex;
@@ -150,21 +109,23 @@ const Container = styled.article`
     text-decoration: underline;
   }
 `;
-const SeriesSVG = styled.svg`
-  position: absolute;
-  top: 0;
-  right: 30px;
-`;
 // 시리즈 목록 보기 select 박스 부분과 다음 이전 버튼 컨테이너
 const SPContainer = styled.div``;
 const SelectBox = styled.div`
   cursor: pointer;
+  span {
+    margin-top: 5px;
+  }
 `;
 const Pagination = styled.div`
   /*  현재 글/시리즈 글 갯수 */
   span {
     margin-right: 20px;
     color: #adb5bd;
+  }
+  .series-arrow {
+    width: 10px;
+    height: 10px;
   }
   /* 마지막 페이지면 넘어가기 호버 및 클릭 막기 */
   button {
