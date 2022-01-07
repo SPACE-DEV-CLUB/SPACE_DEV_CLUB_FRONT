@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Filter } from "../components/Home/Filter";
-import { CardContainer } from "../components/Home/CardContainer";
-import { Header } from "../components/Home/Header";
+import { Filter } from "../../components/Home/Filter";
+import { CardContainer } from "../../components/Home/CardContainer";
+import { Header } from "../../components/Home/Header";
 const Home: NextPage = () => {
   return (
     <div>
@@ -14,7 +14,7 @@ const Home: NextPage = () => {
       </Head>
       <Main>
         <Header></Header>
-        <Filter route={"home"}></Filter>
+        <Filter route={"recent"}></Filter>
         <CardContainer></CardContainer>
       </Main>
     </div>

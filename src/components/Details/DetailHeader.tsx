@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import { UDHashContainer } from "./UDHashContainer";
 import { SeriesContainer } from "./SeriesContainer";
+import { Intro } from "../MyPage";
+import { Carousel } from "./Carousel";
 
 export const DetailHeader = () => {
   return (
@@ -8,6 +10,8 @@ export const DetailHeader = () => {
       <h2>글제목</h2>
       <UDHashContainer />
       <SeriesContainer />
+      <Intro />
+      <Carousel />
     </Header>
   );
 };
