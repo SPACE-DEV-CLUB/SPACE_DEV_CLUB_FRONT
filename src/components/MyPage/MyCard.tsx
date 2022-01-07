@@ -63,7 +63,10 @@ export const MyCard = ({
 const MyCardContainer = styled.section`
     width: 100%;
     max-width: 768px;
-    padding: 64px 0;
+    padding-bottom: 64px;
+    & + & {
+        padding: 64px 0;
+    }
     border-bottom: 1px solid rgb(233, 236, 239);
     .image-wrap {
         background: pink;

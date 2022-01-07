@@ -1,16 +1,17 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
-import SearchImg from "../../../public/image/search.svg";
+import Search from "@mui/icons-material/Search";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
 
 export const SearchBar = () => {
     return (
-            <BarContainer>
-                <form>
-                    <Image width={20} height={20} src={SearchImg} alt="search" ></Image>
-                    <input type="text" placeholder="검색어를 입력하세요" />
-                </form>
-            </BarContainer>
+rContainer>
+            <form>
+                <div className="img-wrap">
+                    <Search />
+                </div>
+                <input type="text" placeholder="검색어를 입력하세요"></input>
+            </form>
+        </BarContainer>
     );
 };
 
