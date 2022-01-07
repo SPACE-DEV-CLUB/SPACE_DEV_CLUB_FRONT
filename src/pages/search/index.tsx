@@ -5,16 +5,27 @@ import { FindPost } from "../../components/Search/FindPost";
 import { MyCard } from "../../components/MyPage/MyCard";
 import { CARD_DATA, MEDIA_QUERY_END_POINT } from "../../constants";
 
-
 const MyPage: NextPage = () => {
     return (
         <Container>
             <SearchBar />
             <FindPost />
-            {CARD_DATA.map((e, index) => <MyCard key={index} imageUrl="/public/image/sample.jpeg" postTitle={e.postTitle} postDesc={e.postDesc} tags={e.tags} date={e.date} comment={e.comment}/>)}
+            <CardContainer>
+                {CARD_DATA.map((e, index) => (
+                    <MyCard
+                        key={index}
+                        imageUrl="/public/image/sample.jpeg"
+                        postTitle={e.postTitle}
+                        postDesc={e.postDesc}
+                        tags={e.tags}
+                        date={e.date}
+                        comment={e.comment}
+                    />
+                ))}
+            </CardContainer>
         </Container>
-    )
-}
+    );
+};
 
 export default MyPage;
 
@@ -23,8 +34,12 @@ const Container = styled.div`
     max-width: 734px;
     @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
         padding: 20px;
-    input {
-        height: 27px;
+        input {
+            height: 27px;
+        }
     }
-  }
-` 
+`;
+
+const CardContainer = styled.div`
+    padding-top: 64px;
+`
