@@ -4,14 +4,6 @@ import SAMPLE_IMG from "../../../public/image/sample.jpeg";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
 import { Profile } from "./Profile";
 
-interface cardType {
-    imageUrl: string;
-    postTitle: string;
-    postDesc: string;
-    tags: Array<string>;
-    date: number;
-    comment: number;
-}
 
 export const MyCard = ({
     imageUrl,
