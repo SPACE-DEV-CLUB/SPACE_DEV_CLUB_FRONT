@@ -15,8 +15,8 @@ export const Profile = ({ id }: {id:string}) => {
             <div className="img-wrap">
                 <Image
                     alt="thumbnail"
-                    width={100}
-                    height={100}
+                    width={30}
+                    height={30}
                     src={SAMPLE_IMG}
                 ></Image>
             </div>

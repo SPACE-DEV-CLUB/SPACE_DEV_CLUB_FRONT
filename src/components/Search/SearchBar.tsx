@@ -5,19 +5,12 @@ import { MEDIA_QUERY_END_POINT } from "../../constants";
 
 export const SearchBar = () => {
     return (
-        <BarContainer>
-            <form>
-                <div className="img-wrap">
-                    <Image
-                        width={20}
-                        height={20}
-                        src={SearchImg}
-                        alt="search"
-                    ></Image>
-                </div>
-                <input type="text" placeholder="검색어를 입력하세요"></input>
-            </form>
-        </BarContainer>
+            <BarContainer>
+                <form>
+                    <Image width={20} height={20} src={SearchImg} alt="search" ></Image>
+                    <input type="text" placeholder="검색어를 입력하세요" />
+                </form>
+            </BarContainer>
     );
 };
 
@@ -25,46 +18,42 @@ const BarContainer = styled.div`
     width: 734px;
     margin: 0 auto;
     form {
-        position: relative;
         display: flex;
         align-items: center;
+        border: 1px solid rgb(173, 181, 189);
+        padding: 0 24px;
         height: 64px;
-        .img-wrap {
-            position: absolute;
-            left: 24px;
+        &:focus,  &:active {
+            border: 1px solid rgb(123, 129, 136);
         }
-        input {
-            width: 100%;
-            margin-left: 0px;
-            height: 32px;
-            border: 1px solid rgb(173, 181, 189);
-            font-size: 24px;
-            padding: 10px 64px;
-            color: rgb(73, 80, 87);
-            outline: none;
-            transition: outline-color 1000ms;
-            
-            &:active,
-            &:focus {
-                outline: 1px solid #000;
-            }
-            &::placeholder {
-                color: rgb(173, 181, 189);
-            }
-        }
+    }
+    input {
+       width: 90%;
+       margin-left: 20px;
+       height: 32px;
+       border: none;
+       font-size: 28px;
+       color: rgb(73, 80, 87);
+       &:active, &:focus{
+           outline: none;
+       }
+       &::placeholder {
+           color: rgb(173, 181, 189);
+       }
     }
     @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
         margin-bottom: 24px;
-        width: 100%;
         form {
             display: flex;
             align-items: center;
             height: 34px;
-            input {
-                height: 16px;
-                font-size: 18px;
-                vertical-align: center;
-            }
+            padding: 0 16px;
         }
-    }
-`;
+        input {
+            height: 16px;
+            font-size: 18px;
+            margin-left: 14px;
+            vertical-align: center;
+        }
+  }
+`; 

@@ -1,11 +1,10 @@
 import styled from "@emotion/styled";
-import { CARD_DATA, MEDIA_QUERY_END_POINT } from "../../constants";
-
+import { MEDIA_QUERY_END_POINT } from "../../constants";
 
 export const FindPost = () => {
     return (
             <FindContainer>
-              <p>총 <span>{CARD_DATA.length}</span>개의 포스트를 찾았습니다.</p>
+              <p>총 <span>8925</span>개의 포스트를 찾았습니다.</p>
             </FindContainer>
     );
 };
