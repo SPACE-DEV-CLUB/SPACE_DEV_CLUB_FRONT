@@ -1,7 +1,18 @@
 import styled from "@emotion/styled"
 import Image from "next/image"
+import SearchIcon from "@mui/icons-material/Search"
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
+import { useState } from "react"
+import { HeaderMenu } from "."
+import { PALLETS } from "../../constants"
 
 export const Header = (): JSX.Element => {
+  const [showMenu, setShowMenu] = useState(false)
+
+  const handleMenu = () => {
+    setShowMenu(!showMenu)
+  }
+
   return (
     <HeaderContainer>
       <HeaderUtils>
@@ -18,33 +29,18 @@ export const Header = (): JSX.Element => {
       </HeaderUtils>
       <HeaderUtils>
         <SearchBtn className="sc-dxgOiQ ghkPCb" href="">
-          <svg width="17" height="17" viewBox="0 0 17 17">
-            <path
-              fillRule="evenodd"
-              d="M13.66 7.36a6.3 6.3 0 1 1-12.598 0 6.3 6.3 0 0 1 12.598 0zm-1.73 5.772a7.36 7.36 0 1 1 1.201-1.201l3.636 3.635c.31.31.31.815 0 1.126l-.075.075a.796.796 0 0 1-1.126 0l-3.636-3.635z"
-              clipRule="evenodd"
-            ></path>
-          </svg>
+          <SearchIcon />
         </SearchBtn>
         <NewPostBtn>새 글 작성</NewPostBtn>
-        <UserUtils>
+        <UserUtils onClick={handleMenu}>
           <UserProfile
             src="/image/sampleUser.jpg"
             alt="userProfile"
             width={40}
             height={40}
           />
-          <svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 24 24"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M7 10l5 5 5-5z"></path>
-          </svg>
+          <ArrowDropDownIcon className="arrow" />
+          {showMenu && <HeaderMenu />}
         </UserUtils>
       </HeaderUtils>
     </HeaderContainer>
@@ -102,6 +98,12 @@ const UserUtils = styled.article`
   align-items: center;
   svg:hover {
     fill: #000;
+  }
+  .arrow {
+    color: ${PALLETS.SUB};
+    &:hover {
+      color: ${PALLETS.MAIN};
+    }
   }
 `
 

@@ -1,67 +1,121 @@
-import styled from "@emotion/styled";
-import { PALLETS } from "../../../constants";
+import styled from "@emotion/styled"
+import { PALLETS } from "../../../constants"
+import SearchIcon from "@mui/icons-material/Search"
+import { MyCard } from "../MyCard"
+
+const cardData = [
+  {
+    imageUrl: "http://localhost:3010/",
+    postTitle: "lorem ipsum",
+    postDesc:
+      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
+    tags: ["lorem", "lorem", "lorem"],
+    date: 1,
+    comment: 2,
+  },
+  {
+    imageUrl: "http://localhost:3010/",
+    postTitle: "lorem ipsum",
+    postDesc:
+      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
+    tags: ["lorem", "lorem", "lorem"],
+    date: 1,
+    comment: 2,
+  },
+  {
+    imageUrl: "http://localhost:3010/",
+    postTitle: "lorem ipsum",
+    postDesc:
+      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
+    tags: ["lorem", "lorem", "lorem"],
+    date: 1,
+    comment: 2,
+  },
+  {
+    imageUrl: "http://localhost:3010/",
+    postTitle: "lorem ipsum",
+    postDesc:
+      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
+    tags: ["lorem", "lorem", "lorem"],
+    date: 1,
+    comment: 2,
+  },
+  {
+    imageUrl: "http://localhost:3010/",
+    postTitle: "lorem ipsum",
+    postDesc:
+      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
+    tags: ["lorem", "lorem", "lorem"],
+    date: 1,
+    comment: 2,
+  },
+  {
+    imageUrl: "http://localhost:3010/",
+    postTitle: "lorem ipsum",
+    postDesc:
+      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
+    tags: ["lorem", "lorem", "lorem"],
+    date: 1,
+    comment: 2,
+  },
+  {
+    imageUrl: "http://localhost:3010/",
+    postTitle: "lorem ipsum",
+    postDesc:
+      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
+    tags: ["lorem", "lorem", "lorem"],
+    date: 1,
+    comment: 2,
+  },
+  {
+    imageUrl: "http://localhost:3010/",
+    postTitle: "lorem ipsum",
+    postDesc:
+      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
+    tags: ["lorem", "lorem", "lorem"],
+    date: 1,
+    comment: 2,
+  },
+  {
+    imageUrl: "http://localhost:3010/",
+    postTitle: "lorem ipsum",
+    postDesc:
+      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
+    tags: ["lorem", "lorem", "lorem"],
+    date: 1,
+    comment: 2,
+  },
+  {
+    imageUrl: "http://localhost:3010/",
+    postTitle: "lorem ipsum",
+    postDesc:
+      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
+    tags: ["lorem", "lorem", "lorem"],
+    date: 1,
+    comment: 2,
+  },
+  {
+    imageUrl: "http://localhost:3010/",
+    postTitle: "lorem ipsum",
+    postDesc:
+      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
+    tags: ["lorem", "lorem", "lorem"],
+    date: 1,
+    comment: 2,
+  },
+]
 
 export const Content = () => {
   return (
     <ContentContainer>
       <SearchContainer>
         <article className="searchBox">
-          <span>Q</span>
+          <SearchIcon />
           <input type="text" placeholder="검색어를 입력하세요." />
         </article>
       </SearchContainer>
       <SmallTaglist>
         <ul>
-          <li>
-            <a>
-              전체보기<span>(50)</span>
-            </a>
-          </li>
-          <li>
-            <a>
-              전체보기<span>(50)</span>
-            </a>
-          </li>
-          <li>
-            <a>
-              전체보기<span>(50)</span>
-            </a>
-          </li>
-          <li>
-            <a>
-              전체보기<span>(50)</span>
-            </a>
-          </li>
-          <li>
-            <a>
-              전체보기<span>(50)</span>
-            </a>
-          </li>
-          <li>
-            <a>
-              전체보기<span>(50)</span>
-            </a>
-          </li>
-          <li>
-            <a>
-              전체보기<span>(50)</span>
-            </a>
-          </li>
-          <li>
-            <a>
-              전체보기<span>(50)</span>
-            </a>
-          </li>
-          <li>
-            <a>
-              전체보기<span>(50)</span>
-            </a>
-          </li>
-          <li>
-            <a>
-              전체보기<span>(50)</span>
-            </a>
-          </li>
           <li>
             <a>
               전체보기<span>(50)</span>
@@ -80,18 +134,32 @@ export const Content = () => {
           {/* 태그 데이터 받아서 추가 */}
         </ul>
       </LargeTaglist>
-      <section>cards</section>
+      <section>
+        {cardData.map((e, index) => (
+          <MyCard
+            key={index}
+            imageUrl="/public/image/sample.jpeg"
+            postTitle={e.postTitle}
+            postDesc={e.postDesc}
+            tags={e.tags}
+            date={e.date}
+            comment={e.comment}
+          />
+        ))}
+      </section>
     </ContentContainer>
-  );
-};
+  )
+}
 
 const ContentContainer = styled.section`
-  @media screen and (max-width: 768px) {
-    padding: 16px;
-  }
-`;
+  position: relative;
 
-const SearchContainer = styled.section`
+  @media screen and (max-width: 768px) {
+    padding: 0 16px;
+  }
+`
+
+const SearchContainer = styled.article`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 32px;
@@ -111,10 +179,10 @@ const SearchContainer = styled.section`
       font-size: 14px;
     }
   }
-`;
+`
 const LargeTaglist = styled.section`
   display: block;
-  position: relative;
+  position: absolute;
   top: 58px;
   left: -250px;
   width: 200px;
@@ -138,12 +206,16 @@ const LargeTaglist = styled.section`
       color: ${PALLETS.MAIN};
     }
   }
-`;
+`
 
 const SmallTaglist = styled.section`
   display: none;
   width: 100%;
   padding: 16px 0;
+  @media screen and (max-width: 768px) {
+    padding: 0;
+    padding-bottom: 16px;
+  }
   @media screen and (max-width: 1200px) {
     display: block;
   }
@@ -185,4 +257,4 @@ const SmallTaglist = styled.section`
       margin-left: 8px;
     }
   }
-`;
+`

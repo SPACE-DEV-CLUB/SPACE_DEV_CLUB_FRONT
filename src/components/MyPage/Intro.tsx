@@ -1,7 +1,11 @@
 import styled from "@emotion/styled"
 import Image from "next/image"
 import HomeIcon from "@mui/icons-material/Home"
-
+import GitHubIcon from "@mui/icons-material/GitHub"
+import TwitterIcon from "@mui/icons-material/Twitter"
+import FacebookIcon from "@mui/icons-material/Facebook"
+import EmailIcon from "@mui/icons-material/Email"
+import { PALLETS } from "../../constants"
 
 export const Intro: React.FC = () => {
   return (
@@ -20,19 +24,34 @@ export const Intro: React.FC = () => {
           <p className="userDesc">PRE-FE에서 PRO-FE로🚀🪐!</p>
         </IntroContext>
       </div>
-      <ul className="introSns">
-        <li>
-          <a>
-            <HomeIcon />
-          </a>
-        </li>
-        <li>
-          <a>icon</a>
-        </li>
-        <li>
-          <a>icon</a>
-        </li>
-      </ul>
+      <IntroSns>
+        <Sns className="introGithub">
+          <SnsLink>
+            <GitHubIcon className="introIcons" />
+          </SnsLink>
+        </Sns>
+        <Sns className="introTwitter">
+          <SnsLink>
+            <TwitterIcon className="introIcons" />
+          </SnsLink>
+        </Sns>
+        <Sns className="introFacebook">
+          <SnsLink>
+            <FacebookIcon className="introIcons" />
+          </SnsLink>
+        </Sns>
+        <Sns className="introHome">
+          <SnsLink>
+            <HomeIcon className="introIcons" />
+          </SnsLink>
+        </Sns>
+        <Sns className="introEmail">
+          <SnsLink href="mailto:deli-ght@naver.com">
+            <EmailIcon className="introIcons" />
+          </SnsLink>
+          <EmailAddress>deli-ght@naver.com</EmailAddress>
+        </Sns>
+      </IntroSns>
     </Introduce>
   )
 }
@@ -55,16 +74,46 @@ const Introduce = styled.article`
       align-items: start;
     }
   }
-  .introSns {
-    width: 100%;
-    display: flex;
-    margin: 20px 0;
-    li + li {
-      margin-left: 16px;
-    }
+
+  .introIcons {
+    color: ${PALLETS.SUB};
+  }
+
+  .introIcons:hover {
+    color: ${PALLETS.MAIN};
   }
 `
 
+const SnsLink = styled.a`
+  &:hover + * {
+    display: inline;
+  }
+`
+
+const IntroSns = styled.ul`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  li + li {
+    margin-left: 16px;
+  }
+  .introEmail {
+    display: flex;
+    aling-items: center;
+  }
+`
+
+const Sns = styled.li`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+`
 const IntroContext = styled.div`
   display: flex;
   flex-direction: column;
@@ -85,4 +134,14 @@ const IntroContext = styled.div`
 
 const ProfileImg = styled(Image)`
   border-radius: 50%;
+`
+const EmailAddress = styled.span`
+  display: none;
+  margin-left: 10px;
+  padding: 3px;
+  font-size: 12px;
+  line-height: 1.5;
+  background: ${PALLETS.MAIN};
+  color: #fff;
+  border-radius: 5px;
 `
