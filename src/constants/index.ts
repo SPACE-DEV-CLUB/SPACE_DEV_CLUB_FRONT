@@ -29,6 +29,7 @@ export const ROUTES = [
 export const PALLETS = {
   MAIN: "#6868AD",
   SUB: "#e8e8fa",
+  FONT: "#495057",
 };
 
 export const CARD_DATA = [
