@@ -12,13 +12,26 @@ type IndexTypeProps = {
 };
 
 export const Carousel = () => {
-  const src = [
-    "https://cdn.pixabay.com/photo/2021/12/12/18/04/mountains-6865752_960_720.jpg",
-    "https://cdn.pixabay.com/photo/2021/11/09/15/32/christmas-6781762_960_720.jpg",
-    "https://cdn.pixabay.com/photo/2021/12/21/14/47/castle-6885449_960_720.jpg",
-  ];
-  const href = ["#", "#", "#"];
-  const title = ["시리즈1", "시리즈2", "시리즈3"];
+  const detailData = {
+    id: 0,
+    content: [
+      {
+        src: "https://cdn.pixabay.com/photo/2021/12/12/18/04/mountains-6865752_960_720.jpg",
+        href: "1",
+        title: "시리즈1",
+      },
+      {
+        src: "https://cdn.pixabay.com/photo/2021/11/09/15/32/christmas-6781762_960_720.jpg",
+        href: "2",
+        title: "시리즈2",
+      },
+      {
+        src: "https://cdn.pixabay.com/photo/2021/12/21/14/47/castle-6885449_960_720.jpg",
+        href: "3",
+        title: "시리즈3",
+      },
+    ],
+  };
   const [caroucelIndex, setCaroucelIndex] = useState(0);
 
   const handlePrevBtn = () => {
@@ -26,10 +39,9 @@ export const Carousel = () => {
     setCaroucelIndex(caroucelIndex - 1);
   };
   const handleNextBtn = () => {
-    if (caroucelIndex === src.length - 1) return;
+    if (caroucelIndex === detailData.content.length - 1) return;
     setCaroucelIndex(caroucelIndex + 1);
   };
-  console.log(caroucelIndex);
 
   return (
     <Container>
@@ -44,12 +56,12 @@ export const Carousel = () => {
       </PrevContainer>
       <CarouselContainer>
         <CarouselItem index={caroucelIndex}>
-          {src.map((s, i) => {
+          {detailData.content.map((s, i) => {
             return (
-              <Link href={href[i]} key={`carousel-${s}`}>
+              <Link href={s.href} key={`carousel-${s}`}>
                 <a>
-                  <p>{title[i]}</p>
-                  <Img src={s} alt="" />
+                  <p>{s.title}</p>
+                  <Img src={s.src} alt="" />
                 </a>
               </Link>
             );
@@ -57,7 +69,7 @@ export const Carousel = () => {
         </CarouselItem>
       </CarouselContainer>
       <NextContainer>
-        {caroucelIndex === src.length - 1 ? (
+        {caroucelIndex === detailData.content.length - 1 ? (
           <div></div>
         ) : (
           <Btn type="button" onClick={handleNextBtn}>
