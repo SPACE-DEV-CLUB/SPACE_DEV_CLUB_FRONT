@@ -4,13 +4,15 @@ import { SearchBar } from "../../components/Search/SearchBar";
 import { FindPost } from "../../components/Search/FindPost";
 import { MyCard } from "../../components/MyPage/MyCard";
 import { CARD_DATA, MEDIA_QUERY_END_POINT } from "../../constants";
+import DetailCard from "../../components/MyPage/Series/DetailCard";
+import { SeriesCard } from "../../components/MyPage/Series/SeriesCard";
 
 const MyPage: NextPage = () => {
     return (
         <Container>
             <SearchBar />
-            <FindPost />
-            <CardContainer>
+            {/* <FindPost /> */}
+            {/* <CardContainer>
                 {CARD_DATA.map((e, index) => (
                     <MyCard
                         key={index}
@@ -22,7 +24,15 @@ const MyPage: NextPage = () => {
                         comment={e.comment}
                     />
                 ))}
-            </CardContainer>
+                            </CardContainer>
+ */}
+            <DetailCard />
+            {/* <SeriesCard
+                imageUrl="/public/image/sample.jpeg"
+                postTitle="제목입니다. 제목."
+                count
+                updateDate
+            /> */}
         </Container>
     );
 };
@@ -42,4 +52,4 @@ const Container = styled.div`
 
 const CardContainer = styled.div`
     padding-top: 64px;
-`
+`;
