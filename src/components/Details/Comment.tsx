@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import Link from "next/link";
+import { CommentUser } from "./CommentUser";
 import { PALLETS } from "../../constants";
 
 export const Comment = () => {
@@ -8,12 +10,25 @@ export const Comment = () => {
       {
         id: 0,
         email: "손님@gmail.com",
+        nickname: "손님",
         comment: "좋은글 감사합니다!!",
+        src: "./image/sampleUser.jpg",
+        other: [
+          {
+            id: 0,
+          },
+          {
+            id: 1,
+          },
+        ],
       },
       {
         id: 1,
         email: "글쓴이@gmail.com",
+        nickname: "글쓴이",
         comment: "별말씀을요!",
+        src: "./image/sampleUser2.jpg",
+        other: [],
       },
     ],
   };
@@ -28,6 +43,9 @@ export const Comment = () => {
           <CommentBtn type="submit">댓글 작성</CommentBtn>
         </BtnContainer>
       </CommentForm>
+      {comment.user.map((User) => {
+        return <CommentUser key={`CommentUser-${User.id}`} user={User} />;
+      })}
     </article>
   );
 };
