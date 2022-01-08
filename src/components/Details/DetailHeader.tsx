@@ -3,6 +3,7 @@ import { UDHashContainer } from "./UDHashContainer";
 import { SeriesContainer } from "./SeriesContainer";
 import { Intro } from "../MyPage";
 import { Carousel } from "./Carousel";
+import { Comment } from "./Comment";
 
 export const DetailHeader = () => {
   return (
@@ -12,6 +13,7 @@ export const DetailHeader = () => {
       <SeriesContainer />
       <Intro />
       <Carousel />
+      <Comment />
     </Header>
   );
 };
