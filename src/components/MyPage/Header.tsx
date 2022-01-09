@@ -9,13 +9,14 @@ import {
   PALLETS_DARK,
   PALLETS_LIGHT,
 } from "../../constants"
+import Link from "next/link"
 
 interface HeaderProps {
-  username: string
+  username: string | string[] | undefined
   user: boolean
 }
 export const Header = ({
-  username,
+  username = "",
   user = false,
 }: HeaderProps): JSX.Element => {
   const [showMenu, setShowMenu] = useState(false)
@@ -29,7 +30,7 @@ export const Header = ({
       <HeaderContainer>
         <HeaderUtils>
           {user ? (
-            <>
+            <LogoContainer href={`/${username}`} passHref>
               <LogoLink>
                 <LogoImg
                   width="192"
@@ -48,9 +49,9 @@ export const Header = ({
                     fill="white"
                   ></path>
                 </LogoImg>
+                <UserName>{username}</UserName>
               </LogoLink>
-              <UserName>{username}</UserName>
-            </>
+            </LogoContainer>
           ) : (
             <LogoLink>
               <Image
@@ -73,6 +74,7 @@ export const Header = ({
               alt="userProfile"
               width={40}
               height={40}
+              layout="fixed"
             />
             <ArrowDropDownIcon className="arrow" />
             {showMenu && <HeaderMenu />}
@@ -84,6 +86,7 @@ export const Header = ({
 }
 
 const HeaderComponent = styled.header`
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -96,6 +99,7 @@ const HeaderContainer = styled.section`
   align-items: center;
   height: 64px;
   margin: 0 16px;
+  flex-shrink: 2;
 
   @media screen and (max-width: ${MEDIA_QUERY_END_POINT.XLARGE}) {
     width: 1376px;
@@ -120,6 +124,10 @@ const HeaderUtils = styled.article`
   }
 `
 
+const LogoContainer = styled(Link)`
+  display: flex;
+`
+
 const LogoLink = styled.a`
   display: flex;
   align-items: center;
@@ -130,7 +138,9 @@ const LogoImg = styled.svg`
 `
 
 const UserName = styled.a`
+  margin-left: 12px;
   font-family: "Fira Mono", monospace;
+  max-width: calc(100% - 200px);
 `
 const SearchBtn = styled.a`
   display: flex;

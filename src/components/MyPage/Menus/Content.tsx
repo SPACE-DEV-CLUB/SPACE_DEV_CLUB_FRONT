@@ -7,7 +7,11 @@ import {
 import SearchIcon from "@mui/icons-material/Search"
 import { MyCard } from "../MyCard"
 
-export const Content = () => {
+interface ContentProps {
+  username: string | string[] | undefined
+}
+
+export const Content = ({ username }: ContentProps) => {
   return (
     <ContentContainer>
       <SearchContainer>
@@ -46,6 +50,7 @@ export const Content = () => {
             tags={e.tags}
             date={e.date}
             comment={e.comment}
+            username={username}
           />
         ))}
       </section>

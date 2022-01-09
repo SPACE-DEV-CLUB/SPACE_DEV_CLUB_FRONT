@@ -1,32 +1,35 @@
 import { css } from "@emotion/react"
 import styled from "@emotion/styled"
+import Link from "next/link"
 import React, { useState } from "react"
 import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../constants"
-import { Content, Series, SelfIntro } from "./Menus"
 
-export const Mymenu: React.FC = () => {
-  const [menunum, setMenunum] = useState<number>(0)
-
-  const handleMenu = (num: number) => {
-    setMenunum(num)
-  }
-
+interface MymenuProps {
+  username: string | string[] | undefined
+  indexnum: number
+}
+export const Mymenu = ({ username, indexnum }: MymenuProps): JSX.Element => {
   return (
     <section>
       <Menubar>
         <ul>
-          <Menu onClick={() => handleMenu(0)} index={menunum === 0}>
-            <a>글</a>
+          <Menu index={indexnum === 0}>
+            <Link href={`/${username}`} passHref>
+              <a>글</a>
+            </Link>
           </Menu>
-          <Menu onClick={() => handleMenu(1)} index={menunum === 1}>
-            <a>시리즈</a>
+          <Menu index={indexnum === 1}>
+            <Link href={`/${username}/series`} passHref>
+              <a>시리즈</a>
+            </Link>
           </Menu>
-          <Menu onClick={() => handleMenu(2)} index={menunum === 2}>
-            <a>소개</a>
+          <Menu index={indexnum === 2}>
+            <Link href={`/${username}/about`} passHref>
+              <a>소개</a>
+            </Link>
           </Menu>
         </ul>
       </Menubar>
-      {menunum === 0 ? <Content /> : menunum === 1 ? <Series /> : <SelfIntro />}
     </section>
   )
 }
@@ -36,7 +39,7 @@ const Menubar = styled.nav`
   margin: 72px auto;
   @media screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     margin: 15px auto;
-    box-shadow: 0 -10px 10px 0 ${PALLETS_LIGHT.MAIN_FONT};
+    box-shadow: 0 -10px 10px 0 #f2f2f2;
   }
   & ul {
     display: flex;
