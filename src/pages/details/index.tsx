@@ -25,4 +25,6 @@ export default DetailsIndexPage;
 
 const DetailContainer = styled.section`
   display: flex;
+  width: 100%;
+  justify-content: center;
 `;
