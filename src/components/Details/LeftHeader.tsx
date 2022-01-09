@@ -90,8 +90,7 @@ const Container = styled.section`
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-
-    background-color: #f8f9fa;
+    background-color: ${PALLETS_LIGHT.BACKGROUND};
     border-radius: 40px;
     width: 70px;
     height: 150px;
@@ -106,41 +105,41 @@ const Container = styled.section`
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #adb5bd;
-    border: 1px solid #adb5bd;
+    color: ${PALLETS_LIGHT.SUB_FONT};
+    border: 1px solid ${PALLETS_LIGHT.SUB_FONT};
     background-color: none;
     border-radius: 50%;
     cursor: pointer;
   }
   a {
-    color: #adb5bd;
+    color: ${PALLETS_LIGHT.SUB_FONT};
   }
   .circleBtn:hover > a {
-    color: #000;
+    color: ${PALLETS_LIGHT.MAIN_FONT};
   }
   .circleBtn:hover {
-    color: #000;
-    border: 1px solid #000;
+    color: ${PALLETS_LIGHT.MAIN_FONT};
+    border: 1px solid ${PALLETS_LIGHT.MAIN_FONT};
   }
 
   .heartOn {
-    color: #fff;
+    color: ${PALLETS_LIGHT.BACKGROUND};
     border: none;
     background-color: ${PALLETS_LIGHT.MAIN};
   }
   .heartOn:hover {
-    color: #fff;
+    color: ${PALLETS_LIGHT.BACKGROUND};
     border: none;
     opacity: 0.8;
   }
   .heartOff {
-    color: rgb(173, 181, 189);
-    border: 1px solid rgb(173, 181, 189);
+    color: ${PALLETS_LIGHT.SUB_FONT};
+    border: 1px solid ${PALLETS_LIGHT.SUB_FONT};
     background-color: none;
   }
 
   .heartCounter {
-    color: #495057;
+    color: ${PALLETS_LIGHT.SUB_FONT};
     font-size: 12px;
     font-weight: 700;
   }

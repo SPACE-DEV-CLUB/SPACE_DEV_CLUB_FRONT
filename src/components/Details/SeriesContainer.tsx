@@ -62,13 +62,13 @@ const Container = styled.article`
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: #f8f9fa;
+  background-color: ${PALLETS_LIGHT.BACKGROUND};
   h3 {
     padding-bottom: 32px;
     font-size: 24px;
   }
   h3 > a:hover {
-    color: #868296;
+    color: ${PALLETS_LIGHT.SUB_FONT};
     text-decoration: underline;
   }
   .BookmarkIcon {
@@ -89,7 +89,7 @@ const Container = styled.article`
     counter-reset: item 0;
   }
   ol > li > a {
-    color: #495057;
+    color: ${PALLETS_LIGHT.SUB_FONT};
     line-height: 30px;
   }
   /* 현재 상세 페이지가 해당 시리즈의 글일 경우 */
@@ -101,7 +101,7 @@ const Container = styled.article`
     counter-increment: item;
     content: counter(item) ". ";
 
-    color: rgb(173, 181, 189);
+    color: ${PALLETS_LIGHT.SUB_FONT};
     font-style: italic;
     margin-right: 5px;
   }
@@ -121,7 +121,7 @@ const Pagination = styled.div`
   /*  현재 글/시리즈 글 갯수 */
   span {
     margin-right: 20px;
-    color: #adb5bd;
+    color: ${PALLETS_LIGHT.MAIN};
   }
   .series-arrow {
     width: 10px;
@@ -135,12 +135,12 @@ const Pagination = styled.div`
     align-items: center;
     width: 20px;
     height: 20px;
-    border: 1px solid rgb(241, 243, 245);
+    border: 1px solid ${PALLETS_LIGHT.SUB};
     border-radius: 50%;
     font-size: 20px;
   }
   button:hover {
     background-color: ${PALLETS_LIGHT.MAIN};
-    color: #fff;
+    color: ${PALLETS_LIGHT.CARD_BACKGROUND};
   }
 `;

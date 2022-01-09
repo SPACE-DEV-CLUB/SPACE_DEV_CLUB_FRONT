@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { PALLETS_LIGHT } from "../../constants";
 
 export const RightHeader = () => {
   const [listData, setListData] = useState(["프로젝트 설계 시작", "역할"]);
@@ -24,11 +25,11 @@ const Container = styled.section`
   padding: 20px 0 0 50px;
   article {
     padding: 8px 10px;
-    border-left: 2px solid rgb(233, 236, 239);
+    border-left: 2px solid ${PALLETS_LIGHT.SUB};
   }
   div {
     font-size: 14px;
-    color: #868e96;
+    color: ${PALLETS_LIGHT.SUB};
   }
   div:not(:last-child) {
     margin-bottom: 5px;

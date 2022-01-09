@@ -61,16 +61,16 @@ const TextArea = styled.textarea`
   resize: none;
   padding: 20px 20px 30px;
   outline: none;
-  border: 1px solid rgb(233, 236, 239);
+  border: 1px solid ${PALLETS_LIGHT.SUB};
   margin-bottom: 1.5rem;
   width: 100%;
   border-radius: 4px;
   min-height: 90px;
   font-size: 16px;
-  color: rgb(33, 37, 41);
+  color: ${PALLETS_LIGHT.MAIN_FONT};
   line-height: 1.75;
   ::placeholder {
-    color: rgb(173, 181, 189);
+    color: ${PALLETS_LIGHT.SUB};
   }
 `;
 const BtnContainer = styled.div`
