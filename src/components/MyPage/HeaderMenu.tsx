@@ -1,5 +1,9 @@
-import styled from "@emotion/styled";
-import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../constants";
+import styled from "@emotion/styled"
+import {
+  MEDIA_QUERY_END_POINT,
+  PALLETS_DARK,
+  PALLETS_LIGHT,
+} from "../../constants"
 
 export const HeaderMenu = () => {
   return (
@@ -23,14 +27,14 @@ export const HeaderMenu = () => {
         <MenuBtn>로그아웃</MenuBtn>
       </MenuList>
     </Menus>
-  );
-};
+  )
+}
 
 const Menus = styled.ul`
   position: absolute;
   top: 70px;
   right: 16px;
-  background: #fff;
+  background: ${PALLETS_LIGHT.CARD_BACKGROUND};
   box-shadow: 0 0 20px 0 #efefef;
   .newPost {
     display: none;
@@ -38,8 +42,8 @@ const Menus = styled.ul`
       display: block;
     }
   }
-`;
-const MenuList = styled.li``;
+`
+const MenuList = styled.li``
 
 const MenuBtn = styled.button`
   width: 192px;
@@ -52,4 +56,4 @@ const MenuBtn = styled.button`
   &:hover {
     background: ${PALLETS_LIGHT.SUB};
   }
-`;
+`

@@ -1,11 +1,11 @@
-import styled from "@emotion/styled";
-import Image from "next/image";
-import HomeIcon from "@mui/icons-material/Home";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import EmailIcon from "@mui/icons-material/Email";
-import { PALLETS_LIGHT } from "../../constants";
+import styled from "@emotion/styled"
+import Image from "next/image"
+import HomeIcon from "@mui/icons-material/Home"
+import GitHubIcon from "@mui/icons-material/GitHub"
+import TwitterIcon from "@mui/icons-material/Twitter"
+import FacebookIcon from "@mui/icons-material/Facebook"
+import EmailIcon from "@mui/icons-material/Email"
+import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../constants"
 
 export const Intro: React.FC = () => {
   return (
@@ -53,12 +53,12 @@ export const Intro: React.FC = () => {
         </Sns>
       </IntroSns>
     </Introduce>
-  );
-};
+  )
+}
 
 const Introduce = styled.article`
   margin-top: 90px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     padding: 16px;
     box-shadow: 0 10px 10px 0 #f2f2f2;
   }
@@ -68,7 +68,7 @@ const Introduce = styled.article`
     height: 128px;
     padding-bottom: 20px;
     border-bottom: 1px solid rgb(233, 236, 239);
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
       flex-direction: column;
       height: 100%;
       align-items: start;
@@ -82,13 +82,13 @@ const Introduce = styled.article`
   .introIcons:hover {
     color: ${PALLETS_LIGHT.MAIN};
   }
-`;
+`
 
 const SnsLink = styled.a`
   &:hover + * {
     display: inline;
   }
-`;
+`
 
 const IntroSns = styled.ul`
   width: 100%;
@@ -102,7 +102,7 @@ const IntroSns = styled.ul`
     display: flex;
     aling-items: center;
   }
-`;
+`
 
 const Sns = styled.li`
   display: flex;
@@ -113,7 +113,7 @@ const Sns = styled.li`
     align-items: center;
     height: 100%;
   }
-`;
+`
 const IntroContext = styled.div`
   display: flex;
   flex-direction: column;
@@ -127,14 +127,14 @@ const IntroContext = styled.div`
   .userDesc {
     font-size: 18px;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     margin: 0;
   }
-`;
+`
 
 const ProfileImg = styled(Image)`
   border-radius: 50%;
-`;
+`
 const EmailAddress = styled.span`
   display: none;
   margin-left: 10px;
@@ -144,4 +144,4 @@ const EmailAddress = styled.span`
   background: ${PALLETS_LIGHT.MAIN};
   color: #fff;
   border-radius: 5px;
-`;
+`

@@ -1,109 +1,11 @@
-import styled from "@emotion/styled";
-import { PALLETS_LIGHT } from "../../../constants";
-import SearchIcon from "@mui/icons-material/Search";
-import { MyCard } from "../MyCard";
-
-const cardData = [
-  {
-    imageUrl: "http://localhost:3010/",
-    postTitle: "lorem ipsum",
-    postDesc:
-      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
-    tags: ["lorem", "lorem", "lorem"],
-    date: 1,
-    comment: 2,
-  },
-  {
-    imageUrl: "http://localhost:3010/",
-    postTitle: "lorem ipsum",
-    postDesc:
-      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
-    tags: ["lorem", "lorem", "lorem"],
-    date: 1,
-    comment: 2,
-  },
-  {
-    imageUrl: "http://localhost:3010/",
-    postTitle: "lorem ipsum",
-    postDesc:
-      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
-    tags: ["lorem", "lorem", "lorem"],
-    date: 1,
-    comment: 2,
-  },
-  {
-    imageUrl: "http://localhost:3010/",
-    postTitle: "lorem ipsum",
-    postDesc:
-      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
-    tags: ["lorem", "lorem", "lorem"],
-    date: 1,
-    comment: 2,
-  },
-  {
-    imageUrl: "http://localhost:3010/",
-    postTitle: "lorem ipsum",
-    postDesc:
-      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
-    tags: ["lorem", "lorem", "lorem"],
-    date: 1,
-    comment: 2,
-  },
-  {
-    imageUrl: "http://localhost:3010/",
-    postTitle: "lorem ipsum",
-    postDesc:
-      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
-    tags: ["lorem", "lorem", "lorem"],
-    date: 1,
-    comment: 2,
-  },
-  {
-    imageUrl: "http://localhost:3010/",
-    postTitle: "lorem ipsum",
-    postDesc:
-      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
-    tags: ["lorem", "lorem", "lorem"],
-    date: 1,
-    comment: 2,
-  },
-  {
-    imageUrl: "http://localhost:3010/",
-    postTitle: "lorem ipsum",
-    postDesc:
-      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
-    tags: ["lorem", "lorem", "lorem"],
-    date: 1,
-    comment: 2,
-  },
-  {
-    imageUrl: "http://localhost:3010/",
-    postTitle: "lorem ipsum",
-    postDesc:
-      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
-    tags: ["lorem", "lorem", "lorem"],
-    date: 1,
-    comment: 2,
-  },
-  {
-    imageUrl: "http://localhost:3010/",
-    postTitle: "lorem ipsum",
-    postDesc:
-      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
-    tags: ["lorem", "lorem", "lorem"],
-    date: 1,
-    comment: 2,
-  },
-  {
-    imageUrl: "http://localhost:3010/",
-    postTitle: "lorem ipsum",
-    postDesc:
-      "lorem ipsum lorem ipsum 혹시 그럼 이런 글도 혹시 쓰실 생각있으실까요? 제 질문이지만 아마 다른 분들도 궁금해할 질문같아서요ㅎㅎ 1. 프론트엔드 포지션이 생긴 이유, 앞으로 어떻게 될지 2.프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?혹시 그럼 이런 글도 혹시 쓰실 생각 있으실까요? 제 질문이지만아마 다른 분들도 궁금해할 질문같아서요 ㅎㅎ 1. 프론트엔드포지션이 생긴 이유, 앞으로 어떻게 될지 2. 프론트엔드 개발자의 업무 범위 3. 잘하는 프론트엔드 개발자란?",
-    tags: ["lorem", "lorem", "lorem"],
-    date: 1,
-    comment: 2,
-  },
-];
+import styled from "@emotion/styled"
+import {
+  MEDIA_QUERY_END_POINT,
+  PALLETS_LIGHT,
+  CARD_DATA,
+} from "../../../constants"
+import SearchIcon from "@mui/icons-material/Search"
+import { MyCard } from "../MyCard"
 
 export const Content = () => {
   return (
@@ -135,10 +37,10 @@ export const Content = () => {
         </ul>
       </LargeTaglist>
       <section>
-        {cardData.map((e, index) => (
+        {CARD_DATA.map((e, index) => (
           <MyCard
             key={index}
-            imageUrl="/public/image/sample.jpeg"
+            imageUrl="/image/sample.jpeg"
             postTitle={e.postTitle}
             postDesc={e.postDesc}
             tags={e.tags}
@@ -148,29 +50,29 @@ export const Content = () => {
         ))}
       </section>
     </ContentContainer>
-  );
-};
+  )
+}
 
 const ContentContainer = styled.section`
   position: relative;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     padding: 0 16px;
   }
-`;
+`
 
 const SearchContainer = styled.article`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 32px;
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     display: none;
   }
   .searchBox {
     display: flex;
     align-items: center;
     padding: 10px;
-    border: 2px solid #f2f2f2;
+    border: 2px solid ${PALLETS_LIGHT.BACKGROUND};
     cursor: text;
     input {
       margin-left: 8px;
@@ -179,14 +81,14 @@ const SearchContainer = styled.article`
       font-size: 14px;
     }
   }
-`;
+`
 const LargeTaglist = styled.section`
   display: block;
   position: absolute;
   top: 58px;
   left: -250px;
   width: 200px;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: ${MEDIA_QUERY_END_POINT.DESKTOP}) {
     display: none;
   }
   h1 {
@@ -194,7 +96,7 @@ const LargeTaglist = styled.section`
     line-height: 24px;
     padding-bottom: 8px;
     margin-bottom: 16px;
-    border-bottom: 1px solid #f2f2f2;
+    border-bottom: 1px solid ${PALLETS_LIGHT.BACKGROUND};
   }
   li a {
     margin-right: 5px;
@@ -206,17 +108,17 @@ const LargeTaglist = styled.section`
       color: ${PALLETS_LIGHT.MAIN};
     }
   }
-`;
+`
 
 const SmallTaglist = styled.section`
   display: none;
   width: 100%;
   padding: 16px 0;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     padding: 0;
     padding-bottom: 16px;
   }
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: ${MEDIA_QUERY_END_POINT.DESKTOP}) {
     display: block;
   }
   ul {
@@ -224,7 +126,7 @@ const SmallTaglist = styled.section`
     flex-wrap: nowrap;
     overflow-x: auto;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
       padding: 0;
     }
     li {
@@ -236,7 +138,7 @@ const SmallTaglist = styled.section`
       height: 24px;
       line-height: 1.5;
       background: rgb(241, 243, 245);
-      color: rgb(52, 58, 64);
+      color: ${PALLETS_LIGHT.SUB_FONT};
       font-size: 12px;
       border-radius: 12px;
       &:active,
@@ -249,7 +151,7 @@ const SmallTaglist = styled.section`
         line-height: 24px;
       }
       span {
-        color: #9f9f9f;
+        color: ${PALLETS_LIGHT.SUB_FONT};
         margin-left: 5px;
       }
     }
@@ -257,4 +159,4 @@ const SmallTaglist = styled.section`
       margin-left: 8px;
     }
   }
-`;
+`
