@@ -1,5 +1,5 @@
-import styled from "@emotion/styled"
-import { MEDIA_QUERY_END_POINT, PALLETS } from "../../constants"
+import styled from "@emotion/styled";
+import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../constants";
 
 export const HeaderMenu = () => {
   return (
@@ -23,8 +23,8 @@ export const HeaderMenu = () => {
         <MenuBtn>로그아웃</MenuBtn>
       </MenuList>
     </Menus>
-  )
-}
+  );
+};
 
 const Menus = styled.ul`
   position: absolute;
@@ -38,8 +38,8 @@ const Menus = styled.ul`
       display: block;
     }
   }
-`
-const MenuList = styled.li``
+`;
+const MenuList = styled.li``;
 
 const MenuBtn = styled.button`
   width: 192px;
@@ -50,6 +50,6 @@ const MenuBtn = styled.button`
   font-weight: 500;
   font-size: 16px;
   &:hover {
-    background: ${PALLETS.SUB};
+    background: ${PALLETS_LIGHT.SUB};
   }
-`
+`;

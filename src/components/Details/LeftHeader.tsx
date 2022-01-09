@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { PALLETS } from "../../constants/index";
+import { PALLETS_LIGHT } from "../../constants/index";
 import Link from "next/link";
 
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -126,7 +126,7 @@ const Container = styled.section`
   .heartOn {
     color: #fff;
     border: none;
-    background-color: ${PALLETS.MAIN};
+    background-color: ${PALLETS_LIGHT.MAIN};
   }
   .heartOn:hover {
     color: #fff;

@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { PALLETS } from "../../constants/index";
+import { PALLETS_LIGHT } from "../../constants/index";
 
 type IndexTypeProps = {
   index: number;
@@ -115,13 +115,13 @@ const NextContainer = styled.div`
 const Btn = styled.button`
   width: 50px;
   height: 50px;
-  color: ${PALLETS.MAIN};
+  color: ${PALLETS_LIGHT.MAIN};
   font-size: 32px;
   border: 1px solid rgb(173, 181, 189);
   border-radius: 50%;
   :hover {
-    background-color: ${PALLETS.MAIN};
+    background-color: ${PALLETS_LIGHT.MAIN};
     color: #fff;
-    border: 1px solid ${PALLETS.MAIN};
+    border: 1px solid ${PALLETS_LIGHT.MAIN};
   }
 `;

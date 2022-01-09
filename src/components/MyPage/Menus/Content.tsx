@@ -1,7 +1,7 @@
-import styled from "@emotion/styled"
-import { PALLETS } from "../../../constants"
-import SearchIcon from "@mui/icons-material/Search"
-import { MyCard } from "../MyCard"
+import styled from "@emotion/styled";
+import { PALLETS_LIGHT } from "../../../constants";
+import SearchIcon from "@mui/icons-material/Search";
+import { MyCard } from "../MyCard";
 
 const cardData = [
   {
@@ -103,7 +103,7 @@ const cardData = [
     date: 1,
     comment: 2,
   },
-]
+];
 
 export const Content = () => {
   return (
@@ -148,8 +148,8 @@ export const Content = () => {
         ))}
       </section>
     </ContentContainer>
-  )
-}
+  );
+};
 
 const ContentContainer = styled.section`
   position: relative;
@@ -157,7 +157,7 @@ const ContentContainer = styled.section`
   @media screen and (max-width: 768px) {
     padding: 0 16px;
   }
-`
+`;
 
 const SearchContainer = styled.article`
   display: flex;
@@ -179,7 +179,7 @@ const SearchContainer = styled.article`
       font-size: 14px;
     }
   }
-`
+`;
 const LargeTaglist = styled.section`
   display: block;
   position: absolute;
@@ -203,10 +203,10 @@ const LargeTaglist = styled.section`
     }
 
     &:active {
-      color: ${PALLETS.MAIN};
+      color: ${PALLETS_LIGHT.MAIN};
     }
   }
-`
+`;
 
 const SmallTaglist = styled.section`
   display: none;
@@ -242,7 +242,7 @@ const SmallTaglist = styled.section`
       &:active,
       &:active * {
         font-size: 12px;
-        background: ${PALLETS.MAIN};
+        background: ${PALLETS_LIGHT.MAIN};
         color: white;
       }
       a {
@@ -257,4 +257,4 @@ const SmallTaglist = styled.section`
       margin-left: 8px;
     }
   }
-`
+`;

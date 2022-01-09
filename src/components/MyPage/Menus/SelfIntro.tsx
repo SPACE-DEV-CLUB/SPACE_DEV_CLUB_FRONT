@@ -1,5 +1,5 @@
-import styled from "@emotion/styled"
-import { PALLETS } from "../../../constants"
+import styled from "@emotion/styled";
+import { PALLETS_LIGHT } from "../../../constants";
 
 export const SelfIntro = () => {
   return (
@@ -14,8 +14,8 @@ export const SelfIntro = () => {
         dignissimos iusto! Recusandae.
       </p>
     </EditorContainer>
-  )
-}
+  );
+};
 
 const EditorContainer = styled.section`
   .editBtnBox {
@@ -26,12 +26,12 @@ const EditorContainer = styled.section`
   @media screen and (max-width: 768px) {
     padding: 0 16px;
   }
-`
+`;
 
 const EditBtn = styled.button`
   height: 40px;
   padding: 0 18px;
-  background: ${PALLETS.MAIN};
+  background: ${PALLETS_LIGHT.MAIN};
   color: #fff;
   border-radius: 4px;
-`
+`;

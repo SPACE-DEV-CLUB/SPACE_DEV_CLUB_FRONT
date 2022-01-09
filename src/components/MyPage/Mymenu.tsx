@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useState } from "react";
-import { PALLETS } from "../../constants";
+import { PALLETS_LIGHT } from "../../constants";
 import { Content, Series, SelfIntro } from "./Menus";
 
 export const Mymenu: React.FC = () => {
@@ -48,8 +48,8 @@ type FocusNum = {
 };
 
 const focus = (props: FocusNum) => css`
-  color: ${props.index ? PALLETS.MAIN : "#000"};
-  border-bottom: ${props.index ? `2px solid ${PALLETS.MAIN}` : "none"};
+  color: ${props.index ? PALLETS_LIGHT.MAIN : "#000"};
+  border-bottom: ${props.index ? `2px solid ${PALLETS_LIGHT.MAIN}` : "none"};
 `;
 
 const Menu = styled.li`

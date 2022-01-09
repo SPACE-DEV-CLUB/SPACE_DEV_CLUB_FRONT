@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { PALLETS } from "../../constants/index";
+import { PALLETS_LIGHT } from "../../constants/index";
 
 export const UDHashContainer = () => {
   return (
@@ -44,7 +44,7 @@ const Container = styled.article`
     background-color: #f8f9fa;
   }
   ul > li > a {
-    color: ${PALLETS.MAIN};
+    color: ${PALLETS_LIGHT.MAIN};
   }
 `;
 const UDContainer = styled.div`

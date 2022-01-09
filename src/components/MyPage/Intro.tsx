@@ -1,11 +1,11 @@
-import styled from "@emotion/styled"
-import Image from "next/image"
-import HomeIcon from "@mui/icons-material/Home"
-import GitHubIcon from "@mui/icons-material/GitHub"
-import TwitterIcon from "@mui/icons-material/Twitter"
-import FacebookIcon from "@mui/icons-material/Facebook"
-import EmailIcon from "@mui/icons-material/Email"
-import { PALLETS } from "../../constants"
+import styled from "@emotion/styled";
+import Image from "next/image";
+import HomeIcon from "@mui/icons-material/Home";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import EmailIcon from "@mui/icons-material/Email";
+import { PALLETS_LIGHT } from "../../constants";
 
 export const Intro: React.FC = () => {
   return (
@@ -53,8 +53,8 @@ export const Intro: React.FC = () => {
         </Sns>
       </IntroSns>
     </Introduce>
-  )
-}
+  );
+};
 
 const Introduce = styled.article`
   margin-top: 90px;
@@ -76,19 +76,19 @@ const Introduce = styled.article`
   }
 
   .introIcons {
-    color: ${PALLETS.SUB};
+    color: ${PALLETS_LIGHT.SUB};
   }
 
   .introIcons:hover {
-    color: ${PALLETS.MAIN};
+    color: ${PALLETS_LIGHT.MAIN};
   }
-`
+`;
 
 const SnsLink = styled.a`
   &:hover + * {
     display: inline;
   }
-`
+`;
 
 const IntroSns = styled.ul`
   width: 100%;
@@ -102,7 +102,7 @@ const IntroSns = styled.ul`
     display: flex;
     aling-items: center;
   }
-`
+`;
 
 const Sns = styled.li`
   display: flex;
@@ -113,7 +113,7 @@ const Sns = styled.li`
     align-items: center;
     height: 100%;
   }
-`
+`;
 const IntroContext = styled.div`
   display: flex;
   flex-direction: column;
@@ -130,18 +130,18 @@ const IntroContext = styled.div`
   @media screen and (max-width: 768px) {
     margin: 0;
   }
-`
+`;
 
 const ProfileImg = styled(Image)`
   border-radius: 50%;
-`
+`;
 const EmailAddress = styled.span`
   display: none;
   margin-left: 10px;
   padding: 3px;
   font-size: 12px;
   line-height: 1.5;
-  background: ${PALLETS.MAIN};
+  background: ${PALLETS_LIGHT.MAIN};
   color: #fff;
   border-radius: 5px;
-`
+`;

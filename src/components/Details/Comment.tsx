@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 import { CommentUser } from "./CommentUser";
-import { PALLETS } from "../../constants";
+import { PALLETS_LIGHT } from "../../constants";
 
 export const Comment = () => {
   const comment = {
@@ -82,7 +82,7 @@ const BtnContainer = styled.div`
 const CommentBtn = styled.button`
   font-weight: bold;
   cursor: pointer;
-  background: ${PALLETS.MAIN};
+  background: ${PALLETS_LIGHT.MAIN};
   color: white;
   border-radius: 4px;
   padding: 0px 20px;
