@@ -30,7 +30,7 @@ export const RightHeader = () => {
 const Container = styled.section`
   position: -webkit-sticky;
   position: sticky;
-  top: 210px;
+  top: 290px;
   height: 100%;
 
   article {

@@ -63,7 +63,7 @@ const TextArea = styled.textarea`
   outline: none;
   border: 1px solid ${PALLETS_LIGHT.SUB};
   margin-bottom: 1.5rem;
-  width: 100%;
+  width: 95%;
   border-radius: 4px;
   min-height: 90px;
   font-size: 16px;
@@ -74,7 +74,7 @@ const TextArea = styled.textarea`
   }
 `;
 const BtnContainer = styled.div`
-  width: 100%;
+  width: 95%;
   display: flex;
   justify-content: end;
   padding-left: 45px;
