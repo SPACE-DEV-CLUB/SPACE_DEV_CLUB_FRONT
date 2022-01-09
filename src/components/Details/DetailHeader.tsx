@@ -20,7 +20,9 @@ export const DetailHeader = () => {
 
 const Header = styled.section`
   display: flex;
-  flex: 2;
+  /* flex: 2; */
+  padding: 0 20vw;
+  width: 60vw;
   flex-direction: column;
   margin-top: 32px;
   h2 {

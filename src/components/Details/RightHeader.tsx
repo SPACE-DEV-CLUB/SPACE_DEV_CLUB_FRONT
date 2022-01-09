@@ -21,7 +21,12 @@ export const RightHeader = () => {
 };
 
 const Container = styled.section`
-  flex: 1;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 210px;
+  right: 260px;
+  height: 100%;
+
   padding: 20px 0 0 50px;
   article {
     padding: 8px 10px;

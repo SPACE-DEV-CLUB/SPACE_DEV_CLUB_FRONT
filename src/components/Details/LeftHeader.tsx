@@ -80,9 +80,11 @@ export const LeftHeader = () => {
 };
 
 const Container = styled.section`
-  flex: 1;
-  display: flex;
-  justify-content: end;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 210px;
+  left: 260px;
+  height: 100%;
 
   article {
     position: relative;
@@ -94,7 +96,6 @@ const Container = styled.section`
     border-radius: 40px;
     width: 70px;
     height: 150px;
-    margin: 220px 80px 0 0;
   }
 
   /* 스크롤 어느정도 내려올 경우 leftOn 클래스 add 해야함 -> 아직 미구현*/
