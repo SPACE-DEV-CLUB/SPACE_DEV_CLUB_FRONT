@@ -1,15 +1,15 @@
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import React, { useState } from "react";
-import { PALLETS_LIGHT } from "../../constants";
-import { Content, Series, SelfIntro } from "./Menus";
+import { css } from "@emotion/react"
+import styled from "@emotion/styled"
+import React, { useState } from "react"
+import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../constants"
+import { Content, Series, SelfIntro } from "./Menus"
 
 export const Mymenu: React.FC = () => {
-  const [menunum, setMenunum] = useState<number>(0);
+  const [menunum, setMenunum] = useState<number>(0)
 
   const handleMenu = (num: number) => {
-    setMenunum(num);
-  };
+    setMenunum(num)
+  }
 
   return (
     <section>
@@ -28,29 +28,29 @@ export const Mymenu: React.FC = () => {
       </Menubar>
       {menunum === 0 ? <Content /> : menunum === 1 ? <Series /> : <SelfIntro />}
     </section>
-  );
-};
+  )
+}
 
 const Menubar = styled.nav`
   width: 100%;
   margin: 72px auto;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     margin: 15px auto;
-    box-shadow: 0 -10px 10px 0 #f2f2f2;
+    box-shadow: 0 -10px 10px 0 ${PALLETS_LIGHT.MAIN_FONT};
   }
   & ul {
     display: flex;
     justify-content: center;
   }
-`;
+`
 type FocusNum = {
-  index: boolean;
-};
+  index: boolean
+}
 
 const focus = (props: FocusNum) => css`
   color: ${props.index ? PALLETS_LIGHT.MAIN : "#000"};
   border-bottom: ${props.index ? `2px solid ${PALLETS_LIGHT.MAIN}` : "none"};
-`;
+`
 
 const Menu = styled.li`
   display: flex;
@@ -63,7 +63,7 @@ const Menu = styled.li`
   a {
     color: inherit;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     width: 100%;
   }
-`;
+`
