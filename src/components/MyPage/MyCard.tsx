@@ -4,7 +4,6 @@ import SAMPLE_IMG from "../../../public/image/sample.jpeg";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
 import { Profile } from "./Profile";
 
-
 export const MyCard = ({
     imageUrl,
     postTitle,
@@ -12,6 +11,9 @@ export const MyCard = ({
     tags,
     date,
     comment,
+    mySearch,
+    count,
+    day,
 }: {
     imageUrl: string;
     postTitle: string;
@@ -19,35 +21,65 @@ export const MyCard = ({
     tags: Array<string>;
     date: number;
     comment: number;
+    mySearch?: boolean;
+    count?: number;
+    day?: number;
 }) => {
     return (
         <MyCardContainer>
-            <Profile id={"jae04099"} />
-            <a href="/@id/dfjsfd">
-                <div className="image-wrap">
-                    <Image
-                        layout="responsive"
-                        width={100}
-                        height={100}
-                        alt="sample image"
-                        src={imageUrl}
-                    />
-                </div>
-            </a>
-            <a href="/@id/dfjsfd">
-                <h2>{postTitle}</h2>
-            </a>
-            <p>{postDesc}</p>
-            {tags.map((e, index) => (
-                <div key={index} className="tags-wrap">
-                    <a href="/tags/lorem">{e}</a>
-                </div>
-            ))}
-            <div className="comment">
-                <span>{date}일 전</span>
-                <span> · </span>
-                <span>{comment}개의 댓글</span>
-            </div>
+            {mySearch ? (
+                <>
+                    <Profile id={"jae04099"} />
+                    <a href="/@id/dfjsfd">
+                        <div className="image-wrap">
+                            <Image
+                                layout="responsive"
+                                width={100}
+                                height={100}
+                                alt="sample image"
+                                src={imageUrl}
+                            />
+                        </div>
+                    </a>
+                    <a href="/@id/dfjsfd">
+                        <h2>{postTitle}</h2>
+                    </a>
+                    <p>{postDesc}</p>
+                    {tags.map((e, index) => (
+                        <div key={index} className="tags-wrap">
+                            <a href="/tags/lorem">{e}</a>
+                        </div>
+                    ))}
+                    <div className="date-comment-wrap">
+                        <span>{date}일 전</span>
+                        <span> · </span>
+                        <span>{comment}개의 댓글</span>
+                    </div>
+                </>
+            ) : (
+                <>
+                    <a href="/@id/dfjsfd">
+                        <div className="image-wrap">
+                            <Image
+                                layout="responsive"
+                                width={100}
+                                height={100}
+                                alt="sample image"
+                                src={imageUrl}
+                            />
+                        </div>
+                    </a>
+                    <a href="/@id/dfjsfd">
+                        <h2>{postTitle}</h2>
+                    </a>
+                    <p>{postDesc}</p>
+                    <div className="date-comment-wrap">
+                        <span>{date}일 전</span>
+                        <span> · </span>
+                        <span>{comment}개의 댓글</span>
+                    </div>
+                </>
+            )}
         </MyCardContainer>
     );
 };
@@ -96,8 +128,21 @@ const MyCardContainer = styled.section`
             color: #0ca678;
         }
     }
-    .comment > span {
+    .date-comment-wrap {
         color: #868296;
+        font-size: 14px;
+    }
+
+    .series-title {
+        margin-bottom: 13px;
+        font-size: 16px;
+    }
+    .series-info-wrap {
+        color: #868e96;
+        font-size: 14px;
+    }
+    .series-count {
+        color: #495057;
     }
     @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
         padding: 32px 0;
@@ -112,8 +157,7 @@ const MyCardContainer = styled.section`
                 font-size: 12px;
             }
         }
-        .comment > span {
-            color: #868296;
+        .date-comment-wrap {
             font-size: 12px;
         }
     }
