@@ -10,20 +10,20 @@ export interface Main {
 }
 
 export interface CardProps {
-  imageUrl: string,
-  postTitle: string,
-  postDesc: string,
-  tags: string[],
-  date: number,
-  comment: number
+  imageUrl: string;
+  postTitle: string;
+  postDesc: string;
+  tags: string[];
+  date: number;
+  comment: number;
 }
 
 export interface DetailCardProps {
-  margin: string
-  padding: string
-  imageUrl?: string,
-  postIdx: number, 
-  postTitle: string,
-  postDesc: string,
-  date: string
+  margin: string;
+  padding: string;
+  imageUrl?: string;
+  postIdx: number;
+  postTitle: string;
+  postDesc: string;
+  date: string;
 }
