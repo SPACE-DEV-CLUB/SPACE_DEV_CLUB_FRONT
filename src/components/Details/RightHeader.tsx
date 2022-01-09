@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { PALLETS_LIGHT } from "../../constants";
+import Link from "next/link";
 
 export const RightHeader = () => {
   const [listData, setListData] = useState(["프로젝트 설계 시작", "역할"]);
@@ -11,7 +13,13 @@ export const RightHeader = () => {
       ) : (
         <article>
           {listData.map((str) => {
-            return <div key={`Detail-List-${str}`}>{str}</div>;
+            return (
+              <Link key={`Detail-List-${str}`} href="#">
+                <a>
+                  <List>{str}</List>
+                </a>
+              </Link>
+            );
           })}
         </article>
       )}
@@ -20,20 +28,25 @@ export const RightHeader = () => {
 };
 
 const Container = styled.section`
-  flex: 1;
-  padding: 20px 0 0 50px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 290px;
+  height: 100%;
+
   article {
+    /* width: 130px; */
     padding: 8px 10px;
-    border-left: 2px solid rgb(233, 236, 239);
-  }
-  div {
-    font-size: 14px;
-    color: #868e96;
-  }
-  div:not(:last-child) {
-    margin-bottom: 5px;
+    border-left: 2px solid ${PALLETS_LIGHT.SUB};
   }
   div.h4 {
     margin-left: 12px;
+  }
+`;
+const List = styled.div`
+  font-size: 14px;
+  color: ${PALLETS_LIGHT.ICON};
+  margin-bottom: 5px;
+  &:hover {
+    color: ${PALLETS_LIGHT.SUB_FONT};
   }
 `;

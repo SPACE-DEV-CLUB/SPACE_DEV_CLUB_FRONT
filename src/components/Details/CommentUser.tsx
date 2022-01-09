@@ -71,7 +71,7 @@ const UserNickname = styled.p`
   }
 `;
 const CreatedAt = styled.p`
-  color: rgb(134, 142, 150);
+  color: ${PALLETS_LIGHT.SUB_FONT};
   margin-top: 8px;
   font-size: 13px;
 `;
