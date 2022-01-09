@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { PALLETS } from "../../constants/index";
+import { PALLETS_LIGHT } from "../../constants/index";
 
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
@@ -77,7 +77,7 @@ const Container = styled.article`
     right: 30px;
     width: 60px;
     height: 60px;
-    color: ${PALLETS.MAIN};
+    color: ${PALLETS_LIGHT.MAIN};
   }
   div {
     display: flex;
@@ -94,7 +94,7 @@ const Container = styled.article`
   }
   /* 현재 상세 페이지가 해당 시리즈의 글일 경우 */
   ol > li > a.on {
-    color: ${PALLETS.MAIN};
+    color: ${PALLETS_LIGHT.MAIN};
     font-weight: 700;
   }
   ol li::before {
@@ -129,7 +129,7 @@ const Pagination = styled.div`
   }
   /* 마지막 페이지면 넘어가기 호버 및 클릭 막기 */
   button {
-    color: ${PALLETS.MAIN};
+    color: ${PALLETS_LIGHT.MAIN};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -140,7 +140,7 @@ const Pagination = styled.div`
     font-size: 20px;
   }
   button:hover {
-    background-color: ${PALLETS.MAIN};
+    background-color: ${PALLETS_LIGHT.MAIN};
     color: #fff;
   }
 `;

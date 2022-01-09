@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import { PALLETS } from "../../constants";
+import { PALLETS_LIGHT } from "../../constants";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 interface ButtonProps {
@@ -14,9 +14,9 @@ export const BottomMenu = () => {
   return (
     <Wrap>
       <EditorButton
-        hoverColor={PALLETS.SUB}
+        hoverColor={PALLETS_LIGHT.SUB}
         fontWeight={500}
-        ftColor={PALLETS.FONT}
+        ftColor={PALLETS_LIGHT.SUB_FONT}
         bgColor="#fff"
       >
         <ArrowBackIcon />
@@ -26,8 +26,8 @@ export const BottomMenu = () => {
         <EditorButton
           hoverColor="#f0f0fa"
           fontWeight={600}
-          ftColor={PALLETS.FONT}
-          bgColor={PALLETS.SUB}
+          ftColor={PALLETS_LIGHT.SUB_FONT}
+          bgColor={PALLETS_LIGHT.SUB}
         >
           임시저장
         </EditorButton>
@@ -35,7 +35,7 @@ export const BottomMenu = () => {
           hoverColor="#9090de"
           fontWeight={600}
           ftColor="#fff"
-          bgColor={PALLETS.MAIN}
+          bgColor={PALLETS_LIGHT.MAIN}
         >
           출간하기
         </EditorButton>

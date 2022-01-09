@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
-import { PALLETS } from "../../constants";
+import { PALLETS_LIGHT } from "../../constants";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 export const PostCard = () => {
@@ -138,7 +138,7 @@ const Like = styled.div`
     margin-right: 8px;
     width: 12px;
     height: 12px;
-    fill: ${PALLETS.MAIN};
+    fill: ${PALLETS_LIGHT.MAIN};
   }
   font-size: 12px;
   color: #212529;

@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 
 import BorderInnerIcon from "@mui/icons-material/BorderInner";
-import { PALLETS } from "../../constants";
+import { PALLETS_LIGHT } from "../../constants";
 
 interface User {
   user: {
@@ -82,7 +82,7 @@ const CommentText = styled.div`
 const CommentPlus = styled.div`
   display: inline-flex;
   align-items: center;
-  color: ${PALLETS.MAIN};
+  color: ${PALLETS_LIGHT.MAIN};
   cursor: pointer;
   font-weight: 700;
   .comment-plus {

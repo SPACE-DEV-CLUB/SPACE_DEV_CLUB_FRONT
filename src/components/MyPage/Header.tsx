@@ -1,17 +1,17 @@
-import styled from "@emotion/styled"
-import Image from "next/image"
-import SearchIcon from "@mui/icons-material/Search"
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
-import { useState } from "react"
-import { HeaderMenu } from "."
-import { PALLETS } from "../../constants"
+import styled from "@emotion/styled";
+import Image from "next/image";
+import SearchIcon from "@mui/icons-material/Search";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { useState } from "react";
+import { HeaderMenu } from ".";
+import { PALLETS_LIGHT } from "../../constants";
 
 export const Header = (): JSX.Element => {
-  const [showMenu, setShowMenu] = useState(false)
+  const [showMenu, setShowMenu] = useState(false);
 
   const handleMenu = () => {
-    setShowMenu(!showMenu)
-  }
+    setShowMenu(!showMenu);
+  };
 
   return (
     <HeaderContainer>
@@ -44,8 +44,8 @@ export const Header = (): JSX.Element => {
         </UserUtils>
       </HeaderUtils>
     </HeaderContainer>
-  )
-}
+  );
+};
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -53,7 +53,7 @@ const HeaderContainer = styled.header`
   align-items: center;
   height: 64px;
   margin: 0 16px;
-`
+`;
 
 const HeaderUtils = styled.article`
   display: flex;
@@ -65,20 +65,20 @@ const HeaderUtils = styled.article`
   & > *:not(:last-child) {
     margin-right: 12px;
   }
-`
+`;
 
 const LogoLink = styled.a`
   display: flex;
   align-items: center;
-`
+`;
 const LogoImg = styled.svg`
   width: 24px;
   height: 24px;
-`
+`;
 
 const UserName = styled.a`
   font-family: "Fira Mono", monospace;
-`
+`;
 const SearchBtn = styled.a`
   display: flex;
   align-items: center;
@@ -91,7 +91,7 @@ const SearchBtn = styled.a`
     border-radius: 50%;
     background: #f2f2f2;
   }
-`
+`;
 const UserUtils = styled.article`
   cursor: pointer;
   display: flex;
@@ -100,16 +100,16 @@ const UserUtils = styled.article`
     fill: #000;
   }
   .arrow {
-    color: ${PALLETS.SUB};
+    color: ${PALLETS_LIGHT.SUB};
     &:hover {
-      color: ${PALLETS.MAIN};
+      color: ${PALLETS_LIGHT.MAIN};
     }
   }
-`
+`;
 
 const UserProfile = styled(Image)`
   border-radius: 50%;
-`
+`;
 
 const NewPostBtn = styled.button`
   height: 32px;
@@ -131,4 +131,4 @@ const NewPostBtn = styled.button`
   @media screen and (max-width: 1024px) {
     display: none;
   }
-`
+`;
