@@ -117,7 +117,7 @@ const Btn = styled.button`
   height: 50px;
   color: ${PALLETS_LIGHT.MAIN};
   font-size: 32px;
-  border: 1px solid rgb(173, 181, 189);
+  border: 1px solid ${PALLETS_LIGHT.SUB_FONT};
   border-radius: 50%;
   :hover {
     background-color: ${PALLETS_LIGHT.MAIN};

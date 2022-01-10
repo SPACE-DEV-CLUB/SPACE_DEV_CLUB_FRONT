@@ -33,7 +33,7 @@ const Container = styled.article`
     margin: 16px 0;
   }
   ul > li {
-    background-color: #f1f3f5;
+    background-color: ${PALLETS_LIGHT.SUB};
     border-radius: 25px;
     padding: 5px 15px;
   }
@@ -41,7 +41,7 @@ const Container = styled.article`
     margin-right: 15px;
   }
   ul > li:hover {
-    background-color: #f8f9fa;
+    background-color: ${PALLETS_LIGHT.BACKGROUND};
   }
   ul > li > a {
     color: ${PALLETS_LIGHT.MAIN};
@@ -57,13 +57,13 @@ const UDContainer = styled.div`
     text-decoration: underline;
   }
   div > a {
-    color: #868e96;
+    color: ${PALLETS_LIGHT.ICON};
     font-weight: 500;
   }
   div > a:not(:last-child) {
     margin-right: 8px;
   }
   div > a:hover {
-    color: #000;
+    color: ${PALLETS_LIGHT.SUB_FONT};
   }
 `;

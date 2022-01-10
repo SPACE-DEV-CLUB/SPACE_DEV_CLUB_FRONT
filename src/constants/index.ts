@@ -34,6 +34,7 @@ export const PALLETS_LIGHT = {
   MAIN_FONT: "#202124", //rgb(52, 58, 64)
   SUB_FONT: "#495057",
   POINT_FONT: "#868E96",
+  ICON: "#868E96",
 };
 
 export const PALLETS_DARK = {
@@ -43,6 +44,7 @@ export const PALLETS_DARK = {
   CARD_BACKGROUND: "#1e1e1e",
   MAIN_FONT: "rgba(255, 255, 255, 0.87)",
   SUB_FONT: "rgba(255, 255, 255, 0.6)",
+  ICON: "#868E96",
 };
 
 export const CARD_DATA = [
