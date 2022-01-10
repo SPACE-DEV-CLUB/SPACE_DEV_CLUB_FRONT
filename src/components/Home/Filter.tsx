@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import styled from "@emotion/styled";
 import { Notice, SelectBox } from "./index";
-import { MEDIA_QUERY_END_POINT } from "../../constants";
+import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../constants";
 import MovingIcon from "@mui/icons-material/Moving";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
@@ -14,13 +14,17 @@ export const Filter = ({ route }: { route: string }) => {
           <Link href="/" passHref>
             <FilterName route={route}>
               <TrendIcon />
-              트렌딩
+              {route === "recent" || route === "home"
+                ? "트렌딩"
+                : "좋아요한 포스트"}
             </FilterName>
           </Link>
           <Link href="/recent" passHref>
             <FilterName route={route}>
               <ClockIcon />
-              최신
+              {route === "recent" || route === "home"
+                ? "최신"
+                : "최근 읽은 포스트"}
             </FilterName>
           </Link>
           <Line route={route}></Line>
@@ -51,11 +55,13 @@ const FilterName = styled.a<{ route: string }>`
   font-size: 16px;
   text-decoration: none;
   color: ${(props) =>
-    props.route === "home" ? "black" : "rgb(134, 142, 150)"};
+    props.route === "home" ? PALLETS_LIGHT.MAIN_FONT : PALLETS_LIGHT.SUB_FONT};
   height: 48px;
   & + & {
     color: ${(props) =>
-      props.route === "home" ? "rgb(134, 142, 150)" : "black"};
+      props.route === "home"
+        ? PALLETS_LIGHT.SUB_FONT
+        : PALLETS_LIGHT.MAIN_FONT};
   }
   @media (min-width: 1024px) {
     font-size: 18px;

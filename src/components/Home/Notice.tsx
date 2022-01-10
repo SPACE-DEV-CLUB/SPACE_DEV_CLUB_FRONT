@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 import { useState } from "react";
+import { PALLETS_LIGHT } from "../../constants";
 
 const OPTIONS = [
   { key: "notice", value: "notice", link: "/@sdv", name: "공지사항" },
@@ -50,7 +51,7 @@ const Button = styled.div`
 const Box = styled.div<{ visible: boolean }>`
   display: ${(props) => (props.visible ? "block" : "none")};
   position: absolute;
-  background-color: white;
+  background-color: ${PALLETS_LIGHT.CARD_BACKGROUND};
   top: 125%;
   right: 0;
   margin-top: 8px;

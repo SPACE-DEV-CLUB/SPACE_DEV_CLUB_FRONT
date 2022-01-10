@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { MEDIA_QUERY_END_POINT } from "../../constants";
+import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../constants";
 import SearchIcon from "@mui/icons-material/Search";
 
 export const Header = (): JSX.Element => {
