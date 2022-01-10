@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import { NextPage } from "next";
 import { useState } from "react";
+import { PALLETS_LIGHT } from "../../constants";
 
 const OPTIONS = [
   { key: "today", value: "today", name: "오늘" },
@@ -52,7 +52,7 @@ const Container = styled.div`
 `;
 
 const Button = styled.div<{ route: string }>`
-  background: white;
+  background: ${PALLETS_LIGHT.CARD_BACKGROUND};
   height: 32px;
   width: 96px;
   border-radius: 4px;
@@ -61,7 +61,7 @@ const Button = styled.div<{ route: string }>`
   justify-content: space-between;
   padding: 0 8px;
   font-weight: 600;
-  color: rgb(73, 80, 87);
+  color: ${PALLETS_LIGHT.SUB_FONT};
   font-size: 14px;
   box-shadow: rgb(0 0 0 / 5%) 0px 0px 4px;
   cursor: pointer;
@@ -72,12 +72,12 @@ const Button = styled.div<{ route: string }>`
     height: 0px;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid black;
+    border-top: 5px solid ${PALLETS_LIGHT.MAIN_FONT};
   }
   &:hover {
-    color: rgb(18, 184, 134);
+    color: ${PALLETS_LIGHT.MAIN};
     &::after {
-      border-top: 5px solid rgb(18, 184, 134);
+      border-top: 5px solid ${PALLETS_LIGHT.MAIN};
     }
   }
 `;
@@ -101,14 +101,14 @@ const List = styled.li`
   cursor: pointer;
   box-sizing: border-box;
   &.active {
-    color: rgb(18, 184, 134);
+    color: ${PALLETS_LIGHT.MAIN};
   }
   &:hover {
-    background-color: #f8f9fa;
+    background-color: ${PALLETS_LIGHT.BACKGROUND};
   }
   & {
     border-top: 1px solid rgb(241, 243, 245);
   }
   color: ${(props) =>
-    props.color === props.value ? "rgb(18, 184, 134)" : "black"};
+    props.color === props.value ? PALLETS_LIGHT.MAIN : "black"};
 `;

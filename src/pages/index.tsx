@@ -4,6 +4,7 @@ import Head from "next/head";
 import { Filter } from "../components/Home/Filter";
 import { CardContainer } from "../components/Home/CardContainer";
 import { Header } from "../components/Home/Header";
+import { PALLETS_LIGHT } from "../constants";
 const Home: NextPage = () => {
   return (
     <div>
@@ -22,8 +23,8 @@ const Home: NextPage = () => {
 };
 
 const Main = styled.main`
-  background-color: #f8f9fa;
-  padding: 16px;
+  background-color: ${PALLETS_LIGHT.BACKGROUND};
+  padding: 0 16px 16px;
 `;
 
 export default Home;

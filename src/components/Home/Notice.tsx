@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 import { useState } from "react";
+import { PALLETS_LIGHT } from "../../constants";
 
 const OPTIONS = [
   { key: "notice", value: "notice", link: "/@sdv", name: "공지사항" },
@@ -9,14 +10,14 @@ const OPTIONS = [
   { key: "slack", value: "slack", link: "/slack", name: "Slack" },
 ];
 
-export const Notice = () => {
+export const Notice = ({ route }: { route: string }) => {
   const [visible, setVisible] = useState(false);
   const boxClickHandler = () => {
     setVisible(!visible);
   };
 
   return (
-    <Container>
+    <Container route={route}>
       <Button onClick={boxClickHandler}>⋮</Button>
       <Box visible={visible}>
         {OPTIONS.map((option) => {
@@ -37,7 +38,9 @@ export const Notice = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ route: string }>`
+  display: ${(props) =>
+    props.route === "home" || props.route === "recent" ? "block" : "none"};
   position: relative;
   cursor: pointer;
   font-weight: bold;
@@ -50,7 +53,7 @@ const Button = styled.div`
 const Box = styled.div<{ visible: boolean }>`
   display: ${(props) => (props.visible ? "block" : "none")};
   position: absolute;
-  background-color: white;
+  background-color: ${PALLETS_LIGHT.CARD_BACKGROUND};
   top: 125%;
   right: 0;
   margin-top: 8px;
