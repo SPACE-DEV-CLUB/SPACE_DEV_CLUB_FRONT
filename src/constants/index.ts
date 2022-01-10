@@ -35,7 +35,8 @@ export const PALLETS_LIGHT = {
   SUB_FONT: "#495057",
   POINT_FONT: "#868E96",
   ICON: "#868E96",
-};
+  BORDER: "#adb6bd"
+}
 
 export const PALLETS_DARK = {
   MAIN: "#6868AD",
@@ -45,7 +46,8 @@ export const PALLETS_DARK = {
   MAIN_FONT: "rgba(255, 255, 255, 0.87)",
   SUB_FONT: "rgba(255, 255, 255, 0.6)",
   ICON: "#868E96",
-};
+  BORDER: "#dae4ed" //수정 될 가능성 높음
+}
 
 export const CARD_DATA = [
   {

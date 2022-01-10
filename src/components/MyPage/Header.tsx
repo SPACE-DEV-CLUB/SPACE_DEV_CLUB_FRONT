@@ -3,7 +3,7 @@ import Image from "next/image"
 import SearchIcon from "@mui/icons-material/Search"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 import { useState } from "react"
-import { HeaderMenu } from "."
+import { HeaderMenu } from "./HeaderMenu"
 import {
   MEDIA_QUERY_END_POINT,
   PALLETS_DARK,

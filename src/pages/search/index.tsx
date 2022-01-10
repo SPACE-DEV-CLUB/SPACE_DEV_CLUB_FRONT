@@ -12,7 +12,7 @@ const MyPage: NextPage = () => {
         <Container>
             <SearchBar />
             {/* <FindPost /> */}
-            {/* <CardContainer>
+            <CardContainer>
                 {CARD_DATA.map((e, index) => (
                     <MyCard
                         key={index}
@@ -25,8 +25,8 @@ const MyPage: NextPage = () => {
                     />
                 ))}
                             </CardContainer>
- */}
-            <DetailCard />
+
+            {/* <DetailCard /> */}
             {/* <SeriesCard
                 imageUrl="/public/image/sample.jpeg"
                 postTitle="제목입니다. 제목."
