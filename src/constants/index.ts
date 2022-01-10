@@ -1,4 +1,4 @@
-export const API_ENDPOINT = "https://api.sampleapis.com/futurama"
+export const API_ENDPOINT = "https://api.sampleapis.com/futurama";
 
 export const MEDIA_QUERY_END_POINT = {
   MOBILE: "768px",
@@ -6,7 +6,7 @@ export const MEDIA_QUERY_END_POINT = {
   DESKTOP: "1200px",
   LARGE: "1440px",
   XLARGE: "1919px",
-}
+};
 
 export const ROUTES = [
   {
@@ -24,7 +24,7 @@ export const ROUTES = [
     PATH: "/search",
     LABEL: "Search",
   },
-]
+];
 
 export const PALLETS_LIGHT = {
   MAIN: "#6868AD",
@@ -33,7 +33,8 @@ export const PALLETS_LIGHT = {
   CARD_BACKGROUND: "#fff",
   MAIN_FONT: "#202124", //rgb(52, 58, 64)
   SUB_FONT: "#495057",
-}
+  POINT_FONT: "#868E96",
+};
 
 export const PALLETS_DARK = {
   MAIN: "#6868AD",
@@ -42,7 +43,7 @@ export const PALLETS_DARK = {
   CARD_BACKGROUND: "#1e1e1e",
   MAIN_FONT: "rgba(255, 255, 255, 0.87)",
   SUB_FONT: "rgba(255, 255, 255, 0.6)",
-}
+};
 
 export const CARD_DATA = [
   {
@@ -144,4 +145,4 @@ export const CARD_DATA = [
     date: 1,
     comment: 2,
   },
-]
+];
