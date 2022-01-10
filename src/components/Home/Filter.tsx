@@ -11,17 +11,25 @@ export const Filter = ({ route }: { route: string }) => {
     <FilterContainer>
       <BoxContainer>
         <BoxContainer>
-          <Link href="/" passHref>
+          <Link
+            href={route === "recent" || route === "home" ? "/" : "/list/liked"}
+            passHref
+          >
             <FilterName route={route}>
-              <TrendIcon />
+              <TrendIcon route={route} />
               {route === "recent" || route === "home"
                 ? "트렌딩"
                 : "좋아요한 포스트"}
             </FilterName>
           </Link>
-          <Link href="/recent" passHref>
+          <Link
+            href={
+              route === "recent" || route === "home" ? "/recent" : "/list/read"
+            }
+            passHref
+          >
             <FilterName route={route}>
-              <ClockIcon />
+              <ClockIcon route={route} />
               {route === "recent" || route === "home"
                 ? "최신"
                 : "최근 읽은 포스트"}
@@ -31,47 +39,60 @@ export const Filter = ({ route }: { route: string }) => {
         </BoxContainer>
         <SelectBox route={route}></SelectBox>
       </BoxContainer>
-      <Notice></Notice>
+      <Notice route={route}></Notice>
     </FilterContainer>
   );
 };
 
-const TrendIcon = styled(MovingIcon)`
+const TrendIcon = styled(MovingIcon)<{ route: string }>`
+  display: ${(props) =>
+    props.route === "home" || props.route === "recent"
+      ? "inline-block"
+      : "none"};
   @media (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     font-size: 20px;
   }
 `;
-const ClockIcon = styled(AccessTimeIcon)`
+const ClockIcon = styled(AccessTimeIcon)<{ route: string }>`
+  display: ${(props) =>
+    props.route === "home" || props.route === "recent"
+      ? "inline-block"
+      : "none"};
   @media (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     font-size: 20px;
   }
 `;
 const FilterName = styled.a<{ route: string }>`
   font-weight: bold;
-  width: 80px;
+  width: ${(props) =>
+    props.route === "home" || props.route === "recent" ? "80px" : "144px"};
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
   text-decoration: none;
   color: ${(props) =>
-    props.route === "home" ? PALLETS_LIGHT.MAIN_FONT : PALLETS_LIGHT.SUB_FONT};
+    props.route === "home" || props.route === "liked"
+      ? PALLETS_LIGHT.MAIN_FONT
+      : PALLETS_LIGHT.POINT_FONT};
   height: 48px;
   & + & {
     color: ${(props) =>
-      props.route === "home"
-        ? PALLETS_LIGHT.SUB_FONT
+      props.route === "home" || props.route === "liked"
+        ? PALLETS_LIGHT.POINT_FONT
         : PALLETS_LIGHT.MAIN_FONT};
   }
   @media (min-width: 1024px) {
     font-size: 18px;
-    width: 112px;
+    width: ${(props) =>
+      props.route === "home" || props.route === "recent" ? "112px" : "144px"};
   }
 `;
 
 const Line = styled.div<{ route: string }>`
   width: 50%;
-  left: ${(props) => (props.route === "home" ? "0%" : "50%")};
+  left: ${(props) =>
+    props.route === "home" || props.route === "liked" ? "0%" : "50%"};
   height: 2px;
   position: absolute;
   bottom: 0px;

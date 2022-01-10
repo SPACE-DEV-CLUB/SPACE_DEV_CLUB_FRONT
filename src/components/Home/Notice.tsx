@@ -10,14 +10,14 @@ const OPTIONS = [
   { key: "slack", value: "slack", link: "/slack", name: "Slack" },
 ];
 
-export const Notice = () => {
+export const Notice = ({ route }: { route: string }) => {
   const [visible, setVisible] = useState(false);
   const boxClickHandler = () => {
     setVisible(!visible);
   };
 
   return (
-    <Container>
+    <Container route={route}>
       <Button onClick={boxClickHandler}>⋮</Button>
       <Box visible={visible}>
         {OPTIONS.map((option) => {
@@ -38,7 +38,9 @@ export const Notice = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ route: string }>`
+  display: ${(props) =>
+    props.route === "home" || props.route === "recent" ? "block" : "none"};
   position: relative;
   cursor: pointer;
   font-weight: bold;
