@@ -1,7 +1,9 @@
-import styled from "@emotion/styled";
-import Link from "next/link";
-import { PALLETS_LIGHT } from "../../constants";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import styled from '@emotion/styled';
+import Link from 'next/link';
+import { PALLETS_LIGHT } from '../../constants';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import Image from 'next/image';
+import SAMPLE_IMG from '../../../public/image/sampleUser2.jpg';
 
 export const PostCard = () => {
   return (
@@ -30,10 +32,12 @@ export const PostCard = () => {
       <Desc>
         <Link href="/" passHref>
           <Author>
-            <img
-              src="https://media.vlpt.us/images/deli-ght/profile/2aa540f5-efe6-4173-b350-8b3ff71d2ce1/IMG_5426.JPG?w=120"
+            <Profileimg
+              src={SAMPLE_IMG}
               alt=""
-            ></img>
+              width={24}
+              height={24}
+            ></Profileimg>
             <span>
               by
               <strong> deli-ght</strong>
@@ -53,7 +57,7 @@ const Card = styled.article`
   width: 100%;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: ${PALLETS_LIGHT.CARD_BACKGROUND};
   border-radius: 14px;
   transition: ease-in-out 0.25s;
   overflow: hidden;
@@ -75,6 +79,7 @@ const Contents = styled.div`
   flex-direction: column;
   padding: 16px;
   h4 {
+    color: ${PALLETS_LIGHT.MAIN_FONT};
     font-size: 16px;
     line-height: 1.5;
     font-weight: 700;
@@ -86,7 +91,7 @@ const Contents = styled.div`
   }
   p {
     font-size: 14px;
-    color: #495057;
+    color: ${PALLETS_LIGHT.SUB_FONT};
     line-height: 1.5;
     margin-bottom: 24px;
     word-break: break-word;
@@ -98,7 +103,7 @@ const Contents = styled.div`
   span {
     line-height: 1.5;
     font-size: 12px;
-    color: #868296;
+    color: ${PALLETS_LIGHT.POINT_FONT};
   }
 `;
 
@@ -113,20 +118,21 @@ const Desc = styled.footer`
   line-height: 1.5;
 `;
 
+const Profileimg = styled(Image)`
+  display: block;
+  border-radius: 50%;
+`;
+
 const Author = styled.a`
   display: flex;
   align-items: center;
-  img {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    margin-right: 8px;
-  }
+
   span {
-    color: #868296;
+    color: ${PALLETS_LIGHT.POINT_FONT};
     font-size: 12px;
+    margin-left: 8px;
     strong {
-      color: #343a40;
+      color: ${PALLETS_LIGHT.MAIN_FONT};
     }
   }
 `;
@@ -141,5 +147,5 @@ const Like = styled.div`
     fill: ${PALLETS_LIGHT.MAIN};
   }
   font-size: 12px;
-  color: #212529;
+  color: ${PALLETS_LIGHT.MAIN};
 `;
