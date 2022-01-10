@@ -105,14 +105,14 @@ const Container = styled.section`
     display: flex;
     justify-content: center;
     align-items: center;
-    color: ${PALLETS_LIGHT.SUB_FONT};
-    border: 1px solid ${PALLETS_LIGHT.SUB_FONT};
+    color: ${PALLETS_LIGHT.ICON};
+    border: 1px solid ${PALLETS_LIGHT.ICON};
     background-color: none;
     border-radius: 50%;
     cursor: pointer;
   }
   a {
-    color: ${PALLETS_LIGHT.SUB_FONT};
+    color: ${PALLETS_LIGHT.ICON};
   }
   .circleBtn:hover > a {
     color: ${PALLETS_LIGHT.MAIN_FONT};
@@ -133,13 +133,13 @@ const Container = styled.section`
     opacity: 0.8;
   }
   .heartOff {
-    color: ${PALLETS_LIGHT.SUB_FONT};
-    border: 1px solid ${PALLETS_LIGHT.SUB_FONT};
+    color: ${PALLETS_LIGHT.ICON};
+    border: 1px solid ${PALLETS_LIGHT.ICON};
     background-color: none;
   }
 
   .heartCounter {
-    color: ${PALLETS_LIGHT.SUB_FONT};
+    color: ${PALLETS_LIGHT.ICON};
     font-size: 12px;
     font-weight: 700;
   }

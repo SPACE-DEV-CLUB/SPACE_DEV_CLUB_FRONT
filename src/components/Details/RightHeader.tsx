@@ -44,7 +44,7 @@ const Container = styled.section`
 `;
 const List = styled.div`
   font-size: 14px;
-  color: ${PALLETS_LIGHT.SUB};
+  color: ${PALLETS_LIGHT.ICON};
   margin-bottom: 5px;
   &:hover {
     color: ${PALLETS_LIGHT.SUB_FONT};

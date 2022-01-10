@@ -57,7 +57,7 @@ const UDContainer = styled.div`
     text-decoration: underline;
   }
   div > a {
-    color: ${PALLETS_LIGHT.SUB};
+    color: ${PALLETS_LIGHT.ICON};
     font-weight: 500;
   }
   div > a:not(:last-child) {

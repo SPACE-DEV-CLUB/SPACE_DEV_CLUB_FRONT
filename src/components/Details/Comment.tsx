@@ -70,7 +70,7 @@ const TextArea = styled.textarea`
   color: ${PALLETS_LIGHT.MAIN_FONT};
   line-height: 1.75;
   ::placeholder {
-    color: ${PALLETS_LIGHT.SUB};
+    color: ${PALLETS_LIGHT.ICON};
   }
 `;
 const BtnContainer = styled.div`
