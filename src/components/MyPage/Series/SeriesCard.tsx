@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { MEDIA_QUERY_END_POINT } from "../../../constants";
+import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../../constants";
 
 export const SeriesCard = ({
     imageUrl,
@@ -16,24 +16,24 @@ export const SeriesCard = ({
     return (
         <Container>
             <a href="/@id/dfjsfd">
-                <div className="image-wrap">
+                <ImageContainer>
                     <Image
                         layout="responsive"
-                        width={100}
-                        height={100}
+                        width={734}
+                        height={402}
                         alt="sample image"
                         src={imageUrl}
                     />
-                </div>
+                </ImageContainer>
             </a>
             <a href="/@id/dfjsfd">
                 <h2>{postTitle}</h2>
             </a>
-            <div className="date-comment-wrap">
+            <DateCommentContainer>
                 <span>{count}개의 포스트</span>
                 <span> · </span>
                 <span>마지막 업데이트 {updateDate}</span>
-            </div>
+            </DateCommentContainer>
         </Container>
     );
 };
@@ -45,19 +45,13 @@ const Container = styled.section`
     & + & {
         padding: 64px 0;
     }
-    border-bottom: 1px solid rgb(233, 236, 239);
-    .image-wrap {
-        background: pink;
-        width: 100%;
-        max-height: 402px;
-        overflow: hidden;
-    }
+    border-bottom: 1px solid ${PALLETS_LIGHT.BACKGROUND};
     h2 {
         font-size: 24px;
         margin: 20px 0;
     }
     p {
-        color: #495057;
+        color: ${PALLETS_LIGHT.SUB_FONT};
         font-size: 16px;
         line-height: 25px;
         margin: 8px 0 32px 0;
@@ -70,21 +64,17 @@ const Container = styled.section`
         -webkit-line-clamp: 3;
         height: 70px;
     }
-    .tags-wrap {
+    /*.tags-wrap {
         display: inline-block;
         margin: 0 14px 14px 0;
         padding: 5px 0;
-        background: #f1f3f5;
+        background: ${PALLETS_LIGHT.BACKGROUND};
         border-radius: 15px;
         a {
             font-size: 16px;
             padding: 0 16px;
-            color: #0ca678;
+            color: ${PALLETS_LIGHT.MAIN};
         }
-    }
-    .date-comment-wrap {
-        color: #868296;
-        font-size: 14px;
     }
 
     .series-title {
@@ -97,7 +87,7 @@ const Container = styled.section`
     }
     .series-count {
         color: #495057;
-    }
+    } */
     @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
         padding: 32px 0;
         h2 {
@@ -106,13 +96,23 @@ const Container = styled.section`
         p {
             font-size: 14px;
         }
-        .tags-wrap {
+        /* .tags-wrap {
             a {
                 font-size: 12px;
             }
-        }
-        .date-comment-wrap {
-            font-size: 12px;
-        }
+        } */
     }
 `;
+
+const ImageContainer = styled.div`
+        background: pink;
+        overflow: hidden;
+`
+
+const DateCommentContainer = styled.div`
+        color: ${PALLETS_LIGHT.SUB_FONT};
+        font-size: 14px;
+        @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
+            font-size: 12px;  
+    }
+`

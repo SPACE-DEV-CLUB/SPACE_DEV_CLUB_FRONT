@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 import SAMPLE_IMG from "../../../public/image/sample.jpeg";
-import { MEDIA_QUERY_END_POINT } from "../../constants";
+import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../constants";
 import { Profile } from "./Profile";
 
 export const MyCard = ({
@@ -31,7 +31,7 @@ export const MyCard = ({
                 <>
                     <Profile id={"jae04099"} />
                     <a href="/@id/dfjsfd">
-                        <div className="image-wrap">
+                        <ImageContainer>
                             <Image
                                 layout="responsive"
                                 width={100}
@@ -39,45 +39,45 @@ export const MyCard = ({
                                 alt="sample image"
                                 src={imageUrl}
                             />
-                        </div>
+                        </ImageContainer>
                     </a>
                     <a href="/@id/dfjsfd">
                         <h2>{postTitle}</h2>
                     </a>
                     <p>{postDesc}</p>
                     {tags.map((e, index) => (
-                        <div key={index} className="tags-wrap">
+                        <TagsContainer key={index}>
                             <a href="/tags/lorem">{e}</a>
-                        </div>
+                        </TagsContainer>
                     ))}
-                    <div className="date-comment-wrap">
+                    <DateCommentContainer>
                         <span>{date}일 전</span>
                         <span> · </span>
                         <span>{comment}개의 댓글</span>
-                    </div>
+                    </DateCommentContainer>
                 </>
             ) : (
                 <>
                     <a href="/@id/dfjsfd">
-                        <div className="image-wrap">
+                        <ImageContainer>
                             <Image
                                 layout="responsive"
-                                width={100}
-                                height={100}
+                                width={734}
+                                height={402}
                                 alt="sample image"
                                 src={imageUrl}
                             />
-                        </div>
+                        </ImageContainer>
                     </a>
                     <a href="/@id/dfjsfd">
                         <h2>{postTitle}</h2>
                     </a>
                     <p>{postDesc}</p>
-                    <div className="date-comment-wrap">
+                    <DateCommentContainer>
                         <span>{date}일 전</span>
                         <span> · </span>
                         <span>{comment}개의 댓글</span>
-                    </div>
+                    </DateCommentContainer>
                 </>
             )}
         </MyCardContainer>
@@ -91,19 +91,13 @@ const MyCardContainer = styled.section`
     & + & {
         padding: 64px 0;
     }
-    border-bottom: 1px solid rgb(233, 236, 239);
-    .image-wrap {
-        background: pink;
-        width: 100%;
-        max-height: 402px;
-        overflow: hidden;
-    }
+    border-bottom: 1px solid ${PALLETS_LIGHT.BACKGROUND};
     h2 {
         font-size: 24px;
         margin-top: 20px;
     }
     p {
-        color: #495057;
+        color: ${PALLETS_LIGHT.SUB_FONT};
         font-size: 16px;
         line-height: 25px;
         margin: 8px 0 32px 0;
@@ -116,24 +110,7 @@ const MyCardContainer = styled.section`
         -webkit-line-clamp: 3;
         height: 70px;
     }
-    .tags-wrap {
-        display: inline-block;
-        margin: 0 14px 14px 0;
-        padding: 5px 0;
-        background: #f1f3f5;
-        border-radius: 15px;
-        a {
-            font-size: 16px;
-            padding: 0 16px;
-            color: #0ca678;
-        }
-    }
-    .date-comment-wrap {
-        color: #868296;
-        font-size: 14px;
-    }
-
-    .series-title {
+    /* .series-title {
         margin-bottom: 13px;
         font-size: 16px;
     }
@@ -143,7 +120,7 @@ const MyCardContainer = styled.section`
     }
     .series-count {
         color: #495057;
-    }
+    } */
     @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
         padding: 32px 0;
         h2 {
@@ -152,12 +129,38 @@ const MyCardContainer = styled.section`
         p {
             font-size: 14px;
         }
-        .tags-wrap {
-            a {
-                font-size: 12px;
-            }
-        }
         .date-comment-wrap {
+            font-size: 12px;
+        }
+    }
+`;
+
+const DateCommentContainer = styled.div`
+    color: ${PALLETS_LIGHT.SUB_FONT};
+    font-size: 14px;
+    @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
+        font-size: 12px;
+    }
+`;
+
+const ImageContainer = styled.div`
+    background: pink;
+    overflow: hidden;
+`;
+
+const TagsContainer = styled.div`
+    display: inline-block;
+    margin: 0 14px 14px 0;
+    padding: 5px 0;
+    background: #f1f3f5;
+    border-radius: 15px;
+    a {
+        font-size: 16px;
+        padding: 0 16px;
+        color: ${PALLETS_LIGHT.MAIN};
+    }
+    @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
+        a {
             font-size: 12px;
         }
     }

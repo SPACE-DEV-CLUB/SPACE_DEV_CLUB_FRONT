@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Search from "@mui/icons-material/Search";
-import { MEDIA_QUERY_END_POINT } from "../../constants";
+import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../constants";
 
 export const SearchBar = () => {
     return (
@@ -31,19 +31,19 @@ const BarContainer = styled.div`
             width: 100%;
             margin-left: 0px;
             height: 32px;
-            border: 1px solid rgb(173, 181, 189);
+            border: 1px solid ${PALLETS_LIGHT.BORDER};
             font-size: 24px;
             padding: 10px 64px;
-            color: rgb(73, 80, 87);
+            color: ${PALLETS_LIGHT.SUB_FONT};
             outline: none;
             transition: outline-color 1000ms;
             
             &:active,
             &:focus {
-                outline: 1px solid #000;
+                outline: 1px solid ${PALLETS_LIGHT.MAIN};
             }
             &::placeholder {
-                color: rgb(173, 181, 189);
+                color: ${PALLETS_LIGHT.BORDER};
             }
         }
     }
