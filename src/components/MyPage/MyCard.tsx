@@ -75,7 +75,6 @@ export const MyCard = ({
                   src={imageUrl}
                 />
               </ImageContainer>
-
               <h2>{postTitle}</h2>
             </a>
           </Link>
