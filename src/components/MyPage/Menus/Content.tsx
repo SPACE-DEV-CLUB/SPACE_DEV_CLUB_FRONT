@@ -2,10 +2,10 @@ import styled from "@emotion/styled"
 import {
   MEDIA_QUERY_END_POINT,
   PALLETS_LIGHT,
-  CARD_DATA,
 } from "../../../constants"
 import SearchIcon from "@mui/icons-material/Search"
 import { MyCard } from "../MyCard"
+import { CARD_DATA } from "../../../data"
 
 interface ContentProps {
   username: string | string[] | undefined

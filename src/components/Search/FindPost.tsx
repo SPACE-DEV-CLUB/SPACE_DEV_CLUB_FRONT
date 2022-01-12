@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import { CARD_DATA, MEDIA_QUERY_END_POINT } from "../../constants";
+import { MEDIA_QUERY_END_POINT } from "../../constants";
+import { CARD_DATA } from "../../data";
 
 
 export const FindPost = () => {
