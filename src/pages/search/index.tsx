@@ -5,14 +5,14 @@ import { FindPost } from "../../components/Search/FindPost";
 import { MyCard } from "../../components/MyPage/MyCard";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
 import DetailCard from "../../components/MyPage/Series/DetailCard";
-import { DETAIL_CARD_DATA } from "../../data";
+import { CARD_DATA, DETAIL_CARD_DATA } from "../../data";
 
 const MyPage: NextPage = () => {
   return (
     <Container>
       <SearchBar />
-      {/* <FindPost /> */}
-      {/* <CardContainer>
+      <FindPost />
+      <CardContainer>
         {CARD_DATA.map((e, index) => (
           <MyCard
             key={index}
@@ -25,7 +25,7 @@ const MyPage: NextPage = () => {
             username={""}
           />
         ))}
-      </CardContainer> */}
+      </CardContainer>
 
       {DETAIL_CARD_DATA.map((e, index) => (
         <DetailCard
