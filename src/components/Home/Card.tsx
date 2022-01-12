@@ -1,9 +1,9 @@
-import styled from '@emotion/styled';
-import Link from 'next/link';
-import { PALLETS_LIGHT } from '../../constants';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import Image from 'next/image';
-import SAMPLE_IMG from '../../../public/image/sampleUser2.jpg';
+import styled from "@emotion/styled";
+import Link from "next/link";
+import { PALLETS_LIGHT } from "../../constants";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import Image from "next/image";
+import SAMPLE_IMG from "../../../public/image/sampleUser2.jpg";
 
 export const PostCard = () => {
   return (

@@ -15,7 +15,7 @@ import CodeIcon from "@mui/icons-material/Code";
 
 export const ToolBar = () => {
   return (
-    <ToolContainer>
+    <Container>
       <BtnHead>
         <div>
           H<span>1</span>
@@ -71,16 +71,17 @@ export const ToolBar = () => {
       <BtnIcon>
         <CodeIcon />
       </BtnIcon>
-    </ToolContainer>
+    </Container>
   );
 };
 
-const ToolContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   box-sizing: border-box;
   margin-bottom: 16px;
+  padding: 0 48px;
 `;
 
 const BtnHead = styled.button`

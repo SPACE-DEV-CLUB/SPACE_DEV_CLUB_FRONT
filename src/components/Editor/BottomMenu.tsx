@@ -14,7 +14,7 @@ export const BottomMenu = () => {
   return (
     <Wrap>
       <EditorButton
-        hoverColor={PALLETS_LIGHT.SUB}
+        hoverColor={PALLETS_LIGHT.BACKGROUND}
         fontWeight={500}
         ftColor={PALLETS_LIGHT.SUB_FONT}
         bgColor="#fff"
@@ -34,7 +34,7 @@ export const BottomMenu = () => {
         <EditorButton
           hoverColor="#9090de"
           fontWeight={600}
-          ftColor="#fff"
+          ftColor={PALLETS_LIGHT.SUB}
           bgColor={PALLETS_LIGHT.MAIN}
         >
           출간하기
