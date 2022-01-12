@@ -14,6 +14,7 @@ export const SearchBar = () => {
         </BarContainer>
     );
 };
+//
 
 const BarContainer = styled.div`
     width: 734px;
