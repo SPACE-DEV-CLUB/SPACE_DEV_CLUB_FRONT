@@ -1,41 +1,51 @@
-import Link from "next/link";
-import React from "react";
-import styled from "@emotion/styled";
-import { Notice, SelectBox } from "./index";
-import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../constants";
-import MovingIcon from "@mui/icons-material/Moving";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import Link from 'next/link';
+import React from 'react';
+import styled from '@emotion/styled';
+import { Notice, SelectBox } from './index';
+import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from '../../constants';
+import MovingIcon from '@mui/icons-material/Moving';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { Theme } from '../../styles/theme';
+import { useContext } from 'react';
+import { ThemeContext } from '../../pages/_app';
+
+interface StyledType {
+  theme: Theme;
+  route: string;
+}
 
 export const Filter = ({ route }: { route: string }) => {
+  const { theme } = useContext(ThemeContext);
+
   return (
     <FilterContainer>
       <BoxContainer>
         <BoxContainer>
           <Link
-            href={route === "recent" || route === "home" ? "/" : "/list/liked"}
+            href={route === 'recent' || route === 'home' ? '/' : '/list/liked'}
             passHref
           >
-            <FilterName route={route}>
+            <FilterName theme={theme} route={route}>
               <TrendIcon route={route} />
-              {route === "recent" || route === "home"
-                ? "트렌딩"
-                : "좋아요한 포스트"}
+              {route === 'recent' || route === 'home'
+                ? '트렌딩'
+                : '좋아요한 포스트'}
             </FilterName>
           </Link>
           <Link
             href={
-              route === "recent" || route === "home" ? "/recent" : "/list/read"
+              route === 'recent' || route === 'home' ? '/recent' : '/list/read'
             }
             passHref
           >
-            <FilterName route={route}>
+            <FilterName theme={theme} route={route}>
               <ClockIcon route={route} />
-              {route === "recent" || route === "home"
-                ? "최신"
-                : "최근 읽은 포스트"}
+              {route === 'recent' || route === 'home'
+                ? '최신'
+                : '최근 읽은 포스트'}
             </FilterName>
           </Link>
-          <Line route={route}></Line>
+          <Line theme={theme} route={route}></Line>
         </BoxContainer>
         <SelectBox route={route}></SelectBox>
       </BoxContainer>
@@ -46,57 +56,57 @@ export const Filter = ({ route }: { route: string }) => {
 
 const TrendIcon = styled(MovingIcon)<{ route: string }>`
   display: ${(props) =>
-    props.route === "home" || props.route === "recent"
-      ? "inline-block"
-      : "none"};
+    props.route === 'home' || props.route === 'recent'
+      ? 'inline-block'
+      : 'none'};
   @media (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     font-size: 20px;
   }
 `;
 const ClockIcon = styled(AccessTimeIcon)<{ route: string }>`
   display: ${(props) =>
-    props.route === "home" || props.route === "recent"
-      ? "inline-block"
-      : "none"};
+    props.route === 'home' || props.route === 'recent'
+      ? 'inline-block'
+      : 'none'};
   @media (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     font-size: 20px;
   }
 `;
-const FilterName = styled.a<{ route: string }>`
+const FilterName = styled.a<StyledType>`
   font-weight: bold;
   width: ${(props) =>
-    props.route === "home" || props.route === "recent" ? "80px" : "144px"};
+    props.route === 'home' || props.route === 'recent' ? '80px' : '144px'};
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
   text-decoration: none;
   color: ${(props) =>
-    props.route === "home" || props.route === "liked"
-      ? PALLETS_LIGHT.MAIN_FONT
-      : PALLETS_LIGHT.POINT_FONT};
+    props.route === 'home' || props.route === 'liked'
+      ? props.theme.MAIN_FONT
+      : props.theme.POINT_FONT};
   height: 48px;
   & + & {
     color: ${(props) =>
-      props.route === "home" || props.route === "liked"
-        ? PALLETS_LIGHT.POINT_FONT
-        : PALLETS_LIGHT.MAIN_FONT};
+      props.route === 'home' || props.route === 'liked'
+        ? props.theme.POINT_FONT
+        : props.theme.MAIN_FONT};
   }
   @media (min-width: 1024px) {
     font-size: 18px;
     width: ${(props) =>
-      props.route === "home" || props.route === "recent" ? "112px" : "144px"};
+      props.route === 'home' || props.route === 'recent' ? '112px' : '144px'};
   }
 `;
 
-const Line = styled.div<{ route: string }>`
+const Line = styled.div<StyledType>`
   width: 50%;
   left: ${(props) =>
-    props.route === "home" || props.route === "liked" ? "0%" : "50%"};
+    props.route === 'home' || props.route === 'liked' ? '0%' : '50%'};
   height: 2px;
   position: absolute;
   bottom: 0px;
-  background: rgb(52, 58, 64);
+  background: ${({ theme }) => theme.MAIN_FONT};
 `;
 
 const FilterContainer = styled.div`

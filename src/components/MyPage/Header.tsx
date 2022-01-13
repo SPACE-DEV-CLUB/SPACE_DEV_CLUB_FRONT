@@ -1,29 +1,29 @@
-import styled from "@emotion/styled"
-import Image from "next/image"
-import SearchIcon from "@mui/icons-material/Search"
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
-import { useState } from "react"
-import { HeaderMenu } from "./HeaderMenu"
+import styled from '@emotion/styled';
+import Image from 'next/image';
+import SearchIcon from '@mui/icons-material/Search';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { useState } from 'react';
+import { HeaderMenu } from './HeaderMenu';
 import {
   MEDIA_QUERY_END_POINT,
   PALLETS_DARK,
   PALLETS_LIGHT,
-} from "../../constants"
-import Link from "next/link"
+} from '../../constants';
+import Link from 'next/link';
 
 interface HeaderProps {
-  username: string | string[] | undefined
-  user: boolean
+  username: string | string[] | undefined;
+  user: boolean;
 }
 export const Header = ({
-  username = "",
+  username = '',
   user = false,
 }: HeaderProps): JSX.Element => {
-  const [showMenu, setShowMenu] = useState(false)
+  const [showMenu, setShowMenu] = useState(false);
 
   const handleMenu = () => {
-    setShowMenu(!showMenu)
-  }
+    setShowMenu(!showMenu);
+  };
 
   return (
     <HeaderComponent>
@@ -82,15 +82,15 @@ export const Header = ({
         </HeaderUtils>
       </HeaderContainer>
     </HeaderComponent>
-  )
-}
+  );
+};
 
 const HeaderComponent = styled.header`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const HeaderContainer = styled.section`
   display: flex;
@@ -110,7 +110,7 @@ const HeaderContainer = styled.section`
   @media screen and (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     width: calc(100% - 32px);
   }
-`
+`;
 
 const HeaderUtils = styled.article`
   display: flex;
@@ -122,26 +122,26 @@ const HeaderUtils = styled.article`
   & > *:not(:last-child) {
     margin-right: 12px;
   }
-`
+`;
 
 const LogoContainer = styled(Link)`
   display: flex;
-`
+`;
 
 const LogoLink = styled.a`
   display: flex;
   align-items: center;
-`
+`;
 const LogoImg = styled.svg`
   width: 24px;
   height: 24px;
-`
+`;
 
 const UserName = styled.a`
   margin-left: 12px;
-  font-family: "Fira Mono", monospace;
+  font-family: 'Fira Mono', monospace;
   max-width: calc(100% - 200px);
-`
+`;
 const SearchBtn = styled.a`
   display: flex;
   align-items: center;
@@ -154,7 +154,7 @@ const SearchBtn = styled.a`
     border-radius: 50%;
     background: ${PALLETS_LIGHT.BACKGROUND};
   }
-`
+`;
 const UserUtils = styled.article`
   cursor: pointer;
   display: flex;
@@ -168,11 +168,11 @@ const UserUtils = styled.article`
       color: ${PALLETS_LIGHT.MAIN};
     }
   }
-`
+`;
 
 const UserProfile = styled(Image)`
   border-radius: 50%;
-`
+`;
 
 const NewPostBtn = styled.button`
   height: 32px;
@@ -194,4 +194,4 @@ const NewPostBtn = styled.button`
   @media screen and (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     display: none;
   }
-`
+`;

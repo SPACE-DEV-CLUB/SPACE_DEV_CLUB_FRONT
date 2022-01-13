@@ -1,10 +1,10 @@
-import styled from "@emotion/styled";
-import type { NextPage } from "next";
-import Head from "next/head";
-import { Filter } from "../../../components/Home/Filter";
-import { CardContainer } from "../../../components/Home/CardContainer";
-import { Header } from "../../../components/Home/Header";
-import { PALLETS_LIGHT } from "../../../constants";
+import styled from '@emotion/styled';
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import { Filter } from '../../../components/Home/Filter';
+import { CardContainer } from '../../../components/Home/CardContainer';
+import { Header } from '../../../components/Home/Header';
+import { PALLETS_LIGHT } from '../../../constants';
 
 const Home: NextPage = () => {
   return (
@@ -16,7 +16,7 @@ const Home: NextPage = () => {
       </Head>
       <Main>
         <Header></Header>
-        <Filter route={"liked"}></Filter>
+        <Filter route={'liked'}></Filter>
         <CardContainer></CardContainer>
       </Main>
     </div>
@@ -24,7 +24,6 @@ const Home: NextPage = () => {
 };
 
 const Main = styled.main`
-  background-color: ${PALLETS_LIGHT.BACKGROUND};
   padding: 0 16px 16px;
 `;
 

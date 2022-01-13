@@ -1,17 +1,31 @@
-import styled from "@emotion/styled";
-import { useState } from "react";
-import { PALLETS_LIGHT } from "../../constants";
+import styled from '@emotion/styled';
+import { useState } from 'react';
+import { PALLETS_LIGHT } from '../../constants';
+import { Theme } from '../../styles/theme';
+import { useContext } from 'react';
+import { ThemeContext } from '../../pages/_app';
 
 const OPTIONS = [
-  { key: "today", value: "today", name: "오늘" },
-  { key: "week", value: "week", name: "이번 주" },
-  { key: "month", value: "month", name: "이번 달" },
-  { key: "year", value: "year", name: "올 해" },
+  { key: 'today', value: 'today', name: '오늘' },
+  { key: 'week', value: 'week', name: '이번 주' },
+  { key: 'month', value: 'month', name: '이번 달' },
+  { key: 'year', value: 'year', name: '올 해' },
 ];
 
+interface StyledType {
+  theme: Theme;
+  route: string;
+}
+
+interface ThemeProps {
+  theme: Theme;
+}
+
 export const SelectBox = ({ route }: { route: string }) => {
+  const { theme } = useContext(ThemeContext);
+
   const [visible, setVisible] = useState(false);
-  const [filterText, setFilterText] = useState("이번 주");
+  const [filterText, setFilterText] = useState('이번 주');
   const [textColor, setTextColor] = useState(filterText);
   const boxClickHandler = () => {
     setVisible(!visible);
@@ -21,11 +35,10 @@ export const SelectBox = ({ route }: { route: string }) => {
     setFilterText(text);
     setVisible(!visible);
     setTextColor(text);
-    console.log(e.target);
   };
   return (
     <Container>
-      <Button route={route} onClick={boxClickHandler}>
+      <Button route={route} theme={theme} onClick={boxClickHandler}>
         {filterText}
       </Button>
       <Box visible={visible}>
@@ -33,6 +46,7 @@ export const SelectBox = ({ route }: { route: string }) => {
           const { key, name } = option;
           return (
             <List
+              theme={theme}
               onClick={optionClickHandler}
               key={key}
               value={name}
@@ -51,38 +65,38 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Button = styled.div<{ route: string }>`
-  background: ${PALLETS_LIGHT.CARD_BACKGROUND};
+const Button = styled.div<StyledType>`
+  background: ${({ theme }) => theme.CARD_BACKGROUND};
   height: 32px;
   width: 96px;
   border-radius: 4px;
-  display: ${(props) => (props.route === "home" ? "flex" : "none")};
+  display: ${(props) => (props.route === 'home' ? 'flex' : 'none')};
   align-items: center;
   justify-content: space-between;
   padding: 0 8px;
   font-weight: 600;
-  color: ${PALLETS_LIGHT.SUB_FONT};
+  color: ${({ theme }) => theme.SUB_FONT};
   font-size: 14px;
   box-shadow: rgb(0 0 0 / 5%) 0px 0px 4px;
   cursor: pointer;
   &::after {
     display: block;
-    content: "";
+    content: '';
     width: 0px;
     height: 0px;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid ${PALLETS_LIGHT.MAIN_FONT};
+    border-top: 5px solid ${({ theme }) => theme.MAIN_FONT};
   }
   &:hover {
-    color: ${PALLETS_LIGHT.MAIN};
+    color: ${({ theme }) => theme.MAIN};
     &::after {
-      border-top: 5px solid ${PALLETS_LIGHT.MAIN};
+      border-top: 5px solid ${({ theme }) => theme.MAIN};
     }
   }
 `;
 const Box = styled.ul<{ visible: boolean }>`
-  display: ${(props) => (props.visible ? "block" : "none")};
+  display: ${(props) => (props.visible ? 'block' : 'none')};
   position: absolute;
   top: 130%;
   right: 0;
@@ -93,22 +107,26 @@ const Box = styled.ul<{ visible: boolean }>`
   z-index: 10;
 `;
 
-const List = styled.li`
+const List = styled.li<ThemeProps>`
   list-style: none;
   font-weight: 600;
   font-size: 14px;
   padding: 12px 16px;
   cursor: pointer;
   box-sizing: border-box;
+  background: ${({ theme }) => theme.BACKGROUND};
   &.active {
-    color: ${PALLETS_LIGHT.MAIN};
+    color: ${({ theme }) => theme.MAIN};
   }
   &:hover {
-    background-color: ${PALLETS_LIGHT.BACKGROUND};
+    background-color: ${({ theme }) => theme.BACKGROUND};
   }
   & {
-    border-top: 1px solid rgb(241, 243, 245);
+    border-top: 1px solid ${({ theme }) => theme.POINT_FONT};
+  }
+  &:first-child {
+    border-top: none;
   }
   color: ${(props) =>
-    props.color === props.value ? PALLETS_LIGHT.MAIN : "black"};
+    props.color === props.value ? props.theme.MAIN : props.theme.MAIN_FONT};
 `;

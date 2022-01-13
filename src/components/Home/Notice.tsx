@@ -1,16 +1,30 @@
-import styled from "@emotion/styled";
-import Link from "next/link";
-import { useState } from "react";
-import { PALLETS_LIGHT } from "../../constants";
+import styled from '@emotion/styled';
+import Link from 'next/link';
+import { useState } from 'react';
+import { PALLETS_LIGHT } from '../../constants';
+import { Theme } from '../../styles/theme';
+import { useContext } from 'react';
+import { ThemeContext } from '../../pages/_app';
+
+interface StyledType {
+  theme: Theme;
+  visible: boolean;
+}
+
+interface ThemeProps {
+  theme: Theme;
+}
 
 const OPTIONS = [
-  { key: "notice", value: "notice", link: "/@sdv", name: "공지사항" },
-  { key: "tag", value: "tag", link: "/tags", name: "태그 목록" },
-  { key: "policy", value: "policy", link: "/policy", name: "서비스 정책" },
-  { key: "slack", value: "slack", link: "/slack", name: "Slack" },
+  { key: 'notice', value: 'notice', link: '/@sdv', name: '공지사항' },
+  { key: 'tag', value: 'tag', link: '/tags', name: '태그 목록' },
+  { key: 'policy', value: 'policy', link: '/policy', name: '서비스 정책' },
+  { key: 'slack', value: 'slack', link: '/slack', name: 'Slack' },
 ];
 
 export const Notice = ({ route }: { route: string }) => {
+  const { theme } = useContext(ThemeContext);
+
   const [visible, setVisible] = useState(false);
   const boxClickHandler = () => {
     setVisible(!visible);
@@ -19,18 +33,18 @@ export const Notice = ({ route }: { route: string }) => {
   return (
     <Container route={route}>
       <Button onClick={boxClickHandler}>⋮</Button>
-      <Box visible={visible}>
+      <Box theme={theme} visible={visible}>
         {OPTIONS.map((option) => {
           const { key, value, name, link } = option;
           return (
-            <List key={key} value={value}>
+            <List theme={theme} key={key} value={value}>
               <Link href={link}>
                 <a>{name}</a>
               </Link>
             </List>
           );
         })}
-        <List>
+        <List theme={theme}>
           문의 <p>jhp@sdv.io</p>
         </List>
       </Box>
@@ -40,7 +54,7 @@ export const Notice = ({ route }: { route: string }) => {
 
 const Container = styled.div<{ route: string }>`
   display: ${(props) =>
-    props.route === "home" || props.route === "recent" ? "block" : "none"};
+    props.route === 'home' || props.route === 'recent' ? 'block' : 'none'};
   position: relative;
   cursor: pointer;
   font-weight: bold;
@@ -50,10 +64,10 @@ const Container = styled.div<{ route: string }>`
 const Button = styled.div`
   color: rgb(134, 142, 150);
 `;
-const Box = styled.div<{ visible: boolean }>`
-  display: ${(props) => (props.visible ? "block" : "none")};
+const Box = styled.div<StyledType>`
+  display: ${(props) => (props.visible ? 'block' : 'none')};
   position: absolute;
-  background-color: ${PALLETS_LIGHT.CARD_BACKGROUND};
+  background-color: ${({ theme }) => theme.CARD_BACKGROUND};
   top: 125%;
   right: 0;
   margin-top: 8px;
@@ -63,15 +77,21 @@ const Box = styled.div<{ visible: boolean }>`
   z-index: 10;
 `;
 
-const List = styled.li`
+const List = styled.li<ThemeProps>`
   list-style: none;
   font-weight: 600;
   font-size: 14px;
   padding: 12px 16px;
   cursor: pointer;
   line-height: none;
+  color: ${({ theme }) => theme.MAIN_FONT};
+
+  a {
+    color: ${({ theme }) => theme.MAIN_FONT};
+  }
+
   & + & {
-    border-top: 1px solid rgb(241, 243, 245);
+    border-top: 1px solid ${({ theme }) => theme.POINT_FONT};
   }
   &:last-child {
     font-size: 12px;
