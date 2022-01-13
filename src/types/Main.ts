@@ -18,12 +18,17 @@ export interface CardProps {
   comment: number;
 }
 
+
+
 export interface DetailCardProps {
-  margin: string;
-  padding: string;
+  margin?: string;
+  padding?: string;
   imageUrl?: string;
   postIdx: number;
   postTitle: string;
   postDesc: string;
   date: string;
+  id?:number|
+  string;
+
 }
