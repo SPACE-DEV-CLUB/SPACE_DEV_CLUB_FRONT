@@ -26,9 +26,14 @@ export const Carousel = () => {
         title: "시리즈2",
       },
       {
+        src: "https://cdn.pixabay.com/photo/2021/11/09/15/32/christmas-6781762_960_720.jpg",
+        href: "2",
+        title: "시리즈3",
+      },
+      {
         src: "https://cdn.pixabay.com/photo/2021/12/21/14/47/castle-6885449_960_720.jpg",
         href: "3",
-        title: "시리즈3",
+        title: "시리즈4",
       },
     ],
   };
@@ -59,10 +64,10 @@ export const Carousel = () => {
           {detailData.content.map((s, i) => {
             return (
               <Link href={s.href} key={`carousel-${s}`}>
-                <a>
-                  <p>{s.title}</p>
-                  <Img src={s.src} alt="" />
-                </a>
+                <CarouselLink>
+                  <CarouselTitle>{s.title}</CarouselTitle>
+                  {/* <Img src={s.src} alt="" /> */}
+                </CarouselLink>
               </Link>
             );
           })}
@@ -84,44 +89,56 @@ export const Carousel = () => {
 const Container = styled.section`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
+  margin: 60px 0;
 `;
 const CarouselContainer = styled.article`
-  flex: 2;
-  width: 400px;
-  height: 250px;
+  width: 370px;
+  height: 50px;
   overflow: hidden;
 `;
 const caroucelIndex = (props: IndexTypeProps) => css`
-  transform: translate3d(-${500 * props.index}px, 0, 0);
+  transform: translate3d(-${370 * props.index}px, 0, 0);
 `;
 const CarouselItem = styled.div`
   display: flex;
   ${caroucelIndex}
   transition: all 1s ease-in-out;
 `;
-const Img = styled.img`
-  width: 500px;
-  height: 500px;
-`;
-const PrevContainer = styled.div`
-  flex: 1;
-`;
+// const Img = styled.img`
+//   width: 500px;
+//   height: 500px;
+// `;
+const PrevContainer = styled.div``;
 const NextContainer = styled.div`
-  flex: 1;
   display: flex;
   justify-content: end;
 `;
 const Btn = styled.button`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   color: ${PALLETS_LIGHT.MAIN};
   font-size: 32px;
-  border: 1px solid ${PALLETS_LIGHT.SUB_FONT};
+  border: 1px solid ${PALLETS_LIGHT.SUB};
   border-radius: 50%;
   :hover {
     background-color: ${PALLETS_LIGHT.MAIN};
     color: #fff;
     border: 1px solid ${PALLETS_LIGHT.MAIN};
   }
+`;
+const CarouselLink = styled.a`
+  width: 370px;
+  height: 50px;
+  background-color: ${PALLETS_LIGHT.SUB};
+  border-radius: 15px;
+`;
+const CarouselTitle = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 700;
+  width: 370px;
+  height: 50px;
 `;

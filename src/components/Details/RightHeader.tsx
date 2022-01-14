@@ -37,9 +37,13 @@ const Container = styled.section`
     /* width: 130px; */
     padding: 8px 10px;
     border-left: 2px solid ${PALLETS_LIGHT.SUB};
+    margin-left: 40px;
   }
   div.h4 {
     margin-left: 12px;
+  }
+  @media screen and (max-width: 1365px) {
+    display: none;
   }
 `;
 const List = styled.div`
