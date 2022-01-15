@@ -1,18 +1,25 @@
-import styled from "@emotion/styled";
-import { PostCard } from "./Card";
-import { MEDIA_QUERY_END_POINT } from "../../constants";
+import styled from '@emotion/styled';
+import { PostCard } from './Card';
+import { MEDIA_QUERY_END_POINT } from '../../constants';
+import { CARD_DATA } from '../../data';
+
 export const CardContainer = () => {
   return (
     <Container>
-      <PostCard></PostCard>
-      <PostCard></PostCard>
-      <PostCard></PostCard>
-      <PostCard></PostCard>
-      <PostCard></PostCard>
-      <PostCard></PostCard>
-      <PostCard></PostCard>
-      <PostCard></PostCard>
-      <PostCard></PostCard>
+      {CARD_DATA.map((e, index) => (
+        <PostCard
+          key={index}
+          imageUrl="/image/sample.jpeg"
+          postTitle={e.postTitle}
+          postDesc={e.postDesc}
+          tags={e.tags}
+          date={e.date}
+          comment={e.comment}
+          count={e.count}
+          username="deli-ght"
+          thumbnail="/image/post_thumbnail.png"
+        />
+      ))}
     </Container>
   );
 };
