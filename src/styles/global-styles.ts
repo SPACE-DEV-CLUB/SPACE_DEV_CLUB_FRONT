@@ -1,6 +1,6 @@
-import { Global, css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { Theme } from '../styles/theme';
+import { Global, css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { Theme } from "../styles/theme";
 
 interface ThemeInterface {
   theme: Theme;
@@ -112,8 +112,8 @@ export const GlobalStyle = (props: Theme) =>
     body {
       line-height: 1;
       font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
-        Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo',
-        'Noto Sans KR', 'Malgun Gothic', sans-serif;
+        Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
+        "Noto Sans KR", "Malgun Gothic", sans-serif;
     }
     ol,
     ul {
@@ -127,7 +127,7 @@ export const GlobalStyle = (props: Theme) =>
     blockquote:after,
     q:before,
     q:after {
-      content: '';
+      content: "";
       content: none;
     }
     table {

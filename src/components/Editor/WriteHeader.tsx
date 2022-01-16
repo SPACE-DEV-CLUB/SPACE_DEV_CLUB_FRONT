@@ -1,7 +1,6 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
 import { Tag } from "../Common/Tag";
-import { css } from "@emotion/react";
 import { PALLETS_LIGHT } from "../../constants";
 
 interface WriteHeaderProps {
@@ -11,9 +10,10 @@ interface WriteHeaderProps {
 
 export const WriteHeader = ({ handleTitleChange, title }: WriteHeaderProps) => {
   const [guide, setGuide] = useState(false);
-  const [listDatas, setListDatas] = useState([""]);
+  const [listTagDatas, setListTagDatas] = useState<Array<string>>([]);
+  const [tagInput, setTagInput] = useState("");
 
-  const handleTagArea = () => {
+  const handleTagShow = () => {
     setGuide(true);
   };
 
@@ -21,10 +21,45 @@ export const WriteHeader = ({ handleTitleChange, title }: WriteHeaderProps) => {
     setGuide(false);
   };
 
-  const addTagData = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleEnterEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const currentTagetValue = e.currentTarget.value;
+
     if (e.key === "Enter") {
       e.preventDefault();
-      console.log(`e`, e.key);
+      setTagInput("");
+
+      if (checkOverlap(currentTagetValue)) {
+        setListTagDatas([...listTagDatas, e.currentTarget.value]);
+      }
+    }
+  };
+
+  const checkOverlap = (currentValue: string) => {
+    if (tagInput.length > 0) {
+      return !listTagDatas.includes(currentValue);
+    } else {
+      return false;
+    }
+  };
+
+  const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTagInput(e.target.value);
+  };
+
+  const onRemove = (e: React.MouseEvent<HTMLElement>) => {
+    const eventTarget = e.target as HTMLElement;
+
+    setListTagDatas(
+      listTagDatas.filter(
+        (listTagData) => listTagData !== eventTarget.innerText
+      )
+    );
+  };
+
+  const handleBackSpace = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace") {
+      listTagDatas.pop();
+      setListTagDatas([...listTagDatas]);
     }
   };
 
@@ -38,15 +73,20 @@ export const WriteHeader = ({ handleTitleChange, title }: WriteHeaderProps) => {
         placeholder="제목을 입력하세요"
       />
       <BorderLine />
-      <Tag tagName={listDatas[0]} />
-      {listDatas?.map((listData) => {})}
+      {listTagDatas.length >= 1 &&
+        listTagDatas.map((listTagData, idx) => {
+          return <Tag key={idx} tagName={listTagData} onRemove={onRemove} />;
+        })}
+
       <TagInput
-        onFocus={handleTagArea}
+        onFocus={handleTagShow}
         onBlur={hadleTagHide}
-        onKeyDown={addTagData}
+        onKeyPress={handleEnterEvent}
+        onChange={handleInputValue}
+        onKeyDown={handleBackSpace}
         type="text"
+        value={tagInput}
         placeholder="태그를 입력하세요"
-        className="TagContents"
       />
       {guide && (
         <Guide>
