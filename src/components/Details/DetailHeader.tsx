@@ -20,12 +20,15 @@ export const DetailHeader = () => {
 
 const Header = styled.section`
   display: flex;
-  width: 50vw;
+  width: 768px;
   margin: 0 3vw;
   flex-direction: column;
   margin-top: 32px;
   h2 {
     font-size: 48px;
     margin-bottom: 32px;
+  }
+  @media screen and (max-width: 840px) {
+    width: 100vw;
   }
 `;

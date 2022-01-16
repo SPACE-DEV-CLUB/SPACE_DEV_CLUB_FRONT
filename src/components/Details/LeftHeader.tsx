@@ -29,7 +29,7 @@ export const LeftHeader = () => {
   return (
     <Container>
       <h2 className="sr-only">좋아요 및 공유하기</h2>
-      <article>
+      <HeartShare>
         <h3 className="sr-only">좋아요 버튼과 공유하기 버튼</h3>
         <div
           onClick={handleHeart}
@@ -37,7 +37,7 @@ export const LeftHeader = () => {
         >
           <FavoriteIcon />
         </div>
-        <p className="heartCounter">{heartNum}</p>
+        <HeartCounter>{heartNum}</HeartCounter>
         <div className="circleBtn" onClick={handleShare}>
           <ShareIcon />
         </div>
@@ -74,7 +74,16 @@ export const LeftHeader = () => {
             </a>
           </Link>
         </div>
-      </article>
+      </HeartShare>
+      <MiniHeart onClick={handleHeart}>
+        <h3 className="sr-only">미니 좋아요 버튼</h3>
+        <MiniContainer
+          className={`circleBtn ${!heartClick ? "heartOff" : "heartOn"}`}
+        >
+          <FavoriteIcon className="miniheart" />
+          <MiniHeartCounter>{heartNum}</MiniHeartCounter>
+        </MiniContainer>
+      </MiniHeart>
     </Container>
   );
 };
@@ -82,22 +91,23 @@ export const LeftHeader = () => {
 const Container = styled.section`
   position: -webkit-sticky;
   position: sticky;
-  top: 290px;
+  top: 280px;
   height: 100%;
-
-  article {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    background-color: ${PALLETS_LIGHT.BACKGROUND};
-    border-radius: 40px;
-    width: 70px;
-    height: 150px;
+  @media screen and (max-width: 1025px) {
+    position: absolute;
   }
-
-  /* 스크롤 어느정도 내려올 경우 leftOn 클래스 add 해야함 -> 아직 미구현*/
+`;
+const HeartShare = styled.article`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  background-color: ${PALLETS_LIGHT.CARD_BACKGROUND};
+  border-radius: 40px;
+  width: 70px;
+  height: 150px;
+  margin-right: 49px;
 
   .circleBtn {
     width: 50px;
@@ -138,12 +148,6 @@ const Container = styled.section`
     background-color: none;
   }
 
-  .heartCounter {
-    color: ${PALLETS_LIGHT.ICON};
-    font-size: 12px;
-    font-weight: 700;
-  }
-
   .ShareOff {
     position: absolute;
     transform: translateX(0px) translateY(40px);
@@ -156,12 +160,65 @@ const Container = styled.section`
     transition: all 0.5s ease-in-out;
   }
   .ShareItem1 {
-    transform: translateX(60px) translateY(-10px);
+    transform: translateX(70px) translateY(-10px);
   }
   .ShareItem2 {
-    transform: translateX(85px) translateY(40px);
+    transform: translateX(95px) translateY(40px);
   }
   .ShareItem3 {
-    transform: translateX(60px) translateY(90px);
+    transform: translateX(70px) translateY(90px);
   }
+
+  @media screen and (max-width: 1025px) {
+    display: none;
+  }
+`;
+
+const HeartCounter = styled.p`
+  color: ${PALLETS_LIGHT.BORDER};
+  font-size: 12px;
+  font-weight: 700;
+`;
+
+const MiniHeart = styled.article`
+  display: none;
+
+  @media screen and (max-width: 1025px) {
+    position: absolute;
+    top: -130px;
+    right: -380px;
+    display: block;
+
+    .miniheart {
+      width: 12px;
+      height: 12px;
+    }
+    .heartOn {
+      color: ${PALLETS_LIGHT.BACKGROUND};
+      border: none;
+      background-color: ${PALLETS_LIGHT.MAIN};
+    }
+    .heartOff {
+      color: ${PALLETS_LIGHT.BORDER};
+    }
+  }
+  @media screen and (max-width: 840px) {
+    top: -130px;
+    right: -45vw;
+  }
+`;
+const MiniContainer = styled.div`
+  display: flex;
+  width: 55px;
+  height: 24px;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid ${PALLETS_LIGHT.BORDER};
+  border-radius: 20px;
+  padding: 0 5px;
+  box-sizing: border-box;
+`;
+const MiniHeartCounter = styled.p`
+  font-size: 12px;
+  font-weight: 700;
 `;
