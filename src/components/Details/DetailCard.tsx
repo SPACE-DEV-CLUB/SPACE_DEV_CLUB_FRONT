@@ -1,20 +1,27 @@
 import styled from "@emotion/styled";
 import { PostCard } from "../Home/Card";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
+import { CARD_DATA } from "../../data";
+
 export const DetailCard = () => {
   return (
     <div>
       <CardTitle>관심 있을 만한 포스트</CardTitle>
       <Container>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
+        {CARD_DATA.map((e, index) => (
+          <PostCard
+            key={index}
+            imageUrl="/image/sample.jpeg"
+            postTitle={e.postTitle}
+            postDesc={e.postDesc}
+            tags={e.tags}
+            date={e.date}
+            comment={e.comment}
+            count={e.count}
+            username="deli-ght"
+            thumbnail="/image/post_thumbnail.png"
+          />
+        ))}
       </Container>
     </div>
   );
