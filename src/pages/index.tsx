@@ -4,7 +4,8 @@ import Head from 'next/head';
 import { Filter } from '../components/Home/Filter';
 import { CardContainer } from '../components/Home/CardContainer';
 import { Header } from '../components/Home/Header';
-import { PALLETS_LIGHT } from '../constants';
+import { TestCardContainer } from '../components/Home/IoTestCardContainer';
+
 const Home: NextPage = () => {
   return (
     <div>
