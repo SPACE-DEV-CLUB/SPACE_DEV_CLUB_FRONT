@@ -152,4 +152,108 @@ export const DETAIL_CARD_DATA = [
       'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem exercitationem debitis cumque culpa modi tempora ratione molestias, eligendi pariatur facere aut minima iste suscipit tenetur explicabo laborum ex error dic Molestias necessitatibus, deleniti harum incidunt illum asperiores, explicabo quis, facilis eius animi vitae laboriosam adipisci consectetur nam. Facilis eveniet perferendis sint quod dolore, quaerat sed impedit non nostrum maiores numquam.',
     date: '2020년 5월 21일',
   },
+  {
+    imageUrl: 'http://localhost:3010/',
+    postIdx: 5,
+    postTitle: 'lorem ipsum',
+    postDesc:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem exercitationem debitis cumque culpa modi tempora ratione molestias, eligendi pariatur facere aut minima iste suscipit tenetur explicabo laborum ex error dic Molestias necessitatibus, deleniti harum incidunt illum asperiores, explicabo quis, facilis eius animi vitae laboriosam adipisci consectetur nam. Facilis eveniet perferendis sint quod dolore, quaerat sed impedit non nostrum maiores numquam.',
+    date: '2020년 5월 21일',
+  },
+  {
+    imageUrl: 'http://localhost:3010/',
+    postIdx: 5,
+    postTitle: 'lorem ipsum',
+    postDesc:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem exercitationem debitis cumque culpa modi tempora ratione molestias, eligendi pariatur facere aut minima iste suscipit tenetur explicabo laborum ex error dic Molestias necessitatibus, deleniti harum incidunt illum asperiores, explicabo quis, facilis eius animi vitae laboriosam adipisci consectetur nam. Facilis eveniet perferendis sint quod dolore, quaerat sed impedit non nostrum maiores numquam.',
+    date: '2020년 5월 21일',
+  },
+  {
+    imageUrl: 'http://localhost:3010/',
+    postIdx: 5,
+    postTitle: 'lorem ipsum',
+    postDesc:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem exercitationem debitis cumque culpa modi tempora ratione molestias, eligendi pariatur facere aut minima iste suscipit tenetur explicabo laborum ex error dic Molestias necessitatibus, deleniti harum incidunt illum asperiores, explicabo quis, facilis eius animi vitae laboriosam adipisci consectetur nam. Facilis eveniet perferendis sint quod dolore, quaerat sed impedit non nostrum maiores numquam.',
+    date: '2020년 5월 21일',
+  },
+  {
+    imageUrl: 'http://localhost:3010/',
+    postIdx: 5,
+    postTitle: 'lorem ipsum',
+    postDesc:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem exercitationem debitis cumque culpa modi tempora ratione molestias, eligendi pariatur facere aut minima iste suscipit tenetur explicabo laborum ex error dic Molestias necessitatibus, deleniti harum incidunt illum asperiores, explicabo quis, facilis eius animi vitae laboriosam adipisci consectetur nam. Facilis eveniet perferendis sint quod dolore, quaerat sed impedit non nostrum maiores numquam.',
+    date: '2020년 5월 21일',
+  },
+  {
+    imageUrl: 'http://localhost:3010/',
+    postIdx: 5,
+    postTitle: 'lorem ipsum',
+    postDesc:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem exercitationem debitis cumque culpa modi tempora ratione molestias, eligendi pariatur facere aut minima iste suscipit tenetur explicabo laborum ex error dic Molestias necessitatibus, deleniti harum incidunt illum asperiores, explicabo quis, facilis eius animi vitae laboriosam adipisci consectetur nam. Facilis eveniet perferendis sint quod dolore, quaerat sed impedit non nostrum maiores numquam.',
+    date: '2020년 5월 21일',
+  },
+  {
+    imageUrl: 'http://localhost:3010/',
+    postIdx: 5,
+    postTitle: 'lorem ipsum',
+    postDesc:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem exercitationem debitis cumque culpa modi tempora ratione molestias, eligendi pariatur facere aut minima iste suscipit tenetur explicabo laborum ex error dic Molestias necessitatibus, deleniti harum incidunt illum asperiores, explicabo quis, facilis eius animi vitae laboriosam adipisci consectetur nam. Facilis eveniet perferendis sint quod dolore, quaerat sed impedit non nostrum maiores numquam.',
+    date: '2020년 5월 21일',
+  },
+  {
+    imageUrl: 'http://localhost:3010/',
+    postIdx: 5,
+    postTitle: 'lorem ipsum',
+    postDesc:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem exercitationem debitis cumque culpa modi tempora ratione molestias, eligendi pariatur facere aut minima iste suscipit tenetur explicabo laborum ex error dic Molestias necessitatibus, deleniti harum incidunt illum asperiores, explicabo quis, facilis eius animi vitae laboriosam adipisci consectetur nam. Facilis eveniet perferendis sint quod dolore, quaerat sed impedit non nostrum maiores numquam.',
+    date: '2020년 5월 21일',
+  },
+  {
+    imageUrl: 'http://localhost:3010/',
+    postIdx: 5,
+    postTitle: 'lorem ipsum',
+    postDesc:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem exercitationem debitis cumque culpa modi tempora ratione molestias, eligendi pariatur facere aut minima iste suscipit tenetur explicabo laborum ex error dic Molestias necessitatibus, deleniti harum incidunt illum asperiores, explicabo quis, facilis eius animi vitae laboriosam adipisci consectetur nam. Facilis eveniet perferendis sint quod dolore, quaerat sed impedit non nostrum maiores numquam.',
+    date: '2020년 5월 21일',
+  },
+  {
+    imageUrl: 'http://localhost:3010/',
+    postIdx: 5,
+    postTitle: 'lorem ipsum',
+    postDesc:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem exercitationem debitis cumque culpa modi tempora ratione molestias, eligendi pariatur facere aut minima iste suscipit tenetur explicabo laborum ex error dic Molestias necessitatibus, deleniti harum incidunt illum asperiores, explicabo quis, facilis eius animi vitae laboriosam adipisci consectetur nam. Facilis eveniet perferendis sint quod dolore, quaerat sed impedit non nostrum maiores numquam.',
+    date: '2020년 5월 21일',
+  },
+  {
+    imageUrl: 'http://localhost:3010/',
+    postIdx: 5,
+    postTitle: 'lorem ipsum',
+    postDesc:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem exercitationem debitis cumque culpa modi tempora ratione molestias, eligendi pariatur facere aut minima iste suscipit tenetur explicabo laborum ex error dic Molestias necessitatibus, deleniti harum incidunt illum asperiores, explicabo quis, facilis eius animi vitae laboriosam adipisci consectetur nam. Facilis eveniet perferendis sint quod dolore, quaerat sed impedit non nostrum maiores numquam.',
+    date: '2020년 5월 21일',
+  },
+  {
+    imageUrl: 'http://localhost:3010/',
+    postIdx: 5,
+    postTitle: 'lorem ipsum',
+    postDesc:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem exercitationem debitis cumque culpa modi tempora ratione molestias, eligendi pariatur facere aut minima iste suscipit tenetur explicabo laborum ex error dic Molestias necessitatibus, deleniti harum incidunt illum asperiores, explicabo quis, facilis eius animi vitae laboriosam adipisci consectetur nam. Facilis eveniet perferendis sint quod dolore, quaerat sed impedit non nostrum maiores numquam.',
+    date: '2020년 5월 21일',
+  },
+  {
+    imageUrl: 'http://localhost:3010/',
+    postIdx: 5,
+    postTitle: 'lorem ipsum',
+    postDesc:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem exercitationem debitis cumque culpa modi tempora ratione molestias, eligendi pariatur facere aut minima iste suscipit tenetur explicabo laborum ex error dic Molestias necessitatibus, deleniti harum incidunt illum asperiores, explicabo quis, facilis eius animi vitae laboriosam adipisci consectetur nam. Facilis eveniet perferendis sint quod dolore, quaerat sed impedit non nostrum maiores numquam.',
+    date: '2020년 5월 21일',
+  },
+  {
+    imageUrl: 'http://localhost:3010/',
+    postIdx: 5,
+    postTitle: 'lorem ipsum',
+    postDesc:
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem exercitationem debitis cumque culpa modi tempora ratione molestias, eligendi pariatur facere aut minima iste suscipit tenetur explicabo laborum ex error dic Molestias necessitatibus, deleniti harum incidunt illum asperiores, explicabo quis, facilis eius animi vitae laboriosam adipisci consectetur nam. Facilis eveniet perferendis sint quod dolore, quaerat sed impedit non nostrum maiores numquam.',
+    date: '2020년 5월 21일',
+  },
 ];
