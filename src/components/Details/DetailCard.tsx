@@ -1,14 +1,14 @@
-import styled from "@emotion/styled";
-import { PostCard } from "../Home/Card";
-import { MEDIA_QUERY_END_POINT } from "../../constants";
-import { CARD_DATA } from "../../data";
+import styled from '@emotion/styled';
+import { PostCard } from '../Home/Card';
+import { MEDIA_QUERY_END_POINT } from '../../constants';
+import { MAIN_CARD_DATA } from '../../data';
 
 export const DetailCard = () => {
   return (
     <div>
       <CardTitle>관심 있을 만한 포스트</CardTitle>
       <Container>
-        {CARD_DATA.map((e, index) => (
+        {MAIN_CARD_DATA.map((e, index) => (
           <PostCard
             key={index}
             imageUrl="/image/sample.jpeg"
