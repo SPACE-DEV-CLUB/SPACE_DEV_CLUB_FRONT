@@ -16,6 +16,7 @@ export interface CardProps {
   tags: string[];
   date: number;
   comment: number;
+  postNum?: number;
 }
 
 
