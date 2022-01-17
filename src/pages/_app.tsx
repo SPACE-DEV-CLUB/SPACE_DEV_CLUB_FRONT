@@ -5,6 +5,7 @@ import { css, Global, ThemeProvider } from '@emotion/react';
 import { GlobalStyle } from '../styles/global-styles';
 import { lightTheme, darkTheme, Theme } from '../styles/theme';
 import { useDarkMode } from '../hooks/useDarkMode';
+import DarkModeToggle from '../components/Home/DarkModetoggle';
 
 interface ContextProps {
   theme: Theme;
@@ -27,6 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           styles={GlobalStyle(theme === lightTheme ? lightTheme : darkTheme)}
         />
         <Component {...pageProps} />
+        <DarkModeToggle />
       </>
     </ThemeContext.Provider>
   );

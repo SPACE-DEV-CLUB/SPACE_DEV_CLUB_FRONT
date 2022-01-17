@@ -2,13 +2,11 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from '../../constants';
 import SearchIcon from '@mui/icons-material/Search';
-import DarkModetoggle from './DarkModetoggle';
 
 export const Header = (): JSX.Element => {
   return (
     <HeaderContainer>
       <HeaderUtils>
-        <DarkModetoggle />
         <LogoLink>
           <Image
             src="/image/스데브로고.png"
