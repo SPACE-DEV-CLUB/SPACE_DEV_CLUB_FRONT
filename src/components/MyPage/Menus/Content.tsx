@@ -1,17 +1,21 @@
 import styled from "@emotion/styled"
 import {
+  API_ENDPOINT,
   MEDIA_QUERY_END_POINT,
   PALLETS_LIGHT,
 } from "../../../constants"
 import SearchIcon from "@mui/icons-material/Search"
 import { MyCard } from "../MyCard"
-import { CARD_DATA } from "../../../data"
+import { fetcher } from "../../../utils/fetcher"
+import useSWR from "swr"
 
 interface ContentProps {
   username: string | string[] | undefined
 }
 
 export const Content = ({ username }: ContentProps) => {
+  const {data, error} = useSWR(`${API_ENDPOINT}/cards`, fetcher);
+
   return (
     <ContentContainer>
       <SearchContainer>
@@ -41,15 +45,15 @@ export const Content = ({ username }: ContentProps) => {
         </ul>
       </LargeTaglist>
       <section>
-        {CARD_DATA.map((e, index) => (
+        {data && data.data.map((e: any, index: number) => (
           <MyCard
             key={index}
-            imageUrl="/image/sample.jpeg"
-            postTitle={e.postTitle}
-            postDesc={e.postDesc}
-            tags={e.tags}
-            date={e.date}
-            comment={e.comment}
+            imageUrl={e.attributes.imageUrl}
+            postTitle={e.attributes.postTitle}
+            postDesc={e.attributes.postDesc}
+            tags={e.attributes.tags}
+            date={e.attributes.date}
+            comment={e.attributes.comment}
             username={username}
           />
         ))}
