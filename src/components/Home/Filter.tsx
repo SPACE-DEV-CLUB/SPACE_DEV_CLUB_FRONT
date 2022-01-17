@@ -6,7 +6,7 @@ import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from '../../constants';
 import MovingIcon from '@mui/icons-material/Moving';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { Theme } from '../../styles/theme';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { ThemeContext } from '../../pages/_app';
 import { CardContainer } from '../Home/CardContainer';
 import { MAIN_CARD_DATA } from '../../data';
@@ -24,10 +24,6 @@ export const Filter = ({ route }: { route: string }) => {
   function handleClick(e: string) {
     setFilteredText((i) => (i = e));
   }
-
-  useEffect(() => {
-    console.log(filteredText), [filteredText];
-  });
 
   return (
     <>
