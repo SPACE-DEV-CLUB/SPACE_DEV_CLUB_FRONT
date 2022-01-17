@@ -1,18 +1,19 @@
 import styled from "@emotion/styled";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
-import { CARD_DATA } from "../../data";
-
-
-export const FindPost = () => {
+import { CardProps } from "../../types/Main";
+type PropsTypes={
+    postNum?:number;
+}
+export const FindPost = ({postNum}:PropsTypes ) => {
     return (
             <FindContainer>
-              <p>총 <span>{CARD_DATA.length}</span>개의 포스트를 찾았습니다.</p>
+              <p>총 <span>{postNum}</span>개의 포스트를 찾았습니다.</p>
             </FindContainer>
     );
 };
 
 const FindContainer = styled.div`
-padding: 18px 0 0 0;
+padding: 18px 0;
 p {
     font-size: 18px;
 }

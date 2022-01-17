@@ -19,7 +19,7 @@ export const SearchBar = () => {
     useEffect(() => {
         const timeOut = setTimeout(() => {
             router.push({ query: { q: searchQuery } });
-        }, 1000);
+        }, 300);
         return () => clearTimeout(timeOut);
     }, [searchQuery]);
     
