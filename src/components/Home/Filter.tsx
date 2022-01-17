@@ -6,8 +6,10 @@ import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from '../../constants';
 import MovingIcon from '@mui/icons-material/Moving';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { Theme } from '../../styles/theme';
-import { useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../../pages/_app';
+import { CardContainer } from '../Home/CardContainer';
+import { MAIN_CARD_DATA } from '../../data';
 
 interface StyledType {
   theme: Theme;
@@ -17,40 +19,57 @@ interface StyledType {
 export const Filter = ({ route }: { route: string }) => {
   const { theme } = useContext(ThemeContext);
 
+  const [filteredText, setFilteredText] = useState('이번 주');
+
+  function handleClick(e: string) {
+    setFilteredText((i) => (i = e));
+  }
+
+  useEffect(() => {
+    console.log(filteredText), [filteredText];
+  });
+
   return (
-    <FilterContainer>
-      <BoxContainer>
+    <>
+      <FilterContainer>
         <BoxContainer>
-          <Link
-            href={route === 'recent' || route === 'home' ? '/' : '/list/liked'}
-            passHref
-          >
-            <FilterName theme={theme} route={route}>
-              <TrendIcon route={route} />
-              {route === 'recent' || route === 'home'
-                ? '트렌딩'
-                : '좋아요한 포스트'}
-            </FilterName>
-          </Link>
-          <Link
-            href={
-              route === 'recent' || route === 'home' ? '/recent' : '/list/read'
-            }
-            passHref
-          >
-            <FilterName theme={theme} route={route}>
-              <ClockIcon route={route} />
-              {route === 'recent' || route === 'home'
-                ? '최신'
-                : '최근 읽은 포스트'}
-            </FilterName>
-          </Link>
-          <Line theme={theme} route={route}></Line>
+          <BoxContainer>
+            <Link
+              href={
+                route === 'recent' || route === 'home' ? '/' : '/list/liked'
+              }
+              passHref
+            >
+              <FilterName theme={theme} route={route}>
+                <TrendIcon route={route} />
+                {route === 'recent' || route === 'home'
+                  ? '트렌딩'
+                  : '좋아요한 포스트'}
+              </FilterName>
+            </Link>
+            <Link
+              href={
+                route === 'recent' || route === 'home'
+                  ? '/recent'
+                  : '/list/read'
+              }
+              passHref
+            >
+              <FilterName theme={theme} route={route}>
+                <ClockIcon route={route} />
+                {route === 'recent' || route === 'home'
+                  ? '최신'
+                  : '최근 읽은 포스트'}
+              </FilterName>
+            </Link>
+            <Line theme={theme} route={route}></Line>
+          </BoxContainer>
+          <SelectBox onClicked={handleClick} route={route}></SelectBox>
         </BoxContainer>
-        <SelectBox route={route}></SelectBox>
-      </BoxContainer>
-      <Notice route={route}></Notice>
-    </FilterContainer>
+        <Notice route={route}></Notice>
+      </FilterContainer>
+      <CardContainer filter={filteredText}></CardContainer>
+    </>
   );
 };
 

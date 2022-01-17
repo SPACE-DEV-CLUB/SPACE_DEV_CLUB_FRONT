@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { PALLETS_LIGHT } from '../../constants';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Image from 'next/image';
 import SAMPLE_IMG from '../../../public/image/sampleUser2.jpg';
@@ -29,7 +28,7 @@ export const PostCard = ({
   postTitle: string;
   postDesc: string;
   tags: Array<string>;
-  date: number;
+  date: Date;
   comment: number;
   username: string | string[] | undefined;
   mySearch?: boolean;
@@ -38,6 +37,19 @@ export const PostCard = ({
   thumbnail: string;
 }) => {
   const { theme } = useContext(ThemeContext);
+  const formatDate = (date: Date) => {
+    let d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    let year = d.getFullYear();
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    if (day.length < 2) {
+      day = '0' + day;
+    }
+    return year + '년 ' + month + '월 ' + day + '일';
+  };
   return (
     <Card theme={theme}>
       <Link href="/" passHref>
@@ -48,7 +60,7 @@ export const PostCard = ({
             <h4>{postTitle}</h4>
             <p>{postDesc}</p>
             <div>
-              <span>2022년 1월 6일</span>
+              <span>{formatDate(date)}</span>
               <Dot>&#183;</Dot>
               <span>{comment}개의 댓글</span>
             </div>

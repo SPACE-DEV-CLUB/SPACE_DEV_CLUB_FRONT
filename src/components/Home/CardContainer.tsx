@@ -1,12 +1,47 @@
 import styled from '@emotion/styled';
 import { PostCard } from './Card';
 import { MEDIA_QUERY_END_POINT } from '../../constants';
-import { CARD_DATA } from '../../data';
+import { MAIN_CARD_DATA } from '../../data';
 
-export const CardContainer = () => {
+interface CARD_DATA_PROPS {
+  imageUrl: string;
+  postTitle: string;
+  postDesc: string;
+  tags: Array<string>;
+  date: Date;
+  comment: number;
+  count: number;
+}
+
+export const CardContainer = ({ filter }: { filter: string }) => {
+  const results = filterPosts(MAIN_CARD_DATA, filter);
+
+  function filterPosts(MAIN_CARD_DATA: Array<CARD_DATA_PROPS>, text: String) {
+    if (text === '이번 주') {
+      return MAIN_CARD_DATA.filter(
+        (post: CARD_DATA_PROPS) =>
+          post.date >= new Date(Date.now() - 1000 * 3600 * 24 * 7)
+      ).sort((a: CARD_DATA_PROPS, b: CARD_DATA_PROPS) => b.count - a.count);
+    } else if (text === '이번 달') {
+      return MAIN_CARD_DATA.filter(
+        (post: CARD_DATA_PROPS) =>
+          post.date.getMonth() === new Date().getMonth()
+      ).sort((a: CARD_DATA_PROPS, b: CARD_DATA_PROPS) => b.count - a.count);
+    } else if (text === '올 해') {
+      return MAIN_CARD_DATA.filter(
+        (post: CARD_DATA_PROPS) =>
+          post.date.getFullYear() === new Date().getFullYear()
+      ).sort((a: CARD_DATA_PROPS, b: CARD_DATA_PROPS) => b.count - a.count);
+    }
+    return MAIN_CARD_DATA.filter(
+      (post: CARD_DATA_PROPS) =>
+        post.date >= new Date(Date.now() - 1000 * 3600 * 24)
+    ).sort((a: CARD_DATA_PROPS, b: CARD_DATA_PROPS) => b.count - a.count);
+  }
+
   return (
     <Container>
-      {CARD_DATA.map((e, index) => (
+      {results.map((e: CARD_DATA_PROPS, index: number) => (
         <PostCard
           key={index}
           imageUrl="/image/sample.jpeg"
