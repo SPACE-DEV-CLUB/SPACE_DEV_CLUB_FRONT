@@ -6,13 +6,19 @@ import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../../constants"
 import { css } from "@emotion/react"
 import { DetailCardProps } from "../../../types/Main"
 
-const DetailCard = ({ margin = "0", padding = "0", ...props }: DetailCardProps) => {
+const DetailCard = ({
+  margin = "0",
+  padding = "0",
+  opacity = false,
+  ...props
+}: DetailCardProps) => {
   return (
     <>
       {/* 마이페이지 글 카드, 서치카드 공유, 시리즈 카드 하나, 시리즈 디테일 하나. */}
-      <Container margin={margin} padding={padding}>
+      <Container margin={margin} padding={padding} opacity={opacity}>
         <h2>
-          <span>{props.postIdx}. </span>{props.postTitle}
+          <span>{props.postIdx}. </span>
+          {props.postTitle}
         </h2>
         <DetailContainer>
           <ImageContainer>
@@ -26,9 +32,7 @@ const DetailCard = ({ margin = "0", padding = "0", ...props }: DetailCardProps) 
             ></Image>
           </ImageContainer>
           <DescContainer>
-            <p className="desc">
-              {props.postDesc}
-            </p>
+            <p className="desc">{props.postDesc}</p>
             <p className="date">{props.date}</p>
           </DescContainer>
         </DetailContainer>
@@ -42,11 +46,13 @@ export default DetailCard
 interface Containerprops {
   margin: string
   padding: string
+  opacity: boolean
 }
 
 const containerstyle = (props: Containerprops) => css`
   margin: ${props.margin};
   padding: ${props.padding};
+  opacity: ${props.opacity ? "70%" : "100%"};
 `
 
 const Container = styled.div`
