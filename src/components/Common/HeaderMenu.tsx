@@ -1,30 +1,47 @@
 import styled from "@emotion/styled"
+import Link from "next/link"
 import {
   MEDIA_QUERY_END_POINT,
   PALLETS_DARK,
   PALLETS_LIGHT,
 } from "../../constants"
 
-export const HeaderMenu = () => {
+interface HeaderMenuProps {
+  username: string | string[] | undefined
+}
+
+export const HeaderMenu = ({ username }: HeaderMenuProps) => {
   return (
     <Menus>
       <MenuList>
-        <MenuBtn>내 벨로그</MenuBtn>
+        <Link href={`/${username}`} passHref>
+          <MenuBtn>내 벨로그</MenuBtn>
+        </Link>
       </MenuList>
       <MenuList className="newPost">
-        <MenuBtn>새 글 작성</MenuBtn>
+        <Link href={"/"} passHref>
+          <MenuBtn>새 글 작성</MenuBtn>
+        </Link>
       </MenuList>
       <MenuList>
-        <MenuBtn>임시 글</MenuBtn>
+        <Link href={"/"} passHref>
+          <MenuBtn>임시 글</MenuBtn>
+        </Link>
       </MenuList>
       <MenuList>
-        <MenuBtn>읽기 목록</MenuBtn>
+        <Link href={"/"} passHref>
+          <MenuBtn>읽기 목록</MenuBtn>
+        </Link>
       </MenuList>
       <MenuList>
-        <MenuBtn>설정</MenuBtn>
+        <Link href={"/"} passHref>
+          <MenuBtn>설정</MenuBtn>
+        </Link>
       </MenuList>
       <MenuList>
-        <MenuBtn>로그아웃</MenuBtn>
+        <Link href={"/"} passHref>
+          <MenuBtn>로그아웃</MenuBtn>
+        </Link>
       </MenuList>
     </Menus>
   )
@@ -32,9 +49,10 @@ export const HeaderMenu = () => {
 
 const Menus = styled.ul`
   position: absolute;
-  top: 70px;
-  right: 16px;
+  top: 50px;
+  right: 10px;
   background: ${PALLETS_LIGHT.CARD_BACKGROUND};
+  z-index: 100;
   box-shadow: 0 0 20px 0 #efefef;
   .newPost {
     display: none;
@@ -45,7 +63,8 @@ const Menus = styled.ul`
 `
 const MenuList = styled.li``
 
-const MenuBtn = styled.button`
+const MenuBtn = styled.a`
+  display: inline-block;
   width: 192px;
   padding: 14px 16px;
   text-align: left;

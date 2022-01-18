@@ -1,7 +1,8 @@
 import styled from "@emotion/styled"
 import Head from "next/head"
 import React, { ReactNode } from "react"
-import { Header, Intro } from "./"
+import { Header } from "../Common/Header"
+import { Intro } from "./"
 import { Mymenu } from "./Mymenu"
 
 interface LayoutProps {

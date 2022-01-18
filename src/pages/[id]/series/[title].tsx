@@ -1,7 +1,7 @@
 import styled from "@emotion/styled"
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { Header } from "../../../components/MyPage"
+import { Header } from "../../../components/Common/Header"
 import SeriesContaienr from "../../../components/MyPage/Series/SeriesContainer"
 import SeriesEditContainer from "../../../components/MyPage/Series/SeriesEditContainer"
 import { PALLETS_LIGHT } from "../../../constants"

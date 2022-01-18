@@ -42,7 +42,7 @@ const SeriesContaienr = ({
                   date={e.date}
                 />
               )
-            })
+            }).reverse()
           : DETAIL_CARD_DATA.map((e, i) => {
               return (
                 <DetailCard
@@ -55,7 +55,7 @@ const SeriesContaienr = ({
                   date={e.date}
                 />
               )
-            }).reverse()}
+            })}
       </CardContainer>
     </SeriesContainer>
   )
