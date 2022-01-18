@@ -9,6 +9,7 @@ import { CARD_DATA, DETAIL_CARD_DATA } from "../../data";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { CardProps } from "../../types/Main";
+import Head from "next/head";
 
 const MyPage: NextPage = () => {
     const router = useRouter();
@@ -25,9 +26,13 @@ const MyPage: NextPage = () => {
     }, [res]);
 
     return (
+    <>
+        <Head>
+            {res ? (<title>&quot;{res}&quot; 검색 결과 - sdv</title>) : (
+            <title>sdv</title>)}
+        </Head>
         <Container>
             <SearchBar />
-           
             <CardContainer>
                 {filteredData.length ? 
                   <>
@@ -68,6 +73,7 @@ const MyPage: NextPage = () => {
                 updateDate
             /> */}
         </Container>
+        </>
     );
 };
 
