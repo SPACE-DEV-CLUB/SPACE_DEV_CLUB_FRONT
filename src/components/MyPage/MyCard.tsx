@@ -9,7 +9,7 @@ type PropsTypes = {
     imageUrl: string;
     postTitle: string;
     postDesc: string;
-    tags: Array<string>;
+    tags?: Array<string>;
     date: number;
     comment: number;
     username: string | string[] | undefined;
@@ -50,13 +50,13 @@ export const MyCard = ({
                         </a>
                     </Link>
                     <p>{postDesc}</p>
-                    {tags.map((e, index) => (
+                    {/* {tags.map((e, index) => (
                         <TagsContainer key={index}>
                             <Link href={""}>
                                 <a>{e}</a>
                             </Link>
                         </TagsContainer>
-                    ))}
+                    ))} */}
                     <DateCommentContainer>
                         <span>{date}일 전</span>
                         <span> · </span>
