@@ -2,18 +2,21 @@ import React, { ReactElement, useContext } from 'react';
 import styled from '@emotion/styled';
 import { ThemeContext } from '../../pages/_app';
 import { lightTheme, Theme } from '../../styles/theme';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 interface ToggleProps {
   theme: Theme;
 }
 
 const ToggleButton = styled('button')<ToggleProps>`
-  // position: fixed;
+  position: fixed;
   width: 115px;
   height: 45px;
   right: 1.5rem;
   bottom: 1.5rem;
   border-radius: 30px;
+  padding-left: 2px;
   cursor: pointer;
   display: flex;
   flex-direction: row;
@@ -22,7 +25,6 @@ const ToggleButton = styled('button')<ToggleProps>`
   background: ${({ theme }) => theme.TOGGLE_BACKGROUND};
   color: ${({ theme }) => theme.MAIN_FONT};
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-  // z-index: 10000;
 
   &:hover {
     filter: brightness(
@@ -54,18 +56,14 @@ export default function DarkModeToggle(): ReactElement {
       {theme === lightTheme ? (
         <>
           <Emoji>
-            <span role="img" aria-label="darkMoon">
-              🌚
-            </span>
+            <DarkModeIcon aria-label="darkMoon" />
           </Emoji>
           <ModeContent>다크 모드</ModeContent>
         </>
       ) : (
         <>
           <Emoji>
-            <span role="img" aria-label="lightSun">
-              🌞
-            </span>
+            <LightModeIcon aria-label="lightSun" />
           </Emoji>
           <ModeContent>라이트 모드</ModeContent>
         </>

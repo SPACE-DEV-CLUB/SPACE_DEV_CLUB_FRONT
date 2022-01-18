@@ -4,6 +4,8 @@ import { PALLETS_LIGHT } from '../../constants';
 import { Theme } from '../../styles/theme';
 import { useContext } from 'react';
 import { ThemeContext } from '../../pages/_app';
+import React, { createContext } from 'react';
+import { ThemeProvider } from '@emotion/react';
 
 const OPTIONS = [
   { key: 'today', value: 'today', name: '오늘' },
@@ -21,9 +23,8 @@ interface ThemeProps {
   theme: Theme;
 }
 
-export const SelectBox = ({ route }: { route: string }) => {
+export const SelectBox = ({ route, onClicked }: any) => {
   const { theme } = useContext(ThemeContext);
-
   const [visible, setVisible] = useState(false);
   const [filterText, setFilterText] = useState('이번 주');
   const [textColor, setTextColor] = useState(filterText);
@@ -35,12 +36,21 @@ export const SelectBox = ({ route }: { route: string }) => {
     setFilterText(text);
     setVisible(!visible);
     setTextColor(text);
+    onClicked(text);
   };
+
   return (
     <Container>
-      <Button route={route} theme={theme} onClick={boxClickHandler}>
-        {filterText}
-      </Button>
+      {route === 'home' ? (
+        <>
+          <Button theme={theme} onClick={boxClickHandler}>
+            {filterText}
+          </Button>
+        </>
+      ) : (
+        ''
+      )}
+
       <Box visible={visible}>
         {OPTIONS.map((option) => {
           const { key, name } = option;
@@ -65,12 +75,12 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Button = styled.div<StyledType>`
+const Button = styled.div<ThemeProps>`
   background: ${({ theme }) => theme.CARD_BACKGROUND};
   height: 32px;
   width: 96px;
   border-radius: 4px;
-  display: ${(props) => (props.route === 'home' ? 'flex' : 'none')};
+  display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 8px;

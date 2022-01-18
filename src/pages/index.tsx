@@ -17,7 +17,6 @@ const Home: NextPage = () => {
       <Main>
         <Header></Header>
         <Filter route={'home'}></Filter>
-        <CardContainer></CardContainer>
       </Main>
     </div>
   );
