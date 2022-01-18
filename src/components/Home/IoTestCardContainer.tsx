@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import { PostCard } from './Card';
 import { MEDIA_QUERY_END_POINT } from '../../constants';
-import { CARD_DATA } from '../../data';
+import { MAIN_CARD_DATA } from '../../data';
 import React, { useState } from 'react';
 import useIntersectionObserver from '../../hooks/useIO';
 
 export const TestCardContainer = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [itemIndex, setItemIndex] = useState(0);
-  const [data, setData] = useState(CARD_DATA.slice(0, 10));
+  const [data, setData] = useState(MAIN_CARD_DATA.slice(0, 10));
 
   const testFetch = (delay = 1000) =>
     new Promise((res) => setTimeout(res, delay));
@@ -17,7 +17,7 @@ export const TestCardContainer = () => {
     setIsLoaded(true);
     await testFetch();
     setItemIndex((i) => i + 1);
-    setData((data) => data.concat(CARD_DATA.slice(itemIndex, itemIndex + 5)));
+    setData((data) => data.concat(MAIN_CARD_DATA.slice(itemIndex, itemIndex + 5)));
     console.log(itemIndex);
     setIsLoaded(false);
   };
