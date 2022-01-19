@@ -16,17 +16,20 @@ import DraggableItem from "./DraggableItem";
 interface SeriesContainerProps {
   handleEdit: () => void
 }
-const SeriesEditContaienr = ({ handleEdit }: SeriesContainerProps) => {
-    const getItems = (count: number) =>
-        Array.from({ length: count }, (v, k) => k).map((k) => ({
-            id: `Item ${k + 1}`,
-            postIdx: DETAIL_CARD_DATA[k].postIdx, //e.postIdx
-            postTitle: DETAIL_CARD_DATA[k].postTitle,
-            postDesc: DETAIL_CARD_DATA[k].postDesc,
-            date: DETAIL_CARD_DATA[k].date,
-        }));
-    const grid = 2;
-    const [state, setState] = useState<DetailCardProps[]>(getItems(5));
+
+const SeriesEditContainer = ({ handleEdit }: SeriesContainerProps) => {
+  const getItems = (count: number) =>
+    Array.from({ length: count }, (v, k) => k).map((k) => ({
+      id: `Item ${k + 1}`,
+      postIdx: DETAIL_CARD_DATA[k].postIdx, //e.postIdx
+      postTitle: DETAIL_CARD_DATA[k].postTitle,
+      postDesc: DETAIL_CARD_DATA[k].postDesc,
+      date: DETAIL_CARD_DATA[k].date,
+    }))
+
+  const [state, setState] = useState<DetailCardProps[]>(
+    getItems(DETAIL_CARD_DATA.length)
+  )
 
   const reorder = (
     list: DetailCardProps[],
@@ -110,5 +113,5 @@ const CardContainer = styled.article`
   border-radius: 4px;
 `
 
-export default SeriesEditContaienr
+export default SeriesEditContainer
 

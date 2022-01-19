@@ -45,7 +45,6 @@ export const Header = ({
         setNavTop(0)
       }
     }
-    console.log(scrollTop, lastscrollTop, navTop)
 
     lastscrollTop.current = scrollTop.current
   }
