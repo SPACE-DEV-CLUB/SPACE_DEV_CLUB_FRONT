@@ -2,6 +2,10 @@ import styled from "@emotion/styled"
 import Image from "next/image"
 import SAMPLE_IMG from "../../../public/image/sample.jpeg"
 import { MEDIA_QUERY_END_POINT } from "../../constants"
+import { Theme } from "../../styles/theme"
+import { useContext } from "react"
+import { ThemeContext } from "../../pages/_app"
+import { ThemeProps } from "../../types/Theme"
 
 interface IProfile {
   thumbnail: string
@@ -10,8 +14,9 @@ interface IProfile {
 }
 
 export const Profile = ({ id }: { id: string | string[] | undefined }) => {
+  const { theme } = useContext(ThemeContext)
   return (
-    <ProfileContainer>
+    <ProfileContainer theme={theme}>
       <div className="img-wrap">
         <Image
           alt="thumbnail"
@@ -25,7 +30,7 @@ export const Profile = ({ id }: { id: string | string[] | undefined }) => {
   )
 }
 
-const ProfileContainer = styled.section`
+const ProfileContainer = styled.section<ThemeProps>`
   display: flex;
   margin-bottom: 24px;
   align-items: center;
@@ -33,7 +38,7 @@ const ProfileContainer = styled.section`
   .img-wrap {
     width: 48px;
     height: 48px;
-    background: #333;
+    background: ${({ theme }) => theme.TOGGLE_BACKGROUND};
     border-radius: 50%;
     overflow: hidden;
     margin-right: 16px;
@@ -41,7 +46,7 @@ const ProfileContainer = styled.section`
   span {
     font-size: 14px;
     font-weight: bold;
-    color: #000;
+    color: ${({ theme }) => theme.MAIN_FONT};
   }
   @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     .img-wrap {

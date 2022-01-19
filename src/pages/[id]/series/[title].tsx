@@ -4,9 +4,12 @@ import { useState } from "react"
 import { Header } from "../../../components/Common/Header"
 import SeriesContaienr from "../../../components/MyPage/Series/SeriesContainer"
 import SeriesEditContainer from "../../../components/MyPage/Series/SeriesEditContainer"
-import { PALLETS_LIGHT } from "../../../constants"
+import { useContext } from "react"
+import { ThemeContext } from "../../../pages/_app"
+import { ThemeProps } from "../../../types/Theme"
 
 const Series = () => {
+  const { theme } = useContext(ThemeContext)
   const router = useRouter()
   const { id, title } = router.query
 
@@ -24,8 +27,10 @@ const Series = () => {
     <>
       <Header username={id} user={true} />
       <Main>
-        <SeriesLogo>시리즈</SeriesLogo>
-        <SeriesTitle contentEditable={editTitle}>{title}</SeriesTitle>
+        <SeriesLogo theme={theme}>시리즈</SeriesLogo>
+        <SeriesTitle theme={theme} contentEditable={editTitle}>
+          {title}
+        </SeriesTitle>
         {editTitle ? (
           <SeriesEditContainer handleEdit={handleEdit} />
         ) : (
@@ -53,17 +58,17 @@ const Main = styled.main`
   }
 `
 
-const SeriesLogo = styled.span`
+const SeriesLogo = styled.span<ThemeProps>`
   font-size: 18px;
   font-weight: 700;
-  color: ${PALLETS_LIGHT.MAIN};
-  border-bottom: 4px solid ${PALLETS_LIGHT.MAIN};
+  color: ${({ theme }) => theme.MAIN};
+  border-bottom: 4px solid ${({ theme }) => theme.MAIN};
 `
 
-const SeriesTitle = styled.h1`
+const SeriesTitle = styled.h1<ThemeProps>`
   padding: 16px 0 24px 0;
   margin-bottom: 24px;
   line-height: 1.5;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid ${({ theme }) => theme.BORDER};
   font-size: 48px;
 `

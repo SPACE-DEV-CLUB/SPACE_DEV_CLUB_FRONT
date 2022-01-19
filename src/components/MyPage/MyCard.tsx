@@ -1,7 +1,11 @@
 import styled from "@emotion/styled"
 import Image from "next/image"
 import Link from "next/link"
-import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../constants"
+import { MEDIA_QUERY_END_POINT } from "../../constants"
+import { useContext } from "react"
+import { ThemeContext } from "../../pages/_app"
+import { ThemeProps } from "../../types/Theme"
+import { Profile } from "."
 
 type PropsTypes = {
   imageUrl: string
@@ -27,8 +31,9 @@ export const MyCard = ({
   count,
   day,
 }: PropsTypes) => {
+  const { theme } = useContext(ThemeContext)
   return (
-    <MyCardContainer>
+    <MyCardContainer theme={theme}>
       {!mySearch ? (
         <>
           <Link href={`/${username}`} passHref>
@@ -46,13 +51,13 @@ export const MyCard = ({
           </Link>
           <p>{postDesc}</p>
           {tags?.map((e, index) => (
-            <TagsContainer key={index}>
+            <TagsContainer theme={theme} key={index}>
               <Link href={`/tags/${e}`}>
                 <a>{e}</a>
               </Link>
             </TagsContainer>
           ))}
-          <DateCommentContainer>
+          <DateCommentContainer theme={theme}>
             <span>{date}일 전</span>
             <span> · </span>
             <span>{comment}개의 댓글</span>
@@ -60,6 +65,7 @@ export const MyCard = ({
         </>
       ) : (
         <>
+          <Profile id={username}></Profile>
           <Link href={`/${username}`} passHref>
             <a>
               <ImageContainer
@@ -73,7 +79,7 @@ export const MyCard = ({
             </a>
           </Link>
           <p>{postDesc}</p>
-          <DateCommentContainer>
+          <DateCommentContainer theme={theme}>
             <span>{date}일 전</span>
             <span> · </span>
             <span>{comment}개의 댓글</span>
@@ -84,20 +90,20 @@ export const MyCard = ({
   )
 }
 
-const MyCardContainer = styled.section`
+const MyCardContainer = styled.section<ThemeProps>`
   width: 100%;
   max-width: 768px;
   padding-bottom: 64px;
   & + & {
     padding: 64px 0;
   }
-  border-bottom: 1px solid ${PALLETS_LIGHT.BACKGROUND};
   h2 {
     font-size: 24px;
     margin-top: 20px;
+    color: ${({ theme }) => theme.MAIN_FONT};
   }
   p {
-    color: ${PALLETS_LIGHT.SUB_FONT};
+    color: ${({ theme }) => theme.SUB_FONT};
     font-size: 16px;
     line-height: 25px;
     margin: 8px 0 32px 0;
@@ -135,8 +141,8 @@ const MyCardContainer = styled.section`
   }
 `
 
-const DateCommentContainer = styled.div`
-  color: ${PALLETS_LIGHT.SUB_FONT};
+const DateCommentContainer = styled.div<ThemeProps>`
+  color: ${({ theme }) => theme.SUB_FONT};
   font-size: 14px;
   @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     font-size: 12px;
@@ -149,18 +155,18 @@ const ImageContainer = styled(Image)`
   object-fit: cover;
 `
 
-const TagsContainer = styled.div`
+const TagsContainer = styled.div<ThemeProps>`
   display: inline-flex;
   align-items: center;
   margin: 0 14px 14px 0;
   padding: 0 16px;
   height: 32px;
   font-weight: 500;
-  background: #f1f3f5;
+  background: ${({ theme }) => theme.SUBBACKGROUND};
   border-radius: 15px;
   a {
     font-size: 16px;
-    color: ${PALLETS_LIGHT.MAIN};
+    color: ${({ theme }) => theme.MAIN};
   }
   @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     a {

@@ -1,9 +1,12 @@
 import styled from "@emotion/styled"
-import { PALLETS_LIGHT } from "../../../constants"
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
 import { css } from "@emotion/react"
 import DetailCard from "../../../components/MyPage/Series/DetailCard"
 import { DETAIL_CARD_DATA } from "../../../data"
+import { Theme } from "../../../styles/theme"
+import { useContext } from "react"
+import { ThemeContext } from "../../../pages/_app"
+import { ThemeProps } from "../../../types/Theme"
 
 interface SeriesContainerProps {
   handleEdit: () => void
@@ -16,15 +19,18 @@ const SeriesContaienr = ({
   handleOrder,
   order,
 }: SeriesContainerProps) => {
+  const { theme } = useContext(ThemeContext)
   return (
     <SeriesContainer>
       <EditBtnContainer>
-        <EditBtn onClick={handleEdit}>수정</EditBtn>
-        <EditBtn>삭제</EditBtn>
+        <EditBtn theme={theme} onClick={handleEdit}>
+          수정
+        </EditBtn>
+        <EditBtn theme={theme}>삭제</EditBtn>
       </EditBtnContainer>
       <OrderBtnContainer>
-        <OrderBtn onClick={handleOrder}>
-          <ArrowIcon orderlist={order} />
+        <OrderBtn theme={theme} onClick={handleOrder}>
+          <ArrowIcon theme={theme} orderlist={order} />
           {order ? <Order>오름차순</Order> : <Order>내림차순</Order>}
         </OrderBtn>
       </OrderBtnContainer>
@@ -67,14 +73,14 @@ const EditBtnContainer = styled.div`
   display: flex;
   justify-content: flex-end;
 `
-const EditBtn = styled.button`
-  color: ${PALLETS_LIGHT.SUB_FONT};
+const EditBtn = styled.button<ThemeProps>`
+  color: ${({ theme }) => theme.SUB_FONT};
   font-size: 16px;
   & + & {
     margin-left: 8px;
   }
   &:hover {
-    color: ${PALLETS_LIGHT.MAIN_FONT};
+    color: ${({ theme }) => theme.MAIN_FONT};
   }
 `
 
@@ -86,6 +92,7 @@ const OrderBtnContainer = styled.div`
 
 interface IconType {
   orderlist: boolean
+  theme: Theme
 }
 
 const iconOrder = (props: IconType) => css`
@@ -95,18 +102,19 @@ const iconOrder = (props: IconType) => css`
 
 const ArrowIcon = styled(KeyboardArrowUpIcon)`
   ${iconOrder};
-  color: ${PALLETS_LIGHT.MAIN};
+  color: ${({ theme }) => theme.MAIN};
 `
 
-const OrderBtn = styled.button`
+const OrderBtn = styled.button<ThemeProps>`
   padding: 1px 8px;
   height: 32px;
   display: inline-flex;
   align-items: center;
   border-radius: 4px;
-  background: #f1f3f5;
+  background: ${({ theme }) => theme.SUBBACKGROUND};
+  color: ${({ theme }) => theme.MAIN_FONT};
   &:hover {
-    background: ${PALLETS_LIGHT.BACKGROUND};
+    background: ${({ theme }) => theme.TOGGLE_BACKGROUND};
   }
 `
 

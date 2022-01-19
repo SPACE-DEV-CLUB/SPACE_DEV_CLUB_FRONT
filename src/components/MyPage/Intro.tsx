@@ -5,11 +5,15 @@ import GitHubIcon from "@mui/icons-material/GitHub"
 import TwitterIcon from "@mui/icons-material/Twitter"
 import FacebookIcon from "@mui/icons-material/Facebook"
 import EmailIcon from "@mui/icons-material/Email"
-import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../constants"
+import { MEDIA_QUERY_END_POINT } from "../../constants"
+import { useContext } from "react"
+import { ThemeContext } from "../../pages/_app"
+import { ThemeProps } from "../../types/Theme"
 
 export const Intro: React.FC = () => {
+  const { theme } = useContext(ThemeContext)
   return (
-    <Introduce>
+    <Introduce theme={theme}>
       <div className="introContainer">
         <a>
           <ProfileImg
@@ -49,25 +53,25 @@ export const Intro: React.FC = () => {
           <SnsLink href="mailto:deli-ght@naver.com">
             <EmailIcon className="introIcons" />
           </SnsLink>
-          <EmailAddress>deli-ght@naver.com</EmailAddress>
+          <EmailAddress theme={theme}>deli-ght@naver.com</EmailAddress>
         </Sns>
       </IntroSns>
     </Introduce>
   )
 }
 
-const Introduce = styled.article`
+const Introduce = styled.article<ThemeProps>`
   margin-top: 90px;
   @media screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     padding: 16px;
-    box-shadow: 0 10px 10px 0 #f2f2f2;
+    box-shadow: 0 10px 10px 0 ${({ theme }) => theme.SUBBACKGROUND};
   }
   .introContainer {
     display: flex;
     align-items: center;
     height: 128px;
     padding-bottom: 20px;
-    border-bottom: 1px solid rgb(233, 236, 239);
+    border-bottom: 1px solid ${({ theme }) => theme.SUBBACKGROUND};
     @media screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
       flex-direction: column;
       height: 100%;
@@ -76,11 +80,11 @@ const Introduce = styled.article`
   }
 
   .introIcons {
-    color: ${PALLETS_LIGHT.SUB};
+    color: ${({ theme }) => theme.SUB};
   }
 
   .introIcons:hover {
-    color: ${PALLETS_LIGHT.MAIN};
+    color: ${({ theme }) => theme.MAIN};
   }
 `
 
@@ -135,13 +139,13 @@ const IntroContext = styled.div`
 const ProfileImg = styled(Image)`
   border-radius: 50%;
 `
-const EmailAddress = styled.span`
+const EmailAddress = styled.span<ThemeProps>`
   display: none;
   margin-left: 10px;
   padding: 3px;
   font-size: 12px;
   line-height: 1.5;
-  background: ${PALLETS_LIGHT.MAIN};
+  background: ${({ theme }) => theme.MAIN};
   color: #fff;
   border-radius: 5px;
 `

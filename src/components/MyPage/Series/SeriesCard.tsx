@@ -1,8 +1,11 @@
 import styled from "@emotion/styled"
 import Image from "next/image"
 import Link from "next/link"
-import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../../constants"
+import { MEDIA_QUERY_END_POINT } from "../../../constants"
 import { useRouter } from "next/router"
+import { useContext } from "react"
+import { ThemeContext } from "../../../pages/_app"
+import { ThemeProps } from "../../../types/Theme"
 
 export const SeriesCard = ({
   imageUrl,
@@ -18,23 +21,22 @@ export const SeriesCard = ({
   username: string | string[] | undefined
 }) => {
   const router = useRouter()
+  const { theme } = useContext(ThemeContext)
   return (
-    <Container>
+    <Container theme={theme}>
       <Link href={`/${username}/series/${postTitle}`}>
         <a>
-          <ImageContainer>
-            <Image
-              layout="responsive"
-              width={732}
-              height={402}
-              alt="sample image"
-              src={imageUrl}
-            />
-          </ImageContainer>
+          <ImageContainer
+            layout="responsive"
+            width={732}
+            height={402}
+            alt="sample image"
+            src={imageUrl}
+          />
           <h2>{postTitle}</h2>
         </a>
       </Link>
-      <DateCommentContainer>
+      <DateCommentContainer theme={theme}>
         <span>{count}개의 포스트</span>
         <span> · </span>
         <span>마지막 업데이트 {updateDate}</span>
@@ -42,16 +44,16 @@ export const SeriesCard = ({
     </Container>
   )
 }
-const Container = styled.section`
+const Container = styled.section<ThemeProps>`
   max-width: 768px;
   padding: 48px 16px 0;
-  border-bottom: 1px solid ${PALLETS_LIGHT.BACKGROUND};
   h2 {
     font-size: 24px;
     margin: 20px 0;
+    color: ${({ theme }) => theme.MAIN_FONT};
   }
   p {
-    color: ${PALLETS_LIGHT.SUB_FONT};
+    color: ${({ theme }) => theme.SUB_FONT};
     font-size: 16px;
     line-height: 25px;
     margin: 8px 0 32px 0;
@@ -64,29 +66,6 @@ const Container = styled.section`
     -webkit-line-clamp: 3;
     height: 70px;
   }
-  /*.tags-wrap {
-        display: inline-block;
-        margin: 0 14px 14px 0;
-        padding: 5px 0;
-        background: ${PALLETS_LIGHT.BACKGROUND};
-        border-radius: 15px;
-        a {
-            font-size: 16px;
-            padding: 0 16px;
-            color: ${PALLETS_LIGHT.MAIN};
-        }
-    }
-    .series-title {
-        margin-bottom: 13px;
-        font-size: 16px;
-    }
-    .series-info-wrap {
-        color: #868e96;
-        font-size: 14px;
-    }
-    .series-count {
-        color: #495057;
-    } */
   @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     padding: 32px 16px;
     h2 {
@@ -95,21 +74,17 @@ const Container = styled.section`
     p {
       font-size: 14px;
     }
-    /* .tags-wrap {
-            a {
-                font-size: 12px;
-            }
-        } */
   }
 `
 
-const ImageContainer = styled.div`
+const ImageContainer = styled(Image)`
   background: pink;
   overflow: hidden;
+  object-fit: cover;
 `
 
-const DateCommentContainer = styled.div`
-  color: ${PALLETS_LIGHT.SUB_FONT};
+const DateCommentContainer = styled.div<ThemeProps>`
+  color: ${({ theme }) => theme.SUB_FONT};
   font-size: 14px;
   @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     font-size: 12px;

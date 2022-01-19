@@ -4,22 +4,24 @@ import SearchIcon from "@mui/icons-material/Search"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 import { useEffect, useRef, useState } from "react"
 import { HeaderMenu } from "./HeaderMenu"
-import {
-  MEDIA_QUERY_END_POINT,
-  PALLETS_DARK,
-  PALLETS_LIGHT,
-} from "../../constants"
+import { MEDIA_QUERY_END_POINT } from "../../constants"
 import Link from "next/link"
 import { css } from "@emotion/react"
+import { Theme } from "../../styles/theme"
+import { useContext } from "react"
+import { ThemeContext } from "../../pages/_app"
+import { ThemeProps } from "../../types/Theme"
 
 interface HeaderProps {
   username: string | string[] | undefined
   user: boolean
 }
+
 export const Header = ({
   username = "",
   user = false,
 }: HeaderProps): JSX.Element => {
+  const { theme } = useContext(ThemeContext)
   const [showMenu, setShowMenu] = useState(false)
 
   const handleMenu = () => {
@@ -58,9 +60,9 @@ export const Header = ({
   }, [])
 
   return (
-    <HeaderComponent top={navTop} position={navPosition}>
+    <HeaderComponent theme={theme} top={navTop} position={navPosition}>
       <HeaderContainer>
-        <HeaderUtils>
+        <HeaderUtils theme={theme}>
           {user ? (
             <LogoContainer href={`/${username}`} passHref>
               <LogoLink>
@@ -81,26 +83,23 @@ export const Header = ({
                     fill="white"
                   ></path>
                 </LogoImg>
-                <UserName>{username}</UserName>
+                <UserName theme={theme}>{username}</UserName>
               </LogoLink>
             </LogoContainer>
           ) : (
-            <LogoLink>
-              <Image
-                src="/image/스데브로고.png"
-                alt=""
-                width={200}
-                height={24}
-              ></Image>
-            </LogoLink>
+            <LogoContainer href={"/"} passHref>
+              <LogoLink>
+                <Image src={theme.LOGO} alt="" width={200} height={24}></Image>
+              </LogoLink>
+            </LogoContainer>
           )}
         </HeaderUtils>
-        <HeaderUtils>
-          <SearchBtn className="sc-dxgOiQ ghkPCb" href="">
-            <SearchIcon />
+        <HeaderUtils theme={theme}>
+          <SearchBtn theme={theme} className="sc-dxgOiQ ghkPCb" href="">
+            <SearchIcon htmlColor={theme.MAIN_FONT} />
           </SearchBtn>
-          <NewPostBtn>새 글 작성</NewPostBtn>
-          <UserUtils onClick={handleMenu}>
+          <NewPostBtn theme={theme}>새 글 작성</NewPostBtn>
+          <UserUtils theme={theme} onClick={handleMenu}>
             <UserProfile
               src="/image/sampleUser.jpg"
               alt="userProfile"
@@ -120,17 +119,18 @@ export const Header = ({
 type HeaderComponentProps = {
   top: number
   position: boolean
+  theme: Theme
 }
 
-const headerTop = ({ top, position }: HeaderComponentProps) => css`
+const headerTop = ({ top, position, theme }: HeaderComponentProps) => css`
   position: ${position ? "static" : "fixed"};
+  background: ${theme.BACKGROUND};
   top: ${top}px;
 `
 
 const HeaderComponent = styled.header`
   width: 100%;
   z-index: 100;
-  background: ${PALLETS_LIGHT.BACKGROUND};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -158,13 +158,13 @@ const HeaderContainer = styled.section`
   }
 `
 
-const HeaderUtils = styled.article`
+const HeaderUtils = styled.article<ThemeProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 20px;
   font-weight: bold;
-  color: ${PALLETS_LIGHT.MAIN_FONT};
+  color: ${({ theme }) => theme.MAIN_FONT};
   & > *:not(:last-child) {
     margin-right: 12px;
   }
@@ -184,15 +184,16 @@ const LogoImg = styled.svg`
   flex-shrink: 0;
 `
 
-const UserName = styled.a`
+const UserName = styled.a<ThemeProps>`
   margin-left: 12px;
   font-family: "Fira Mono", monospace;
   max-width: calc(100vw - 200px);
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  color: ${({ theme }) => theme.MAIN_FONT};
 `
-const SearchBtn = styled.a`
+const SearchBtn = styled.a<ThemeProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -202,22 +203,22 @@ const SearchBtn = styled.a`
   &:hover,
   &:focus {
     border-radius: 50%;
-    background: ${PALLETS_LIGHT.BACKGROUND};
+    background: ${({ theme }) => theme.TOGGLE_BACKGROUND};
   }
 `
-const UserUtils = styled.article`
+const UserUtils = styled.article<ThemeProps>`
   cursor: pointer;
   display: flex;
   flex-shrink: 0;
   position: relative;
   align-items: center;
   svg:hover {
-    fill: #000;
+    fill: ${({ theme }) => theme.ICON};
   }
   .arrow {
-    color: ${PALLETS_LIGHT.SUB};
+    color: ${({ theme }) => theme.SUB};
     &:hover {
-      color: ${PALLETS_LIGHT.MAIN};
+      color: ${({ theme }) => theme.MAIN};
     }
   }
 `
@@ -226,7 +227,7 @@ const UserProfile = styled(Image)`
   border-radius: 50%;
 `
 
-const NewPostBtn = styled.button`
+const NewPostBtn = styled.button<ThemeProps>`
   height: 32px;
   padding: 1px 16px;
   border-radius: 16px;
@@ -234,14 +235,14 @@ const NewPostBtn = styled.button`
   font-size: 16px;
   font-weight: bold;
   word-break: keep-all;
-  background: white;
-  border: 1px solid ${PALLETS_LIGHT.SUB_FONT};
-  color: ${PALLETS_LIGHT.SUB_FONT};
+  background: ${({ theme }) => theme.BACKGROUND};
+  border: 1px solid ${({ theme }) => theme.MAIN_FONT};
+  color: ${({ theme }) => theme.MAIN_FONT};
   transition: all 0.125s ease-in 0s;
   &:hover,
   &:focus {
-    color: #fff;
-    background: ${PALLETS_DARK.BACKGROUND};
+    color: ${({ theme }) => theme.BACKGROUND};
+    background: ${({ theme }) => theme.MAIN_FONT};
   }
   @media screen and (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     display: none;
