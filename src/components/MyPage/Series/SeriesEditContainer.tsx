@@ -23,7 +23,7 @@ interface Test1 {
   postDesc?: string
   date?: string
 }
-const SeriesEditContaienr = ({ handleEdit }: SeriesContainerProps) => {
+const SeriesEditContainer = ({ handleEdit }: SeriesContainerProps) => {
   const getItems = (count: number) =>
     Array.from({ length: count }, (v, k) => k).map((k) => ({
       id: `Item ${k + 1}`,
@@ -137,4 +137,4 @@ const CardContainer = styled.article`
   border-radius: 4px;
 `
 
-export default SeriesEditContaienr
+export default SeriesEditContainer
