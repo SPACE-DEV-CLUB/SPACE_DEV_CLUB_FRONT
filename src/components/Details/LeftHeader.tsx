@@ -9,7 +9,16 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 
+import { Theme } from "../../styles/theme";
+import { useContext } from "react";
+import { ThemeContext } from "../../pages/_app";
+
+interface ThemeProps {
+  theme: Theme;
+}
+
 export const LeftHeader = () => {
+  const { theme } = useContext(ThemeContext);
   const [heartNum, setHeartNum] = useState(0);
   const [heartClick, setHeartClick] = useState(false);
   const [shareClick, setShareClick] = useState(false);
@@ -29,7 +38,7 @@ export const LeftHeader = () => {
   return (
     <Container>
       <h2 className="sr-only">좋아요 및 공유하기</h2>
-      <HeartShare>
+      <HeartShare theme={theme}>
         <h3 className="sr-only">좋아요 버튼과 공유하기 버튼</h3>
         <div
           onClick={handleHeart}
@@ -97,13 +106,13 @@ const Container = styled.section`
     position: absolute;
   }
 `;
-const HeartShare = styled.article`
+const HeartShare = styled.article<ThemeProps>`
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  background-color: ${PALLETS_LIGHT.CARD_BACKGROUND};
+  background-color: ${({ theme }) => theme.CARD_BACKGROUND};
   border-radius: 40px;
   width: 70px;
   height: 150px;

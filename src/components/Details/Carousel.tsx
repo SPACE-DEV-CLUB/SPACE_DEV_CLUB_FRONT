@@ -66,7 +66,6 @@ export const Carousel = () => {
               <Link href={s.href} key={`carousel-${s}`}>
                 <CarouselLink>
                   <CarouselTitle>{s.title}</CarouselTitle>
-                  {/* <Img src={s.src} alt="" /> */}
                 </CarouselLink>
               </Link>
             );
@@ -103,7 +102,7 @@ const caroucelIndex = (props: IndexTypeProps) => css`
 const CarouselItem = styled.div`
   display: flex;
   ${caroucelIndex}
-  transition: all 1s ease-in-out;
+  transition: all .5s ease-in-out;
 `;
 // const Img = styled.img`
 //   width: 500px;
@@ -141,4 +140,5 @@ const CarouselTitle = styled.p`
   font-weight: 700;
   width: 370px;
   height: 50px;
+  color: ${PALLETS_LIGHT.MAIN};
 `;

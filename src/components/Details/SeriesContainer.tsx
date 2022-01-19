@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { PALLETS_LIGHT } from "../../constants/index";
+import Link from "next/link";
 
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
@@ -8,47 +9,75 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 
+import { Theme } from "../../styles/theme";
+import { useContext } from "react";
+import { ThemeContext } from "../../pages/_app";
+
+interface ThemeProps {
+  theme: Theme;
+}
+
+const seriesData = [
+  {
+    ID: 0,
+    PATH: "#",
+    TITLE: "시리즈1",
+  },
+  {
+    ID: 1,
+    PATH: "#",
+    TITLE: "시리즈2",
+  },
+  {
+    ID: 2,
+    PATH: "#",
+    TITLE: "시리즈3",
+  },
+];
+
 export const SeriesContainer = () => {
+  const { theme } = useContext(ThemeContext);
   const [select, setSelect] = useState(false);
   const handleSeries = () => {
     setSelect(!select);
   };
   return (
-    <Container>
-      <h3>
-        <a href="#">시리즈제목</a>
-      </h3>
+    <Container theme={theme}>
+      <SeriesHeader>
+        <Link href="#">
+          <SeriesName theme={theme}>시리즈제목</SeriesName>
+        </Link>
+      </SeriesHeader>
       <BookmarkIcon className="BookmarkIcon" />
       {select && (
-        <ol>
-          <li className="aaaa">
-            <a href="#">시리즈1</a>
-          </li>
-          <li className="aaaa">
-            <a href="#" className="on">
-              시리즈2
-            </a>
-          </li>
-          <li className="aaaa">
-            <a href="#">시리즈3</a>
-          </li>
-        </ol>
+        <SeriesList>
+          {seriesData.map((series) => {
+            const { ID, PATH, TITLE } = series;
+            return (
+              <SeriesItem key={`series-id-${ID}`} theme={theme}>
+                <Link href={PATH}>
+                  <SeriesTitle theme={theme}>{TITLE}</SeriesTitle>
+                </Link>
+              </SeriesItem>
+            );
+          })}
+        </SeriesList>
       )}
       <SPContainer>
         <SelectBox onClick={handleSeries}>
           {select ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-          <span>{select ? "숨기기" : "목록 보기"}</span>
+          <Select>{select ? "숨기기" : "목록 보기"}</Select>
         </SelectBox>
         <Pagination>
-          <span>2/3</span>
-          <div>
-            <button>
+          <SeriesNumber>2/3</SeriesNumber>
+          <BtnContainer>
+            <Btn>
               <ArrowBackIosIcon className="series-arrow" />
-            </button>
-            <button>
+            </Btn>
+            <Btn>
               <ArrowForwardIosIcon className="series-arrow" />
-            </button>
-          </div>
+            </Btn>
+          </BtnContainer>
         </Pagination>
       </SPContainer>
     </Container>
@@ -56,21 +85,14 @@ export const SeriesContainer = () => {
 };
 
 // 시리즈 제목과 svg 컨테이너
-const Container = styled.article`
+const Container = styled.article<ThemeProps>`
   margin-top: 32px;
   padding: 32px 24px;
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: ${PALLETS_LIGHT.BACKGROUND};
-  h3 {
-    padding-bottom: 32px;
-    font-size: 24px;
-  }
-  h3 > a:hover {
-    color: ${PALLETS_LIGHT.SUB_FONT};
-    text-decoration: underline;
-  }
+  background-color: ${({ theme }) => theme.CARD_BACKGROUND};
+
   .BookmarkIcon {
     position: absolute;
     top: -10px;
@@ -79,67 +101,87 @@ const Container = styled.article`
     height: 60px;
     color: ${PALLETS_LIGHT.MAIN};
   }
-  div {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  ol {
-    margin-bottom: 60px;
-    counter-reset: item 0;
-  }
-  ol > li > a {
-    color: ${PALLETS_LIGHT.SUB_FONT};
-    line-height: 30px;
-  }
-  /* 현재 상세 페이지가 해당 시리즈의 글일 경우 */
-  ol > li > a.on {
-    color: ${PALLETS_LIGHT.MAIN};
-    font-weight: 700;
-  }
-  ol li::before {
-    counter-increment: item;
-    content: counter(item) ". ";
-
-    color: ${PALLETS_LIGHT.SUB_FONT};
-    font-style: italic;
-    margin-right: 5px;
-  }
-  ol > li > a:hover {
+`;
+const SeriesHeader = styled.h3`
+  padding-bottom: 32px;
+  font-size: 24px;
+`;
+const SeriesName = styled.a<ThemeProps>`
+  color: ${({ theme }) => theme.SUB_FONT};
+  &:hover {
+    opacity: 0.7;
     text-decoration: underline;
   }
 `;
-// 시리즈 목록 보기 select 박스 부분과 다음 이전 버튼 컨테이너
-const SPContainer = styled.div``;
-const SelectBox = styled.div`
-  cursor: pointer;
-  span {
-    margin-top: 5px;
+const SeriesItem = styled.li<ThemeProps>`
+  &::before {
+    counter-increment: item;
+    content: counter(item) ". ";
+
+    color: ${({ theme }) => theme.SUB_FONT};
+    font-style: italic;
+    margin-right: 5px;
   }
 `;
-const Pagination = styled.div`
-  /*  현재 글/시리즈 글 갯수 */
-  span {
-    margin-right: 20px;
+const SeriesTitle = styled.a<ThemeProps>`
+  color: ${({ theme }) => theme.SUB_FONT};
+  line-height: 30px;
+  /* 선택된 시리즈.. 생각해보기 */
+  &.on {
     color: ${PALLETS_LIGHT.MAIN};
+    font-weight: 700;
   }
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+const SPContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const SelectBox = styled.div`
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+`;
+const Select = styled.span`
+  margin-top: 5px;
+`;
+const Pagination = styled.div`
+  display: flex;
+  justify-content: space-between;
+
   .series-arrow {
     width: 10px;
     height: 10px;
   }
+`;
+const BtnContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const SeriesList = styled.ol`
+  margin-bottom: 60px;
+  counter-reset: item 0;
+`;
+
+const SeriesNumber = styled.span`
+  margin-right: 20px;
+  color: ${PALLETS_LIGHT.MAIN};
+`;
+const Btn = styled.button`
   /* 마지막 페이지면 넘어가기 호버 및 클릭 막기 */
-  button {
-    color: ${PALLETS_LIGHT.MAIN};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 20px;
-    height: 20px;
-    border: 1px solid ${PALLETS_LIGHT.SUB};
-    border-radius: 50%;
-    font-size: 20px;
-  }
-  button:hover {
+  color: ${PALLETS_LIGHT.MAIN};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid ${PALLETS_LIGHT.SUB};
+  border-radius: 50%;
+  font-size: 20px;
+  &:hover {
     background-color: ${PALLETS_LIGHT.MAIN};
     color: ${PALLETS_LIGHT.CARD_BACKGROUND};
   }
