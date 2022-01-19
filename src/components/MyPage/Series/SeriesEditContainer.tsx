@@ -10,16 +10,11 @@ import {
 } from "react-beautiful-dnd";
 import { useState } from "react";
 import { DetailCardProps } from "../../../types/Main";
+import React from "react";
+import DraggableItem from "./DraggableItem";
 
 interface SeriesContainerProps {
     handleEdit: () => void;
-}
-interface Test1 {
-    id?: string;
-    postIdx?: string;
-    postTitle?: string;
-    postDesc?: string;
-    date?: string;
 }
 const SeriesEditContaienr = ({ handleEdit }: SeriesContainerProps) => {
     const getItems = (count: number) =>
@@ -30,8 +25,8 @@ const SeriesEditContaienr = ({ handleEdit }: SeriesContainerProps) => {
             postDesc: DETAIL_CARD_DATA[k].postDesc,
             date: DETAIL_CARD_DATA[k].date,
         }));
-    const grid = 0;
-    const [state, setState] = useState<DetailCardProps[]>(getItems(4));
+    const grid = 2;
+    const [state, setState] = useState<DetailCardProps[]>(getItems(5));
 
     const reorder = (
         list: DetailCardProps[],
@@ -48,7 +43,7 @@ const SeriesEditContaienr = ({ handleEdit }: SeriesContainerProps) => {
         userSelect: "none",
         padding: grid * 2,
         margin: `0 0 ${grid}px 0`,
-        background: isDragging ? "lightgreen" : "grey",
+        background: isDragging ? "transparent" : "transparent",
         ...draggableStyle,
     });
 
@@ -76,34 +71,7 @@ const SeriesEditContaienr = ({ handleEdit }: SeriesContainerProps) => {
                                     )}
                                 >
                                     {state.map((e, i) => (
-                                        <Draggable
-                                            key={e.id}
-                                            draggableId={String(e.id)}
-                                            index={i}
-                                        >
-                                            {(provided, snapshot) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    style={getItemStyle(
-                                                        snapshot.isDragging,
-                                                        provided.draggableProps
-                                                            .style
-                                                    )}
-                                                >
-                                                    <DetailCard
-                                                        key={i}
-                                                        margin={"0 0 16px 0"}
-                                                        padding={"16px"}
-                                                        postIdx={i + 1} //e.postIdx
-                                                        postTitle={e.postTitle}
-                                                        postDesc={e.postDesc}
-                                                        date={e.date}
-                                                    />
-                                                </div>
-                                            )}
-                                        </Draggable>
+                                        <DraggableItem key={`${e}_${i}`} getItemStyle={getItemStyle} e={e} i={i}/>
                                     ))}
                                     {provided.placeholder}
                                 </div>
