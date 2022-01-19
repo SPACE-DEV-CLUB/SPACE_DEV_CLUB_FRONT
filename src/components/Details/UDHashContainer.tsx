@@ -1,69 +1,99 @@
 import styled from "@emotion/styled";
 import { PALLETS_LIGHT } from "../../constants/index";
+import Link from "next/link";
+
+import { Theme } from "../../styles/theme";
+import { useContext } from "react";
+import { ThemeContext } from "../../pages/_app";
+
+interface ThemeProps {
+  theme: Theme;
+}
+
+const tagDatas = [
+  {
+    id: 0,
+    name: "태그입니다1",
+  },
+  {
+    id: 1,
+    name: "태그입니다2",
+  },
+];
 
 export const UDHashContainer = () => {
+  const { theme } = useContext(ThemeContext);
   return (
-    <Container>
+    <article>
       <h2 className="sr-only">해시태그 및 글 수정, 삭제</h2>
       <UDContainer>
-        <a href="#" className="velog-nickname">
-          velog닉네임
-        </a>
+        <Link href="#">
+          <Nickname theme={theme}>velog닉네임</Nickname>
+        </Link>
         <div>
-          <a href="#">통계</a>
-          <a href="#">수정</a>
-          <a href="#">삭제</a>
+          <Link href="#">
+            <UDItem>통계</UDItem>
+          </Link>
+          <Link href="#">
+            <UDItem>수정</UDItem>
+          </Link>
+          <Link href="#">
+            <UDItem>삭제</UDItem>
+          </Link>
         </div>
       </UDContainer>
-      <ul>
-        <li>
-          <a href="#">태그입니다1</a>
-        </li>
-        <li>
-          <a href="#">태그입니다2</a>
-        </li>
-      </ul>
-    </Container>
+      <TagContainer>
+        {tagDatas.map((tag) => {
+          const { id, name } = tag;
+          return (
+            <TagItem theme={theme} key={`Tag-key-${id}`}>
+              <Link href="#">
+                <Tag>{name}</Tag>
+              </Link>
+            </TagItem>
+          );
+        })}
+      </TagContainer>
+    </article>
   );
 };
 
-const Container = styled.article`
-  ul {
-    display: flex;
-    margin: 16px 0;
-  }
-  ul > li {
-    background-color: ${PALLETS_LIGHT.SUB};
-    border-radius: 25px;
-    padding: 5px 15px;
-  }
-  ul > li:not(:last-child) {
+const TagContainer = styled.ul`
+  display: flex;
+  margin: 16px 0;
+`;
+const TagItem = styled.li<ThemeProps>`
+  background-color: ${({ theme }) => theme.SUB};
+  border-radius: 25px;
+  padding: 5px 15px;
+  &:not(:last-child) {
     margin-right: 15px;
   }
-  ul > li:hover {
+  &:hover {
     background-color: ${PALLETS_LIGHT.BACKGROUND};
   }
-  ul > li > a {
-    color: ${PALLETS_LIGHT.MAIN};
-  }
+`;
+const Tag = styled.a`
+  color: ${PALLETS_LIGHT.MAIN};
 `;
 const UDContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  .velog-nickname {
-    font-weight: 700;
-  }
-  .velog-nickname:hover {
+`;
+const Nickname = styled.a<ThemeProps>`
+  color: ${({ theme }) => theme.MAIN_FONT};
+  font-weight: 700;
+  &:hover {
     text-decoration: underline;
   }
-  div > a {
-    color: ${PALLETS_LIGHT.ICON};
-    font-weight: 500;
-  }
-  div > a:not(:last-child) {
+`;
+const UDItem = styled.a`
+  color: ${PALLETS_LIGHT.ICON};
+  font-weight: 500;
+  &:not(:last-child) {
     margin-right: 8px;
   }
-  div > a:hover {
+  &:hover {
     color: ${PALLETS_LIGHT.SUB_FONT};
   }
 `;

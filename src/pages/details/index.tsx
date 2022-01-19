@@ -1,16 +1,24 @@
-import { NextPage } from "next"
-import styled from "@emotion/styled"
-import Head from "next/head"
+import { NextPage } from "next";
+import styled from "@emotion/styled";
+import Head from "next/head";
 
-import { DetailHeader } from "../../components/Details/DetailHeader"
-import { LeftHeader } from "../../components/Details/LeftHeader"
-import { RightHeader } from "../../components/Details/RightHeader"
+import { DetailHeader } from "../../components/Details/DetailHeader";
+import { LeftHeader } from "../../components/Details/LeftHeader";
+import { RightHeader } from "../../components/Details/RightHeader";
 
-import { DetailCard } from "../../components/Details/DetailCard"
-import { PALLETS_LIGHT } from "../../constants"
-import { Header } from "../../components/Common/Header"
+import { DetailCard } from "../../components/Details/DetailCard";
+import { Header } from "../../components/Common/Header";
+
+import { Theme } from "../../styles/theme";
+import { useContext } from "react";
+import { ThemeContext } from "../../pages/_app";
+
+interface ThemeProps {
+  theme: Theme;
+}
 
 const DetailsIndexPage: NextPage = () => {
+  const { theme } = useContext(ThemeContext);
   return (
     <main>
       <Head>
@@ -24,26 +32,27 @@ const DetailsIndexPage: NextPage = () => {
         <DetailHeader />
         <RightHeader />
       </DetailContainer>
-      <CardContainer>
+      <PostsContainer theme={theme}>
         <DetailCard />
-      </CardContainer>
+      </PostsContainer>
     </main>
-  )
-}
+  );
+};
 
-export default DetailsIndexPage
+export default DetailsIndexPage;
 
 const DetailContainer = styled.section`
   position: relative;
   display: flex;
   width: 100%;
   justify-content: center;
-`
-const CardContainer = styled.div`
+`;
+
+const PostsContainer = styled.div<ThemeProps>`
   width: 100%;
   display: flex;
   justify-content: center;
-  background-color: ${PALLETS_LIGHT.BACKGROUND};
+  background-color: ${({ theme }) => theme.BACKGROUND};
   box-shadow: rgb(0 0 0 / 8%) 0px 0px 32px;
   margin-top: 50px;
-`
+`;

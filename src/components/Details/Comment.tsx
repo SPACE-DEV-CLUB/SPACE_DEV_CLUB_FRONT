@@ -3,7 +3,16 @@ import Link from "next/link";
 import { CommentUser } from "./CommentUser";
 import { PALLETS_LIGHT } from "../../constants";
 
+import { Theme } from "../../styles/theme";
+import { useContext } from "react";
+import { ThemeContext } from "../../pages/_app";
+
+interface ThemeProps {
+  theme: Theme;
+}
+
 export const Comment = () => {
+  const { theme } = useContext(ThemeContext);
   const comment = {
     id: 0,
     user: [
@@ -38,7 +47,11 @@ export const Comment = () => {
       <h3 className="sr-only">상세 페이지 댓글</h3>
       <CommentForm action="">
         <CommentNum>{comment.user.length}개의 댓글</CommentNum>
-        <TextArea name="댓글 입력" placeholder="댓글을 작성하세요"></TextArea>
+        <TextArea
+          theme={theme}
+          name="댓글 입력"
+          placeholder="댓글을 작성하세요"
+        ></TextArea>
         <BtnContainer>
           <CommentBtn type="submit">댓글 작성</CommentBtn>
         </BtnContainer>
@@ -57,17 +70,18 @@ const CommentNum = styled.h4`
   font-size: 18px;
   margin: 24px 0;
 `;
-const TextArea = styled.textarea`
+const TextArea = styled.textarea<ThemeProps>`
   resize: none;
   padding: 20px 20px 30px;
   outline: none;
   border: 1px solid ${PALLETS_LIGHT.SUB};
+  background-color: ${({ theme }) => theme.CARD_BACKGROUND};
   margin-bottom: 1.5rem;
   width: 95%;
   border-radius: 4px;
   min-height: 90px;
   font-size: 16px;
-  color: ${PALLETS_LIGHT.MAIN_FONT};
+  color: ${({ theme }) => theme.SUB_FONT};
   line-height: 1.75;
   ::placeholder {
     color: ${PALLETS_LIGHT.ICON};

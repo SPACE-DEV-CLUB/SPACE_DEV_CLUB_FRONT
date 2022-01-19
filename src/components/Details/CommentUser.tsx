@@ -4,6 +4,14 @@ import Link from "next/link";
 import BorderInnerIcon from "@mui/icons-material/BorderInner";
 import { PALLETS_LIGHT } from "../../constants";
 
+import { Theme } from "../../styles/theme";
+import { useContext } from "react";
+import { ThemeContext } from "../../pages/_app";
+
+interface ThemeProps {
+  theme: Theme;
+}
+
 interface User {
   user: {
     id: number;
@@ -16,6 +24,7 @@ interface User {
 }
 
 export const CommentUser = ({ user }: User) => {
+  const { theme } = useContext(ThemeContext);
   return (
     <article>
       <h3 className="sr-only">상세 페이지에 생성된 댓글</h3>
@@ -29,7 +38,7 @@ export const CommentUser = ({ user }: User) => {
           <ProfileData>
             <UserNickname>
               <Link href={user.email}>
-                <a>{user.nickname}</a>
+                <User theme={theme}>{user.nickname}</User>
               </Link>
             </UserNickname>
             <CreatedAt>4일 전</CreatedAt>
@@ -69,6 +78,9 @@ const UserNickname = styled.p`
     opacity: 0.9;
     text-decoration: underline;
   }
+`;
+const User = styled.a<ThemeProps>`
+  color: ${({ theme }) => theme.SUB}; ;
 `;
 const CreatedAt = styled.p`
   color: ${PALLETS_LIGHT.SUB_FONT};
