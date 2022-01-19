@@ -1,10 +1,8 @@
-import styled from '@emotion/styled';
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import { Filter } from '../components/Home/Filter';
-import { CardContainer } from '../components/Home/CardContainer';
-import { Header } from '../components/Home/Header';
-import { TestCardContainer } from '../components/Home/IoTestCardContainer';
+import styled from "@emotion/styled";
+import type { NextPage } from "next";
+import Head from "next/head";
+import { Filter } from "../components/Home/Filter";
+import { Header } from "../components/Common/Header";
 
 const Home: NextPage = () => {
   return (
@@ -15,8 +13,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main>
-        <Header></Header>
-        <Filter route={'home'}></Filter>
+        <Header username={"deli-ght"} user={false}></Header>
+        <Filter route={"home"}></Filter>
       </Main>
     </div>
   );

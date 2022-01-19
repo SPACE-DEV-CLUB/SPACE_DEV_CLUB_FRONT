@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import { Filter } from '../../../components/Home/Filter';
-import { Header } from '../../../components/Home/Header';
+import styled from "@emotion/styled";
+import type { NextPage } from "next";
+import Head from "next/head";
+import { Filter } from "../../../components/Home/Filter";
+import { Header } from "../../../components/Common/Header";
 
 const Home: NextPage = () => {
   return (
@@ -13,8 +13,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main>
-        <Header></Header>
-        <Filter route={'liked'}></Filter>
+        <Header username={"deli-ght"} user={false} />
+
+        <Filter route={"liked"}></Filter>
       </Main>
     </div>
   );
