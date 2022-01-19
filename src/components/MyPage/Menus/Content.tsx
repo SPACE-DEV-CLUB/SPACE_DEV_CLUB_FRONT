@@ -1,8 +1,12 @@
 import styled from "@emotion/styled"
-import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../../constants"
+import { MEDIA_QUERY_END_POINT } from "../../../constants"
 import SearchIcon from "@mui/icons-material/Search"
 import { MyCard } from "../MyCard"
 import { useData } from "../../../hooks/useData"
+import { Theme } from "../../../styles/theme"
+import { useContext } from "react"
+import { ThemeContext } from "../../../pages/_app"
+import { ThemeProps } from "../../../types/Theme"
 
 interface ContentProps {
   username: string | string[] | undefined
@@ -10,16 +14,16 @@ interface ContentProps {
 
 export const Content = ({ username }: ContentProps) => {
   const { data, error } = useData("cards")
-
+  const { theme } = useContext(ThemeContext)
   return (
     <ContentContainer>
-      <SearchContainer>
+      <SearchContainer theme={theme}>
         <article className="searchBox">
           <SearchIcon />
           <input type="text" placeholder="검색어를 입력하세요." />
         </article>
       </SearchContainer>
-      <SmallTaglist>
+      <SmallTaglist theme={theme}>
         <ul>
           <li>
             <a>
@@ -29,7 +33,7 @@ export const Content = ({ username }: ContentProps) => {
           {/* 태그 데이터 받아서 추가 */}
         </ul>
       </SmallTaglist>
-      <LargeTaglist>
+      <LargeTaglist theme={theme}>
         <h1>태그 목록</h1>
         <ul>
           <li>
@@ -65,7 +69,7 @@ const ContentContainer = styled.section`
   }
 `
 
-const SearchContainer = styled.article`
+const SearchContainer = styled.article<ThemeProps>`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 32px;
@@ -76,17 +80,19 @@ const SearchContainer = styled.article`
     display: flex;
     align-items: center;
     padding: 10px;
-    border: 2px solid ${PALLETS_LIGHT.BACKGROUND};
+    border: 1px solid ${({ theme }) => theme.MAIN_FONT};
     cursor: text;
     input {
       margin-left: 8px;
       border: none;
       outline: none;
       font-size: 14px;
+      background: ${({ theme }) => theme.BACKGROUND};
+      color: ${({ theme }) => theme.MAIN_FONT};
     }
   }
 `
-const LargeTaglist = styled.section`
+const LargeTaglist = styled.section<ThemeProps>`
   display: block;
   position: absolute;
   top: 58px;
@@ -100,21 +106,23 @@ const LargeTaglist = styled.section`
     line-height: 24px;
     padding-bottom: 8px;
     margin-bottom: 16px;
-    border-bottom: 1px solid ${PALLETS_LIGHT.BACKGROUND};
+    border-bottom: 1px solid ${({ theme }) => theme.BACKGROUND};
   }
   li a {
     margin-right: 5px;
+    color: ${({ theme }) => theme.MAIN_FONT};
     &:hover {
       text-decoration: underline;
+      color: ${({ theme }) => theme.MAIN};
     }
 
     &:active {
-      color: ${PALLETS_LIGHT.MAIN};
+      color: ${({ theme }) => theme.MAIN};
     }
   }
 `
 
-const SmallTaglist = styled.section`
+const SmallTaglist = styled.section<ThemeProps>`
   display: none;
   width: 100%;
   padding: 16px 0;
@@ -141,21 +149,22 @@ const SmallTaglist = styled.section`
       padding: 0 14px;
       height: 24px;
       line-height: 1.5;
-      background: rgb(241, 243, 245);
-      color: ${PALLETS_LIGHT.SUB_FONT};
+      background: ${({ theme }) => theme.SUBBACKGROUND};
+      color: ${({ theme }) => theme.SUB_FONT};
       font-size: 12px;
       border-radius: 12px;
       &:active,
       &:active * {
         font-size: 12px;
-        background: ${PALLETS_LIGHT.MAIN};
+        background: ${({ theme }) => theme.MAIN};
         color: white;
       }
       a {
         line-height: 24px;
+        color: ${({ theme }) => theme.MAIN_FONT};
       }
       span {
-        color: ${PALLETS_LIGHT.SUB_FONT};
+        color: ${({ theme }) => theme.SUB_FONT};
         margin-left: 5px;
       }
     }

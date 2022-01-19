@@ -1,14 +1,23 @@
 import styled from "@emotion/styled"
 import { useState } from "react"
 import Image from "next/image"
-import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../../constants"
+import { MEDIA_QUERY_END_POINT } from "../../../constants"
+import { Theme } from "../../../styles/theme"
+import { useContext } from "react"
+import { ThemeContext } from "../../../pages/_app"
+import { ThemeProps } from "../../../types/Theme"
 
 export const SelfIntro = () => {
   let [mode, setMode] = useState(false)
   let [data, setData] = useState(false)
 
+  const { theme } = useContext(ThemeContext)
   const handleEdit = () => {
     setMode(!mode)
+  }
+
+  const handleStart = () => {
+    setData(!data)
   }
 
   return (
@@ -18,7 +27,9 @@ export const SelfIntro = () => {
         mode ? (
           <>
             <EditBtnBox>
-              <EditBtn onClick={handleEdit}>수정하기</EditBtn>
+              <EditBtn theme={theme} onClick={handleEdit}>
+                수정하기
+              </EditBtn>
             </EditBtnBox>
             <p>
               Lorem ipsum dolor sit amet consectetur, adipisicing elit.
@@ -30,7 +41,9 @@ export const SelfIntro = () => {
         ) : (
           <>
             <EditBtnBox>
-              <EditBtn onClick={handleEdit}>저장하기</EditBtn>
+              <EditBtn theme={theme} onClick={handleEdit}>
+                저장하기
+              </EditBtn>
             </EditBtnBox>
           </>
         )
@@ -43,7 +56,9 @@ export const SelfIntro = () => {
               width={300}
               height={300}
             />
-            <EditBtn>소개 글 작성하기</EditBtn>
+            <EditBtn theme={theme} onClick={handleEdit}>
+              소개 글 작성하기
+            </EditBtn>
           </DefaultContainer>
         </>
       )}
@@ -63,10 +78,11 @@ const EditBtnBox = styled.div`
   margin-bottom: 24px;
 `
 
-const EditBtn = styled.button`
+const EditBtn = styled.button<ThemeProps>`
   height: 40px;
+  margin: 30px;
   padding: 0 18px;
-  background: ${PALLETS_LIGHT.MAIN};
+  background: ${({ theme }) => theme.MAIN};
   color: #fff;
   border-radius: 4px;
 `

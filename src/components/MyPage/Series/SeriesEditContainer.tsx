@@ -1,23 +1,22 @@
 import styled from "@emotion/styled"
-import { PALLETS_LIGHT } from "../../../constants"
 import DetailCard from "../../../components/MyPage/Series/DetailCard"
 import { DETAIL_CARD_DATA } from "../../../data"
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult,
-} from "react-beautiful-dnd"
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd"
 import { useState } from "react"
 import { DetailCardProps } from "../../../types/Main"
 import React from "react"
 import DraggableItem from "./DraggableItem"
+import { useContext } from "react"
+import { ThemeContext } from "../../../pages/_app"
+import { ThemeProps } from "../../../types/Theme"
 
 interface SeriesContainerProps {
   handleEdit: () => void
 }
 
 const SeriesEditContainer = ({ handleEdit }: SeriesContainerProps) => {
+  const { theme } = useContext(ThemeContext)
+
   const getItems = (count: number) =>
     Array.from({ length: count }, (v, k) => k).map((k) => ({
       id: `Item ${k + 1}`,
@@ -46,9 +45,7 @@ const SeriesEditContainer = ({ handleEdit }: SeriesContainerProps) => {
     userSelect: "none",
     marginTop: "36px",
     padding: "24px",
-    background: isDragging
-      ? `${PALLETS_LIGHT.SUB}`
-      : `${PALLETS_LIGHT.SUBBACKGROUND}`,
+    background: isDragging ? `${theme.SUB}` : `${theme.SUBBACKGROUND}`,
     borderRadius: "4px",
     ...draggableStyle,
   })
@@ -62,10 +59,12 @@ const SeriesEditContainer = ({ handleEdit }: SeriesContainerProps) => {
   return (
     <SeriesContainer>
       <SaveBtnContainer>
-        <SaveBtn onClick={handleEdit}>저장</SaveBtn>
+        <SaveBtn theme={theme} onClick={handleEdit}>
+          저장
+        </SaveBtn>
       </SaveBtnContainer>
       <DragDropContext onDragEnd={onDragEnd}>
-        <CardContainer droppableId="droppable">
+        <CardContainer theme={theme} droppableId="droppable">
           {(provided, snapshot) => {
             return (
               <div
@@ -93,22 +92,22 @@ const SaveBtnContainer = styled.div`
   justify-content: flex-end;
 `
 
-const SaveBtn = styled.button`
+const SaveBtn = styled.button<ThemeProps>`
   height: 32px;
   padding: 0 20px;
   border-radius: 4px;
-  background: ${PALLETS_LIGHT.MAIN};
-  color: ${PALLETS_LIGHT.BACKGROUND};
+  background: ${({ theme }) => theme.SUB};
+  color: ${({ theme }) => theme.SUB_FONT};
   &:hover {
-    background: ${PALLETS_LIGHT.SUB};
-    color: ${PALLETS_LIGHT.MAIN_FONT};
+    background: ${({ theme }) => theme.MAIN};
+    color: ${({ theme }) => theme.MAIN_FONT};
   }
 `
 
-const CardContainer = styled(Droppable)`
+const CardContainer = styled(Droppable)<ThemeProps>`
   margin-top: 36px;
   padding: 24px;
-  background: ${PALLETS_LIGHT.BACKGROUND};
+  background: ${({ theme }) => theme.BACKGROUND};
   border-radius: 4px;
 `
 

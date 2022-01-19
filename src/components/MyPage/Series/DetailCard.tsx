@@ -2,9 +2,13 @@ import React from "react"
 import styled from "@emotion/styled"
 import Image from "next/image"
 import SAMPLE_IMAGE from "../../../../public/image/sample.jpeg"
-import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../../constants"
+import { MEDIA_QUERY_END_POINT } from "../../../constants"
 import { css } from "@emotion/react"
 import { DetailCardProps } from "../../../types/Main"
+import { Theme } from "../../../styles/theme"
+import { useContext } from "react"
+import { ThemeContext } from "../../../pages/_app"
+import { ThemeProps } from "../../../types/Theme"
 
 const DetailCard = ({
   margin = "0",
@@ -12,10 +16,17 @@ const DetailCard = ({
   opacity = false,
   ...props
 }: DetailCardProps) => {
+  const { theme } = useContext(ThemeContext)
+
   return (
     <>
       {/* 마이페이지 글 카드, 서치카드 공유, 시리즈 카드 하나, 시리즈 디테일 하나. */}
-      <Container margin={margin} padding={padding} opacity={opacity}>
+      <Container
+        theme={theme}
+        margin={margin}
+        padding={padding}
+        opacity={opacity}
+      >
         <h2>
           <span>{props.postIdx}. </span>
           {props.postTitle}
@@ -31,7 +42,7 @@ const DetailCard = ({
               src={SAMPLE_IMAGE}
             ></Image>
           </ImageContainer>
-          <DescContainer>
+          <DescContainer theme={theme}>
             <p className="desc">{props.postDesc}</p>
             <p className="date">{props.date}</p>
           </DescContainer>
@@ -47,6 +58,7 @@ interface Containerprops {
   margin: string
   padding: string
   opacity: boolean
+  theme: Theme
 }
 
 const containerstyle = (props: Containerprops) => css`
@@ -57,17 +69,17 @@ const containerstyle = (props: Containerprops) => css`
 
 const Container = styled.div`
   ${containerstyle}
-  background : ${PALLETS_LIGHT.CARD_BACKGROUND};
+  background : ${({ theme }) => theme.CARD_BACKGROUND};
   border-radius: 4px;
   span {
-    color: ${PALLETS_LIGHT.BORDER};
+    color: ${({ theme }) => theme.BORDER};
     font-style: italic;
   }
   h2 {
     margin-bottom: 20px;
     font-size: 21px;
     line-height: 1.5;
-    color: ${PALLETS_LIGHT.SUB_FONT};
+    color: ${({ theme }) => theme.SUB_FONT};
   }
 `
 
@@ -91,7 +103,7 @@ const ImageContainer = styled.div`
   }
 `
 
-const DescContainer = styled.div`
+const DescContainer = styled.div<ThemeProps>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -104,10 +116,10 @@ const DescContainer = styled.div`
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 24px;
-    color: ${PALLETS_LIGHT.SUB_FONT};
+    color: ${({ theme }) => theme.SUB_FONT};
   }
   > .date {
-    color: ${PALLETS_LIGHT.BORDER};
+    color: ${({ theme }) => theme.BORDER};
     font-size: 14px;
   }
   @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
