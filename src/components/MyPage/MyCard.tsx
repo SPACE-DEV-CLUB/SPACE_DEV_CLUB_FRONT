@@ -1,9 +1,7 @@
 import styled from "@emotion/styled"
 import Image from "next/image"
 import Link from "next/link"
-import SAMPLE_IMG from "../../../public/image/sample.jpeg"
 import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from "../../constants"
-import { Profile } from "./Profile"
 
 type PropsTypes = {
   imageUrl: string
@@ -35,27 +33,25 @@ export const MyCard = ({
         <>
           <Link href={`/${username}`} passHref>
             <a>
-              <ImageContainer>
-                <Image
-                  layout="responsive"
-                  width={734}
-                  height={402}
-                  alt="sample image"
-                  src={imageUrl}
-                />
-              </ImageContainer>
+              <ImageContainer
+                layout="responsive"
+                width={734}
+                height={402}
+                alt="sample image"
+                src={imageUrl ? imageUrl : "/image/sample.jpeg"}
+              />
 
               <h2>{postTitle}</h2>
             </a>
           </Link>
           <p>{postDesc}</p>
-          {/* {tags.map((e, index) => (
-                        <TagsContainer key={index}>
-                            <Link href={""}>
-                                <a>{e}</a>
-                            </Link>
-                        </TagsContainer>
-                    ))} */}
+          {tags?.map((e, index) => (
+            <TagsContainer key={index}>
+              <Link href={`/tags/${e}`}>
+                <a>{e}</a>
+              </Link>
+            </TagsContainer>
+          ))}
           <DateCommentContainer>
             <span>{date}일 전</span>
             <span> · </span>
@@ -66,15 +62,13 @@ export const MyCard = ({
         <>
           <Link href={`/${username}`} passHref>
             <a>
-              <ImageContainer>
-                <Image
-                  layout="responsive"
-                  width={734}
-                  height={402}
-                  alt="sample image"
-                  src={imageUrl}
-                />
-              </ImageContainer>
+              <ImageContainer
+                src={imageUrl ? imageUrl : "/image/sample.jpeg"}
+                layout="responsive"
+                width={734}
+                height={402}
+                alt="sample image"
+              />
               <h2>{postTitle}</h2>
             </a>
           </Link>
@@ -149,20 +143,23 @@ const DateCommentContainer = styled.div`
   }
 `
 
-const ImageContainer = styled.div`
+const ImageContainer = styled(Image)`
   background: pink;
   overflow: hidden;
+  object-fit: cover;
 `
 
 const TagsContainer = styled.div`
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   margin: 0 14px 14px 0;
-  padding: 5px 0;
+  padding: 0 16px;
+  height: 32px;
+  font-weight: 500;
   background: #f1f3f5;
   border-radius: 15px;
   a {
     font-size: 16px;
-    padding: 0 16px;
     color: ${PALLETS_LIGHT.MAIN};
   }
   @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
