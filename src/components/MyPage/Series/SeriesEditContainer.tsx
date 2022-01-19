@@ -3,15 +3,15 @@ import { PALLETS_LIGHT } from "../../../constants"
 import DetailCard from "../../../components/MyPage/Series/DetailCard"
 import { DETAIL_CARD_DATA } from "../../../data"
 import {
-    DragDropContext,
-    Droppable,
-    Draggable,
-    DropResult,
-} from "react-beautiful-dnd";
-import { useState } from "react";
-import { DetailCardProps } from "../../../types/Main";
-import React from "react";
-import DraggableItem from "./DraggableItem";
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd"
+import { useState } from "react"
+import { DetailCardProps } from "../../../types/Main"
+import React from "react"
+import DraggableItem from "./DraggableItem"
 
 interface SeriesContainerProps {
   handleEdit: () => void
@@ -42,50 +42,49 @@ const SeriesEditContainer = ({ handleEdit }: SeriesContainerProps) => {
     return result
   }
 
-    const getItemStyle = (isDragging: boolean, draggableStyle?: any) => ({
-        userSelect: "none",
-        padding: grid * 2,
-        margin: `0 0 ${grid}px 0`,
-        background: isDragging ? "transparent" : "transparent",
-        ...draggableStyle,
-    });
+  const getItemStyle = (isDragging: boolean, draggableStyle?: any) => ({
+    userSelect: "none",
+    marginTop: "36px",
+    padding: "24px",
+    background: isDragging
+      ? `${PALLETS_LIGHT.SUB}`
+      : `${PALLETS_LIGHT.SUBBACKGROUND}`,
+    borderRadius: "4px",
+    ...draggableStyle,
+  })
 
-    const onDragEnd = ({ destination, source }: DropResult): void => {
-        // dropped outside the list
-        if (!destination) return;
-        const newItems = reorder(state, source.index, destination.index);
-        setState(newItems);
-    };
-    return (
-        <SeriesContainer>
-            <SaveBtnContainer>
-                <SaveBtn onClick={handleEdit}>저장</SaveBtn>
-            </SaveBtnContainer>
-            <DragDropContext onDragEnd={onDragEnd}>
-                <CardContainer>
-                    <Droppable droppableId="droppable">
-                        {(provided, snapshot) => {
-                            return (
-                                <div
-                                    {...provided.droppableProps}
-                                    ref={provided.innerRef}
-                                    style={getItemStyle(
-                                        snapshot.isDraggingOver
-                                    )}
-                                >
-                                    {state.map((e, i) => (
-                                        <DraggableItem key={`${e}_${i}`} getItemStyle={getItemStyle} e={e} i={i}/>
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
-                            );
-                        }}
-                    </Droppable>
-                </CardContainer>
-            </DragDropContext>
-        </SeriesContainer>
-    );
-};
+  const onDragEnd = ({ destination, source }: DropResult): void => {
+    // dropped outside the list
+    if (!destination) return
+    const newItems = reorder(state, source.index, destination.index)
+    setState(newItems)
+  }
+  return (
+    <SeriesContainer>
+      <SaveBtnContainer>
+        <SaveBtn onClick={handleEdit}>저장</SaveBtn>
+      </SaveBtnContainer>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <CardContainer droppableId="droppable">
+          {(provided, snapshot) => {
+            return (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={getItemStyle(snapshot.isDraggingOver)}
+              >
+                {state.map((e, i) => (
+                  <DraggableItem key={`${e}_${i}`} e={e} i={i} />
+                ))}
+                {provided.placeholder}
+              </div>
+            )
+          }}
+        </CardContainer>
+      </DragDropContext>
+    </SeriesContainer>
+  )
+}
 
 const SeriesContainer = styled.section``
 
@@ -106,7 +105,7 @@ const SaveBtn = styled.button`
   }
 `
 
-const CardContainer = styled.article`
+const CardContainer = styled(Droppable)`
   margin-top: 36px;
   padding: 24px;
   background: ${PALLETS_LIGHT.BACKGROUND};
@@ -114,4 +113,3 @@ const CardContainer = styled.article`
 `
 
 export default SeriesEditContainer
-
