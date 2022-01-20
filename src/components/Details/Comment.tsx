@@ -30,6 +30,7 @@ export const Comment = () => {
             id: 1,
           },
         ],
+        createdAt: "2021-12-28T06:59:54.580Z",
       },
       {
         id: 1,
@@ -38,6 +39,7 @@ export const Comment = () => {
         comment: "별말씀을요!",
         src: "./image/sampleUser2.jpg",
         other: [],
+        createdAt: "2022-01-20T06:59:54.580Z",
       },
     ],
   };
