@@ -6,6 +6,8 @@ import { Theme } from "../../styles/theme";
 import { useContext } from "react";
 import { ThemeContext } from "../../pages/_app";
 
+import { handleDate } from "../../utils/dateLogic";
+
 interface ThemeProps {
   theme: Theme;
 }
@@ -21,26 +23,43 @@ const tagDatas = [
   },
 ];
 
+const createdAt = "2022-01-18T06:59:54.580Z";
+
+const user = true;
+
 export const UDHashContainer = () => {
   const { theme } = useContext(ThemeContext);
   return (
     <article>
       <h2 className="sr-only">해시태그 및 글 수정, 삭제</h2>
       <UDContainer>
-        <Link href="#">
-          <Nickname theme={theme}>velog닉네임</Nickname>
-        </Link>
         <div>
           <Link href="#">
-            <UDItem>통계</UDItem>
+            <a>
+              <Nickname theme={theme}>velog닉네임</Nickname>
+            </a>
           </Link>
-          <Link href="#">
-            <UDItem>수정</UDItem>
-          </Link>
-          <Link href="#">
-            <UDItem>삭제</UDItem>
-          </Link>
+          <CreatedAt theme={theme}>{handleDate(createdAt)}</CreatedAt>
         </div>
+        {user && (
+          <div>
+            <Link href="#">
+              <a>
+                <UDItem theme={theme}>통계</UDItem>
+              </a>
+            </Link>
+            <Link href="#">
+              <a>
+                <UDItem theme={theme}>수정</UDItem>
+              </a>
+            </Link>
+            <Link href="#">
+              <a>
+                <UDItem theme={theme}>삭제</UDItem>
+              </a>
+            </Link>
+          </div>
+        )}
       </UDContainer>
       <TagContainer>
         {tagDatas.map((tag) => {
@@ -48,7 +67,7 @@ export const UDHashContainer = () => {
           return (
             <TagItem theme={theme} key={`Tag-key-${id}`}>
               <Link href="#">
-                <Tag>{name}</Tag>
+                <Tag theme={theme}>{name}</Tag>
               </Link>
             </TagItem>
           );
@@ -70,11 +89,11 @@ const TagItem = styled.li<ThemeProps>`
     margin-right: 15px;
   }
   &:hover {
-    background-color: ${PALLETS_LIGHT.BACKGROUND};
+    background-color: ${({ theme }) => theme.BACKGROUND};
   }
 `;
-const Tag = styled.a`
-  color: ${PALLETS_LIGHT.MAIN};
+const Tag = styled.a<ThemeProps>`
+  color: ${({ theme }) => theme.MAIN};
 `;
 const UDContainer = styled.div`
   display: flex;
@@ -87,13 +106,20 @@ const Nickname = styled.a<ThemeProps>`
     text-decoration: underline;
   }
 `;
-const UDItem = styled.a`
-  color: ${PALLETS_LIGHT.ICON};
-  font-weight: 500;
-  &:not(:last-child) {
+const CreatedAt = styled.span<ThemeProps>`
+  color: ${({ theme }) => theme.SUB_FONT};
+  margin-left: 8px;
+  &::before {
+    content: "·";
     margin-right: 8px;
+    color: ${({ theme }) => theme.SUB_FONT};
   }
+`;
+const UDItem = styled.a<ThemeProps>`
+  color: ${({ theme }) => theme.ICON};
+  font-weight: 500;
+  margin-right: 7px;
   &:hover {
-    color: ${PALLETS_LIGHT.SUB_FONT};
+    color: ${({ theme }) => theme.SUB_FONT};
   }
 `;
