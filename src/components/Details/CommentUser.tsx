@@ -25,30 +25,42 @@ interface User {
   };
 }
 
+let loginUserID = 1;
+
 export const CommentUser = ({ user }: User) => {
   const { theme } = useContext(ThemeContext);
-  const { email, nickname, src, comment, other, createdAt } = user;
+  const { id, email, nickname, src, comment, other, createdAt } = user;
 
   return (
-    <article>
+    <Container>
       <h3 className="sr-only">상세 페이지에 생성된 댓글</h3>
-      <div>
-        <ProfileContainer>
-          <Link href={email}>
-            <a>
-              <UserProfile src={src} alt={`${email}프로필 사진`} />
-            </a>
-          </Link>
-          <ProfileData>
+      <ProfileContainer>
+        <Link href={email}>
+          <a>
+            <UserProfile src={src} alt={`${email}프로필 사진`} />
+          </a>
+        </Link>
+        <ProfileData>
+          <Profile>
             <UserNickname>
               <Link href={email}>
                 <User theme={theme}>{nickname}</User>
               </Link>
             </UserNickname>
-            <CreatedAt theme={theme}>{handleDate(createdAt)}</CreatedAt>
-          </ProfileData>
-        </ProfileContainer>
-      </div>
+            {id === loginUserID && (
+              <UDContainer>
+                <Link href="#">
+                  <UDItem theme={theme}>수정</UDItem>
+                </Link>
+                <Link href="#">
+                  <UDItem theme={theme}>삭제</UDItem>
+                </Link>
+              </UDContainer>
+            )}
+          </Profile>
+          <CreatedAt theme={theme}>{handleDate(createdAt)}</CreatedAt>
+        </ProfileData>
+      </ProfileContainer>
       <CommentText>{comment}</CommentText>
       {other.length === 0 ? (
         <div></div>
@@ -58,11 +70,15 @@ export const CommentUser = ({ user }: User) => {
           {other.length}개의 답글
         </CommentPlus>
       )}
-    </article>
+    </Container>
   );
 };
 
+const Container = styled.article`
+  width: 100%;
+`;
 const ProfileContainer = styled.div`
+  width: 100%;
   display: flex;
   margin-top: 60px;
 `;
@@ -72,15 +88,28 @@ const UserProfile = styled.img`
   border-radius: 50%;
 `;
 const ProfileData = styled.div`
-  margin-left: 1rem;
+  width: 85%;
   line-height: 1;
   margin-top: 18px;
+`;
+const Profile = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 const UserNickname = styled.p`
   font-weight: 700;
   :hover {
     opacity: 0.9;
     text-decoration: underline;
+  }
+`;
+const UDContainer = styled.div``;
+const UDItem = styled.a<ThemeProps>`
+  color: ${({ theme }) => theme.ICON};
+  font-weight: 500;
+  margin-right: 7px;
+  &:hover {
+    color: ${({ theme }) => theme.SUB_FONT};
   }
 `;
 const User = styled.a<ThemeProps>`

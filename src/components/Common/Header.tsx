@@ -1,32 +1,17 @@
-<<<<<<< HEAD
-import styled from "@emotion/styled"
-import Image from "next/image"
-import SearchIcon from "@mui/icons-material/Search"
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
-import { useEffect, useRef, useState } from "react"
-import { HeaderMenu } from "./HeaderMenu"
-import { MEDIA_QUERY_END_POINT } from "../../constants"
-import Link from "next/link"
-import { css } from "@emotion/react"
-import { Theme } from "../../styles/theme"
-import { useContext } from "react"
-import { ThemeContext } from "../../pages/_app"
-import { ThemeProps } from "../../types/Theme"
-=======
 import styled from "@emotion/styled";
 import Image from "next/image";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useEffect, useRef, useState } from "react";
 import { HeaderMenu } from "./HeaderMenu";
-import {
-  MEDIA_QUERY_END_POINT,
-  PALLETS_DARK,
-  PALLETS_LIGHT,
-} from "../../constants";
 import Link from "next/link";
 import { css } from "@emotion/react";
->>>>>>> 2f98be6 (✨날짜 로직 구현)
+import { Theme } from "../../styles/theme";
+import { useContext } from "react";
+import { ThemeContext } from "../../pages/_app";
+import { ThemeProps } from "../../types/Theme";
+
+import { MEDIA_QUERY_END_POINT } from "../../constants";
 
 interface HeaderProps {
   username: string | string[] | undefined;
@@ -37,13 +22,8 @@ export const Header = ({
   username = "",
   user = false,
 }: HeaderProps): JSX.Element => {
-<<<<<<< HEAD
-  const { theme } = useContext(ThemeContext)
-  const [showMenu, setShowMenu] = useState(false)
-=======
+  const { theme } = useContext(ThemeContext);
   const [showMenu, setShowMenu] = useState(false);
->>>>>>> 2f98be6 (✨날짜 로직 구현)
-
   const handleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -137,16 +117,10 @@ export const Header = ({
 };
 
 type HeaderComponentProps = {
-<<<<<<< HEAD
-  top: number
-  position: boolean
-  theme: Theme
-}
-=======
   top: number;
   position: boolean;
+  theme: Theme;
 };
->>>>>>> 2f98be6 (✨날짜 로직 구현)
 
 const headerTop = ({ top, position, theme }: HeaderComponentProps) => css`
   position: ${position ? "static" : "fixed"};
@@ -217,14 +191,9 @@ const UserName = styled.a<ThemeProps>`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-<<<<<<< HEAD
   color: ${({ theme }) => theme.MAIN_FONT};
-`
-const SearchBtn = styled.a<ThemeProps>`
-=======
 `;
-const SearchBtn = styled.a`
->>>>>>> 2f98be6 (✨날짜 로직 구현)
+const SearchBtn = styled.a<ThemeProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -236,13 +205,8 @@ const SearchBtn = styled.a`
     border-radius: 50%;
     background: ${({ theme }) => theme.TOGGLE_BACKGROUND};
   }
-<<<<<<< HEAD
-`
-const UserUtils = styled.article<ThemeProps>`
-=======
 `;
-const UserUtils = styled.article`
->>>>>>> 2f98be6 (✨날짜 로직 구현)
+const UserUtils = styled.article<ThemeProps>`
   cursor: pointer;
   display: flex;
   flex-shrink: 0;

@@ -25,6 +25,8 @@ const tagDatas = [
 
 const createdAt = "2022-01-18T06:59:54.580Z";
 
+const user = true;
+
 export const UDHashContainer = () => {
   const { theme } = useContext(ThemeContext);
   return (
@@ -39,23 +41,25 @@ export const UDHashContainer = () => {
           </Link>
           <CreatedAt theme={theme}>{handleDate(createdAt)}</CreatedAt>
         </div>
-        <div>
-          <Link href="#">
-            <a>
-              <UDItem theme={theme}>통계</UDItem>
-            </a>
-          </Link>
-          <Link href="#">
-            <a>
-              <UDItem theme={theme}>수정</UDItem>
-            </a>
-          </Link>
-          <Link href="#">
-            <a>
-              <UDItem theme={theme}>삭제</UDItem>
-            </a>
-          </Link>
-        </div>
+        {user && (
+          <div>
+            <Link href="#">
+              <a>
+                <UDItem theme={theme}>통계</UDItem>
+              </a>
+            </Link>
+            <Link href="#">
+              <a>
+                <UDItem theme={theme}>수정</UDItem>
+              </a>
+            </Link>
+            <Link href="#">
+              <a>
+                <UDItem theme={theme}>삭제</UDItem>
+              </a>
+            </Link>
+          </div>
+        )}
       </UDContainer>
       <TagContainer>
         {tagDatas.map((tag) => {

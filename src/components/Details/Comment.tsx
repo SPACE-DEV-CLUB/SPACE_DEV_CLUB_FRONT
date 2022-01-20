@@ -21,7 +21,7 @@ export const Comment = () => {
         email: "손님@gmail.com",
         nickname: "손님",
         comment: "좋은글 감사합니다!!",
-        src: "./image/sampleUser.jpg",
+        src: "./image/sampleUser2.jpg",
         other: [
           {
             id: 0,
@@ -37,7 +37,7 @@ export const Comment = () => {
         email: "글쓴이@gmail.com",
         nickname: "글쓴이",
         comment: "별말씀을요!",
-        src: "./image/sampleUser2.jpg",
+        src: "./image/sampleUser.jpg",
         other: [],
         createdAt: "2022-01-20T06:59:54.580Z",
       },
