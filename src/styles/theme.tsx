@@ -1,4 +1,4 @@
-import { css } from "styled-components"
+import styled from "@emotion/styled";
 
 export const lightTheme = {
   MAIN: "#6868AD",
@@ -13,9 +13,9 @@ export const lightTheme = {
   BORDER: "#adb6bd",
   TOGGLE_BACKGROUND: "#fbfbfb",
   LOGO: "/image/스데브로고.png",
-}
+};
 
-export type Theme = typeof lightTheme
+export type Theme = typeof lightTheme;
 
 export const darkTheme: Theme = {
   MAIN: "#6868AD",
@@ -30,4 +30,4 @@ export const darkTheme: Theme = {
   BORDER: "#dae4ed", //수정 될 가능성 높음
   TOGGLE_BACKGROUND: "#3b3b3b",
   LOGO: "/image/스데브로고_darkmode.png",
-}
+};
