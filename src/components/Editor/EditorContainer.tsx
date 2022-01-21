@@ -7,8 +7,11 @@ import { MDviewr } from "./MDViewer";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
 
 export const EditorContainer = () => {
+  const [tagInput, setTagInput] = useState("");
+  //state data for POST down below
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
+  const [listTagDatas, setListTagDatas] = useState<Array<string>>([]);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTitle(e.target.value);
@@ -18,11 +21,63 @@ export const EditorContainer = () => {
     setContents(e.target.value);
   };
 
+  //control tag & tag guide
+  const handleEnterEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const currentTagetValue = e.currentTarget.value;
+
+    if (e.key === "Enter") {
+      e.preventDefault();
+      setTagInput("");
+
+      if (checkOverlap(currentTagetValue)) {
+        setListTagDatas([...listTagDatas, e.currentTarget.value]);
+      }
+    }
+  };
+
+  const checkOverlap = (currentValue: string) => {
+    if (tagInput.length > 0) {
+      return !listTagDatas.includes(currentValue);
+    } else {
+      return false;
+    }
+  };
+
+  const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTagInput(e.target.value);
+  };
+
+  const onRemove = (e: React.MouseEvent<HTMLElement>) => {
+    const eventTarget = e.target as HTMLElement;
+
+    setListTagDatas(
+      listTagDatas.filter(
+        (listTagData) => listTagData !== eventTarget.innerText
+      )
+    );
+  };
+
+  const handleBackSpace = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace") {
+      listTagDatas.pop();
+      setListTagDatas([...listTagDatas]);
+    }
+  };
+
   return (
     <>
       <EditorWrap>
         <EditorForm action="">
-          <WriteHeader handleTitleChange={handleTitleChange} title={title} />
+          <WriteHeader
+            handleTitleChange={handleTitleChange}
+            title={title}
+            handleEnterEvent={handleEnterEvent}
+            handleInputValue={handleInputValue}
+            handleBackSpace={handleBackSpace}
+            onRemove={onRemove}
+            tagInput={tagInput}
+            listTagDatas={listTagDatas}
+          />
           <WriteForm
             handleTextAreaChange={handleTextAreaChange}
             contents={contents}
