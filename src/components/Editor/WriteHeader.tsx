@@ -1,17 +1,30 @@
-import { useState } from "react";
 import styled from "@emotion/styled";
-import { Tag } from "../Common/Tag";
-import { PALLETS_LIGHT } from "../../constants";
+import { useState, useEffect } from "react";
+import { TagGenerator } from "./TagGenerator";
+import { PALLETS_LIGHT } from "../../constants/index";
 
 interface WriteHeaderProps {
   handleTitleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handleEnterEvent: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  handleInputValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleBackSpace: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onRemove: (e: React.MouseEvent<HTMLElement>) => void;
   title: string;
+  tagInput: string;
+  listTagDatas: string[];
 }
 
-export const WriteHeader = ({ handleTitleChange, title }: WriteHeaderProps) => {
+export const WriteHeader = ({
+  handleTitleChange,
+  handleEnterEvent,
+  handleInputValue,
+  handleBackSpace,
+  onRemove,
+  title,
+  tagInput,
+  listTagDatas,
+}: WriteHeaderProps) => {
   const [guide, setGuide] = useState(false);
-  const [listTagDatas, setListTagDatas] = useState<Array<string>>([]);
-  const [tagInput, setTagInput] = useState("");
 
   const handleTagShow = () => {
     setGuide(true);
@@ -19,48 +32,6 @@ export const WriteHeader = ({ handleTitleChange, title }: WriteHeaderProps) => {
 
   const hadleTagHide = () => {
     setGuide(false);
-  };
-
-  const handleEnterEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const currentTagetValue = e.currentTarget.value;
-
-    if (e.key === "Enter") {
-      e.preventDefault();
-      setTagInput("");
-
-      if (checkOverlap(currentTagetValue)) {
-        setListTagDatas([...listTagDatas, e.currentTarget.value]);
-      }
-    }
-  };
-
-  const checkOverlap = (currentValue: string) => {
-    if (tagInput.length > 0) {
-      return !listTagDatas.includes(currentValue);
-    } else {
-      return false;
-    }
-  };
-
-  const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTagInput(e.target.value);
-  };
-
-  const onRemove = (e: React.MouseEvent<HTMLElement>) => {
-    const eventTarget = e.target as HTMLElement;
-
-    setListTagDatas(
-      listTagDatas.filter(
-        (listTagData) => listTagData !== eventTarget.innerText
-      )
-    );
-  };
-
-  const handleBackSpace = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Backspace") {
-      listTagDatas.pop();
-      setListTagDatas([...listTagDatas]);
-    }
   };
 
   return (
@@ -73,11 +44,12 @@ export const WriteHeader = ({ handleTitleChange, title }: WriteHeaderProps) => {
         placeholder="제목을 입력하세요"
       />
       <BorderLine />
-      {listTagDatas.length >= 1 &&
+      {listTagDatas &&
         listTagDatas.map((listTagData, idx) => {
-          return <Tag key={idx} tagName={listTagData} onRemove={onRemove} />;
+          return (
+            <TagGenerator key={idx} tagName={listTagData} onRemove={onRemove} />
+          );
         })}
-
       <TagInput
         onFocus={handleTagShow}
         onBlur={hadleTagHide}
@@ -88,12 +60,10 @@ export const WriteHeader = ({ handleTitleChange, title }: WriteHeaderProps) => {
         value={tagInput}
         placeholder="태그를 입력하세요"
       />
-      {guide && (
-        <Guide>
-          <p>쉼표 혹은 엔터를 입력하면 태그를 등록 할 수 있습니다.</p>
-          <p>등록된 태그를 클릭하면 삭제됩니다.</p>
-        </Guide>
-      )}
+      <Guide move={guide}>
+        <p>쉼표 혹은 엔터를 입력하면 태그를 등록 할 수 있습니다.</p>
+        <p>등록된 태그를 클릭하면 삭제됩니다.</p>
+      </Guide>
     </Header>
   );
 };
@@ -121,19 +91,20 @@ const TitleArea = styled.textarea`
   }
 `;
 
-const Guide = styled.div`
+const Guide = styled.div<{ move: boolean }>`
   position: absolute;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: 8px;
   width: 276px;
   height: 58px;
+  padding-left: 8px;
   font-size: 12px;
   line-height: 1.5;
-  color: #fff;
-  background-color: #343a40;
+  color: ${PALLETS_LIGHT.CARD_BACKGROUND};
+  background-color: ${PALLETS_LIGHT.MAIN_FONT};
+  transition: opacity 0.5s;
+  opacity: ${(props) => (props.move ? "1" : "0")};
 `;
 
 const BorderLine = styled.div`
