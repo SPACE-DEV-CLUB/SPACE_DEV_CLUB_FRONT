@@ -1,11 +1,13 @@
 import styled from "@emotion/styled";
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import { TagGenerator } from "./TagGenerator";
-import { PALLETS_LIGHT } from "../../constants/index";
+import { PALLETS_LIGHT } from "../../../constants";
+import { ThemeContext } from "../../../pages/_app";
+import { ThemeProps } from "../../../types/Theme";
 
 interface WriteHeaderProps {
   handleTitleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  handleEnterEvent: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  handleTagEnter: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   handleInputValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleBackSpace: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onRemove: (e: React.MouseEvent<HTMLElement>) => void;
@@ -16,7 +18,7 @@ interface WriteHeaderProps {
 
 export const WriteHeader = ({
   handleTitleChange,
-  handleEnterEvent,
+  handleTagEnter,
   handleInputValue,
   handleBackSpace,
   onRemove,
@@ -25,6 +27,7 @@ export const WriteHeader = ({
   listTagDatas,
 }: WriteHeaderProps) => {
   const [guide, setGuide] = useState(false);
+  const { theme } = useContext(ThemeContext);
 
   const handleTagShow = () => {
     setGuide(true);
@@ -36,14 +39,18 @@ export const WriteHeader = ({
 
   return (
     <Header>
+      <label htmlFor="editorTitle" className="sr-only">
+        에디터 타이틀 입력란
+      </label>
       <TitleArea
         onChange={handleTitleChange}
         value={title}
-        name=""
-        id=""
+        name="editorTitle"
+        id="editorTitle"
         placeholder="제목을 입력하세요"
+        theme={theme}
       />
-      <BorderLine />
+      <BorderLine theme={theme} />
       {listTagDatas &&
         listTagDatas.map((listTagData, idx) => {
           return (
@@ -53,14 +60,15 @@ export const WriteHeader = ({
       <TagInput
         onFocus={handleTagShow}
         onBlur={hadleTagHide}
-        onKeyPress={handleEnterEvent}
+        onKeyPress={handleTagEnter}
         onChange={handleInputValue}
         onKeyDown={handleBackSpace}
         type="text"
         value={tagInput}
         placeholder="태그를 입력하세요"
+        theme={theme}
       />
-      <Guide move={guide}>
+      <Guide move={guide} theme={theme}>
         <p>쉼표 혹은 엔터를 입력하면 태그를 등록 할 수 있습니다.</p>
         <p>등록된 태그를 클릭하면 삭제됩니다.</p>
       </Guide>
@@ -74,13 +82,15 @@ const Header = styled.div`
   box-sizing: border-box;
 `;
 
-const TitleArea = styled.textarea`
+const TitleArea = styled.textarea<ThemeProps>`
   resize: none;
   border: none;
   width: 100%;
   height: 66px;
   font-size: 44px;
   font-weight: 700;
+  color: ${({ theme }) => theme.MAIN_FONT};
+  background: ${({ theme }) => theme.BACKGROUND};
 
   ::placeholder {
     color: #adb5bd;
@@ -101,26 +111,34 @@ const Guide = styled.div<{ move: boolean }>`
   padding-left: 8px;
   font-size: 12px;
   line-height: 1.5;
-  color: ${PALLETS_LIGHT.CARD_BACKGROUND};
-  background-color: ${PALLETS_LIGHT.MAIN_FONT};
+
+  background-color: #cfcaf8;
   transition: opacity 0.5s;
+  z-index: ${(props) => (props.move ? "10" : "-10")};
   opacity: ${(props) => (props.move ? "1" : "0")};
 `;
 
-const BorderLine = styled.div`
+// const Guide = styled.div<ThemeProps>`
+//   color: ${({ theme }) => theme.MAIN_FONT};
+//   background-color: ${({ theme }) => theme.MAIN_FONT};
+// `;
+
+const BorderLine = styled.div<ThemeProps>`
   width: 64px;
   height: 6px;
   margin: 24px 0 16px;
-  background-color: rgb(73, 80, 87);
+  background: ${({ theme }) => theme.SUB_FONT};
 `;
 
-const TagInput = styled.input`
+const TagInput = styled.input<ThemeProps>`
   display: inline-flex;
   border: none;
   padding: 1px 2px;
   margin-bottom: 12px;
   font-size: 18px;
   cursor: text;
+  color: ${({ theme }) => theme.MAIN_FONT};
+  background: ${({ theme }) => theme.BACKGROUND};
 
   ::placeholder {
     color: #6f7275;
