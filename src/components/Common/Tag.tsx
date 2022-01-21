@@ -1,27 +1,42 @@
-import styled from "@emotion/styled";
-import { PALLETS_LIGHT } from "../../constants";
+import styled from "@emotion/styled"
+import Link from "next/link"
+import { useContext } from "react"
+import { MEDIA_QUERY_END_POINT } from "../../constants"
+import { ThemeContext } from "../../pages/_app"
+import { ThemeProps } from "../../types/Theme"
 
 interface TagProps {
-  tagName: string;
-  onRemove: (e: React.MouseEvent<HTMLElement>) => void;
+  tagName: string
 }
 
-export const Tag = ({ tagName, onRemove }: TagProps) => {
-  return <TagItem onClick={onRemove}>{tagName}</TagItem>;
-};
+export const Tag = ({ tagName }: TagProps) => {
+  const { theme } = useContext(ThemeContext)
 
-const TagItem = styled.div`
+  return (
+    <TagsContainer theme={theme}>
+      <Link href={`/tags/${tagName}`}>
+        <a>{tagName}</a>
+      </Link>
+    </TagsContainer>
+  )
+}
+
+const TagsContainer = styled.div<ThemeProps>`
   display: inline-flex;
   align-items: center;
-  height: 32px;
+  margin: 0 14px 14px 0;
   padding: 0 16px;
-  margin: 0 12px 12px 0;
-  border-radius: 16px;
-  font-size: 16px;
-  color: ${PALLETS_LIGHT.MAIN};
-  background-color: ${PALLETS_LIGHT.CARD_BACKGROUND};
-  cursor: pointer;
-
-  transition: all 0.125s ease-in 0s;
-  animation: 0.125s ease-in-out 0s 1 normal forwards running iMKika;
-`;
+  height: 32px;
+  font-weight: 500;
+  background: ${({ theme }) => theme.SUBBACKGROUND};
+  border-radius: 15px;
+  a {
+    font-size: 16px;
+    color: ${({ theme }) => theme.MAIN};
+  }
+  @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
+    a {
+      font-size: 12px;
+    }
+  }
+`
