@@ -1,66 +1,60 @@
-import styled from "@emotion/styled";
-import Image from "next/image";
-import SearchIcon from "@mui/icons-material/Search";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { useEffect, useRef, useState } from "react";
-import { HeaderMenu } from "./HeaderMenu";
-import Link from "next/link";
-import { css } from "@emotion/react";
-import { Theme } from "../../styles/theme";
-import { useContext } from "react";
-import { ThemeContext } from "../../pages/_app";
-import { ThemeProps } from "../../types/Theme";
+import styled from "@emotion/styled"
+import Image from "next/image"
+import SearchIcon from "@mui/icons-material/Search"
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
+import { useEffect, useRef, useState } from "react"
+import { HeaderMenu } from "./HeaderMenu"
+import Link from "next/link"
+import { css } from "@emotion/react"
+import { Theme } from "../../styles/theme"
+import { useContext } from "react"
+import { ThemeContext } from "../../pages/_app"
+import { ThemeProps } from "../../types/Theme"
 
-import { MEDIA_QUERY_END_POINT } from "../../constants";
+import { MEDIA_QUERY_END_POINT } from "../../constants"
 
 interface HeaderProps {
-  username: string | string[] | undefined;
-  user: boolean;
+  username?: string | string[] | undefined
+  user: boolean
 }
 
 export const Header = ({
   username = "",
   user = false,
 }: HeaderProps): JSX.Element => {
-  const { theme } = useContext(ThemeContext);
-  const [showMenu, setShowMenu] = useState(false);
+  const { theme } = useContext(ThemeContext)
+  const [showMenu, setShowMenu] = useState(false)
   const handleMenu = () => {
-    setShowMenu(!showMenu);
-  };
+    setShowMenu(!showMenu)
+  }
 
-  const scrollTop = useRef(0);
-  const lastscrollTop = useRef(0);
-  const [navTop, setNavTop] = useState(0);
-  const [navPosition, setNavPosition] = useState(true); // true면 static false면 fixed
+  const scrollTop = useRef(0)
+  const lastscrollTop = useRef(0)
+  const [navTop, setNavTop] = useState(0)
 
   const scrollNav = () => {
-    scrollTop.current = window.scrollY;
+    scrollTop.current = window.scrollY
 
-    if (scrollTop.current <= 64) {
-      setNavPosition(true);
+    if (scrollTop.current > lastscrollTop.current) {
+      setNavTop(-64)
+      setShowMenu(false)
     } else {
-      setNavPosition(false);
-      if (scrollTop.current > lastscrollTop.current) {
-        setNavTop(-64);
-        setShowMenu(false);
-      } else {
-        setNavTop(0);
-      }
+      setNavTop(0)
     }
 
-    lastscrollTop.current = scrollTop.current;
-  };
+    lastscrollTop.current = scrollTop.current
+  }
 
   useEffect(() => {
-    window.addEventListener("scroll", scrollNav);
+    window.addEventListener("scroll", scrollNav)
 
     return () => {
-      window.removeEventListener("scroll", scrollNav);
-    };
-  }, []);
+      window.removeEventListener("scroll", scrollNav)
+    }
+  }, [])
 
   return (
-    <HeaderComponent theme={theme} top={navTop} position={navPosition}>
+    <HeaderComponent theme={theme} top={navTop}>
       <HeaderContainer>
         <HeaderUtils theme={theme}>
           {user ? (
@@ -113,22 +107,21 @@ export const Header = ({
         </HeaderUtils>
       </HeaderContainer>
     </HeaderComponent>
-  );
-};
+  )
+}
 
 type HeaderComponentProps = {
-  top: number;
-  position: boolean;
-  theme: Theme;
-};
+  top: number
+  theme: Theme
+}
 
-const headerTop = ({ top, position, theme }: HeaderComponentProps) => css`
-  position: ${position ? "static" : "fixed"};
+const headerTop = ({ top, theme }: HeaderComponentProps) => css`
   background: ${theme.BACKGROUND};
   top: ${top}px;
-`;
+`
 
 const HeaderComponent = styled.header`
+  position: sticky;
   width: 100%;
   z-index: 100;
   display: flex;
@@ -136,7 +129,7 @@ const HeaderComponent = styled.header`
   align-items: center;
   ${headerTop}
   transition : 0.1s linear;
-`;
+`
 
 const HeaderContainer = styled.section`
   display: flex;
@@ -156,7 +149,7 @@ const HeaderContainer = styled.section`
   @media screen and (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     width: calc(100% - 32px);
   }
-`;
+`
 
 const HeaderUtils = styled.article<ThemeProps>`
   display: flex;
@@ -168,21 +161,21 @@ const HeaderUtils = styled.article<ThemeProps>`
   & > *:not(:last-child) {
     margin-right: 12px;
   }
-`;
+`
 
 const LogoContainer = styled(Link)`
   display: flex;
-`;
+`
 
 const LogoLink = styled.a`
   display: flex;
   align-items: center;
-`;
+`
 const LogoImg = styled.svg`
   width: 24px;
   height: 24px;
   flex-shrink: 0;
-`;
+`
 
 const UserName = styled.a<ThemeProps>`
   margin-left: 12px;
@@ -192,7 +185,7 @@ const UserName = styled.a<ThemeProps>`
   white-space: nowrap;
   overflow: hidden;
   color: ${({ theme }) => theme.MAIN_FONT};
-`;
+`
 const SearchBtn = styled.a<ThemeProps>`
   display: flex;
   align-items: center;
@@ -205,7 +198,7 @@ const SearchBtn = styled.a<ThemeProps>`
     border-radius: 50%;
     background: ${({ theme }) => theme.TOGGLE_BACKGROUND};
   }
-`;
+`
 const UserUtils = styled.article<ThemeProps>`
   cursor: pointer;
   display: flex;
@@ -221,11 +214,11 @@ const UserUtils = styled.article<ThemeProps>`
       color: ${({ theme }) => theme.MAIN};
     }
   }
-`;
+`
 
 const UserProfile = styled(Image)`
   border-radius: 50%;
-`;
+`
 
 const NewPostBtn = styled.button<ThemeProps>`
   height: 32px;
@@ -247,4 +240,4 @@ const NewPostBtn = styled.button<ThemeProps>`
   @media screen and (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     display: none;
   }
-`;
+`

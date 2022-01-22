@@ -30,3 +30,10 @@ export interface DetailCardProps {
   date: string
   id?: number | string
 }
+
+export interface TagsProps {
+  tagImage?: string
+  tagName: string
+  tagDesc?: string
+  tagCount: number
+}

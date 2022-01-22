@@ -1,6 +1,7 @@
 export const API_ENDPOINT = "https://secret-hollows-17182.herokuapp.com/api"
 
 export const MEDIA_QUERY_END_POINT = {
+  SMALL: "470px",
   MOBILE: "768px",
   TABLET: "1024px",
   DESKTOP: "1200px",

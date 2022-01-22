@@ -6,6 +6,7 @@ import { useContext } from "react"
 import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
 import { Profile } from "."
+import { Tag } from "../Common/Tag"
 
 type PropsTypes = {
   imageUrl: string
@@ -51,11 +52,7 @@ export const MyCard = ({
           </Link>
           <p>{postDesc}</p>
           {tags?.map((e, index) => (
-            <TagsContainer theme={theme} key={index}>
-              <Link href={`/tags/${e}`}>
-                <a>{e}</a>
-              </Link>
-            </TagsContainer>
+            <Tag tagName={e} key={index} />
           ))}
           <DateCommentContainer theme={theme}>
             <span>{date}일 전</span>
@@ -153,24 +150,4 @@ const ImageContainer = styled(Image)`
   background: pink;
   overflow: hidden;
   object-fit: cover;
-`
-
-const TagsContainer = styled.div<ThemeProps>`
-  display: inline-flex;
-  align-items: center;
-  margin: 0 14px 14px 0;
-  padding: 0 16px;
-  height: 32px;
-  font-weight: 500;
-  background: ${({ theme }) => theme.SUBBACKGROUND};
-  border-radius: 15px;
-  a {
-    font-size: 16px;
-    color: ${({ theme }) => theme.MAIN};
-  }
-  @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
-    a {
-      font-size: 12px;
-    }
-  }
 `
