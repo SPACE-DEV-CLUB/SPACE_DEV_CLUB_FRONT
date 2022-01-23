@@ -54,7 +54,7 @@ const Menus = styled.ul<ThemeProps>`
   right: 10px;
   background: ${({ theme }) => theme.CARD_BACKGROUND};
   z-index: 100;
-  box-shadow: 0 0 15px 0 ${({ theme }) => theme.SUBBACKGROUND};
+  box-shadow: 0 0 15px 0 ${({ theme }) => theme.TOGGLE_BACKGROUND};
   .newPost {
     display: none;
     @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {

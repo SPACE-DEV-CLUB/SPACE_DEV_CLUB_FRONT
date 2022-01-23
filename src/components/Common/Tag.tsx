@@ -28,7 +28,7 @@ const TagsContainer = styled.div<ThemeProps>`
   padding: 0 16px;
   height: 32px;
   font-weight: 500;
-  background: ${({ theme }) => theme.SUBBACKGROUND};
+  background: ${({ theme }) => theme.TOGGLE_BACKGROUND};
   border-radius: 15px;
   a {
     font-size: 16px;
