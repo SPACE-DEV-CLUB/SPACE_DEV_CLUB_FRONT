@@ -83,7 +83,7 @@ const EditBtn = styled.button<ThemeProps>`
   margin: 30px;
   padding: 0 18px;
   background: ${({ theme }) => theme.MAIN};
-  color: #fff;
+  color: ${({ theme }) => theme.BACKGROUND};
   border-radius: 4px;
 `
 const DefaultContainer = styled.article`

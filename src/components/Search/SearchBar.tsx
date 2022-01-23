@@ -3,7 +3,7 @@ import Search from "@mui/icons-material/Search"
 import { useRouter } from "next/router"
 import { useEffect, useRef, useState } from "react"
 import { MEDIA_QUERY_END_POINT } from "../../constants"
-import { Theme } from "../../styles/theme"
+
 import { useContext } from "react"
 import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
@@ -32,7 +32,7 @@ export const SearchBar = () => {
     <BarContainer theme={theme}>
       <form>
         <div className="img-wrap">
-          <Search />
+          <Search className="search" />
         </div>
         <input
           ref={inputRef}
@@ -53,30 +53,35 @@ const BarContainer = styled.div<ThemeProps>`
     position: relative;
     display: flex;
     align-items: center;
-    height: 64px;
     .img-wrap {
       position: absolute;
       left: 24px;
     }
     input {
       width: 100%;
-      margin-left: 0px;
       height: 32px;
+      margin-left: 0px;
       border: 1px solid ${({ theme }) => theme.BORDER};
       font-size: 24px;
       padding: 10px 64px;
       color: ${({ theme }) => theme.MAIN_FONT};
-      background: ${({ theme }) => theme.SUBBACKGROUND};
+      background: ${({ theme }) => theme.BACKGROUND};
       outline: none;
       transition: outline-color 1000ms;
+    }
+    .search {
+      color: ${({ theme }) => theme.BORDER};
+    }
 
-      &:active,
-      &:focus {
-        outline: 1px solid ${({ theme }) => theme.MAIN};
+    &:active,
+    &:focus {
+      outline: 1px solid ${({ theme }) => theme.MAIN};
+      & .search {
+        color: ${({ theme }) => theme.MAIN};
       }
-      &::placeholder {
-        color: ${({ theme }) => theme.BORDER};
-      }
+    }
+    &::placeholder {
+      color: ${({ theme }) => theme.BORDER};
     }
   }
   @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {

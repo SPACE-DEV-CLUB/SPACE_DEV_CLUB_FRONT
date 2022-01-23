@@ -100,7 +100,7 @@ const SaveBtn = styled.button<ThemeProps>`
   color: ${({ theme }) => theme.SUB_FONT};
   &:hover {
     background: ${({ theme }) => theme.MAIN};
-    color: ${({ theme }) => theme.MAIN_FONT};
+    color: ${({ theme }) => theme.BACKGROUND};
   }
 `
 
