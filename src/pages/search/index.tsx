@@ -12,6 +12,7 @@ import Head from "next/head"
 import { useContext } from "react"
 import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
+import { Header } from "../../components/Common/Header"
 
 const MyPage: NextPage = () => {
   const { theme } = useContext(ThemeContext)
@@ -37,9 +38,10 @@ const MyPage: NextPage = () => {
           <title>sdv</title>
         )}
       </Head>
+      <Header username={"deli-ght"} user={false} />
       <Container>
         <SearchBar />
-        <CardContainer>
+        {res && <CardContainer>
           {filteredData.length ? (
             <>
               <FindPost postNum={filteredData.length} />
@@ -60,7 +62,7 @@ const MyPage: NextPage = () => {
           ) : (
             <NoResult theme={theme}>검색 결과가 없습니다</NoResult>
           )}
-        </CardContainer>
+        </CardContainer>}
 
         {/* {DETAIL_CARD_DATA.map((e, index) => (
         <DetailCard
