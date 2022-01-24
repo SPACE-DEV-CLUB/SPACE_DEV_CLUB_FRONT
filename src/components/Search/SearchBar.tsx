@@ -48,7 +48,7 @@ export const SearchBar = () => {
 
 const BarContainer = styled.div<ThemeProps>`
   width: 734px;
-  margin: 0 auto;
+  margin: 50px auto 0 auto;
   form {
     position: relative;
     display: flex;
