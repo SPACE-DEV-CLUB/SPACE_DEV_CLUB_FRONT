@@ -56,7 +56,7 @@ export const SelfIntro = () => {
               width={300}
               height={300}
             />
-            <EditBtn theme={theme} onClick={handleEdit}>
+            <EditBtn theme={theme} onClick={handleStart}>
               소개 글 작성하기
             </EditBtn>
           </DefaultContainer>

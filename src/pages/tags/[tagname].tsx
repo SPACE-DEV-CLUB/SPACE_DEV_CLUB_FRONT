@@ -5,6 +5,7 @@ import { useRouter } from "next/router"
 import { useContext, useState } from "react"
 import { Header } from "../../components/Common/Header"
 import { MyCard } from "../../components/MyPage/MyCard"
+import TagLoading from "../../components/Tags/TagLoading"
 import { MEDIA_QUERY_END_POINT } from "../../constants"
 import { CARD_DATA, TAGS } from "../../data"
 import { ThemeProps } from "../../types/Theme"
@@ -23,7 +24,8 @@ const SearchTag = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <TagSection>
-        <Header user={false} />
+        <TagLoading />
+        {/* <Header user={false} />
         <Main>
           <TagInfo>
             <TagImg>
@@ -60,7 +62,7 @@ const SearchTag = () => {
               )
             })}
           </CardContainer>
-        </Main>
+        </Main> */}
       </TagSection>
     </>
   )

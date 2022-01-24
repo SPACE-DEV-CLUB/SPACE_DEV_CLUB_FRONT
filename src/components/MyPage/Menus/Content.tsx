@@ -157,7 +157,7 @@ const SmallTaglist = styled.section<ThemeProps>`
       &:active * {
         font-size: 12px;
         background: ${({ theme }) => theme.MAIN};
-        color: white;
+        color: ${({ theme }) => theme.BACKGROUND};
       }
       a {
         line-height: 24px;
