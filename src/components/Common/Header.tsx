@@ -12,6 +12,7 @@ import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
 
 import { MEDIA_QUERY_END_POINT } from "../../constants"
+import { useRouter } from "next/router"
 
 interface HeaderProps {
   username?: string | string[] | undefined
@@ -24,18 +25,18 @@ export const Header = ({
 }: HeaderProps): JSX.Element => {
   const { theme } = useContext(ThemeContext)
   const [showMenu, setShowMenu] = useState(false)
+  const [navTop, setNavTop] = useState(0)
+  const [isUserName, setUserName] = useState(false)
   const handleMenu = () => {
     setShowMenu(!showMenu)
   }
-
   const scrollTop = useRef(0)
   const lastscrollTop = useRef(0)
+  const router = useRouter()
   const [navTop, setNavTop] = useState(0)
   const [check, setCheck] = useState(false)
-
   const scrollNav = () => {
     scrollTop.current = window.scrollY
-
     if (scrollTop.current > lastscrollTop.current) {
       setNavTop(-64)
       setShowMenu(false)
@@ -47,10 +48,21 @@ export const Header = ({
       }
       setNavTop(0)
     }
-
     lastscrollTop.current = scrollTop.current
   }
 
+  function detectUserName(){
+    if(router.query.id){
+      return true
+    }else {
+      return false
+    }
+  }
+
+  useEffect(() => {
+    setUserName(detectUserName())
+  })
+  
   useEffect(() => {
     window.addEventListener("scroll", scrollNav)
 
@@ -63,7 +75,7 @@ export const Header = ({
     <HeaderComponent theme={theme} top={navTop} check={check}>
       <HeaderContainer>
         <HeaderUtils theme={theme}>
-          {user ? (
+          {isUserName ? (
             <>
               <LogoContainer href={`/`} passHref>
                 <LogoLink>
@@ -101,7 +113,7 @@ export const Header = ({
           )}
         </HeaderUtils>
         <HeaderUtils theme={theme}>
-          <Link href={`/search`} passHref>
+          <Link href={`user ? `/search?username=${username}` : '/search'`} passHref>
             <SearchBtn theme={theme} className="sc-dxgOiQ ghkPCb">
               <SearchIcon htmlColor={theme.MAIN_FONT} />
             </SearchBtn>
