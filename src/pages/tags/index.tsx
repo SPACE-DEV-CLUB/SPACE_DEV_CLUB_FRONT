@@ -8,6 +8,7 @@ import TagCards from "../../components/Tags/TagCards"
 import { TAGS } from "../../data"
 import Head from "next/head"
 import { MEDIA_QUERY_END_POINT } from "../../constants"
+import TagMainLoading from "../../components/Tags/TagMainLoading"
 
 const Tags: NextPage = () => {
   const sortedCount = useRef([...TAGS.sort((a, b) => b.tagCount - a.tagCount)])
@@ -32,36 +33,42 @@ const Tags: NextPage = () => {
       </Head>
       <section>
         <Header user={false}></Header>
-        <SortContainer>
-          <Sorting theme={theme} active={isActive}>
-            <SortBtn
-              onClick={() => handleActive(false)}
-              theme={theme}
-              active={!isActive}
-            >
-              인기순
-            </SortBtn>
-            <SortBtn
-              onClick={() => handleActive(true)}
-              theme={theme}
-              active={isActive}
-            >
-              이름순
-            </SortBtn>
-          </Sorting>
-        </SortContainer>
-        <TagsContainer>
-          {sortedTag.current.map((e, i) => {
-            return (
-              <TagCards
-                key={i}
-                tagName={e.tagName}
-                tagDesc={e.tagDescription}
-                tagCount={e.tagCount}
-              />
-            )
-          })}
-        </TagsContainer>
+        {TAGS ? (
+          <>
+            <SortContainer>
+              <Sorting theme={theme} active={isActive}>
+                <SortBtn
+                  onClick={() => handleActive(false)}
+                  theme={theme}
+                  active={!isActive}
+                >
+                  인기순
+                </SortBtn>
+                <SortBtn
+                  onClick={() => handleActive(true)}
+                  theme={theme}
+                  active={isActive}
+                >
+                  이름순
+                </SortBtn>
+              </Sorting>
+            </SortContainer>
+            <TagsContainer>
+              {sortedTag.current.map((e, i) => {
+                return (
+                  <TagCards
+                    key={i}
+                    tagName={e.tagName}
+                    tagDesc={e.tagDescription}
+                    tagCount={e.tagCount}
+                  />
+                )
+              })}
+            </TagsContainer>
+          </>
+        ) : (
+          <TagMainLoading />
+        )}
       </section>
     </>
   )
@@ -108,8 +115,7 @@ const SortBtn = styled.button<SortProps>`
 
 const TagsContainer = styled.article`
   display: grid;
-  margin : 64px auto 0;
-  width : 100%
+  margin: 64px auto 0;
   grid-template-columns: repeat(1, 1fr);
   @media screen and (min-width: ${MEDIA_QUERY_END_POINT.SMALL}) {
     grid-template-columns: repeat(2, 1fr);
