@@ -146,6 +146,6 @@ const EmailAddress = styled.span<ThemeProps>`
   font-size: 12px;
   line-height: 1.5;
   background: ${({ theme }) => theme.MAIN};
-  color: #fff;
+  color: ${({ theme }) => theme.BACKGROUND};
   border-radius: 5px;
 `

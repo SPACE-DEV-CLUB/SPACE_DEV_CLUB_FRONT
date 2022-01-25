@@ -31,6 +31,7 @@ export const Header = ({
   const scrollTop = useRef(0)
   const lastscrollTop = useRef(0)
   const [navTop, setNavTop] = useState(0)
+  const [check, setCheck] = useState(false)
 
   const scrollNav = () => {
     scrollTop.current = window.scrollY
@@ -39,6 +40,11 @@ export const Header = ({
       setNavTop(-64)
       setShowMenu(false)
     } else {
+      if (scrollTop.current <= 64) {
+        setCheck(false)
+      } else {
+        setCheck(true)
+      }
       setNavTop(0)
     }
 
@@ -54,32 +60,38 @@ export const Header = ({
   }, [])
 
   return (
-    <HeaderComponent theme={theme} top={navTop}>
+    <HeaderComponent theme={theme} top={navTop} check={check}>
       <HeaderContainer>
         <HeaderUtils theme={theme}>
           {user ? (
-            <LogoContainer href={`/${username}`} passHref>
-              <LogoLink>
-                <LogoImg
-                  width="192"
-                  height="192"
-                  viewBox="0 0 192 192"
-                  fill="none"
-                >
-                  <rect
+            <>
+              <LogoContainer href={`/`} passHref>
+                <LogoLink>
+                  <LogoImg
                     width="192"
                     height="192"
-                    fill="currentColor"
-                    rx="24"
-                  ></rect>
-                  <path
-                    d="M49 65.48V57.92C53.8 56.36 59.44 54.68 65.92 52.88C72.4 50.96 76.78 50 79.06 50C84.1 50 87.1 52.4 88.06 57.2L99.76 123.62C103.48 118.7 106.54 114.56 108.94 111.2C112.66 105.92 116.08 99.86 119.2 93.02C122.44 86.18 124.06 80.06 124.06 74.66C124.06 71.42 123.16 68.84 121.36 66.92C119.68 64.88 116.5 62.3 111.82 59.18C116.62 53.06 122.62 50 129.82 50C133.66 50 136.84 51.14 139.36 53.42C142 55.7 143.32 59.06 143.32 63.5C143.32 70.94 140.2 80.24 133.96 91.4C127.84 102.44 116.02 119.06 98.5 141.26L80.68 142.52L67 65.48H49Z"
-                    fill="white"
-                  ></path>
-                </LogoImg>
-                <UserName theme={theme}>{username}</UserName>
-              </LogoLink>
-            </LogoContainer>
+                    viewBox="0 0 192 192"
+                    fill="none"
+                  >
+                    <rect
+                      width="192"
+                      height="192"
+                      fill="currentColor"
+                      rx="24"
+                    ></rect>
+                    <path
+                      d="M49 65.48V57.92C53.8 56.36 59.44 54.68 65.92 52.88C72.4 50.96 76.78 50 79.06 50C84.1 50 87.1 52.4 88.06 57.2L99.76 123.62C103.48 118.7 106.54 114.56 108.94 111.2C112.66 105.92 116.08 99.86 119.2 93.02C122.44 86.18 124.06 80.06 124.06 74.66C124.06 71.42 123.16 68.84 121.36 66.92C119.68 64.88 116.5 62.3 111.82 59.18C116.62 53.06 122.62 50 129.82 50C133.66 50 136.84 51.14 139.36 53.42C142 55.7 143.32 59.06 143.32 63.5C143.32 70.94 140.2 80.24 133.96 91.4C127.84 102.44 116.02 119.06 98.5 141.26L80.68 142.52L67 65.48H49Z"
+                      fill="white"
+                    ></path>
+                  </LogoImg>
+                </LogoLink>
+              </LogoContainer>
+              <LogoContainer href={`/${username}`} passHref>
+                <LogoLink>
+                  <UserName theme={theme}>{username}</UserName>
+                </LogoLink>
+              </LogoContainer>
+            </>
           ) : (
             <LogoContainer href={"/"} passHref>
               <LogoLink>
@@ -89,9 +101,11 @@ export const Header = ({
           )}
         </HeaderUtils>
         <HeaderUtils theme={theme}>
-          <SearchBtn theme={theme} className="sc-dxgOiQ ghkPCb" href="">
-            <SearchIcon htmlColor={theme.MAIN_FONT} />
-          </SearchBtn>
+          <Link href={`/search`} passHref>
+            <SearchBtn theme={theme} className="sc-dxgOiQ ghkPCb">
+              <SearchIcon htmlColor={theme.MAIN_FONT} />
+            </SearchBtn>
+          </Link>
           <NewPostBtn theme={theme}>새 글 작성</NewPostBtn>
           <UserUtils theme={theme} onClick={handleMenu}>
             <UserProfile
@@ -113,11 +127,13 @@ export const Header = ({
 type HeaderComponentProps = {
   top: number
   theme: Theme
+  check: boolean
 }
 
-const headerTop = ({ top, theme }: HeaderComponentProps) => css`
+const headerTop = ({ top, theme, check }: HeaderComponentProps) => css`
   background: ${theme.BACKGROUND};
   top: ${top}px;
+  ${check && `box-shadow:  0 5px 10px 0 ${theme.TOGGLE_BACKGROUND}`};
 `
 
 const HeaderComponent = styled.header`
@@ -163,9 +179,7 @@ const HeaderUtils = styled.article<ThemeProps>`
   }
 `
 
-const LogoContainer = styled(Link)`
-  display: flex;
-`
+const LogoContainer = styled(Link)``
 
 const LogoLink = styled.a`
   display: flex;
@@ -178,7 +192,6 @@ const LogoImg = styled.svg`
 `
 
 const UserName = styled.a<ThemeProps>`
-  margin-left: 12px;
   font-family: "Fira Mono", monospace;
   max-width: calc(100vw - 200px);
   text-overflow: ellipsis;
