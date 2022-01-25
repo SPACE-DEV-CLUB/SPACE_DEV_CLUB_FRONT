@@ -12,6 +12,7 @@ import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
 
 import { MEDIA_QUERY_END_POINT } from "../../constants"
+import { useRouter } from "next/router"
 
 interface HeaderProps {
   username?: string | string[] | undefined
@@ -24,27 +25,37 @@ export const Header = ({
 }: HeaderProps): JSX.Element => {
   const { theme } = useContext(ThemeContext)
   const [showMenu, setShowMenu] = useState(false)
+  const [navTop, setNavTop] = useState(0)
+  const [isUserName, setUserName] = useState(false)
   const handleMenu = () => {
     setShowMenu(!showMenu)
   }
-
   const scrollTop = useRef(0)
   const lastscrollTop = useRef(0)
-  const [navTop, setNavTop] = useState(0)
-
+  const router = useRouter()
   const scrollNav = () => {
     scrollTop.current = window.scrollY
-
     if (scrollTop.current > lastscrollTop.current) {
       setNavTop(-64)
       setShowMenu(false)
     } else {
       setNavTop(0)
     }
-
     lastscrollTop.current = scrollTop.current
   }
 
+  function detectUserName(){
+    if(router.query.id){
+      return true
+    }else {
+      return false
+    }
+  }
+
+  useEffect(() => {
+    setUserName(detectUserName())
+  })
+  
   useEffect(() => {
     window.addEventListener("scroll", scrollNav)
 
@@ -57,7 +68,7 @@ export const Header = ({
     <HeaderComponent theme={theme} top={navTop}>
       <HeaderContainer>
         <HeaderUtils theme={theme}>
-          {user ? (
+          {isUserName ? (
             <LogoContainer href={`/${username}`} passHref>
               <LogoLink>
                 <LogoImg
@@ -77,7 +88,7 @@ export const Header = ({
                     fill="white"
                   ></path>
                 </LogoImg>
-                <UserName theme={theme}>{username}</UserName>
+                <UserName theme={theme}>{username}.log</UserName>
               </LogoLink>
             </LogoContainer>
           ) : (
@@ -89,7 +100,7 @@ export const Header = ({
           )}
         </HeaderUtils>
         <HeaderUtils theme={theme}>
-          <SearchBtn theme={theme} className="sc-dxgOiQ ghkPCb" href="">
+          <SearchBtn theme={theme} className="sc-dxgOiQ ghkPCb" href={user ? `search?username=${username}` : 'search'}>
             <SearchIcon htmlColor={theme.MAIN_FONT} />
           </SearchBtn>
           <NewPostBtn theme={theme}>새 글 작성</NewPostBtn>

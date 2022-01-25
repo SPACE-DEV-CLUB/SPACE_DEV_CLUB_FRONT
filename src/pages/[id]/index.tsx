@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 
 const Mypage: NextPage = () => {
   const router = useRouter()
-  const userid = router.query.id
+  const userid = String(router.query.id).replace(/[@]/gi, '')
 
   return (
     <MypageLayout username={userid} user={true} indexnum={0}>

@@ -52,10 +52,10 @@ export const PostCard = ({
   };
   return (
     <Card theme={theme}>
-      <Link href="/" passHref>
+      <Link href={`/@${username}`} passHref>
         <a>
           <Thumbnail src={thumbnail} alt="" />
-
+          
           <Contents theme={theme}>
             <h4>{postTitle}</h4>
             <p>{postDesc}</p>
