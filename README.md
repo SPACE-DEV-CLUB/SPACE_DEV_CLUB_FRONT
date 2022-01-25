@@ -83,6 +83,7 @@ velog를 클론하는 프로젝트
 - emotion
 - axios
 - context-api
+- SWR
 - node.js
 
 ### Backend
