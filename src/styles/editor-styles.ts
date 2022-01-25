@@ -1,1 +1,1 @@
-export const editorStyles = () => {};
+export const editorStyles = () => {}
