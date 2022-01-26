@@ -5,12 +5,19 @@ import { Intro } from "../MyPage";
 import { Carousel } from "./Carousel";
 import { Comment } from "./Comment";
 
-export const DetailHeader = () => {
+interface DetailData {
+  title: string;
+  contents: string;
+  userName: string | string[] | undefined;
+}
+
+export const DetailHeader = ({ title, contents, userName }: DetailData) => {
   return (
     <Header>
-      <h2>글제목</h2>
-      <UDHashContainer />
+      <h2>{title}</h2>
+      <UDHashContainer userName={userName} />
       <SeriesContainer />
+      <div>{contents}</div>
       <Intro />
       <Carousel />
       <Comment />
