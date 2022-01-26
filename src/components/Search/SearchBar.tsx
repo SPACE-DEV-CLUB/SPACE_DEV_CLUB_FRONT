@@ -65,6 +65,8 @@ const BarContainer = styled.div<ThemeProps>`
         position: relative;
         display: flex;
         align-items: center;
+        color: ${({ theme }) => theme.BORDER};
+        transition: all 300ms;
         .img-wrap {
             position: absolute;
             left: 24px;
@@ -73,25 +75,21 @@ const BarContainer = styled.div<ThemeProps>`
             width: 100%;
             height: 32px;
             margin-left: 0px;
-            border: 1px solid ${({ theme }) => theme.BORDER};
+            border: none;
             font-size: 24px;
             padding: 10px 64px;
             color: ${({ theme }) => theme.MAIN_FONT};
             background: ${({ theme }) => theme.BACKGROUND};
-            outline: none;
-            transition: outline-color 1000ms;
-        }
-        .search {
-            color: ${({ theme }) => theme.BORDER};
-        }
-
-        &:active,
-        &:focus {
-            outline: 1px solid ${({ theme }) => theme.MAIN};
-            & .search {
-                color: ${({ theme }) => theme.MAIN};
+            outline: 1px solid ${({ theme }) => theme.BORDER};
+            transition: inherit;
+            &:focus {
+                outline: 1px solid ${({ theme }) => theme.MAIN_FONT};
             }
         }
+        &:focus-within {
+            color: ${({ theme }) => theme.MAIN_FONT};
+        }
+
         &::placeholder {
             color: ${({ theme }) => theme.BORDER};
         }
