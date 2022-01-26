@@ -14,6 +14,7 @@ import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../_app";
 import { useRouter } from "next/router";
 import { useData } from "../../../hooks/useData";
+import { ErrorPage } from "../../../components/Details/ErrorPage";
 
 interface ThemeProps {
   theme: Theme;
@@ -108,7 +109,7 @@ const DetailsIndexPage: NextPage = () => {
           </PostsContainer>
         </div>
       ) : (
-        <div>아무것도 없네요!</div>
+        <ErrorPage />
       )}
     </main>
   );
