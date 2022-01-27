@@ -24,7 +24,7 @@ export const SearchBar = () => {
     useEffect(() => {
         if (router.isReady) {
             const timeOut = setTimeout(() => {
-                router.push({
+                router.replace({
                     pathname: router.pathname,
                     query: { ...router.query, q: searchQuery },
                 });
