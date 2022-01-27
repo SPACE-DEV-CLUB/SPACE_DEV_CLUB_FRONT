@@ -1,20 +1,57 @@
 import styled from "@emotion/styled"
-import { MEDIA_QUERY_END_POINT } from "../../../constants"
+import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "../../../constants"
 import SearchIcon from "@mui/icons-material/Search"
 import { MyCard } from "../MyCard"
-import { useData } from "../../../hooks/useData"
-import { Theme } from "../../../styles/theme"
-import { useContext } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { ThemeContext } from "../../../pages/_app"
 import { ThemeProps } from "../../../types/Theme"
+import CardLoading from "../../Common/CardLoading"
+import { fetcher } from "../../../utils/fetcher"
+import useSWRInfinite from "swr/infinite"
 
 interface ContentProps {
   username: string | string[] | undefined
 }
-
+const PAGE_SIZE = 2
 export const Content = ({ username }: ContentProps) => {
-  const { data, error } = useData("cards")
   const { theme } = useContext(ThemeContext)
+
+  const [target, setTarget] = useState<HTMLElement | null | undefined>(null)
+
+  const getKey = (pageIndex: number, previousPageData: any) => {
+    if (previousPageData && !previousPageData.data) return null
+    return `${API_ENDPOINT}/posts?pagination[page]=${pageIndex}&pagination[pageSize]=${PAGE_SIZE}`
+  }
+
+  const { data, size, setSize, error, isValidating } = useSWRInfinite(
+    getKey,
+    fetcher
+  )
+
+  const isLoadingInitialData = !data && !error
+  const isLoadingMore =
+    isLoadingInitialData ||
+    (size > 0 && data && typeof data[size - 1] === "undefined")
+
+  const isEmpty = data?.[0]?.length === 0
+  const isReachingEnd =
+    isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE)
+
+  const onIntersect: IntersectionObserverCallback = ([entry]) => {
+    if (entry.isIntersecting && !isReachingEnd) {
+      setSize((prev) => prev + 1)
+    }
+  }
+
+  useEffect(() => {
+    if (!target) return
+    const observer = new IntersectionObserver(onIntersect, {
+      threshold: 0.4,
+    })
+    observer.observe(target)
+    return () => observer && observer.disconnect()
+  }, [target])
+
   return (
     <ContentContainer>
       <SearchContainer theme={theme}>
@@ -44,19 +81,27 @@ export const Content = ({ username }: ContentProps) => {
         </ul>
       </LargeTaglist>
       <section>
-        {data?.data.map((e: any, index: number) => (
-          <MyCard
-            key={index}
-            imageUrl={e.attributes.imageUrl}
-            postTitle={e.attributes.postTitle}
-            postDesc={e.attributes.postDesc}
-            tags={e.attributes.tag.tags}
-            date={e.attributes.date}
-            comment={e.attributes.comment}
-            username={username}
-          />
-        ))}
+        {data &&
+          data
+            .filter((e, i) => i != 0)
+            .map((loaded) => {
+              return loaded.data.map((e: any, i: number) => (
+                <MyCard
+                  key={i}
+                  imageUrl={e.attributes.imageUrl}
+                  title={e.attributes.title}
+                  contents={e.attributes.contents}
+                  tag={e.attributes.tag?.tags}
+                  date={e.attributes.publichedAt}
+                  // comment={e.attributes.comment}
+                  username={username}
+                />
+              ))
+            })}
       </section>
+      <TargetElement ref={setTarget}>
+        {isLoadingMore && <CardLoading />}
+      </TargetElement>
     </ContentContainer>
   )
 }
@@ -172,4 +217,8 @@ const SmallTaglist = styled.section<ThemeProps>`
       margin-left: 8px;
     }
   }
+`
+const TargetElement = styled.article`
+  width: 100%;
+  height: 100px;
 `
