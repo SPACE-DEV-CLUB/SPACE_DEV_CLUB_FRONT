@@ -2,7 +2,7 @@ import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import React from "react";
-import { Header } from "../../components/Common/Header";
+import { Header } from "../Common/Header";
 import gyurimoji from "../../../public/image/gyuri_memoji.png"
 
 function Intro() {
