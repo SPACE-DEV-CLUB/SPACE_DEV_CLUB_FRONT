@@ -4,6 +4,7 @@ import { ThemeContext } from '../../pages/_app';
 import { lightTheme, Theme } from '../../styles/theme';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import { MEDIA_QUERY_END_POINT } from '../../constants';
 
 interface ToggleProps {
   theme: Theme;
@@ -30,6 +31,9 @@ const ToggleButton = styled('button')<ToggleProps>`
     filter: brightness(
       ${({ theme }) => (theme === lightTheme ? '0.9' : '1.13')}
     );
+  }
+  @media (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
+    display: none;
   }
 `;
 

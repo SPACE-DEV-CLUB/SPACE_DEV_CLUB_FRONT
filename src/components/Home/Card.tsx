@@ -6,63 +6,45 @@ import SAMPLE_IMG from '../../../public/image/sampleUser2.jpg';
 import { Theme } from '../../styles/theme';
 import { useContext } from 'react';
 import { ThemeContext } from '../../pages/_app';
-
+import { handleDate } from '../../utils/date';
 interface ThemeProps {
   theme: Theme;
 }
 
 export const PostCard = ({
   imageUrl,
-  postTitle,
-  postDesc,
-  tags,
-  date,
-  comment,
-  mySearch,
+  title,
+  contents,
+  comments,
   username,
   count,
-  day,
   thumbnail,
+  publishedAt,
 }: {
-  imageUrl: string;
-  postTitle: string;
-  postDesc: string;
-  tags: Array<string>;
-  date: Date;
-  comment: number;
-  username: string | string[] | undefined;
-  mySearch?: boolean;
+  imageUrl?: string;
+  title: string;
+  contents: string;
+  comments?: number;
+  username?: string | string[] | undefined;
   count?: number;
-  day?: number;
-  thumbnail: string;
+  thumbnail?: string;
+  publishedAt: string;
 }) => {
   const { theme } = useContext(ThemeContext);
-  const formatDate = (date: Date) => {
-    let d = new Date(date);
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    let year = d.getFullYear();
-    if (month.length < 2) {
-      month = '0' + month;
-    }
-    if (day.length < 2) {
-      day = '0' + day;
-    }
-    return year + '년 ' + month + '월 ' + day + '일';
-  };
+
   return (
     <Card theme={theme}>
       <Link href={`/@${username}`} passHref>
         <a>
           <Thumbnail src={thumbnail} alt="" />
-          
+
           <Contents theme={theme}>
-            <h4>{postTitle}</h4>
-            <p>{postDesc}</p>
+            <h4>{title}</h4>
+            <p>{contents}</p>
             <div>
-              <span>{formatDate(date)}</span>
+              <span>{handleDate(publishedAt)}</span>
               <Dot>&#183;</Dot>
-              <span>{comment}개의 댓글</span>
+              <span>{comments || 0}개의 댓글</span>
             </div>
           </Contents>
         </a>

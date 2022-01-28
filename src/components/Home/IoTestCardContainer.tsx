@@ -17,7 +17,9 @@ export const TestCardContainer = () => {
     setIsLoaded(true);
     await testFetch();
     setItemIndex((i) => i + 1);
-    setData((data) => data.concat(MAIN_CARD_DATA.slice(itemIndex, itemIndex + 5)));
+    setData((data) =>
+      data.concat(MAIN_CARD_DATA.slice(itemIndex, itemIndex + 5))
+    );
     console.log(itemIndex);
     setIsLoaded(false);
   };
@@ -47,14 +49,13 @@ export const TestCardContainer = () => {
         <PostCard
           key={index}
           imageUrl="/image/sample.jpeg"
-          postTitle={e.postTitle}
-          postDesc={e.postDesc}
-          tags={e.tags}
-          date={e.date}
-          comment={e.comment}
+          title={e.postTitle}
+          contents={e.postDesc}
+          comments={e.comment}
           count={e.count}
           username="deli-ght"
           thumbnail="/image/post_thumbnail.png"
+          publishedAt={''}
         />
       ))}
       <div ref={setTarget}>{isLoaded && <Loader>Loading..</Loader>}</div>
