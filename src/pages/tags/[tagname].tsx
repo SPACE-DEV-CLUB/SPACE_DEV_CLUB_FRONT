@@ -55,7 +55,7 @@ const SearchTag = () => {
                     postTitle={e.postTitle}
                     postDesc={e.postDesc}
                     tags={e.tags}
-                    date={333}
+                    date={'333'}
                     comment={e.comment}
                     username="mmmm"
                     count={e.count}

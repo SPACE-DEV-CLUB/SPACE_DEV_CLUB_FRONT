@@ -14,7 +14,7 @@ type PropsTypes = {
     postTitle: string;
     postDesc: string;
     tags?: Array<string>;
-    date: number;
+    date: string | number;
     comment: number;
     username: string | string[] | undefined;
     mySearch?: boolean;
