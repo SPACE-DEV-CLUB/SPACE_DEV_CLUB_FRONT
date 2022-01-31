@@ -1,58 +1,65 @@
 import styled from '@emotion/styled';
 import { PostCard } from './Card';
 import { MEDIA_QUERY_END_POINT } from '../../constants';
-import { MAIN_CARD_DATA } from '../../data';
-
-interface CARD_DATA_PROPS {
-  imageUrl: string;
-  postTitle: string;
-  postDesc: string;
-  tags: Array<string>;
-  date: Date;
-  comment: number;
-  count: number;
-}
+import { useData } from '../../hooks/useData';
 
 export const CardContainer = ({ filter }: { filter: string }) => {
-  const results = filterPosts(MAIN_CARD_DATA, filter);
-
-  function filterPosts(MAIN_CARD_DATA: Array<CARD_DATA_PROPS>, text: String) {
-    if (text === '이번 주') {
-      return MAIN_CARD_DATA.filter(
-        (post: CARD_DATA_PROPS) =>
-          post.date >= new Date(Date.now() - 1000 * 3600 * 24 * 7)
-      ).sort((a: CARD_DATA_PROPS, b: CARD_DATA_PROPS) => b.count - a.count);
+  const { data, error } = useData('posts');
+  if (!data) return <h1>데이터 로딩중..</h1>;
+  const filteredPosts = filterPosts(data.data, filter);
+  function filterPosts(data: any, text: String) {
+    if (text === '오늘') {
+      return data
+        .filter(
+          (post: any) =>
+            new Date(post.attributes.publishedAt) >=
+            new Date(Date.now() - 1000 * 3600 * 24)
+        )
+        .sort((a: any, b: any) => b.attributes.count - a.attributes.count);
+    } else if (text === '이번 주') {
+      return data
+        .filter(
+          (post: any) =>
+            new Date(post.attributes.publishedAt) >=
+            new Date(Date.now() - 1000 * 3600 * 24 * 7)
+        )
+        .sort((a: any, b: any) => b.attributes.count - a.attributes.count);
     } else if (text === '이번 달') {
-      return MAIN_CARD_DATA.filter(
-        (post: CARD_DATA_PROPS) =>
-          post.date.getMonth() === new Date().getMonth()
-      ).sort((a: CARD_DATA_PROPS, b: CARD_DATA_PROPS) => b.count - a.count);
+      return data
+        .filter(
+          (post: any) =>
+            new Date(post.attributes.publishedAt).getMonth() ===
+            new Date().getMonth()
+        )
+        .sort((a: any, b: any) => b.attributes.count - a.attributes.count);
     } else if (text === '올 해') {
-      return MAIN_CARD_DATA.filter(
-        (post: CARD_DATA_PROPS) =>
-          post.date.getFullYear() === new Date().getFullYear()
-      ).sort((a: CARD_DATA_PROPS, b: CARD_DATA_PROPS) => b.count - a.count);
+      return data
+        .filter(
+          (post: any) =>
+            new Date(post.attributes.publishedAt).getFullYear() ===
+            new Date().getFullYear()
+        )
+        .sort((a: any, b: any) => b.attributes.count - a.attributes.count);
     }
-    return MAIN_CARD_DATA.filter(
-      (post: CARD_DATA_PROPS) =>
-        post.date >= new Date(Date.now() - 1000 * 3600 * 24)
-    ).sort((a: CARD_DATA_PROPS, b: CARD_DATA_PROPS) => b.count - a.count);
+    return data.sort(
+      (a: any, b: any) =>
+        new Date(b.attributes.publishedAt).getTime() -
+        new Date(a.attributes.publishedAt).getTime()
+    );
   }
 
   return (
     <Container>
-      {results.map((e: CARD_DATA_PROPS, index: number) => (
+      {filteredPosts.map((e: any, index: number) => (
         <PostCard
-          key={index}
-          imageUrl="/image/sample.jpeg"
-          postTitle={e.postTitle}
-          postDesc={e.postDesc}
-          tags={e.tags}
-          date={e.date}
-          comment={e.comment}
-          count={e.count}
-          username="deli-ght"
-          thumbnail="/image/post_thumbnail.png"
+          key={`${e}_${index}`}
+          imageUrl={e.attributes.imageUrl}
+          title={e.attributes.title}
+          contents={e.attributes.contents}
+          comments={e.attributes.comments}
+          username={'deli-ght'}
+          count={e.attributes.count}
+          publishedAt={e.attributes.publishedAt}
         />
       ))}
     </Container>
