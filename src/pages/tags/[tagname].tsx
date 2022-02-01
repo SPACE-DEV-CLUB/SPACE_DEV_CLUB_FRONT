@@ -52,11 +52,11 @@ const SearchTag = () => {
                     key={i}
                     mySearch={true}
                     imageUrl="/image/sample.jpeg"
-                    postTitle={e.postTitle}
-                    postDesc={e.postDesc}
-                    tags={e.tags}
-                    date={'333'}
-                    comment={e.comment}
+                    title={e.postTitle}
+                    contents={e.postDesc}
+                    tag={e.tags}
+                    date={"333"}
+                    // comments={e.comment}
                     username="mmmm"
                     count={e.count}
                     day={e.date}
