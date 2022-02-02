@@ -14,6 +14,7 @@ import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
 import { Header } from "../../components/Common/Header"
 import useIntersectionObserver from "../../hooks/useIO"
+import SkeletonLoading from "../../components/Common/SkeletonLoading"
 
 const MyPage: NextPage = () => {
   const { theme } = useContext(ThemeContext)
@@ -96,7 +97,7 @@ const MyPage: NextPage = () => {
             ) : (
               <NoResult theme={theme}>검색 결과가 없습니다</NoResult>
             )}
-            <div ref={setTarget}>{isLoaded && <Loader>Loading..</Loader>}</div>
+            <div ref={setTarget}>{isLoaded && <SkeletonLoading />}</div>
           </CardContainer>
         )}
 

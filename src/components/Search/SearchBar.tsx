@@ -3,7 +3,6 @@ import Search from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
-
 import { useContext } from "react";
 import { ThemeContext } from "../../pages/_app";
 import { ThemeProps } from "../../types/Theme";
@@ -13,7 +12,9 @@ export const SearchBar = () => {
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState("");
     const queryHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(e.target.value);
+        if(e.target.value !== ' '){
+            setSearchQuery(e.target.value);
+        }
     };
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -65,7 +66,7 @@ const BarContainer = styled.div<ThemeProps>`
         position: relative;
         display: flex;
         align-items: center;
-        color: ${({ theme }) => theme.BORDER};
+        color: ${({ theme }) => theme.POINT_FONT};
         transition: all 300ms;
         .img-wrap {
             position: absolute;
@@ -80,7 +81,7 @@ const BarContainer = styled.div<ThemeProps>`
             padding: 10px 64px;
             color: ${({ theme }) => theme.MAIN_FONT};
             background: ${({ theme }) => theme.BACKGROUND};
-            outline: 1px solid ${({ theme }) => theme.BORDER};
+            outline: 1px solid ${({ theme }) => theme.POINT_FONT};
             transition: inherit;
             &:focus {
                 outline: 1px solid ${({ theme }) => theme.MAIN_FONT};
