@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { PALLETS_LIGHT } from "../../constants/index";
+import { API_ENDPOINT, PALLETS_LIGHT } from "../../constants/index";
 import Link from "next/link";
 
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -12,16 +12,30 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { Theme } from "../../styles/theme";
 import { useContext } from "react";
 import { ThemeContext } from "../../pages/_app";
+// import useSWR from "swr";
+// import axios from "axios";
 
 interface ThemeProps {
   theme: Theme;
 }
 
-export const LeftHeader = () => {
+interface LikePost {
+  likepost: never[];
+}
+
+export const LeftHeader = ({ likepost }: LikePost) => {
   const { theme } = useContext(ThemeContext);
-  const [heartNum, setHeartNum] = useState(0);
+  const [heartNum, setHeartNum] = useState(likepost.length);
   const [heartClick, setHeartClick] = useState(false);
   const [shareClick, setShareClick] = useState(false);
+  // const fetcher = (url: string) =>
+  //   axios.put(url).then((res) => console.log(res.data));
+  // const { data, error } = useSWR(`${API_ENDPOINT}/posts`, fetcher);
+
+  // if (!data) return <div>로딩중</div>;
+  // if (error) return <div>에러</div>;
+
+  // console.log(data, "sdfsdf");
 
   const handleHeart = () => {
     let num = heartNum;

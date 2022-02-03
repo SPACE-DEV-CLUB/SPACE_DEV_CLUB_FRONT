@@ -10,7 +10,7 @@ import { RightHeader } from "../../../components/Details/RightHeader";
 import { Header } from "../../../components/Common/Header";
 
 import { Theme } from "../../../styles/theme";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { ThemeContext } from "../../_app";
 import { useRouter } from "next/router";
 import { useData } from "../../../hooks/useData";
@@ -32,9 +32,7 @@ interface User {
 }
 
 interface Post {
-  id: number;
   attributes: {
-    userid: Data;
     title: string;
     contents: string;
     published: boolean;
@@ -43,19 +41,23 @@ interface Post {
     publishedAt: string;
     url: string;
     private: null;
+
+    userid: {
+      data: {
+        attributes: {
+          nickname: string;
+        };
+      };
+    };
+
+    likeposts: {
+      data: [];
+    };
+
+    comments: {
+      data: [];
+    };
   };
-}
-
-interface Data {
-  data: UserAtt;
-}
-
-interface UserAtt {
-  attributes: UserNick;
-}
-
-interface UserNick {
-  nickname: string;
 }
 
 const DetailsIndexPage: NextPage = () => {
@@ -63,16 +65,23 @@ const DetailsIndexPage: NextPage = () => {
   const router = useRouter();
   const userName = router.query.id;
   const userDetails = router.query.details;
+
   let postObj = {
     title: "",
     contents: "",
     url: "",
+    likeposts: {
+      data: [],
+    },
+    comments: {
+      data: [],
+    },
   };
 
-  const { data: DetailData, error } = useData("posts?populate=*");
+  const { data: DetailData, error: DetailError } = useData("posts?populate=*");
 
   if (!DetailData) return <div>로딩중</div>;
-  if (error) return <div>에러</div>;
+  if (DetailError) return <div>에러</div>;
 
   DetailData.data.some((details: Post) => {
     if (
@@ -80,7 +89,6 @@ const DetailsIndexPage: NextPage = () => {
       userName === details.attributes.userid.data.attributes.nickname
     ) {
       postObj = details.attributes;
-      console.log(postObj);
       return true;
     }
   });
@@ -96,11 +104,12 @@ const DetailsIndexPage: NextPage = () => {
         <div>
           <Header username={"deli-ght"} user={true} />
           <DetailContainer>
-            <LeftHeader />
+            <LeftHeader likepost={postObj.likeposts.data} />
             <DetailHeader
               title={postObj.title}
               contents={postObj.contents}
               userName={userName}
+              comments={postObj.comments.data}
             />
             <RightHeader />
           </DetailContainer>
