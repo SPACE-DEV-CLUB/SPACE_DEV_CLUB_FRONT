@@ -8,6 +8,7 @@ import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
 import { Profile } from "."
 import { Tag } from "../Common/Tag"
+import {handleDate} from "../../utils/date"
 
 type PropsTypes = {
   imageUrl: string
@@ -15,11 +16,14 @@ type PropsTypes = {
   contents: string
   tag?: Array<string> | undefined | null
   date: string
-  //   comment: number
+  comment?: number | string
   username: string | string[] | undefined
   mySearch?: boolean
   count?: number
   day?: number
+  isPrivate?: boolean
+  commentLength?: number
+  profileImg?: string | undefined
 }
 export const MyCard = ({
   imageUrl,
@@ -27,17 +31,20 @@ export const MyCard = ({
   contents,
   tag,
   date,
-  //   comment,
+  comment,
   mySearch,
   username,
   count,
   day,
+  isPrivate,
+  commentLength,
+  profileImg,
 }: PropsTypes) => {
   const { theme } = useContext(ThemeContext)
-  const [isPrivate, setPrivate] = useState(false)
+  const filteredDate = handleDate(date)
   return (
     <MyCardContainer theme={theme}>
-      {mySearch && <Profile id={username}></Profile>}
+      {mySearch && <Profile id={username} profileImgUrl={profileImg}></Profile>}
       <Link href={`/${username}`} passHref>
         <a>
           <ImageContainer
@@ -51,19 +58,20 @@ export const MyCard = ({
         </a>
       </Link>
       <p>{contents}</p>
-      {tag?.map((e, index) => (
-        <Tag tagName={e} key={index} />
+      {tag?.map((e: any, index) => (
+        <Tag tagName={e.attributes?.name} key={index} />
       ))}
       <DateCommentContainer theme={theme}>
-        <span>{date}일 전</span>
+        <span>{filteredDate}</span>
         <span> · </span>
-        <span>{2}개의 댓글</span>
-        <span> · </span>
-        {!isPrivate && (
+        <span>{commentLength}개의 댓글</span>
+        {isPrivate && (<>
+          <span> · </span>
           <Private theme={theme}>
             <Lock className="lock-icon" fontSize="small" />
             비공개
           </Private>
+          </>
         )}
       </DateCommentContainer>
     </MyCardContainer>

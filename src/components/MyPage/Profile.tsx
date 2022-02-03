@@ -8,22 +8,21 @@ import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
 
 interface IProfile {
-  thumbnail: string
   id: string | string[] | undefined
-  props: string
+  profileImgUrl: string | undefined
 }
 
-export const Profile = ({ id }: { id: string | string[] | undefined }) => {
+export const Profile = ({id, profileImgUrl} : IProfile) => {
   const { theme } = useContext(ThemeContext)
   return (
     <ProfileContainer theme={theme}>
       <div className="img-wrap">
-        <Image
+        {profileImgUrl && <Image
           alt="thumbnail"
           width={100}
           height={100}
-          src={SAMPLE_IMG}
-        ></Image>
+          src={profileImgUrl}
+        ></Image>}
       </div>
       <span className="id">{id}</span>
     </ProfileContainer>
