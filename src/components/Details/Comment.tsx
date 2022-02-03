@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import Link from "next/link";
 import { CommentUser } from "./CommentUser";
 import { PALLETS_LIGHT } from "../../constants";
 
@@ -7,48 +6,49 @@ import { Theme } from "../../styles/theme";
 import { useContext } from "react";
 import { ThemeContext } from "../../pages/_app";
 
+import { useData } from "../../hooks/useData";
+
 interface ThemeProps {
   theme: Theme;
 }
 
-export const Comment = () => {
+interface Comments {
+  comments: {
+    id: number;
+    attributes: {
+      userid: number;
+      postid: number;
+      content: string;
+      createdAt: string;
+      depth: number;
+      order: number;
+      group: number;
+      is_deleted: boolean;
+    };
+  }[];
+}
+
+export const Comment = ({ comments }: Comments) => {
   const { theme } = useContext(ThemeContext);
-  const comment = {
-    id: 0,
-    user: [
-      {
-        id: 0,
-        email: "손님@gmail.com",
-        nickname: "손님",
-        comment: "좋은글 감사합니다!!",
-        src: "https://cdn.pixabay.com/photo/2020/11/27/06/58/cat-5781057_960_720.jpg",
-        other: [
-          {
-            id: 0,
-          },
-          {
-            id: 1,
-          },
-        ],
-        createdAt: "2021-12-28T06:59:54.580Z",
-      },
-      {
-        id: 1,
-        email: "글쓴이@gmail.com",
-        nickname: "글쓴이",
-        comment: "별말씀을요!",
-        src: "https://cdn.pixabay.com/photo/2021/07/02/18/13/lion-6382207__340.png",
-        other: [],
-        createdAt: "2022-01-20T06:59:54.580Z",
-      },
-    ],
-  };
+
+  comments.sort((a, b) => {
+    return a.attributes.group < b.attributes.group
+      ? -1
+      : a.attributes.group > b.attributes.group
+      ? 1
+      : 0;
+  });
+
+  const { data: userData, error: UserError } = useData("userinfos");
+
+  if (!userData) return <div>로딩중</div>;
+  if (UserError) return <div>에러</div>;
 
   return (
     <article>
       <h3 className="sr-only">상세 페이지 댓글</h3>
       <CommentForm action="">
-        <CommentNum>{comment.user.length}개의 댓글</CommentNum>
+        <CommentNum>{comments.length}개의 댓글</CommentNum>
         <TextArea
           theme={theme}
           name="댓글 입력"
@@ -58,8 +58,14 @@ export const Comment = () => {
           <CommentBtn type="submit">댓글 작성</CommentBtn>
         </BtnContainer>
       </CommentForm>
-      {comment.user.map((User) => {
-        return <CommentUser key={`CommentUser-${User.id}`} user={User} />;
+      {comments.map((comments) => {
+        return (
+          <CommentUser
+            key={`CommentUser-${comments.id}`}
+            comments={comments}
+            userData={userData.data}
+          />
+        );
       })}
     </article>
   );

@@ -13,41 +13,70 @@ interface ThemeProps {
   theme: Theme;
 }
 
-interface User {
-  user: {
+interface Comments {
+  comments: {
     id: number;
-    email: string;
-    nickname: string;
-    comment: string;
-    src: string;
-    other: { id: number }[];
-    createdAt: string;
+    attributes: {
+      userid: number;
+      postid: number;
+      content: string;
+      createdAt: string;
+      depth: number;
+      order: number;
+      group: number;
+      is_deleted: boolean;
+    };
   };
+  userData: [
+    {
+      id: number;
+      attributes: {
+        nickname: string;
+        profileimage: string;
+      };
+    }
+  ];
 }
 
 let loginUserID = 1;
+let user = {
+  id: 0,
+  attributes: {
+    nickname: "",
+    profileimage: "",
+  },
+};
 
-export const CommentUser = ({ user }: User) => {
+export const CommentUser = ({ comments, userData }: Comments) => {
   const { theme } = useContext(ThemeContext);
-  const { id, email, nickname, src, comment, other, createdAt } = user;
+
+  userData.some((data) => {
+    if (data.id === comments.attributes.userid) {
+      user = data;
+      return true;
+    }
+  });
 
   return (
     <Container>
       <h3 className="sr-only">상세 페이지에 생성된 댓글</h3>
       <ProfileContainer>
-        <Link href={email}>
+        <Link href={user.attributes.nickname}>
           <a>
-            <UserProfile src={src} alt={`${email}프로필 사진`} />
+            <UserProfile
+              src={user.attributes.profileimage}
+              alt={`${user.attributes.nickname}프로필 사진`}
+            />
           </a>
         </Link>
         <ProfileData>
           <Profile>
             <UserNickname>
-              <Link href={email} passHref>
-                <User theme={theme}>{nickname}</User>
+              <Link href={user.attributes.nickname} passHref>
+                <User theme={theme}>{user.attributes.nickname}</User>
               </Link>
             </UserNickname>
-            {id === loginUserID && (
+            {comments.attributes.userid === loginUserID && (
               <UDContainer>
                 <Link href="#" passHref>
                   <UDItem theme={theme}>수정</UDItem>
@@ -58,18 +87,20 @@ export const CommentUser = ({ user }: User) => {
               </UDContainer>
             )}
           </Profile>
-          <CreatedAt theme={theme}>{handleDate(createdAt)}</CreatedAt>
+          <CreatedAt theme={theme}>
+            {handleDate(comments.attributes.createdAt)}
+          </CreatedAt>
         </ProfileData>
       </ProfileContainer>
-      <CommentText>{comment}</CommentText>
-      {other.length === 0 ? (
+      <CommentText>{comments.attributes.content}</CommentText>
+      {/* {other.length === 0 ? (
         <div></div>
       ) : (
         <CommentPlus theme={theme}>
           <BorderInnerIcon className="comment-plus" />
           {other.length}개의 답글
         </CommentPlus>
-      )}
+      )} */}
     </Container>
   );
 };
@@ -86,6 +117,7 @@ const UserProfile = styled.img`
   width: 65px;
   height: 65px;
   border-radius: 50%;
+  margin-right: 10px;
 `;
 const ProfileData = styled.div`
   width: 85%;
