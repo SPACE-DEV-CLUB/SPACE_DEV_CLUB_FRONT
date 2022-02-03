@@ -6,7 +6,7 @@ import { DetailHeader } from "../../../components/Details/DetailHeader";
 import { LeftHeader } from "../../../components/Details/LeftHeader";
 import { RightHeader } from "../../../components/Details/RightHeader";
 
-import { DetailCard } from "../../../components/Details/DetailCard";
+// import { CardContainer } from "../../../components/Home/CardContainer";
 import { Header } from "../../../components/Common/Header";
 
 import { Theme } from "../../../styles/theme";
@@ -34,7 +34,7 @@ interface User {
 interface Post {
   id: number;
   attributes: {
-    userid: number;
+    userid: Data;
     title: string;
     contents: string;
     published: boolean;
@@ -46,41 +46,41 @@ interface Post {
   };
 }
 
+interface Data {
+  data: UserAtt;
+}
+
+interface UserAtt {
+  attributes: UserNick;
+}
+
+interface UserNick {
+  nickname: string;
+}
+
 const DetailsIndexPage: NextPage = () => {
   const { theme } = useContext(ThemeContext);
   const router = useRouter();
   const userName = router.query.id;
   const userDetails = router.query.details;
-  let userId = 0;
   let postObj = {
-    userid: 0,
     title: "",
     contents: "",
-    published: false,
-    createdAt: "",
-    updatedAt: "",
-    publishedAt: "",
     url: "",
-    private: null,
   };
-  const { data: userData, error: userError } = useData("users");
-  const { data: postData, error: postError } = useData("posts");
 
-  if (!userData || !postData) return <div>로딩중</div>;
-  if (userError || postError) return <div>상세 페이지 에러</div>;
+  const { data: DetailData, error } = useData("posts?populate=*");
 
-  userData.some((user: User) => {
-    if (user.username === userName) {
-      userId = user.id;
-      return true;
-    }
-  });
-  postData.data.some((post: Post) => {
+  if (!DetailData) return <div>로딩중</div>;
+  if (error) return <div>에러</div>;
+
+  DetailData.data.some((details: Post) => {
     if (
-      userId === post.attributes.userid &&
-      post.attributes.url === userDetails
+      userDetails === details.attributes.url &&
+      userName === details.attributes.userid.data.attributes.nickname
     ) {
-      postObj = post.attributes;
+      postObj = details.attributes;
+      console.log(postObj);
       return true;
     }
   });
@@ -105,7 +105,7 @@ const DetailsIndexPage: NextPage = () => {
             <RightHeader />
           </DetailContainer>
           <PostsContainer theme={theme}>
-            <DetailCard />
+            {/* <CardContainer filter="zz" /> */}
           </PostsContainer>
         </div>
       ) : (
