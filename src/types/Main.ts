@@ -1,3 +1,16 @@
+type CardComments = {
+  data: {
+    attributes: {
+      content: string
+    }
+    length: number | string | undefined
+  }
+}
+type MapType = {
+  attributes:{
+      content: string;
+  }
+}
 export interface Main {
     name: string | undefined;
     born: string;
@@ -24,7 +37,7 @@ export interface CardProps {
         };
         createdAt: string;
         comments: {
-         data: any;
+          data: string | any
         };
         userid: {
           data: {
@@ -35,7 +48,6 @@ export interface CardProps {
           };
         };
         private: boolean;
-        
     };
 }
 

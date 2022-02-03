@@ -5,12 +5,21 @@ import { useData } from '../../hooks/useData';
 
 export const DetailCard = () => {
   const { data, error } = useData('posts');
-
+  type PostCard = {
+    attributes: {
+      imageUrl: string
+      title: string
+      contents: string
+      comments: number
+      count: number
+      publishedAt: string
+    }
+  }
   return (
     <div>
       <CardTitle>관심 있을 만한 포스트</CardTitle>
       <Container>
-        {data.data.map((e: any, index: number) => (
+        {data.data.map((e: PostCard, index: number) => (
           <PostCard
             key={`${e}_${index}`}
             imageUrl={e.attributes.imageUrl}
