@@ -6,37 +6,37 @@ import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
 
 interface TagProps {
-  tagName: string
+    tagName: string[] | string | undefined
 }
 
 export const Tag = ({ tagName }: TagProps) => {
-  const { theme } = useContext(ThemeContext)
+    const { theme } = useContext(ThemeContext)
 
-  return (
-    <TagsContainer theme={theme}>
-      <Link href={`/tags/${tagName}`}>
-        <a>{tagName}</a>
-      </Link>
-    </TagsContainer>
-  )
+    return (
+        <TagsContainer theme={theme}>
+            <Link href={`/tags/${tagName}`} passHref>
+                <a>{tagName}</a>
+            </Link>
+        </TagsContainer>
+    )
 }
 
 const TagsContainer = styled.div<ThemeProps>`
-  display: inline-flex;
-  align-items: center;
-  margin: 0 14px 14px 0;
-  padding: 0 16px;
-  height: 32px;
-  font-weight: 500;
-  background: ${({ theme }) => theme.TOGGLE_BACKGROUND};
-  border-radius: 15px;
-  a {
-    font-size: 16px;
-    color: ${({ theme }) => theme.MAIN};
-  }
-  @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 14px 14px 0;
+    padding: 0 16px;
+    height: 32px;
+    font-weight: 500;
+    background: ${({ theme }) => theme.TOGGLE_BACKGROUND};
+    border-radius: 15px;
     a {
-      font-size: 12px;
+        font-size: 16px;
+        color: ${({ theme }) => theme.MAIN};
     }
-  }
+    @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
+        a {
+            font-size: 12px;
+        }
+    }
 `

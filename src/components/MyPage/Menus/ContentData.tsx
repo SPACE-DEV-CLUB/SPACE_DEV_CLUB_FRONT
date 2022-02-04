@@ -3,19 +3,65 @@ import CardLoading from "../../Common/CardLoading"
 import { fetcher } from "../../../utils/fetcher"
 import useSWRInfinite from "swr/infinite"
 import { API_ENDPOINT } from "../../../constants"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import styled from "@emotion/styled"
+import qs from "qs"
 
 const PAGE_SIZE = 2
 
 interface ContentDataProps {
     username: string | string[] | undefined
+    tag: string
 }
 
-export const ContentData = ({ username }: ContentDataProps) => {
+export const ContentData = ({ username, tag }: ContentDataProps) => {
     const getKey = (pageIndex: number, previousPageData: any) => {
         if (previousPageData && !previousPageData.data) return null
-        return `${API_ENDPOINT}/posts?pagination[page]=${pageIndex}&pagination[pageSize]=${PAGE_SIZE}`
+        const query = tag
+            ? qs.stringify(
+                  {
+                      pagination: {
+                          page: pageIndex,
+                          pageSize: PAGE_SIZE,
+                      },
+                      populate: ["hashtags", "userid"],
+                      filters: {
+                          hashtags: {
+                              name: {
+                                  $eq: tag,
+                              },
+                          },
+                          userid: {
+                              nickname: {
+                                  $eq: username,
+                              },
+                          },
+                      },
+                  },
+                  {
+                      encodeValuesOnly: true,
+                  }
+              )
+            : qs.stringify(
+                  {
+                      pagination: {
+                          page: pageIndex,
+                          pageSize: PAGE_SIZE,
+                      },
+                      populate: ["hashtags", "userid"],
+                      filters: {
+                          userid: {
+                              nickname: {
+                                  $eq: username,
+                              },
+                          },
+                      },
+                  },
+                  {
+                      encodeValuesOnly: true,
+                  }
+              )
+        return `${API_ENDPOINT}/posts?${query}`
     }
 
     const { data, size, setSize, error, isValidating } = useSWRInfinite(
@@ -23,29 +69,29 @@ export const ContentData = ({ username }: ContentDataProps) => {
         fetcher
     )
 
-    const isLoadingInitialData = !data && !error
-    const isLoadingMore =
-        isLoadingInitialData ||
-        (size > 0 && data && typeof data[size - 1] === "undefined")
-
     const isEmpty = data?.[0]?.length === 0
-    const isReachingEnd =
-        isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE)
+    const isReachingEnd = useRef<boolean>(false)
 
     const [target, setTarget] = useState<HTMLElement | null | undefined>(null)
 
     useEffect(() => {
-        if (!target || isReachingEnd) return
+        if (size == 1) isReachingEnd.current = false
+        if (!target || isReachingEnd.current) return
         const observer = new IntersectionObserver(onIntersect, {
             threshold: 0.4,
         })
         observer.observe(target)
         return () => observer && observer.disconnect()
-    }, [target])
+    }, [data, target])
 
     const onIntersect: IntersectionObserverCallback = ([entry], observer) => {
         if (entry.isIntersecting) {
             setSize((prev) => prev + 1)
+            isReachingEnd.current =
+                data === undefined
+                    ? false
+                    : isEmpty ||
+                      (data && data[data.length - 1]?.data.length < PAGE_SIZE)
         }
     }
 
@@ -54,7 +100,12 @@ export const ContentData = ({ username }: ContentDataProps) => {
             <section>
                 {data &&
                     data
-                        .filter((e, i) => i != 0)
+                        .filter((e, i) => {
+                            if (size == 1) return true
+                            else {
+                                return i !== 0
+                            }
+                        })
                         .map((loaded) => {
                             return loaded.data.map((e: any, i: number) => (
                                 <MyCard
@@ -62,7 +113,7 @@ export const ContentData = ({ username }: ContentDataProps) => {
                                     imageUrl={e.attributes.imageUrl}
                                     title={e.attributes.title}
                                     contents={e.attributes.contents}
-                                    tag={e.attributes.tag?.tags}
+                                    tag={e.attributes.hashtags.data}
                                     date={e.attributes.publichedAt}
                                     // comment={e.attributes.comment}
                                     username={username}
@@ -71,7 +122,7 @@ export const ContentData = ({ username }: ContentDataProps) => {
                         })}
             </section>
             <TargetElement ref={setTarget}>
-                {isLoadingMore && !isReachingEnd && <CardLoading />}
+                {isValidating && !isReachingEnd.current && <CardLoading />}
             </TargetElement>
         </>
     )
