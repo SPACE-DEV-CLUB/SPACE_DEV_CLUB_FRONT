@@ -14,6 +14,18 @@ import { MyCard } from "../MyPage/MyCard";
 import { FindPost } from "./FindPost";
 import { SearchBar } from "./SearchBar";
 
+type MapType = {
+    attributes:{
+        content: string;
+    }
+}
+type FilterType = {
+    attributes: {
+        title: string,
+        contents: string
+    }
+}
+
 function SearchFilter() {
     const { theme } = useContext(ThemeContext);
     const router = useRouter();
@@ -26,7 +38,7 @@ function SearchFilter() {
     useEffect(() => {
         {!isValidating && setFilteredData(
             data.data?.filter(
-                (e: any) =>
+                (e: FilterType) =>
                     e.attributes.title.includes(res as string) ||
                     e.attributes.contents.includes(res as string)
             )
@@ -61,6 +73,7 @@ function SearchFilter() {
         threshold: 0.5,
         onIntersect,
     });
+
     return (
         <>
             <SearchBar />
@@ -79,7 +92,7 @@ function SearchFilter() {
                                         contents={e.attributes.contents}
                                         tag={e.attributes.hashtags?.data}
                                         date={e.attributes.createdAt}
-                                        comment={e.attributes.comments?.data.map((e:any, i:number) => <div key={i}>{e?.attributes?.content}</div>)}
+                                        comment={e.attributes.comments?.data.map((e:MapType, i:number) => <div key={i}>{e?.attributes?.content}</div>)}
                                         commentLength = {e.attributes.comments?.data.length}
                                         username={e.attributes.userid?.data?.attributes?.nickname}
                                         mySearch={true}

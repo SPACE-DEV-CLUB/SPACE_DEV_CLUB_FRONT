@@ -7,8 +7,8 @@ function SearchHead() {
     const res = router.query.q;
     return (
         <Head>
-            {JSON.stringify(res) ? (
-                <title>{JSON.stringify(res)} 검색 결과 - sdv</title>
+            {res ? (
+                <title>&quot;{res}&quot; 검색 결과 - sdv</title>
             ) : (
                 <title>sdv</title>
             )}
