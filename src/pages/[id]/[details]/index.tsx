@@ -32,6 +32,7 @@ interface User {
 }
 
 interface Post {
+  id: number;
   attributes: {
     title: string;
     contents: string;
@@ -44,6 +45,7 @@ interface Post {
 
     userid: {
       data: {
+        id: number;
         attributes: {
           nickname: string;
         };
@@ -77,7 +79,6 @@ const DetailsIndexPage: NextPage = () => {
       data: [],
     },
   };
-
   const { data: DetailData, error: DetailError } = useData(
     'posts',
     'populate=*'
@@ -86,11 +87,14 @@ const DetailsIndexPage: NextPage = () => {
   if (!DetailData) return <div>로딩중</div>;
   if (DetailError) return <div>에러</div>;
 
+  let postid = 0;
+
   DetailData.data.some((details: Post) => {
     if (
       userDetails === details.attributes.url &&
       userName === details.attributes.userid.data.attributes.nickname
     ) {
+      postid = details.id;
       postObj = details.attributes;
       return true;
     }
@@ -113,6 +117,7 @@ const DetailsIndexPage: NextPage = () => {
               contents={postObj.contents}
               userName={userName}
               comments={postObj.comments.data}
+              postid={postid}
             />
             <RightHeader />
           </DetailContainer>
