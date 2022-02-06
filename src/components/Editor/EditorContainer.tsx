@@ -1,10 +1,8 @@
 import styled from "@emotion/styled";
 import { useState, useRef, useContext, useEffect } from "react";
-import { WriteHeader } from "./EditorInput/WriteHeader";
-import { WriteForm } from "./EditorInput/WriteForm";
-import { BottomMenu } from "./EditorInput/BottomMenu";
-import { MDviewr } from "./EditorViewer/MDViewer";
-import { SubmitModal } from "./SubmitModal/SubmitModal";
+import { WriteHeader, WriteForm, BottomMenu } from "./EditorInput";
+import { MDviewr } from "./EditorViewer";
+import { SubmitModal } from "./SubmitModal";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
 import { ThemeContext } from "../../pages/_app";
 import { ThemeProps } from "../../types/Theme";
