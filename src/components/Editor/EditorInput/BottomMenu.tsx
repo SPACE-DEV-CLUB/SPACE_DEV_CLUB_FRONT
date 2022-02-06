@@ -1,7 +1,10 @@
 import styled from "@emotion/styled";
-import { css } from "@emotion/react";
-import { PALLETS_LIGHT } from "../../constants";
+import { PALLETS_LIGHT } from "../../../constants";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Button } from "../../Common/Button";
+import { useContext } from "react";
+import { ThemeContext } from "../../../pages/_app";
+import { ThemeProps } from "../../../types/Theme";
 
 interface ButtonProps {
   bgColor: string;
@@ -10,41 +13,47 @@ interface ButtonProps {
   fontWeight: number;
 }
 
-export const BottomMenu = () => {
+export const BottomMenu = ({ handleSubmitModal }: any) => {
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <Wrap>
-      <EditorButton
+    <Wrap theme={theme}>
+      <Button
         hoverColor={PALLETS_LIGHT.BACKGROUND}
         fontWeight={500}
         ftColor={PALLETS_LIGHT.SUB_FONT}
         bgColor="#fff"
+        type="submit"
       >
         <ArrowBackIcon />
-        나가기
-      </EditorButton>
+        <span>나가기</span>
+      </Button>
       <ButtonRightWrap>
-        <EditorButton
+        <Button
           hoverColor="#f0f0fa"
           fontWeight={600}
           ftColor={PALLETS_LIGHT.SUB_FONT}
           bgColor={PALLETS_LIGHT.SUB}
+          type="submit"
         >
           임시저장
-        </EditorButton>
-        <EditorButton
+        </Button>
+        <Button
           hoverColor="#9090de"
           fontWeight={600}
           ftColor={PALLETS_LIGHT.SUB}
           bgColor={PALLETS_LIGHT.MAIN}
+          type="submit"
+          handleBtn={handleSubmitModal}
         >
           출간하기
-        </EditorButton>
+        </Button>
       </ButtonRightWrap>
     </Wrap>
   );
 };
 
-const Wrap = styled.div`
+const Wrap = styled.div<ThemeProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -55,33 +64,7 @@ const Wrap = styled.div`
   height: 64px;
   padding: 0 16px;
   box-shadow: rgb(0 0 0 / 10%) 0px 0px 8px;
-`;
-
-const dynamicStyle = (props: ButtonProps) => css`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  border-radius: 4px;
-  padding: 0 20px;
-  font-size: 18px;
-  font-weight: ${props.fontWeight};
-  line-height: 1.8;
-  color: ${props.ftColor};
-  background-color: ${props.bgColor};
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${props.hoverColor};
-  }
-`;
-
-const EditorButton = styled.button`
-  ${dynamicStyle}
-
-  &:last-child {
-    margin-left: 12px;
-  }
+  background: ${({ theme }) => theme.BACKGROUND};
 `;
 
 const ButtonRightWrap = styled.div`

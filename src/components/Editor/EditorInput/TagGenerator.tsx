@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
-import { PALLETS_LIGHT } from "../../constants";
+import { useContext } from "react";
+import { ThemeContext } from "../../../pages/_app";
+import { ThemeProps } from "../../../types/Theme";
 
 interface TagProps {
   tagName: string;
@@ -7,10 +9,15 @@ interface TagProps {
 }
 
 export const TagGenerator = ({ tagName, onRemove }: TagProps) => {
-  return <TagItem onClick={onRemove}>{tagName}</TagItem>;
+  const { theme } = useContext(ThemeContext);
+  return (
+    <TagItem theme={theme} onClick={onRemove}>
+      {tagName}
+    </TagItem>
+  );
 };
 
-const TagItem = styled.div`
+const TagItem = styled.div<ThemeProps>`
   display: inline-flex;
   align-items: center;
   height: 32px;
@@ -18,8 +25,8 @@ const TagItem = styled.div`
   margin: 0 12px 12px 0;
   border-radius: 16px;
   font-size: 16px;
-  color: ${PALLETS_LIGHT.MAIN};
-  background-color: ${PALLETS_LIGHT.CARD_BACKGROUND};
+  color: ${({ theme }) => theme.SUB_FONT};
+  background: ${({ theme }) => theme.SUBBACKGROUND};
   cursor: pointer;
 
   transition: all 0.125s ease-in 0s;

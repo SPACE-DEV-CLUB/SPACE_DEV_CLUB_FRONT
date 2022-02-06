@@ -1,17 +1,22 @@
+import styled from "@emotion/styled";
 import { marked } from "marked";
-import styles from "./editor.module.css";
+import editorStyle from "../../../styles/editorStyle";
 
 interface MDViewerProps {
   title: string;
   contents: string;
 }
 export const MDviewr = ({ title, contents }: MDViewerProps) => {
-  console.log(`contents`, contents);
-  console.log(`marked(contents)`, marked(contents));
+  marked.setOptions({ breaks: true, gfm: true });
+
   return (
-    <article className="styles.container editor">
+    <ViewerWrap>
       <h1>{title}</h1>
       <div dangerouslySetInnerHTML={{ __html: marked(contents) }} />
-    </article>
+    </ViewerWrap>
   );
 };
+
+const ViewerWrap = styled.article`
+  ${editorStyle}
+`;
