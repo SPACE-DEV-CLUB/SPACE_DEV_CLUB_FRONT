@@ -5,7 +5,6 @@ import { GlobalStyle } from '../styles/global-styles';
 import { lightTheme, darkTheme, Theme } from '../styles/theme';
 import { useDarkMode } from '../hooks/useDarkMode';
 import DarkModeToggle from '../components/Home/DarkModetoggle';
-import EasterEgg from '../components/Common/EasterEgg';
 
 interface ContextProps {
   theme: Theme;
@@ -29,7 +28,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
         <Component {...pageProps} />
         <DarkModeToggle />
-        <EasterEgg />
       </>
     </ThemeContext.Provider>
   );
