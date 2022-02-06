@@ -1,9 +1,12 @@
-import styled from "@emotion/styled";
-import { UDHashContainer } from "./UDHashContainer";
-import { SeriesContainer } from "./SeriesContainer";
-import { Intro } from "../MyPage";
-import { Carousel } from "./Carousel";
-import { Comment } from "./Comment";
+import styled from '@emotion/styled';
+import { UDHashContainer } from './UDHashContainer';
+import { SeriesContainer } from './SeriesContainer';
+import { Intro } from '../MyPage';
+import { Carousel } from './Carousel';
+import { Comment } from './Comment';
+import useIO from '../../hooks/useIO';
+import { API_ENDPOINT } from '../../constants';
+import axios, { Method } from 'axios';
 
 interface DetailData {
   title: string;
@@ -22,6 +25,7 @@ interface DetailData {
       is_deleted: boolean;
     };
   }[];
+  postid: number;
 }
 
 export const DetailHeader = ({
@@ -29,13 +33,41 @@ export const DetailHeader = ({
   contents,
   userName,
   comments,
+  postid,
 }: DetailData) => {
+  const onIntersect: IntersectionObserverCallback = async (
+    [entry],
+    observer
+  ) => {
+    if (entry.isIntersecting) {
+      observer.unobserve(entry.target);
+      axios
+        .post(`${API_ENDPOINT}/readingposts/`, {
+          data: {
+            userid: 4,
+            postid: postid,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+        });
+    }
+  };
+
+  const { setTarget } = useIO({
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.5,
+    onIntersect,
+  });
+
   return (
     <Header>
       <h2>{title}</h2>
       <UDHashContainer userName={userName} />
       <SeriesContainer />
       <div>{contents}</div>
+      {/* <div ref={setTarget}></div> */}
       <Intro />
       <Carousel />
       <Comment comments={comments} />

@@ -1,20 +1,20 @@
-import { NextPage } from "next";
-import styled from "@emotion/styled";
-import Head from "next/head";
+import { NextPage } from 'next';
+import styled from '@emotion/styled';
+import Head from 'next/head';
 
-import { DetailHeader } from "../../../components/Details/DetailHeader";
-import { LeftHeader } from "../../../components/Details/LeftHeader";
-import { RightHeader } from "../../../components/Details/RightHeader";
+import { DetailHeader } from '../../../components/Details/DetailHeader';
+import { LeftHeader } from '../../../components/Details/LeftHeader';
+import { RightHeader } from '../../../components/Details/RightHeader';
 
 // import { CardContainer } from "../../../components/Home/CardContainer";
-import { Header } from "../../../components/Common/Header";
+import { Header } from '../../../components/Common/Header';
 
-import { Theme } from "../../../styles/theme";
-import { useContext } from "react";
-import { ThemeContext } from "../../_app";
-import { useRouter } from "next/router";
-import { useData } from "../../../hooks/useData";
-import { ErrorPage } from "../../../components/Details/ErrorPage";
+import { Theme } from '../../../styles/theme';
+import { useContext } from 'react';
+import { ThemeContext } from '../../_app';
+import { useRouter } from 'next/router';
+import { useData } from '../../../hooks/useData';
+import { ErrorPage } from '../../../components/Details/ErrorPage';
 
 interface ThemeProps {
   theme: Theme;
@@ -32,6 +32,7 @@ interface User {
 }
 
 interface Post {
+  id: number;
   attributes: {
     title: string;
     contents: string;
@@ -44,6 +45,7 @@ interface Post {
 
     userid: {
       data: {
+        id: number;
         attributes: {
           nickname: string;
         };
@@ -67,9 +69,9 @@ const DetailsIndexPage: NextPage = () => {
   const userDetails = router.query.details;
 
   let postObj = {
-    title: "",
-    contents: "",
-    url: "",
+    title: '',
+    contents: '',
+    url: '',
     likeposts: {
       data: [],
     },
@@ -77,17 +79,22 @@ const DetailsIndexPage: NextPage = () => {
       data: [],
     },
   };
-
-  const { data: DetailData, error: DetailError } = useData("posts?populate=*");
+  const { data: DetailData, error: DetailError } = useData(
+    'posts',
+    'populate=*'
+  );
 
   if (!DetailData) return <div>로딩중</div>;
   if (DetailError) return <div>에러</div>;
+
+  let postid = 0;
 
   DetailData.data.some((details: Post) => {
     if (
       userDetails === details.attributes.url &&
       userName === details.attributes.userid.data.attributes.nickname
     ) {
+      postid = details.id;
       postObj = details.attributes;
       return true;
     }
@@ -102,7 +109,7 @@ const DetailsIndexPage: NextPage = () => {
       </Head>
       {postObj.title ? (
         <div>
-          <Header username={"deli-ght"} user={true} />
+          <Header username={'deli-ght'} user={true} />
           <DetailContainer>
             <LeftHeader likepost={postObj.likeposts.data} />
             <DetailHeader
@@ -110,6 +117,7 @@ const DetailsIndexPage: NextPage = () => {
               contents={postObj.contents}
               userName={userName}
               comments={postObj.comments.data}
+              postid={postid}
             />
             <RightHeader />
           </DetailContainer>
