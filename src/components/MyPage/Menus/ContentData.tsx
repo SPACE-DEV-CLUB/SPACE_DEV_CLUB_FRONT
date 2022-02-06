@@ -1,4 +1,5 @@
 import { MyCard } from "../MyCard"
+import Image from "next/image"
 import CardLoading from "../../Common/CardLoading"
 import { fetcher } from "../../../utils/fetcher"
 import useSWRInfinite from "swr/infinite"
@@ -6,6 +7,7 @@ import { API_ENDPOINT } from "../../../constants"
 import { useEffect, useRef, useState } from "react"
 import styled from "@emotion/styled"
 import qs from "qs"
+import BlankPage from "./BlankPage"
 
 const PAGE_SIZE = 2
 
@@ -69,7 +71,7 @@ export const ContentData = ({ username, tag }: ContentDataProps) => {
         fetcher
     )
 
-    const isEmpty = data?.[0]?.length === 0
+    const isEmpty = data?.[0]?.data.length === 0
     const isReachingEnd = useRef<boolean>(false)
 
     const [target, setTarget] = useState<HTMLElement | null | undefined>(null)
@@ -98,7 +100,7 @@ export const ContentData = ({ username, tag }: ContentDataProps) => {
     return (
         <>
             <section>
-                {data &&
+                {data && !isEmpty ? (
                     data
                         .filter((e, i) => {
                             if (size == 1) return true
@@ -119,7 +121,10 @@ export const ContentData = ({ username, tag }: ContentDataProps) => {
                                     username={username}
                                 />
                             ))
-                        })}
+                        })
+                ) : (
+                    <BlankPage dataname={"포스트"} />
+                )}
             </section>
             <TargetElement ref={setTarget}>
                 {isValidating && !isReachingEnd.current && <CardLoading />}
