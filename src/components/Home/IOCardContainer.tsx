@@ -10,6 +10,24 @@ import { MEDIA_QUERY_END_POINT } from '../../constants';
 let PAGE_SIZE = 3;
 
 export const IOCardContainer = ({ filter }: { filter: string }) => {
+  useEffect(() => {
+    PAGE_SIZE = window.matchMedia(
+      `(min-width: ${MEDIA_QUERY_END_POINT.XLARGE})`
+    ).matches
+      ? 5
+      : window.matchMedia(`(min-width: ${MEDIA_QUERY_END_POINT.LARGE})`).matches
+      ? 4
+      : window.matchMedia(`(min-width: ${MEDIA_QUERY_END_POINT.TABLET})`)
+          .matches
+      ? 3
+      : window.matchMedia(`(min-width: ${MEDIA_QUERY_END_POINT.MOBILE})`)
+          .matches
+      ? 2
+      : 1;
+    console.log(`window.innerWidth, ${window.innerWidth}`);
+    console.log(`PAGE_SIZE ${PAGE_SIZE}`);
+  }, []);
+
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.data) return null;
     const query = qs.stringify(
