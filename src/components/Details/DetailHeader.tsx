@@ -1,12 +1,12 @@
-import styled from "@emotion/styled";
-import { UDHashContainer } from "./UDHashContainer";
-import { SeriesContainer } from "./SeriesContainer";
-import { Intro } from "../MyPage";
-import { Carousel } from "./Carousel";
-import { Comment } from "./Comment";
-import useIO from "../../hooks/useIO";
-import { API_ENDPOINT } from "../../constants";
-import axios, { Method } from "axios";
+import styled from '@emotion/styled';
+import { UDHashContainer } from './UDHashContainer';
+import { SeriesContainer } from './SeriesContainer';
+import { Intro } from '../MyPage';
+import { Carousel } from './Carousel';
+import { Comment } from './Comment';
+import useIO from '../../hooks/useIO';
+import { API_ENDPOINT } from '../../constants';
+import axios, { Method } from 'axios';
 
 
 interface DetailData {
