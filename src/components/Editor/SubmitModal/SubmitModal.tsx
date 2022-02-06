@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { useContext } from "react";
 import { MEDIA_QUERY_END_POINT } from "../../../constants";
 import { Button } from "../../Common/Button";
-import { PALLETS_LIGHT } from "../../../constants";
 import { ThemeContext } from "../../../pages/_app";
 import { ThemeProps } from "../../../types/Theme";
 
@@ -124,21 +123,19 @@ export const SubmitModal = ({
           </OptionWrap>
           <SubmitWrap>
             <Button
-              hoverColor={PALLETS_LIGHT.BORDER}
               fontWeight={600}
-              ftColor={PALLETS_LIGHT.CARD_BACKGROUND}
-              bgColor={PALLETS_LIGHT.ICON}
+              ftColor="#fff"
+              bgColor={theme.BUTTON_SUB}
               type="button"
               handleBtn={handleSubmitModal}
             >
               취소
             </Button>
             <Button
-              hoverColor="#9090de"
               fontWeight={600}
-              ftColor={PALLETS_LIGHT.SUB}
-              bgColor={PALLETS_LIGHT.MAIN}
               type="submit"
+              ftColor="#fff"
+              bgColor={theme.BUTTON_MAIN}
             >
               출간하기
             </Button>

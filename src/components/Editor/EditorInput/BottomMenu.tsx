@@ -19,10 +19,9 @@ export const BottomMenu = ({ handleSubmitModal }: any) => {
   return (
     <Wrap theme={theme}>
       <Button
-        hoverColor={PALLETS_LIGHT.BACKGROUND}
         fontWeight={500}
-        ftColor={PALLETS_LIGHT.SUB_FONT}
-        bgColor="#fff"
+        ftColor={theme.SUB_FONT}
+        bgColor={theme.TOGGLE_BACKGROUND}
         type="submit"
       >
         <ArrowBackIcon />
@@ -30,20 +29,18 @@ export const BottomMenu = ({ handleSubmitModal }: any) => {
       </Button>
       <ButtonRightWrap>
         <Button
-          hoverColor="#f0f0fa"
           fontWeight={600}
-          ftColor={PALLETS_LIGHT.SUB_FONT}
-          bgColor={PALLETS_LIGHT.SUB}
+          ftColor="#fff"
+          bgColor={theme.BUTTON_SUB}
           type="submit"
         >
           임시저장
         </Button>
         <Button
-          hoverColor="#9090de"
           fontWeight={600}
-          ftColor={PALLETS_LIGHT.SUB}
-          bgColor={PALLETS_LIGHT.MAIN}
-          type="submit"
+          ftColor="#fff"
+          bgColor={theme.BUTTON_MAIN}
+          type="button"
           handleBtn={handleSubmitModal}
         >
           출간하기
