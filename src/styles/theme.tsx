@@ -11,6 +11,8 @@ export const lightTheme = {
   BORDER: "#b6bec7",
   TOGGLE_BACKGROUND: "#f0f0f4",
   LOGO: "/image/스데브로고.png",
+  BUTTON_MAIN: "#8080b8",
+  BUTTON_SUB: "#b6b1e9",
 };
 
 export type Theme = typeof lightTheme;
@@ -28,6 +30,8 @@ export const darkTheme: Theme = {
   BORDER: "#272a57",
   TOGGLE_BACKGROUND: "#30373e",
   LOGO: "/image/스데브로고_darkmode.png",
+  BUTTON_MAIN: "#8b8bc9",
+  BUTTON_SUB: "#8b88aa",
 };
 
 // #ffffff*

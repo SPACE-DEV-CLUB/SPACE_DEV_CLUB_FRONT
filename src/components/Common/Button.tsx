@@ -5,7 +5,6 @@ type ButtonProps = {
   children?: JSX.Element | JSX.Element[] | string;
   bgColor: string;
   ftColor: string;
-  hoverColor: string;
   fontWeight: number;
   type: "button" | "submit" | "reset" | undefined;
   handleBtn?: React.MouseEventHandler<HTMLButtonElement>;
@@ -15,14 +14,12 @@ export const Button = ({
   children,
   bgColor,
   ftColor,
-  hoverColor,
   fontWeight,
   type,
   handleBtn,
 }: ButtonProps) => {
   return (
     <EditorButton
-      hoverColor={hoverColor}
       fontWeight={fontWeight}
       ftColor={ftColor}
       bgColor={bgColor}
@@ -49,7 +46,7 @@ const dynamicStyle = (props: ButtonProps) => css`
   cursor: pointer;
 
   &:hover {
-    background-color: ${props.hoverColor};
+    filter: brightness(95%);
   }
 `;
 

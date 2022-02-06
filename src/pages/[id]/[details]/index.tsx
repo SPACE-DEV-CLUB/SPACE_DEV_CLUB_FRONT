@@ -1,20 +1,20 @@
-import { NextPage } from 'next';
-import styled from '@emotion/styled';
-import Head from 'next/head';
+import { NextPage } from "next";
+import styled from "@emotion/styled";
+import Head from "next/head";
 
-import { DetailHeader } from '../../../components/Details/DetailHeader';
-import { LeftHeader } from '../../../components/Details/LeftHeader';
-import { RightHeader } from '../../../components/Details/RightHeader';
+import { DetailHeader } from "../../../components/Details/DetailHeader";
+import { LeftHeader } from "../../../components/Details/LeftHeader";
+import { RightHeader } from "../../../components/Details/RightHeader";
 
 // import { CardContainer } from "../../../components/Home/CardContainer";
-import { Header } from '../../../components/Common/Header';
+import { Header } from "../../../components/Common/Header";
 
-import { Theme } from '../../../styles/theme';
-import { useContext } from 'react';
-import { ThemeContext } from '../../_app';
-import { useRouter } from 'next/router';
-import { useData } from '../../../hooks/useData';
-import { ErrorPage } from '../../../components/Details/ErrorPage';
+import { Theme } from "../../../styles/theme";
+import { useContext } from "react";
+import { ThemeContext } from "../../_app";
+import { useRouter } from "next/router";
+import { useData } from "../../../hooks/useData";
+import { ErrorPage } from "../../../components/Details/ErrorPage";
 
 interface ThemeProps {
   theme: Theme;
@@ -90,16 +90,28 @@ const DetailsIndexPage: NextPage = () => {
   let postid = 0;
 
   let postObj = {
-    title: '',
-    contents: '',
-    url: '',
+    title: "",
+    contents: "",
+    url: "",
     likeposts: {
       data: [],
     },
     comments: {
       data: [],
     },
+    createdAt: "",
   };
+
+  const { data: DetailData, error: DetailError } = useData(
+    "posts",
+    "populate=*"
+  );
+
+  if (!DetailData) return <div>로딩중</div>;
+  if (DetailError) return <div>에러</div>;
+
+  let postid = 0;
+
 
   DetailData.data.some((details: Post) => {
     if (
@@ -121,7 +133,7 @@ const DetailsIndexPage: NextPage = () => {
       </Head>
       {postObj.title ? (
         <div>
-          <Header username={'deli-ght'} user={true} />
+          <Header username={"deli-ght"} user={true} />
           <DetailContainer>
             <LeftHeader likepost={postObj.likeposts.data} />
             <DetailHeader
@@ -130,6 +142,7 @@ const DetailsIndexPage: NextPage = () => {
               userName={userName}
               comments={postObj.comments.data}
               postid={postid}
+              createdAt={postObj.createdAt}
             />
             <RightHeader />
           </DetailContainer>

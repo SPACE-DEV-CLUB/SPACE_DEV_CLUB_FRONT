@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { useState, useContext } from "react";
 import { TagGenerator } from "./TagGenerator";
-import { PALLETS_LIGHT } from "../../../constants";
 import { ThemeContext } from "../../../pages/_app";
 import { ThemeProps } from "../../../types/Theme";
 
