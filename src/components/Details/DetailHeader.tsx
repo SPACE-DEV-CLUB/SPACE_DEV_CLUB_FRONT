@@ -1,17 +1,18 @@
-import styled from '@emotion/styled';
-import { UDHashContainer } from './UDHashContainer';
-import { SeriesContainer } from './SeriesContainer';
-import { Intro } from '../MyPage';
-import { Carousel } from './Carousel';
-import { Comment } from './Comment';
-import useIO from '../../hooks/useIO';
-import { API_ENDPOINT } from '../../constants';
-import axios, { Method } from 'axios';
+import styled from "@emotion/styled";
+import { UDHashContainer } from "./UDHashContainer";
+import { SeriesContainer } from "./SeriesContainer";
+import { Intro } from "../MyPage";
+import { Carousel } from "./Carousel";
+import { Comment } from "./Comment";
+import useIO from "../../hooks/useIO";
+import { API_ENDPOINT } from "../../constants";
+import axios, { Method } from "axios";
 
 interface DetailData {
   title: string;
   contents: string;
   userName: string | string[] | undefined;
+  createdAt: string;
   comments: {
     id: number;
     attributes: {
@@ -34,6 +35,7 @@ export const DetailHeader = ({
   userName,
   comments,
   postid,
+  createdAt,
 }: DetailData) => {
   const onIntersect: IntersectionObserverCallback = async (
     [entry],
@@ -56,7 +58,7 @@ export const DetailHeader = ({
 
   const { setTarget } = useIO({
     root: null,
-    rootMargin: '0px',
+    rootMargin: "0px",
     threshold: 0.5,
     onIntersect,
   });
@@ -64,7 +66,7 @@ export const DetailHeader = ({
   return (
     <Header>
       <h2>{title}</h2>
-      <UDHashContainer userName={userName} />
+      <UDHashContainer userName={userName} createdAt={createdAt} />
       <SeriesContainer />
       <div>{contents}</div>
       {/* <div ref={setTarget}></div> */}

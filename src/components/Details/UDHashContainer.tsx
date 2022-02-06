@@ -14,6 +14,7 @@ interface ThemeProps {
 
 interface UserData {
   userName: string | string[] | undefined;
+  createdAt: string;
 }
 
 const tagDatas = [
@@ -27,11 +28,9 @@ const tagDatas = [
   },
 ];
 
-const createdAt = "2022-01-18T06:59:54.580Z";
-
 const user = true;
 
-export const UDHashContainer = ({ userName }: UserData) => {
+export const UDHashContainer = ({ userName, createdAt }: UserData) => {
   const { theme } = useContext(ThemeContext);
   return (
     <article>
