@@ -7,6 +7,8 @@ import { Comment } from './Comment';
 import useIO from '../../hooks/useIO';
 import { API_ENDPOINT } from '../../constants';
 import axios, { Method } from 'axios';
+import { useData } from '../../hooks/useData';
+import { useState, useEffect } from 'react';
 
 interface DetailData {
   title: string;
@@ -28,6 +30,17 @@ interface DetailData {
   postid: number;
 }
 
+interface ReadingPost {
+  id: number;
+  attributes: {
+    postid: {
+      data: {
+        id: number;
+      };
+    };
+  };
+}
+
 export const DetailHeader = ({
   title,
   contents,
@@ -35,29 +48,57 @@ export const DetailHeader = ({
   comments,
   postid,
 }: DetailData) => {
+  const [method, setMethod] = useState('post');
+  const [putId, setPutId] = useState('');
+
+  //사용자 읽기목록 받아오기
+  const fetchdata = async () => {
+    const response = await axios({
+      method: 'get',
+      url: `${API_ENDPOINT}/readingposts?populate=*&filters[userid][nickname]=ong`,
+    });
+    response.data.data.some((post: ReadingPost) => {
+      if (post.attributes.postid.data.id === postid) {
+        setPutId(`${post.id}`);
+        setMethod('put');
+        return true;
+      }
+    });
+  };
+
+  //읽기목록에 포스트 쏘기
+  const postdata = async () => {
+    axios({
+      method: `${method}` as Method,
+      url: `${API_ENDPOINT}/readingposts/${putId}`,
+      data: {
+        data: {
+          userid: 4,
+          postid: postid,
+        },
+      },
+    }).then(function (response) {
+      console.log(response);
+    });
+  };
+
   const onIntersect: IntersectionObserverCallback = async (
     [entry],
     observer
   ) => {
     if (entry.isIntersecting) {
       observer.unobserve(entry.target);
-      axios
-        .post(`${API_ENDPOINT}/readingposts/`, {
-          data: {
-            userid: 4,
-            postid: postid,
-          },
-        })
-        .then((response) => {
-          console.log(response);
-        });
+      await fetchdata();
+      await postdata();
+      console.log(`method: ${method}`);
+      console.log(`put경로: ${putId}`);
     }
   };
 
   const { setTarget } = useIO({
     root: null,
     rootMargin: '0px',
-    threshold: 0.5,
+    threshold: 1,
     onIntersect,
   });
 
@@ -67,7 +108,7 @@ export const DetailHeader = ({
       <UDHashContainer userName={userName} />
       <SeriesContainer />
       <div>{contents}</div>
-      {/* <div ref={setTarget}></div> */}
+      <div ref={setTarget}></div>
       <Intro />
       <Carousel />
       <Comment comments={comments} />

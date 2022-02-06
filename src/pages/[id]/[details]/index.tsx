@@ -62,11 +62,32 @@ interface Post {
   };
 }
 
+interface ReadingPost {
+  id: number;
+  attributes: {
+    postid: {
+      data: {
+        id: number;
+      };
+    };
+  };
+}
+
 const DetailsIndexPage: NextPage = () => {
   const { theme } = useContext(ThemeContext);
   const router = useRouter();
   const userName = router.query.id;
   const userDetails = router.query.details;
+
+  const { data: DetailData, error: DetailError } = useData(
+    'posts',
+    'populate=*'
+  );
+
+  if (!DetailData) return <div>로딩중</div>;
+  if (DetailError) return <div>에러</div>;
+
+  let postid = 0;
 
   let postObj = {
     title: '',
@@ -79,15 +100,6 @@ const DetailsIndexPage: NextPage = () => {
       data: [],
     },
   };
-  const { data: DetailData, error: DetailError } = useData(
-    'posts',
-    'populate=*'
-  );
-
-  if (!DetailData) return <div>로딩중</div>;
-  if (DetailError) return <div>에러</div>;
-
-  let postid = 0;
 
   DetailData.data.some((details: Post) => {
     if (

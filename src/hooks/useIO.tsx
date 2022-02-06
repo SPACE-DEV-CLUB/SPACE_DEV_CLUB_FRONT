@@ -8,9 +8,6 @@ interface useIntersectionObserverProps {
 }
 
 const useIntersectionObserver = ({
-  // root = null,
-  // rootMargin = '0px',
-  // threshold = 0.5,
   root,
   rootMargin,
   threshold,
@@ -26,11 +23,10 @@ const useIntersectionObserver = ({
       { root, rootMargin, threshold }
     );
     observer.observe(target);
-
     // return () => observer.unobserve(target);
     return () => observer && observer.disconnect();
-  }, [onIntersect, root, rootMargin, target, threshold]);
-
+  }, [target]);
+  // [onIntersect, root, rootMargin, target, threshold]
   return { setTarget };
 };
 
