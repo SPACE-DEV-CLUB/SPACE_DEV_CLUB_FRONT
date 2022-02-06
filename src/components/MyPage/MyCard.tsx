@@ -42,7 +42,6 @@ export const MyCard = ({
 }: PropsTypes) => {
     const { theme } = useContext(ThemeContext)
     const filteredDate = handleDate(date)
-    console.log(tag)
     return (
         <MyCardContainer theme={theme}>
             {mySearch && (
