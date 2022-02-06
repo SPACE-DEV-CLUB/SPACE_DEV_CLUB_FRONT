@@ -1,4 +1,5 @@
 import styled from "@emotion/styled"
+import { css } from "@emotion/react"
 import { MEDIA_QUERY_END_POINT } from "../../../constants"
 import SearchIcon from "@mui/icons-material/Search"
 import { useContext, useRef, useState } from "react"
@@ -7,6 +8,7 @@ import { ThemeProps } from "../../../types/Theme"
 import { ContentData } from "./ContentData"
 import { useData } from "../../../hooks/useData"
 import qs from "qs"
+import { Theme } from "../../../styles/theme"
 
 interface ContentProps {
     username: string | string[] | undefined
@@ -14,6 +16,7 @@ interface ContentProps {
 
 export const Content = ({ username }: ContentProps) => {
     const { theme } = useContext(ThemeContext)
+    const tagchecker = useRef("")
     const [tag, setTag] = useState("")
     const tagData = useRef([])
 
@@ -42,7 +45,10 @@ export const Content = ({ username }: ContentProps) => {
         )
     }
 
-    const handleTag = () => {}
+    const handleTag = (tagName: string) => {
+        setTag(tagName)
+        tagchecker.current = tagName
+    }
 
     return (
         <ContentContainer>
@@ -54,14 +60,25 @@ export const Content = ({ username }: ContentProps) => {
             </SearchContainer>
             <SmallTaglist theme={theme}>
                 <ul>
-                    <li>
+                    <TagBtn
+                        onClick={() => handleTag("")}
+                        check={tagchecker.current === ""}
+                        theme={theme}
+                    >
                         <a>
                             전체보기<span>(50)</span>
                         </a>
-                    </li>
+                    </TagBtn>
                     {tagData.current.map((tag: any) => {
                         return (
-                            <li key={tag.attributes.id}>
+                            <TagBtn
+                                key={tag.attributes.id}
+                                onClick={() => handleTag(tag.attributes.name)}
+                                check={
+                                    tag.attributes.name === tagchecker.current
+                                }
+                                theme={theme}
+                            >
                                 <a>
                                     {tag.attributes.name}
                                     <span>
@@ -77,7 +94,7 @@ export const Content = ({ username }: ContentProps) => {
                                         )
                                     </span>
                                 </a>
-                            </li>
+                            </TagBtn>
                         )
                     })}
                 </ul>
@@ -112,7 +129,7 @@ export const Content = ({ username }: ContentProps) => {
                     })}
                 </ul>
             </LargeTaglist>
-            <ContentData username={username} />
+            <ContentData username={username} tag={tagchecker.current} />
         </ContentContainer>
     )
 }
@@ -197,35 +214,43 @@ const SmallTaglist = styled.section<ThemeProps>`
         @media screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
             padding: 0;
         }
-        li {
-            display: flex;
-            justify-content: center;
-            flex-shrink: 0;
-            align-items: center;
-            padding: 0 14px;
-            height: 24px;
-            line-height: 1.5;
-            background: ${({ theme }) => theme.SUBBACKGROUND};
-            color: ${({ theme }) => theme.SUB_FONT};
-            font-size: 12px;
-            border-radius: 12px;
-            &:active,
-            &:active * {
-                font-size: 12px;
-                background: ${({ theme }) => theme.MAIN};
-                color: ${({ theme }) => theme.BACKGROUND};
-            }
-            a {
-                line-height: 24px;
-                color: ${({ theme }) => theme.MAIN_FONT};
-            }
-            span {
-                color: ${({ theme }) => theme.SUB_FONT};
-                margin-left: 5px;
-            }
-        }
         li + li {
             margin-left: 8px;
         }
     }
+`
+
+interface TagBtnProps {
+    check: boolean
+    theme: Theme
+}
+
+const tagBtnStyle = (props: TagBtnProps) => css`
+    background: ${props.check ? props.theme.MAIN : props.theme.SUBBACKGROUND};
+    color: ${props.check ? props.theme.BACKGROUND : props.theme.SUB_FONT};
+    a {
+        line-height: 24px;
+        color: ${props.check ? props.theme.BACKGROUND : props.theme.MAIN_FONT};
+    }
+    span {
+        color: ${props.check
+            ? props.theme.SUBBACKGROUND
+            : props.theme.SUB_FONT};
+        margin-left: 5px;
+    }
+`
+
+const TagBtn = styled.li`
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+    align-items: center;
+    padding: 0 14px;
+    height: 24px;
+    line-height: 1.5;
+    background: ${({ theme }) => theme.SUBBACKGROUND};
+    color: ${({ theme }) => theme.SUB_FONT};
+    font-size: 12px;
+    border-radius: 12px;
+    ${tagBtnStyle}
 `
