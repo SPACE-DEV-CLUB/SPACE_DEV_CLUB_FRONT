@@ -22,6 +22,7 @@ export const ContentData = ({ username, tag }: ContentDataProps) => {
         const query = tag
             ? qs.stringify(
                   {
+                      sort: ["publishedAt:desc"],
                       pagination: {
                           page: pageIndex,
                           pageSize: PAGE_SIZE,
@@ -46,6 +47,7 @@ export const ContentData = ({ username, tag }: ContentDataProps) => {
               )
             : qs.stringify(
                   {
+                      sort: ["publishedAt:desc"],
                       pagination: {
                           page: pageIndex,
                           pageSize: PAGE_SIZE,
