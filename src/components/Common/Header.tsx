@@ -10,13 +10,20 @@ import { Theme } from "../../styles/theme"
 import { useContext } from "react"
 import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
+import { getProviders, SessionProvider, signIn, signOut, useSession } from "next-auth/react";
 
 import { MEDIA_QUERY_END_POINT } from "../../constants"
 import { useRouter } from "next/router"
+import { fetcher } from "../../utils/fetcher"
+import useSWR from "swr"
 
 interface HeaderProps {
   username?: string | string[] | undefined
   user: boolean
+}
+
+export interface IUser {
+  isUser : boolean;
 }
 
 export const Header = ({
@@ -29,6 +36,9 @@ export const Header = ({
   const [showMenu, setShowMenu] = useState(false)
   const [navTop, setNavTop] = useState(0)
   const [isUserName, setUserName] = useState(false)
+  const [isUser, setUser] = useState<IUser | undefined | any>(undefined)
+  const {data, error} = useSWR('https://secret-hollows-17182.herokuapp.com/api/userinfos', fetcher)
+  console.log(data?.data)
   const handleMenu = () => {
     setShowMenu(!showMenu)
   }
@@ -50,6 +60,7 @@ export const Header = ({
     lastscrollTop.current = scrollTop.current
   }
 
+  const { data: session, status } = useSession();
   function detectUserName() {
     if (router.query.id) {
       return true
@@ -58,6 +69,25 @@ export const Header = ({
     }
   }
 
+  // 회원 가입이 돼 있는지 확인하는 로직
+  useEffect(() => {
+    if(session){
+      if(data?.data.filter((e:any) => e.attributes.email.includes(session.user?.email)).length == 1){
+        setUser(true)
+    }else if(data?.data.filter((e:any) => e.attributes.email.includes(session.user?.email)).length == 0){
+      setUser(false)
+    }
+    checkOurUser()
+  }
+})
+
+const checkOurUser = () => {
+  if(isUser === false){
+      router.push(
+        '/signup'
+      )
+  }
+}
   useEffect(() => {
     setUserName(detectUserName())
   })
@@ -112,7 +142,19 @@ export const Header = ({
           )}
         </HeaderUtils>
         <HeaderUtils theme={theme}>
-          <Link
+        {!session && (
+          <>
+            <button className="login-btn" onClick={(e:React.MouseEvent<HTMLElement>) => signIn("google")}>
+              로그인
+            </button>
+            <SearchBtn theme={theme} className="sc-dxgOiQ ghkPCb">
+              <SearchIcon htmlColor={theme.MAIN_FONT} />
+            </SearchBtn>
+            </>
+          )}
+          {session && (
+            <>
+            <Link
             href={user ? `/search?username=${username}` : "/search"}
             passHref
           >
@@ -123,7 +165,7 @@ export const Header = ({
           <NewPostBtn theme={theme}>새 글 작성</NewPostBtn>
           <UserUtils theme={theme} onClick={handleMenu}>
             <UserProfile
-              src="/image/sampleUser.jpg"
+              src={session?.user?.image as string}
               alt="userProfile"
               width={40}
               height={40}
@@ -132,6 +174,8 @@ export const Header = ({
             <ArrowDropDownIcon className="arrow" />
             {showMenu && <HeaderMenu username={username} />}
           </UserUtils>
+          </>
+          )}
         </HeaderUtils>
       </HeaderContainer>
     </HeaderComponent>
@@ -190,6 +234,10 @@ const HeaderUtils = styled.article<ThemeProps>`
   color: ${({ theme }) => theme.MAIN_FONT};
   & > *:not(:last-child) {
     margin-right: 12px;
+  }
+  .login-btn {
+    color: ${({ theme }) => theme.MAIN_FONT};
+    font-size: 16px;
   }
 `
 
