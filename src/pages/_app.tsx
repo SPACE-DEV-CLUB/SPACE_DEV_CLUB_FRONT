@@ -5,6 +5,7 @@ import { GlobalStyle } from '../styles/global-styles';
 import { lightTheme, darkTheme, Theme } from '../styles/theme';
 import { useDarkMode } from '../hooks/useDarkMode';
 import DarkModeToggle from '../components/Home/DarkModetoggle';
+import {SessionProvider} from "next-auth/react"
 
 interface ContextProps {
   theme: Theme;
@@ -18,17 +19,17 @@ export const ThemeContext = createContext<ContextProps>({
   },
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: {session, ...pageProps}}: AppProps) {
   const { theme, toggleTheme } = useDarkMode();
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <>
+      <SessionProvider session={session}>
         <Global
           styles={GlobalStyle(theme === lightTheme ? lightTheme : darkTheme)}
         />
         <Component {...pageProps} />
         <DarkModeToggle />
-      </>
+      </SessionProvider>
     </ThemeContext.Provider>
   );
 }

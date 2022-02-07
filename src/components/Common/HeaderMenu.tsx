@@ -5,6 +5,7 @@ import { Theme } from "../../styles/theme"
 import { useContext } from "react"
 import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
+import { signOut } from "next-auth/react"
 
 interface HeaderMenuProps {
   username: string | string[] | undefined
@@ -41,7 +42,7 @@ export const HeaderMenu = ({ username }: HeaderMenuProps) => {
       </MenuList>
       <MenuList>
         <Link href={"/"} passHref>
-          <MenuBtn theme={theme}>로그아웃</MenuBtn>
+          <MenuBtn onClick={(e:React.MouseEvent<HTMLElement>) => signOut()} theme={theme}>로그아웃</MenuBtn>
         </Link>
       </MenuList>
     </Menus>
