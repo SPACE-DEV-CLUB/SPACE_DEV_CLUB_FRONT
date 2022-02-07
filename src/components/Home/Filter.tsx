@@ -20,7 +20,13 @@ export const Filter = ({ route }: { route: string }) => {
   const { theme } = useContext(ThemeContext);
 
   const [filteredText, setFilteredText] = useState(
-    route === 'home' ? '이번 주' : '최신'
+    route === 'home'
+      ? '이번 주'
+      : 'recent'
+      ? '최신'
+      : 'read'
+      ? '읽기목록'
+      : '좋아요'
   );
 
   function handleClick(e: string) {
@@ -67,7 +73,10 @@ export const Filter = ({ route }: { route: string }) => {
         <Notice route={route}></Notice>
       </FilterContainer>
       {/* <CardContainer filter={filteredText}></CardContainer> */}
-      <IOCardContainer filter={filteredText}></IOCardContainer>
+      <IOCardContainer
+        filter={filteredText}
+        username={undefined}
+      ></IOCardContainer>
     </>
   );
 };
