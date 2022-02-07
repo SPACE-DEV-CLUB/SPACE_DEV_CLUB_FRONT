@@ -3,12 +3,11 @@ import Head from "next/head"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import qs from "qs"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { Header } from "../../components/Common/Header"
-import { MyCard } from "../../components/MyPage/MyCard"
-import TagMainLoading from "../../components/Tags/TagMainLoading"
+import ContentData from "../../components/Common/ContentData"
+import TagLoading from "../../components/Tags/TagLoading"
 import { MEDIA_QUERY_END_POINT } from "../../constants"
-import { TAGS } from "../../data"
 import { useData } from "../../hooks/useData"
 import { ThemeProps } from "../../types/Theme"
 import { ThemeContext } from "../_app"
@@ -17,11 +16,12 @@ const SearchTag = () => {
     const router = useRouter()
     const tagname = router.query.tagname
     const { theme } = useContext(ThemeContext)
+
     const query = qs.stringify(
         {
             populate: {
                 posts: {
-                    populate: ["hashtags"],
+                    populate: ["hashtags", "userid"],
                 },
             },
             filters: {
@@ -35,7 +35,7 @@ const SearchTag = () => {
         }
     )
     const { data, error } = useData("hashtags", query)
-    console.log(data)
+
     return (
         <>
             <Head>
@@ -70,30 +70,12 @@ const SearchTag = () => {
                             </TagCount>
                         </TagInfo>
                         <CardContainer>
-                            {data.data[0].attributes.posts.data.map(
-                                (e: any, i: number) => {
-                                    return (
-                                        <MyCard
-                                            key={i}
-                                            mySearch={true}
-                                            imageUrl="/image/sample.jpeg"
-                                            title={e.attributes.title}
-                                            contents={e.attributes.contents}
-                                            tag={e.attributes.hashtags.data}
-                                            date={"333"}
-                                            // comments={e.comment}
-                                            username="mmmm"
-                                            count={e.attributes.count}
-                                            day={e.attributes.date}
-                                        />
-                                    )
-                                }
-                            )}
+                            <ContentData tag={data.data[0].attributes.name} />
                         </CardContainer>
                     </Main>
                 </TagSection>
             ) : (
-                <TagMainLoading />
+                <TagLoading />
             )}
         </>
     )
