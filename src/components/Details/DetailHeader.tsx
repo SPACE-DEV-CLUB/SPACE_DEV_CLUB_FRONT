@@ -1,45 +1,45 @@
-import styled from "@emotion/styled";
-import { UDHashContainer } from "./UDHashContainer";
-import { SeriesContainer } from "./SeriesContainer";
-import { Intro } from "../MyPage";
-import { Carousel } from "./Carousel";
-import { CommentFormContainer } from "./CommentFormContainer";
-import useIO from "../../hooks/useIO";
-import { API_ENDPOINT } from "../../constants";
-import axios, { Method } from "axios";
-import { userInfo } from "../../types/Main";
+import styled from "@emotion/styled"
+import { UDHashContainer } from "./UDHashContainer"
+import { SeriesContainer } from "./SeriesContainer"
+import { Intro } from "../MyPage"
+import { Carousel } from "./Carousel"
+import { CommentFormContainer } from "./CommentFormContainer"
+import useIO from "../../hooks/useIO"
+import { API_ENDPOINT } from "../../constants"
+import axios, { Method } from "axios"
+import { userInfo } from "../../types/Main"
 
 interface DetailData {
-  title: string;
-  contents: string;
-  userName: string | string[] | undefined;
-  createdAt: string;
+  title: string
+  contents: string
+  userName: string | string[] | undefined
+  createdAt: string
   comments: {
-    id: number;
+    id: number
     attributes: {
-      userid: number;
-      postid: number;
-      content: string;
-      createdAt: string;
-      depth: number;
-      order: number;
-      group: number;
-      is_deleted: boolean;
-    };
-  }[];
-  postid: number;
-  userdata: userInfo;
+      userid: number
+      postid: number
+      content: string
+      createdAt: string
+      depth: number
+      order: number
+      group: number
+      is_deleted: boolean
+    }
+  }[]
+  postid: number
+  userdata: userInfo
 }
 
 interface ReadingPost {
-  id: number;
+  id: number
   attributes: {
     postid: {
       data: {
-        id: number;
-      };
-    };
-  };
+        id: number
+      }
+    }
+  }
 }
 
 export const DetailHeader = ({
@@ -52,21 +52,19 @@ export const DetailHeader = ({
   userdata,
 }: DetailData) => {
   const getReadingData = async (userName: string) => {
-    let putId = 0;
+    let putId = 0
     const response = await axios({
       method: "get",
       url: `${API_ENDPOINT}/readingposts?populate=*&filters[userid][profilename]=${userName}`,
-    });
+    })
     const handleOverlap = response.data.data.some((post: ReadingPost) => {
       if (post.attributes.postid.data.id === postid) {
-        putId = post.id;
-        return true;
+        putId = post.id
+        return true
       }
-    });
-    handleOverlap
-      ? postReadingData("put", `${putId}`)
-      : postReadingData("post");
-  };
+    })
+    handleOverlap ? postReadingData("put", `${putId}`) : postReadingData("post")
+  }
 
   const postReadingData = async (method: string, putid: string = "") => {
     axios({
@@ -79,29 +77,29 @@ export const DetailHeader = ({
         },
       },
     }).then(function (response) {
-      console.log(response);
-      console.log(`method : ${method}`);
-      console.log(`data-id : ${putid}`);
-      console.log(`post-id : ${postid}`);
-    });
-  };
+      console.log(response)
+      console.log(`method : ${method}`)
+      console.log(`data-id : ${putid}`)
+      console.log(`post-id : ${postid}`)
+    })
+  }
 
   const onIntersect: IntersectionObserverCallback = async (
     [entry],
     observer
   ) => {
     if (entry.isIntersecting) {
-      observer.unobserve(entry.target);
-      getReadingData("ong");
+      observer.unobserve(entry.target)
+      getReadingData("ong")
     }
-  };
+  }
 
   const { setTarget } = useIO({
     root: null,
     rootMargin: "0px",
     threshold: 1,
     onIntersect,
-  });
+  })
 
   return (
     <Header>
@@ -114,8 +112,8 @@ export const DetailHeader = ({
       <Carousel />
       <CommentFormContainer comments={comments} />
     </Header>
-  );
-};
+  )
+}
 
 const Header = styled.section`
   display: flex;
@@ -130,4 +128,4 @@ const Header = styled.section`
   @media screen and (max-width: 840px) {
     width: 100vw;
   }
-`;
+`

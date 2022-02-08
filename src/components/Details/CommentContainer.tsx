@@ -1,54 +1,54 @@
-import styled from "@emotion/styled";
-import { useState } from "react";
-import { Comment } from "./Comment";
+import styled from "@emotion/styled"
+import { useState } from "react"
+import { Comment } from "./Comment"
 
 interface Comments {
   comments: {
-    id: number;
+    id: number
     attributes: {
-      userid: number;
-      postid: number;
-      content: string;
-      createdAt: string;
-      depth: number;
-      order: number;
-      group: number;
-      is_deleted: boolean;
-    };
-  };
+      userid: number
+      postid: number
+      content: string
+      createdAt: string
+      depth: number
+      order: number
+      group: number
+      is_deleted: boolean
+    }
+  }
   userData: [
     {
-      id: number;
+      id: number
       attributes: {
-        nickname: string;
-        profileimage: string;
-      };
+        userid: string
+        profileimage: string
+      }
     }
-  ];
-  commentBtn: boolean;
+  ]
+  commentBtn: boolean
 }
 
 let user = {
   id: 0,
   attributes: {
-    nickname: "",
+    userid: "",
     profileimage: "",
   },
-};
+}
 
 export const CommentContainer = ({
   comments,
   userData,
   commentBtn,
 }: Comments) => {
-  const depth = comments.attributes.depth;
+  const depth = comments.attributes.depth
 
   userData.some((data) => {
     if (data.id === comments.attributes.userid) {
-      user = data;
-      return true;
+      user = data
+      return true
     }
-  });
+  })
 
   return (
     <Container>
@@ -69,12 +69,12 @@ export const CommentContainer = ({
         </CommentPlus>
       )} */}
     </Container>
-  );
-};
+  )
+}
 
 const Container = styled.article`
   width: 100%;
-`;
+`
 const Comcom = styled.div`
   margin-left: 40px;
-`;
+`

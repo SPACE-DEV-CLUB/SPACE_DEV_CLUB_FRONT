@@ -1,92 +1,92 @@
-import { NextPage } from "next";
-import styled from "@emotion/styled";
-import Head from "next/head";
+import { NextPage } from "next"
+import styled from "@emotion/styled"
+import Head from "next/head"
 
-import { DetailHeader } from "../../../components/Details/DetailHeader";
-import { LeftHeader } from "../../../components/Details/LeftHeader";
-import { RightHeader } from "../../../components/Details/RightHeader";
+import { DetailHeader } from "../../../components/Details/DetailHeader"
+import { LeftHeader } from "../../../components/Details/LeftHeader"
+import { RightHeader } from "../../../components/Details/RightHeader"
 
 // import { CardContainer } from "../../../components/Home/CardContainer";
-import { Header } from "../../../components/Common/Header";
+import { Header } from "../../../components/Common/Header"
 
-import { Theme } from "../../../styles/theme";
-import { useContext } from "react";
-import { ThemeContext } from "../../_app";
-import { useRouter } from "next/router";
-import { useData } from "../../../hooks/useData";
-import { ErrorPage } from "../../../components/Common/ErrorPage";
-import { userInfo } from "../../../types/Main";
+import { Theme } from "../../../styles/theme"
+import { useContext } from "react"
+import { ThemeContext } from "../../_app"
+import { useRouter } from "next/router"
+import { useData } from "../../../hooks/useData"
+import { ErrorPage } from "../../../components/Common/ErrorPage"
+import { userInfo } from "../../../types/Main"
 
 interface ThemeProps {
-  theme: Theme;
+  theme: Theme
 }
 
 interface User {
-  id: number;
-  username: string;
-  email: string;
-  provider: string;
-  confirmed: boolean;
-  blocked: boolean;
-  createdAt: string;
-  updatedAt: string;
+  id: number
+  username: string
+  email: string
+  provider: string
+  confirmed: boolean
+  blocked: boolean
+  createdAt: string
+  updatedAt: string
 }
 
 interface Post {
-  id: number;
+  id: number
   attributes: {
-    title: string;
-    contents: string;
-    published: boolean;
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-    url: string;
-    private: null;
+    title: string
+    contents: string
+    published: boolean
+    createdAt: string
+    updatedAt: string
+    publishedAt: string
+    url: string
+    private: null
 
     userid: {
       data: {
-        id: number;
-        attributes: userInfo;
-      };
-    };
+        id: number
+        attributes: userInfo
+      }
+    }
 
     likeposts: {
-      data: [];
-    };
+      data: []
+    }
 
     comments: {
-      data: [];
-    };
-  };
+      data: []
+    }
+  }
 }
 
 interface ReadingPost {
-  id: number;
+  id: number
   attributes: {
     postid: {
       data: {
-        id: number;
-      };
-    };
-  };
+        id: number
+      }
+    }
+  }
 }
 
 const DetailsIndexPage: NextPage = () => {
-  const { theme } = useContext(ThemeContext);
-  const router = useRouter();
-  const userName = router.query.id;
-  const userDetails = router.query.details;
+  const { theme } = useContext(ThemeContext)
+  const router = useRouter()
+  const userName = router.query.id
+  const userDetails = router.query.details
 
   const { data: DetailData, error: DetailError } = useData(
     "posts",
     "populate=*"
-  );
+  )
 
-  if (!DetailData) return <div>로딩중</div>;
-  if (DetailError) return <div>에러</div>;
+  if (!DetailData) return <div>로딩중</div>
+  if (DetailError) return <div>에러</div>
 
-  let postid = 0;
+  let postid = 0
 
   let postObj = {
     title: "",
@@ -99,11 +99,11 @@ const DetailsIndexPage: NextPage = () => {
       data: [],
     },
     createdAt: "",
-  };
+  }
 
   let user: userInfo = {
     email: "",
-    nickname: "",
+    userid: "",
     profile: "",
     profileimage: "",
     facebook: "",
@@ -114,19 +114,19 @@ const DetailsIndexPage: NextPage = () => {
     profilename: "",
     aboutme: "",
     snsemail: "",
-  };
+  }
 
   DetailData.data.some((details: Post) => {
     if (
       userDetails === details.attributes.url &&
       userName === details.attributes.userid.data.attributes.profilename
     ) {
-      postid = details.id;
-      postObj = details.attributes;
-      user = details.attributes.userid.data.attributes;
-      return true;
+      postid = details.id
+      postObj = details.attributes
+      user = details.attributes.userid.data.attributes
+      return true
     }
-  });
+  })
 
   return (
     <main>
@@ -159,17 +159,17 @@ const DetailsIndexPage: NextPage = () => {
         <ErrorPage />
       )}
     </main>
-  );
-};
+  )
+}
 
-export default DetailsIndexPage;
+export default DetailsIndexPage
 
 const DetailContainer = styled.section`
   position: relative;
   display: flex;
   width: 100%;
   justify-content: center;
-`;
+`
 
 const PostsContainer = styled.div<ThemeProps>`
   width: 100%;
@@ -178,4 +178,4 @@ const PostsContainer = styled.div<ThemeProps>`
   background-color: ${({ theme }) => theme.BACKGROUND};
   box-shadow: rgb(0 0 0 / 8%) 0px 0px 32px;
   margin-top: 50px;
-`;
+`
