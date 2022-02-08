@@ -28,14 +28,9 @@ const SignUp = () => {
     console.log(data)
     const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault()
-        if (
-            data.data.filter((e: any) =>
-                e.attributes?.profilename?.includes(userId)
-            ).length == 1
-        ) {
-            setDuplicate(true)
-            console.log(data)
-        } else {
+         if(data.data.filter((e:any) => userId.includes(e.attributes?.profilename)).length == 1){
+        setDuplicate(true)
+    }else if(data.data.filter((e:any) => userId.includes(e.attributes?.profilename)).length == 0){
             await axios
                 .post(`${API_ENDPOINT}/userinfos`, {
                     data: {
@@ -55,6 +50,7 @@ const SignUp = () => {
                     console.log(error)
                 })
         }
+
     }
 
     const handleGoHome = async (e: React.MouseEvent<HTMLElement>) => {
