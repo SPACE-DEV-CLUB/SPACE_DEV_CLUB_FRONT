@@ -1,12 +1,12 @@
-import styled from '@emotion/styled';
-import { UDHashContainer } from './UDHashContainer';
-import { SeriesContainer } from './SeriesContainer';
-import { Intro } from '../MyPage';
-import { Carousel } from './Carousel';
-import { Comment } from './Comment';
-import useIO from '../../hooks/useIO';
-import { API_ENDPOINT } from '../../constants';
-import axios, { Method } from 'axios';
+import styled from "@emotion/styled";
+import { UDHashContainer } from "./UDHashContainer";
+import { SeriesContainer } from "./SeriesContainer";
+import { Intro } from "../MyPage";
+import { Carousel } from "./Carousel";
+import { CommentFormContainer } from "./CommentFormContainer";
+import useIO from "../../hooks/useIO";
+import { API_ENDPOINT } from "../../constants";
+import axios, { Method } from "axios";
 
 interface DetailData {
   title: string;
@@ -51,7 +51,7 @@ export const DetailHeader = ({
   const getReadingData = async (nickname: string) => {
     let putId = 0;
     const response = await axios({
-      method: 'get',
+      method: "get",
       url: `${API_ENDPOINT}/readingposts?populate=*&filters[userid][nickname]=${nickname}`,
     });
     const handleOverlap = response.data.data.some((post: ReadingPost) => {
@@ -61,11 +61,11 @@ export const DetailHeader = ({
       }
     });
     handleOverlap
-      ? postReadingData('put', `${putId}`)
-      : postReadingData('post');
+      ? postReadingData("put", `${putId}`)
+      : postReadingData("post");
   };
 
-  const postReadingData = async (method: string, putid: string = '') => {
+  const postReadingData = async (method: string, putid: string = "") => {
     axios({
       method: method as Method,
       url: `${API_ENDPOINT}/readingposts/${putid}`,
@@ -89,13 +89,13 @@ export const DetailHeader = ({
   ) => {
     if (entry.isIntersecting) {
       observer.unobserve(entry.target);
-      getReadingData('ong');
+      getReadingData("ong");
     }
   };
 
   const { setTarget } = useIO({
     root: null,
-    rootMargin: '0px',
+    rootMargin: "0px",
     threshold: 1,
     onIntersect,
   });
@@ -109,7 +109,7 @@ export const DetailHeader = ({
       {/* <div ref={setTarget}></div> */}
       <Intro />
       <Carousel />
-      <Comment comments={comments} />
+      <CommentFormContainer comments={comments} />
     </Header>
   );
 };

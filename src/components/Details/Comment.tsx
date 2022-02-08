@@ -1,116 +1,118 @@
 import styled from "@emotion/styled";
-import { CommentUser } from "./CommentUser";
-import { PALLETS_LIGHT } from "../../constants";
+import Link from "next/link";
+
+import BorderInnerIcon from "@mui/icons-material/BorderInner";
 
 import { Theme } from "../../styles/theme";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ThemeContext } from "../../pages/_app";
 
-import { useData } from "../../hooks/useData";
+import { handleDate } from "../../utils/date";
 
 interface ThemeProps {
   theme: Theme;
 }
 
-interface Comments {
-  comments: {
-    id: number;
-    attributes: {
-      userid: number;
-      postid: number;
-      content: string;
-      createdAt: string;
-      depth: number;
-      order: number;
-      group: number;
-      is_deleted: boolean;
-    };
-  }[];
-}
-
-export const Comment = ({ comments }: Comments) => {
+export const Comment = ({ comments, user }: any) => {
   const { theme } = useContext(ThemeContext);
-
-  comments.sort((a, b) => {
-    return a.attributes.group < b.attributes.group
-      ? -1
-      : a.attributes.group > b.attributes.group
-      ? 1
-      : 0;
-  });
-
-  const { data: userData, error: UserError } = useData("userinfos");
-
-  if (!userData) return <div>로딩중</div>;
-  if (UserError) return <div>에러</div>;
+  let loginUserID = 1;
 
   return (
-    <article>
-      <h3 className="sr-only">상세 페이지 댓글</h3>
-      <CommentForm action="">
-        <CommentNum>{comments.length}개의 댓글</CommentNum>
-        <TextArea
-          theme={theme}
-          name="댓글 입력"
-          placeholder="댓글을 작성하세요"
-        ></TextArea>
-        <BtnContainer>
-          <CommentBtn type="submit">댓글 작성</CommentBtn>
-        </BtnContainer>
-      </CommentForm>
-      {comments.map((comments) => {
-        return (
-          <CommentUser
-            key={`CommentUser-${comments.id}`}
-            comments={comments}
-            userData={userData.data}
-          />
-        );
-      })}
-    </article>
+    <div>
+      <ProfileContainer>
+        <Link href={`/${user.attributes.nickname}`}>
+          <a>
+            <UserProfile
+              src={user.attributes.profileimage}
+              alt={`${user.attributes.nickname}프로필 사진`}
+            />
+          </a>
+        </Link>
+        <ProfileData>
+          <Profile>
+            <UserNickname>
+              <Link href={`/${user.attributes.nickname}`} passHref>
+                <User theme={theme}>{user.attributes.nickname}</User>
+              </Link>
+            </UserNickname>
+            {comments.attributes.userid === loginUserID && (
+              <UDContainer>
+                <Link href="#" passHref>
+                  <UDItem theme={theme}>수정</UDItem>
+                </Link>
+                <Link href="#" passHref>
+                  <UDItem theme={theme}>삭제</UDItem>
+                </Link>
+              </UDContainer>
+            )}
+          </Profile>
+          <CreatedAt theme={theme}>
+            {handleDate(comments.attributes.createdAt)}
+          </CreatedAt>
+        </ProfileData>
+      </ProfileContainer>
+      <CommentText>{comments.attributes.content}</CommentText>
+    </div>
   );
 };
 
-const CommentForm = styled.form`
+const ProfileContainer = styled.div`
   width: 100%;
-`;
-const CommentNum = styled.h4`
-  font-size: 18px;
-  margin: 24px 0;
-`;
-const TextArea = styled.textarea<ThemeProps>`
-  resize: none;
-  padding: 20px 20px 30px;
-  outline: none;
-  border: 1px solid ${PALLETS_LIGHT.SUB};
-  background-color: ${({ theme }) => theme.CARD_BACKGROUND};
-  margin-bottom: 1.5rem;
-  width: 95%;
-  border-radius: 4px;
-  min-height: 90px;
-  font-size: 16px;
-  color: ${({ theme }) => theme.SUB_FONT};
-  line-height: 1.75;
-  ::placeholder {
-    color: ${PALLETS_LIGHT.ICON};
-  }
-`;
-const BtnContainer = styled.div`
-  width: 95%;
   display: flex;
-  justify-content: end;
-  padding-left: 45px;
+  margin-top: 60px;
 `;
-const CommentBtn = styled.button`
-  font-weight: bold;
-  cursor: pointer;
-  background: ${PALLETS_LIGHT.MAIN};
-  color: white;
-  border-radius: 4px;
-  padding: 0px 20px;
-  height: 32px;
-  font-size: 16px;
+const UserProfile = styled.img`
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  margin-right: 10px;
+`;
+const ProfileData = styled.div`
+  width: 85%;
+  line-height: 1;
+  margin-top: 18px;
+`;
+const Profile = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const UserNickname = styled.p`
+  font-weight: 700;
   :hover {
     opacity: 0.9;
+    text-decoration: underline;
+  }
+`;
+const UDContainer = styled.div``;
+const UDItem = styled.a<ThemeProps>`
+  color: ${({ theme }) => theme.ICON};
+  font-weight: 500;
+  margin-right: 7px;
+  &:hover {
+    color: ${({ theme }) => theme.SUB_FONT};
+  }
+`;
+const User = styled.a<ThemeProps>`
+  color: ${({ theme }) => theme.MAIN_FONT};
+`;
+const CreatedAt = styled.p<ThemeProps>`
+  color: ${({ theme }) => theme.SUB_FONT};
+  margin-top: 8px;
+  font-size: 13px;
+`;
+const CommentText = styled.div`
+  font-size: 19px;
+  margin: 30px 0 60px 0;
+`;
+const CommentPlus = styled.div<ThemeProps>`
+  display: inline-flex;
+  align-items: center;
+  color: ${({ theme }) => theme.MAIN};
+  cursor: pointer;
+  font-weight: 700;
+  .comment-plus {
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
   }
 `;
