@@ -5,14 +5,14 @@ import MypageLayout from "../../components/MyPage/MypageLayout"
 import { useRouter } from "next/router"
 
 const Mypage: NextPage = () => {
-  const router = useRouter()
-  const userid = String(router.query.id).replace(/[@]/gi, '')
+    const router = useRouter()
+    const userid = router.query.id
 
-  return (
-    <MypageLayout username={userid} user={true} indexnum={0}>
-      <Content username={userid} />
-    </MypageLayout>
-  )
+    return (
+        <MypageLayout username={userid} user={true} indexnum={0}>
+            <Content username={userid} />
+        </MypageLayout>
+    )
 }
 
 export default Mypage
