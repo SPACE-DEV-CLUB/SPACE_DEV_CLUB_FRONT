@@ -101,7 +101,7 @@ const ContentData = ({ tag, username = undefined }: ContentDataProps) => {
                                       title={e.attributes.title}
                                       contents={e.attributes.contents}
                                       tag={e.attributes.hashtags.data}
-                                      date={e.attributes.publichedAt}
+                                      date={e.attributes.publishedAt}
                                       // comment={e.attributes.comment}
                                       username={
                                           e.attributes.userid.data?.attributes
