@@ -12,19 +12,9 @@ import { ThemeProps } from '../../types/Theme';
 import axios from 'axios';
 import Router from 'next/router';
 import { API_ENDPOINT } from '../../constants';
-import Link from 'next/link';
 import { useSWRConfig } from 'swr';
 
-interface Session {
-  session: {
-    user: {
-      email: string;
-      image: string;
-    };
-  };
-}
-
-function SignUp() {
+const SignUp = () => {
   const { data: session, status } = useSession();
   const { theme } = useContext(ThemeContext);
   const [nickName, setNickName] = useState(session?.user?.name);
@@ -54,9 +44,8 @@ function SignUp() {
       });
   };
 
-  const handleHome = async (e: React.MouseEvent<HTMLElement>) => {
-    await signOut();
-    Router.push('/');
+  const handleGoHome = async (e: React.MouseEvent<HTMLElement>) => {
+    signOut({callbackUrl: 'http://localhost:3000/'});
   };
 
   return (
@@ -91,7 +80,7 @@ function SignUp() {
           placeholder="당신을 한 줄로 소개해보세요"
         ></input>
         <ButtonWrap theme={theme}>
-          <button className="cancel" onClick={handleHome} type="button">
+          <button className="cancel" onClick={handleGoHome} type="button">
             취소
           </button>
           <button className="nextpage" onClick={handleSubmit} type="button">
