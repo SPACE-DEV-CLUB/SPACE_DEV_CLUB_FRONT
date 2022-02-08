@@ -11,7 +11,7 @@ import { Lock } from '@mui/icons-material';
 import { ThemeProps } from '../../types/Theme';
 import axios from 'axios';
 import Router from 'next/router';
-import { API_ENDPOINT, URL_PUBLIC_ENDPOINT } from '../../constants';
+import { API_ENDPOINT } from '../../constants';
 import useSWR, { useSWRConfig } from 'swr';
 import { fetcher } from '../../utils/fetcher';
 
@@ -25,13 +25,12 @@ const SignUp = () => {
   const [isDuplicate, setDuplicate] = useState(false);
   const { cache } = useSWRConfig();
   const {data, error} = useSWR(`${API_ENDPOINT}/userinfos`, fetcher);
-console.log(data)
+  
   const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    if(data.data.filter((e:any) => e.attributes?.profilename?.includes(userId)).length == 1){
+    if(data.data.filter((e:any) => userId.includes(e.attributes?.profilename)).length == 1){
         setDuplicate(true)
-        console.log(data)
-    }else{
+    }else if(data.data.filter((e:any) => userId.includes(e.attributes?.profilename)).length == 0){
         await axios
         .post(`${API_ENDPOINT}/userinfos`, {
           data: {
