@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 import React, {
-  ChangeEvent,
-  HTMLAttributeAnchorTarget,
   useContext,
   useState,
 } from 'react';
@@ -11,7 +9,7 @@ import { Lock } from '@mui/icons-material';
 import { ThemeProps } from '../../types/Theme';
 import axios from 'axios';
 import Router from 'next/router';
-import { API_ENDPOINT, URL_PUBLIC_ENDPOINT } from '../../constants';
+import { API_ENDPOINT } from '../../constants';
 import useSWR, { useSWRConfig } from 'swr';
 import { fetcher } from '../../utils/fetcher';
 
@@ -23,14 +21,17 @@ const SignUp = () => {
   const [userId, setUserId] = useState('');
   const [lineIntro, setLineIntro] = useState('');
   const [isDuplicate, setDuplicate] = useState(false);
+  const [isEmpty, setEmpty] = useState(false);
   const { cache } = useSWRConfig();
   const {data, error} = useSWR(`${API_ENDPOINT}/userinfos`, fetcher);
-console.log(data)
   const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
+    setDuplicate(false)
+    setEmpty(false)
     if(data.data.filter((e:any) => e.attributes?.profilename?.includes(userId)).length == 1){
         setDuplicate(true)
-        console.log(data)
+    }else if(nickName == '' || userId == '' || lineIntro == ''){
+        setEmpty(true)
     }else{
         await axios
         .post(`${API_ENDPOINT}/userinfos`, {
@@ -58,7 +59,7 @@ console.log(data)
   };
 
   return (
-    <SignUpWrap theme={theme}>
+    <SignUpWrap theme={theme} isEmpty={isEmpty}>
       <h1>환영합니다!</h1>
       <h3>기본 회원 정보를 등록해주세요.</h3>
       <form>
@@ -66,6 +67,8 @@ console.log(data)
         <input
           id="name"
           onChange={(e: any) => setNickName(e.target.value)}
+          placeholder="이름을 입력하세요"
+          autoComplete="off"
         ></input>
         <label htmlFor="email">이메일</label>
         <input
@@ -81,16 +84,19 @@ console.log(data)
           id="userId"
           onChange={(e) => setUserId(e.target.value)}
           placeholder="아이디를 입력하세요"
+          autoComplete="off"
         ></input>
         <label htmlFor="intro">한 줄 소개</label>
         <input
           id="intro"
           onChange={(e) => setLineIntro(e.target.value)}
           placeholder="당신을 한 줄로 소개해보세요"
+          autoComplete="off"
         ></input>
-        <ButtonWrap theme={theme}>
+        <ButtonWrap theme={theme} isEmpty>
         {isDuplicate && <Warn>이미 존재하는 아이디 입니다.</Warn>}
-        <InnerButtonWrap theme={theme}>
+        {isEmpty && <Warn>빈 칸이 존재합니다.</Warn>}
+        <InnerButtonWrap theme={theme} isEmpty>
           <button className="cancel" onClick={handleGoHome} type="button">
             취소
           </button>
@@ -106,8 +112,6 @@ console.log(data)
 }
 
 export default SignUp;
-
-// 아이디 이미 존재하는 아이디 입니다.
 
 const SignUpWrap = styled.div<ThemeProps>`
   display: flex;
@@ -134,16 +138,21 @@ const SignUpWrap = styled.div<ThemeProps>`
       border-top: none;
       border-left: none;
       border-right: none;
+      border-bottom: 2px solid ${({isEmpty}) => (isEmpty ? 'red' : '')};
       background: transparent;
       color: ${({ theme }) => theme.SUB_FONT};
       height: 38px;
       font-size: 24px;
       ::placeholder,
       ::-webkit-input-placeholder {
-        font-size: 24px;
-      }
+        font-size: 24px;  
+    }
+    &.fixed-value {
+        border-bottom: 2px solid;
+    }
       &:focus {
         outline: none;
+        border-bottom: 2px solid ${({theme}) => theme.BUTTON_MAIN};
       }
     }
   }
@@ -184,3 +193,4 @@ const LockIcon = styled(Lock)`
   top: 430px;
   right: 270px;
 `;
+
