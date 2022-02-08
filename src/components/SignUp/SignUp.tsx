@@ -11,8 +11,9 @@ import { Lock } from '@mui/icons-material';
 import { ThemeProps } from '../../types/Theme';
 import axios from 'axios';
 import Router from 'next/router';
-import { API_ENDPOINT } from '../../constants';
-import { useSWRConfig } from 'swr';
+import { API_ENDPOINT, URL_PUBLIC_ENDPOINT } from '../../constants';
+import useSWR, { useSWRConfig } from 'swr';
+import { fetcher } from '../../utils/fetcher';
 
 const SignUp = () => {
   const { data: session, status } = useSession();
@@ -21,31 +22,39 @@ const SignUp = () => {
   const [email, setEmail] = useState(session?.user?.email);
   const [userId, setUserId] = useState('');
   const [lineIntro, setLineIntro] = useState('');
+  const [isDuplicate, setDuplicate] = useState(false);
   const { cache } = useSWRConfig();
+  const {data, error} = useSWR(`${API_ENDPOINT}/userinfos`, fetcher);
+console.log(data)
   const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    await axios
-      .post(`${API_ENDPOINT}/userinfos`, {
-        data: {
-          email: email,
-          nickname: nickName,
-          profilename: userId,
-          profile: lineIntro,
-          profileimage: session?.user?.image,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        cache.delete(`${API_ENDPOINT}/userinfos`);
-        Router.push('/');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if(data.data.filter((e:any) => e.attributes?.profilename?.includes(userId)).length == 1){
+        setDuplicate(true)
+        console.log(data)
+    }else{
+        await axios
+        .post(`${API_ENDPOINT}/userinfos`, {
+          data: {
+            email: email,
+            nickname: nickName,
+            profilename: userId,
+            profile: lineIntro,
+            profileimage: session?.user?.image,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          cache.delete(`${API_ENDPOINT}/userinfos`);
+          Router.push('/');
+        })
+        .catch((error) => {
+          console.log(error);
+        });   
+    }
   };
 
   const handleGoHome = async (e: React.MouseEvent<HTMLElement>) => {
-    signOut({callbackUrl: 'http://localhost:3000/'});
+    signOut({callbackUrl: '/'});
   };
 
   return (
@@ -80,12 +89,15 @@ const SignUp = () => {
           placeholder="당신을 한 줄로 소개해보세요"
         ></input>
         <ButtonWrap theme={theme}>
+        {isDuplicate && <Warn>이미 존재하는 아이디 입니다.</Warn>}
+        <InnerButtonWrap theme={theme}>
           <button className="cancel" onClick={handleGoHome} type="button">
             취소
           </button>
           <button className="nextpage" onClick={handleSubmit} type="button">
             다음
           </button>
+          </InnerButtonWrap>
         </ButtonWrap>
       </form>
       <LockIcon />
@@ -96,7 +108,6 @@ const SignUp = () => {
 export default SignUp;
 
 // 아이디 이미 존재하는 아이디 입니다.
-// 이메일은 수정 불가. 그냥 구글에서 가져와야함.
 
 const SignUpWrap = styled.div<ThemeProps>`
   display: flex;
@@ -138,9 +149,13 @@ const SignUpWrap = styled.div<ThemeProps>`
   }
 `;
 const ButtonWrap = styled.div<ThemeProps>`
-  font-size: 24px;
-  margin-top: 96px;
-
+display: flex;
+flex-direction: column;
+margin-top: 96px;
+`;
+const InnerButtonWrap = styled.div<ThemeProps>`
+    font-size: 24px;
+    margin-top: 20px;
   .cancel {
     color: ${({ theme }) => theme.MAIN_FONT};
     padding: 10px 32px;
@@ -159,7 +174,10 @@ const ButtonWrap = styled.div<ThemeProps>`
     background: ${({ theme }) => theme.SUB};
     cursor: pointer;
   }
-`;
+`
+const Warn = styled.strong`
+    color: red;
+`
 
 const LockIcon = styled(Lock)`
   position: absolute;
