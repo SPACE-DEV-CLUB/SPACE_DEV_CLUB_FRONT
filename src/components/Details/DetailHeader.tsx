@@ -8,7 +8,6 @@ import useIO from '../../hooks/useIO';
 import { API_ENDPOINT } from '../../constants';
 import axios, { Method } from 'axios';
 
-
 interface DetailData {
   title: string;
   contents: string;
@@ -72,7 +71,7 @@ export const DetailHeader = ({
       url: `${API_ENDPOINT}/readingposts/${putid}`,
       data: {
         data: {
-          userid: 4,
+          userid: 163,
           postid: postid,
         },
       },
@@ -107,7 +106,7 @@ export const DetailHeader = ({
       <UDHashContainer userName={userName} createdAt={createdAt} />
       <SeriesContainer />
       <div>{contents}</div>
-      <div ref={setTarget}></div>
+      {/* <div ref={setTarget}></div> */}
       <Intro />
       <Carousel />
       <Comment comments={comments} />
