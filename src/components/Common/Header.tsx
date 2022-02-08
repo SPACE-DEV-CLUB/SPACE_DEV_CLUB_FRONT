@@ -67,8 +67,7 @@ export const Header = ({
         } else {
             return false;
         }
-    }
-
+    };
     useEffect(() => {
         setUserName(detectUserName());
     });
