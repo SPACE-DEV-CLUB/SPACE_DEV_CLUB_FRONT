@@ -1,4 +1,6 @@
 export const API_ENDPOINT = "https://secret-hollows-17182.herokuapp.com/api"
+export const URL_PUBLIC_ENDPOINT = "https://space-dev-club-front-nd73d4vmu-junghoon-p.vercel.app/"
+export const URL_LOCAL_ENDPOINT = "https://localhost:3000/"
 
 export const MEDIA_QUERY_END_POINT = {
   SMALL: "470px",
