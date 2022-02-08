@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
-import { useContext } from "react"
-import { MEDIA_QUERY_END_POINT } from "../../constants"
+import { useContext, useState } from "react"
+import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "../../constants"
 import { ThemeContext } from "../../pages/_app"
 import EmailIcon from "@mui/icons-material/Email"
 import GitHubIcon from "@mui/icons-material/GitHub"
@@ -17,17 +17,45 @@ import {
   Notice,
   SettingDesc,
   SettingName,
+  SettingProps,
   SnsListProps,
   UserSetting,
 } from "./CommonStyle"
+import axios from "axios"
+import Cookies from "js-cookie"
 
-interface SnsSetting {
-  editSns: boolean
-  setEditSns: (editSns: boolean) => void
-}
-
-const SnsSetting = ({ editSns, setEditSns }: SnsSetting) => {
+const SnsSetting = ({ user }: SettingProps) => {
   const { theme } = useContext(ThemeContext)
+
+  const [editSns, setEditSns] = useState(false)
+  const [facebook, setFacebook] = useState(user.attributes.facebook)
+  const [twitter, setTwitter] = useState(user.attributes.twitter)
+  const [home, setHome] = useState(user.attributes.home)
+  const [snsemail, setSnsemail] = useState(user.attributes.snsemail)
+  const [github, setGithub] = useState(user.attributes.github)
+
+  const handleSns = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    setEditSns(false)
+
+    axios
+      .put(`${API_ENDPOINT}/userinfos/${user.id}`, {
+        data: {
+          facebook: facebook,
+          twitter: twitter,
+          home: home,
+          snsemail: snsemail,
+          github: github,
+        },
+      })
+      .then(function (res) {
+        Cookies.set("user", JSON.stringify(res.data.data))
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
+
   return (
     <>
       <UserSetting>
@@ -38,23 +66,45 @@ const SnsSetting = ({ editSns, setEditSns }: SnsSetting) => {
               <SnsContainer>
                 <SnsList theme={theme} edit={editSns}>
                   <EmailIcon />
-                  <DefaultInput theme={theme} />
+                  <DefaultInput
+                    theme={theme}
+                    value={snsemail}
+                    onChange={(e) => setSnsemail(e.target.value.trim())}
+                  />
                 </SnsList>
                 <SnsList theme={theme} edit={editSns}>
                   <GitHubIcon />
-                  <DefaultInput theme={theme} className={"half"} />
+                  <DefaultInput
+                    theme={theme}
+                    className={"half"}
+                    value={github}
+                    onChange={(e) => setGithub(e.target.value.trim())}
+                  />
                 </SnsList>
                 <SnsList theme={theme} edit={editSns}>
                   <TwitterIcon />
-                  <DefaultInput theme={theme} className={"half"} />
+                  <DefaultInput
+                    theme={theme}
+                    className={"half"}
+                    value={twitter}
+                    onChange={(e) => setTwitter(e.target.value.trim())}
+                  />
                 </SnsList>
                 <SnsList theme={theme} edit={editSns}>
                   <FacebookIcon />
-                  <DefaultInput theme={theme} />
+                  <DefaultInput
+                    theme={theme}
+                    value={facebook}
+                    onChange={(e) => setFacebook(e.target.value.trim())}
+                  />
                 </SnsList>
                 <SnsList theme={theme} edit={editSns}>
                   <HomeIcon />
-                  <DefaultInput theme={theme} />
+                  <DefaultInput
+                    theme={theme}
+                    value={home}
+                    onChange={(e) => setHome(e.target.value.trim())}
+                  />
                 </SnsList>
               </SnsContainer>
               <BtnContainer>
@@ -63,7 +113,7 @@ const SnsSetting = ({ editSns, setEditSns }: SnsSetting) => {
                   hover={theme.SUB}
                   color={theme.BACKGROUND}
                   theme={theme}
-                  onClick={() => setEditSns(false)}
+                  onClick={handleSns}
                 >
                   저장
                 </DefaultBtn>
@@ -73,26 +123,36 @@ const SnsSetting = ({ editSns, setEditSns }: SnsSetting) => {
         ) : (
           <SettingDesc>
             <SnsContainer>
-              <SnsList theme={theme} edit={editSns}>
-                <EmailIcon />
-                <span>dfdfd</span>
-              </SnsList>
-              <SnsList theme={theme} edit={editSns}>
-                <GitHubIcon />
-                <span>dfdfd</span>
-              </SnsList>
-              <SnsList theme={theme} edit={editSns}>
-                <TwitterIcon />
-                <span>dfdfd</span>
-              </SnsList>
-              <SnsList theme={theme} edit={editSns}>
-                <FacebookIcon />
-                <span>dfdfd</span>
-              </SnsList>
-              <SnsList theme={theme} edit={editSns}>
-                <HomeIcon />
-                <span>dfdfd</span>
-              </SnsList>
+              {snsemail && (
+                <SnsList theme={theme} edit={editSns}>
+                  <EmailIcon />
+                  <span>{snsemail}</span>
+                </SnsList>
+              )}
+              {github && (
+                <SnsList theme={theme} edit={editSns}>
+                  <GitHubIcon />
+                  <span>{github}</span>
+                </SnsList>
+              )}
+              {twitter && (
+                <SnsList theme={theme} edit={editSns}>
+                  <TwitterIcon />
+                  <span>{twitter}</span>
+                </SnsList>
+              )}
+              {facebook && (
+                <SnsList theme={theme} edit={editSns}>
+                  <FacebookIcon />
+                  <span>{facebook}</span>
+                </SnsList>
+              )}
+              {home && (
+                <SnsList theme={theme} edit={editSns}>
+                  <HomeIcon />
+                  <span>{home}</span>
+                </SnsList>
+              )}
             </SnsContainer>
             <EditBtn theme={theme} onClick={() => setEditSns(true)}>
               수정

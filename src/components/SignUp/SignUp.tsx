@@ -9,7 +9,7 @@ import Router from "next/router"
 import { API_ENDPOINT } from "../../constants"
 import useSWR, { useSWRConfig } from "swr"
 import { fetcher } from "../../utils/fetcher"
-import Loading from "../Common/Loading"
+import Cookies from "js-cookie"
 
 const SignUp = () => {
   const { data: session, status } = useSession()
@@ -38,7 +38,7 @@ const SignUp = () => {
         .post(`${API_ENDPOINT}/userinfos`, {
           data: {
             email: email,
-            nickname: nickName,
+            userid: nickName,
             profilename: userId,
             profile: lineIntro,
             profileimage: session?.user?.image,
@@ -47,6 +47,7 @@ const SignUp = () => {
         .then((res) => {
           console.log(res)
           cache.delete(`${API_ENDPOINT}/userinfos`)
+          Cookies.set("user", JSON.stringify(res.data.data))
           // 회원가입 이후 유저 데이터 쿠키에 저장 추가해야함.
           Router.replace("/")
         })

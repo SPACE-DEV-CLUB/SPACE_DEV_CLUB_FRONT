@@ -2,7 +2,14 @@ import { css } from "@emotion/react"
 import styled from "@emotion/styled"
 import { MEDIA_QUERY_END_POINT } from "../../constants"
 import { Theme } from "../../styles/theme"
+import { userInfo } from "../../types/Main"
 import { ThemeProps } from "../../types/Theme"
+export interface SettingProps {
+  user: {
+    id: number
+    attributes: userInfo
+  }
+}
 
 export interface SnsListProps {
   theme: Theme
@@ -66,8 +73,10 @@ export const DefaultInput = styled.input<ThemeProps>`
   box-sizing: border-box;
   border: 1px solid ${({ theme }) => theme.BORDER};
   border-radius: 4px;
+  background: ${({ theme }) => theme.BACKGROUND};
+  color: ${({ theme }) => theme.MAIN_FONT};
   &:focus {
-    border: 1px solid ${({ theme }) => theme.MAIN_FONT};
+    border: 1px solid ${({ theme }) => theme.POINT_FONT};
     outline: none;
   }
 `
@@ -99,4 +108,17 @@ export const SettingDesc = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+`
+
+export const SettingDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+export const SettingDetail = styled.p<ThemeProps>`
+  line-height: 1.5;
+  padding: 8px 0;
+  color: ${({ theme }) => theme.SUB_FONT};
+  @media screen and (min-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
+    padding: 0;
+  }
 `

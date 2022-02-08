@@ -35,7 +35,7 @@ function Loading() {
     if (session && data) {
       if (data.data[0]?.attributes.email) {
         setUser(true)
-        Cookies.set("user", JSON.stringify(data.data[0].attributes))
+        Cookies.set("user", JSON.stringify(data.data[0]))
       } else if (!data.data[0]?.attributes.email) {
         setUser(false)
       }

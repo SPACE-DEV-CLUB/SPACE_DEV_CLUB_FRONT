@@ -1,7 +1,9 @@
 import styled from "@emotion/styled"
+import axios from "axios"
+import Cookies from "js-cookie"
 import Image from "next/image"
-import { useContext, useState } from "react"
-import { MEDIA_QUERY_END_POINT } from "../../constants"
+import React, { useContext, useState } from "react"
+import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "../../constants"
 import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
 import {
@@ -12,29 +14,95 @@ import {
   EditBtn,
   formStyle,
   listStyle,
+  SettingProps,
 } from "./CommonStyle"
 
-interface ProfileProps {
-  check: boolean
-  setCheck: (check: boolean) => void
-}
-
-const ProfileSetting = ({ check, setCheck }: ProfileProps) => {
+const ProfileSetting = ({ user }: SettingProps) => {
   const { theme } = useContext(ThemeContext)
-  const [profileName, setProfileName] = useState("")
-  const [profileDesc, setProfileDesc] = useState("")
+  const [check, setCheck] = useState(false)
+
+  const [profileName, setProfileName] = useState(user.attributes.profilename)
+  const [profileDesc, setProfileDesc] = useState(user.attributes.profile)
+  const [profileImg, setProfileImg] = useState(user.attributes.profileimage)
+
+  const handleProfileImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length) {
+      const uploadFile = e.target.files[0]
+      const formData = new FormData()
+      formData.append("file", uploadFile)
+      setProfileImg(URL.createObjectURL(e.target.files[0]))
+
+      axios
+        .put(`${API_ENDPOINT}/userinfos/${user.id}`, {
+          data: {
+            profileimage: URL.createObjectURL(e.target.files[0]),
+          },
+        })
+        .then(function (res) {
+          Cookies.set("user", JSON.stringify(res.data.data))
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+  }
+
+  const removeProfileImg = () => {
+    setProfileImg("/image/sampleUser.jpg")
+
+    axios
+      .put(`${API_ENDPOINT}/userinfos/${user.id}`, {
+        data: {
+          profileimage: "/image/sampleUser.jpg",
+        },
+      })
+      .then(function (res) {
+        Cookies.set("user", JSON.stringify(res.data.data))
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
+
+  const handleProfile = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault()
+    setCheck(false)
+
+    axios
+      .put(`${API_ENDPOINT}/userinfos/${user.id}`, {
+        data: {
+          profile: profileDesc,
+          profilename: profileName,
+        },
+      })
+      .then(function (res) {
+        Cookies.set("user", JSON.stringify(res.data.data))
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
 
   return (
     <>
       <ImageContainer theme={theme}>
         <ImagePreview
-          src={"/image/sampleUser.jpg"}
+          src={profileImg}
           alt="profile image"
           width={128}
           height={128}
-          layout="fixed"
+        />
+        <input
+          type="file"
+          accept="image/*"
+          id="profile-upload"
+          className="sr-only"
+          onChange={handleProfileImg}
         />
         <ImageRegister
+          htmlFor="profile-upload"
           background={theme.MAIN}
           hover={theme.SUB}
           color={theme.BACKGROUND}
@@ -47,6 +115,7 @@ const ProfileSetting = ({ check, setCheck }: ProfileProps) => {
           hover={theme.TOGGLE_BACKGROUND}
           color={theme.MAIN}
           theme={theme}
+          onClick={removeProfileImg}
         >
           이미지 제거
         </ImageRegister>
@@ -56,10 +125,19 @@ const ProfileSetting = ({ check, setCheck }: ProfileProps) => {
           <ProfileForm>
             <ul>
               <ProfileList theme={theme} edit={check}>
-                <DefaultInput className={"profilename"} theme={theme} />
+                <DefaultInput
+                  className={"profilename"}
+                  theme={theme}
+                  value={profileName}
+                  onChange={(e) => setProfileName(e.target.value)}
+                />
               </ProfileList>
               <ProfileList theme={theme} edit={check}>
-                <DefaultInput theme={theme} />
+                <DefaultInput
+                  theme={theme}
+                  value={profileDesc}
+                  onChange={(e) => setProfileDesc(e.target.value)}
+                />
               </ProfileList>
             </ul>
             <BtnContainer>
@@ -68,7 +146,7 @@ const ProfileSetting = ({ check, setCheck }: ProfileProps) => {
                 hover={theme.SUB}
                 color={theme.BACKGROUND}
                 theme={theme}
-                onClick={() => setCheck(false)}
+                onClick={(e) => handleProfile(e)}
               >
                 저장
               </DefaultBtn>
@@ -77,8 +155,8 @@ const ProfileSetting = ({ check, setCheck }: ProfileProps) => {
         </UserProfileContainer>
       ) : (
         <UserProfileContainer theme={theme}>
-          <ProfileName>minju</ProfileName>
-          <ProfileDesc>dfdfdfdfdf</ProfileDesc>
+          <ProfileName>{profileName}</ProfileName>
+          <ProfileDesc>{profileDesc}</ProfileDesc>
           <EditBtn theme={theme} onClick={() => setCheck(true)}>
             수정
           </EditBtn>
@@ -88,8 +166,12 @@ const ProfileSetting = ({ check, setCheck }: ProfileProps) => {
   )
 }
 
-const ImageRegister = styled.button`
+const ImageRegister = styled.label`
   width: 152px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
   ${btnStyle};
   @media screen and (min-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     width: 128px;
