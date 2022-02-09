@@ -24,13 +24,13 @@ const loading: NextPage = () => {
         if (session) {
             if (
                 data?.data.filter((e: any) =>
-                    e.attributes.email.includes(session.user?.email)
+                    e.attributes.email?.includes(session.user?.email)
                 ).length == 1
             ) {
                 setUser(true);
             } else if (
                 data?.data.filter((e: any) =>
-                    e.attributes.email.includes(session.user?.email)
+                    e.attributes.email?.includes(session.user?.email)
                 ).length == 0
             ) {
                 setUser(false);
