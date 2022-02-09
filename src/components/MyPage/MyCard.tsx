@@ -20,7 +20,6 @@ type PropsTypes = {
     username: string | string[] | undefined
     mySearch?: boolean
     count?: number
-    day?: number
     isPrivate?: boolean
     commentLength?: number
     profileImg?: string | undefined
@@ -35,7 +34,6 @@ export const MyCard = ({
     mySearch,
     username,
     count,
-    day,
     isPrivate,
     commentLength,
     profileImg,
