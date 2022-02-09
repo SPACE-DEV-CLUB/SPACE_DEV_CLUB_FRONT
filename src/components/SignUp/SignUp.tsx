@@ -1,36 +1,39 @@
-import styled from "@emotion/styled"
-import React, {
-    ChangeEvent,
-    HTMLAttributeAnchorTarget,
-    useContext,
-    useState,
-} from "react"
-import { useSession, signOut } from "next-auth/react"
-import { ThemeContext } from "../../pages/_app"
-import { Lock } from "@mui/icons-material"
-import { ThemeProps } from "../../types/Theme"
-import axios from "axios"
-import Router from "next/router"
-import { API_ENDPOINT, URL_PUBLIC_ENDPOINT } from "../../constants"
-import useSWR, { useSWRConfig } from "swr"
-import { fetcher } from "../../utils/fetcher"
+import styled from "@emotion/styled";
+import React, { useContext, useState } from "react";
+import { useSession, signOut } from "next-auth/react";
+import { ThemeContext } from "../../pages/_app";
+import { Lock } from "@mui/icons-material";
+import { ThemeProps } from "../../types/Theme";
+import axios from "axios";
+import Router from "next/router";
+import { API_ENDPOINT } from "../../constants";
+import useSWR, { useSWRConfig } from "swr";
+import { fetcher } from "../../utils/fetcher";
 
 const SignUp = () => {
-    const { data: session, status } = useSession()
-    const { theme } = useContext(ThemeContext)
-    const [nickName, setNickName] = useState(session?.user?.name)
-    const [email, setEmail] = useState(session?.user?.email)
-    const [userId, setUserId] = useState("")
-    const [lineIntro, setLineIntro] = useState("")
-    const [isDuplicate, setDuplicate] = useState(false)
-    const { cache } = useSWRConfig()
-    const { data, error } = useSWR(`${API_ENDPOINT}/userinfos`, fetcher)
-    console.log(data)
+    const { data: session, status } = useSession();
+    const { theme } = useContext(ThemeContext);
+    const [nickName, setNickName] = useState(session?.user?.name);
+    const [email, setEmail] = useState(session?.user?.email);
+    const [userId, setUserId] = useState("");
+    const [lineIntro, setLineIntro] = useState("");
+    const [isDuplicate, setDuplicate] = useState(false);
+    const [isEmpty, setEmpty] = useState(false);
+    const { cache } = useSWRConfig();
+    const { data, error } = useSWR(`${API_ENDPOINT}/userinfos`, fetcher);
     const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
-        e.preventDefault()
-         if(data.data.filter((e:any) => userId.includes(e.attributes?.profilename)).length == 1){
-        setDuplicate(true)
-    }else if(data.data.filter((e:any) => userId.includes(e.attributes?.profilename)).length == 0){
+        e.preventDefault();
+        setDuplicate(false);
+        setEmpty(false);
+        if (
+            data.data.filter((e: any) =>
+                e.attributes?.profilename?.includes(userId)
+            ).length == 1
+        ) {
+            setDuplicate(true);
+        } else if (nickName == "" || userId == "" || lineIntro == "") {
+            setEmpty(true);
+        } else {
             await axios
                 .post(`${API_ENDPOINT}/userinfos`, {
                     data: {
@@ -42,23 +45,22 @@ const SignUp = () => {
                     },
                 })
                 .then((res) => {
-                    console.log(res)
-                    cache.delete(`${API_ENDPOINT}/userinfos`)
-                    Router.push("/")
+                    console.log(res);
+                    cache.delete(`${API_ENDPOINT}/userinfos`);
+                    Router.push("/");
                 })
                 .catch((error) => {
-                    console.log(error)
-                })
+                    console.log(error);
+                });
         }
-
-    }
+    };
 
     const handleGoHome = async (e: React.MouseEvent<HTMLElement>) => {
-        signOut({ callbackUrl: "/" })
-    }
+        signOut({ callbackUrl: "/" });
+    };
 
     return (
-        <SignUpWrap theme={theme}>
+        <SignUpWrap theme={theme} isEmpty={isEmpty}>
             <h1>환영합니다!</h1>
             <h3>기본 회원 정보를 등록해주세요.</h3>
             <form>
@@ -66,6 +68,8 @@ const SignUp = () => {
                 <input
                     id="name"
                     onChange={(e: any) => setUserId(e.target.value)}
+                    placeholder="이름을 입력하세요"
+                    autoComplete="off"
                 ></input>
                 <label htmlFor="email">이메일</label>
                 <input
@@ -81,16 +85,19 @@ const SignUp = () => {
                     id="userId"
                     onChange={(e) => setNickName(e.target.value)}
                     placeholder="아이디를 입력하세요"
+                    autoComplete="off"
                 ></input>
                 <label htmlFor="intro">한 줄 소개</label>
                 <input
                     id="intro"
                     onChange={(e) => setLineIntro(e.target.value)}
                     placeholder="당신을 한 줄로 소개해보세요"
+                    autoComplete="off"
                 ></input>
-                <ButtonWrap theme={theme}>
+                <ButtonWrap theme={theme} isEmpty>
                     {isDuplicate && <Warn>이미 존재하는 아이디 입니다.</Warn>}
-                    <InnerButtonWrap theme={theme}>
+                    {isEmpty && <Warn>빈 칸이 존재합니다.</Warn>}
+                    <InnerButtonWrap theme={theme} isEmpty>
                         <button
                             className="cancel"
                             onClick={handleGoHome}
@@ -110,12 +117,10 @@ const SignUp = () => {
             </form>
             <LockIcon />
         </SignUpWrap>
-    )
-}
+    );
+};
 
-export default SignUp
-
-// 아이디 이미 존재하는 아이디 입니다.
+export default SignUp;
 
 const SignUpWrap = styled.div<ThemeProps>`
     display: flex;
@@ -142,6 +147,7 @@ const SignUpWrap = styled.div<ThemeProps>`
             border-top: none;
             border-left: none;
             border-right: none;
+            border-bottom: 2px solid ${({ isEmpty }) => (isEmpty ? "red" : "")};
             background: transparent;
             color: ${({ theme }) => theme.SUB_FONT};
             height: 38px;
@@ -150,17 +156,21 @@ const SignUpWrap = styled.div<ThemeProps>`
             ::-webkit-input-placeholder {
                 font-size: 24px;
             }
+            &.fixed-value {
+                border-bottom: 2px solid;
+            }
             &:focus {
                 outline: none;
+                border-bottom: 2px solid ${({ theme }) => theme.BUTTON_MAIN};
             }
         }
     }
-`
+`;
 const ButtonWrap = styled.div<ThemeProps>`
     display: flex;
     flex-direction: column;
     margin-top: 96px;
-`
+`;
 const InnerButtonWrap = styled.div<ThemeProps>`
     font-size: 24px;
     margin-top: 20px;
@@ -170,7 +180,7 @@ const InnerButtonWrap = styled.div<ThemeProps>`
         border-radius: 24px;
         background: ${({ theme }) => theme.SUBBACKGROUND};
         font-size: 24px;
-        margin-top: 96px;
+        cursor: pointer;
     }
     .nextpage {
         color: #131313;
@@ -181,13 +191,13 @@ const InnerButtonWrap = styled.div<ThemeProps>`
         background: ${({ theme }) => theme.SUB};
         cursor: pointer;
     }
-`
+`;
 const Warn = styled.strong`
     color: red;
-`
+`;
 
 const LockIcon = styled(Lock)`
     position: absolute;
     top: 430px;
     right: 270px;
-`
+`;
