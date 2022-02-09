@@ -1,17 +1,18 @@
 import styled from "@emotion/styled";
 import { useState, useRef, useContext, useEffect } from "react";
 import { WriteHeader, WriteForm, BottomMenu } from "./EditorInput";
-import { MDviewr } from "./EditorViewer";
+import { MDviewer } from "./EditorViewer";
 import { SubmitModal } from "./SubmitModal";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
 import { ThemeContext } from "../../pages/_app";
 import { ThemeProps } from "../../types/Theme";
+
 export const EditorContainer = () => {
   const [tagInput, setTagInput] = useState("");
   //state data for POST down below
   const [title, setTitle] = useState<string>("");
   const [contents, setContents] = useState<string>("");
-  const txtAreaCont = useRef("");
+  const txtAreaCont = useRef<any>("");
   const [listTagDatas, setListTagDatas] = useState<Array<string>>([]);
   //Modal state for POST down below
   const [infoPost, setInfoPost] = useState("");
@@ -22,7 +23,6 @@ export const EditorContainer = () => {
   >("");
 
   const { theme } = useContext(ThemeContext);
-
   // useEffect(() => {
   //   let timer: any;
   //   if (submit) {
@@ -45,14 +45,6 @@ export const EditorContainer = () => {
   };
 
   //control submit Modal options
-  const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContents(e.target.value);
-    txtAreaCont.current = e.target.value;
-  };
 
   const handleImageUpload = (e: { currentTarget: { files: any[] } }) => {
     const fileBlob = e.currentTarget.files[0];
@@ -77,7 +69,6 @@ export const EditorContainer = () => {
     if (e.key === "Enter") {
       e.preventDefault();
       setTagInput("");
-
       if (checkOverlap(currentTagetValue)) {
         setListTagDatas([...listTagDatas, e.currentTarget.value]);
       }
@@ -113,7 +104,16 @@ export const EditorContainer = () => {
     }
   };
 
-  const handleHtag = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //handle editor input element & tool bar
+  const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContents(e.target.value);
+  };
+
+  const handleHeadBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     const hElemnt = e.target as HTMLElement;
     let hTag = hElemnt.innerText;
     if (hTag === "H1" || hTag === "1") {
@@ -126,13 +126,65 @@ export const EditorContainer = () => {
       console.log("clcked h4");
     }
   };
-  console.log("contents", contents);
-  1;
-  // 클릭시 해당 줄에 #테그를 앞에 넣어준다.
-  // 그리고 set
-  // 클릭이 일어나면
-  // md viewer의 해당 줄 앞에 # 추가
-  // contents 에도 해당 줄 앞에 # 추가
+
+  // 중복효과 고려
+  // deco Toobar 목표 기능
+  // draggedLength === 0; 이고 첫 클릭 시 **텍스트**이 추가된다. (문자열 중간에도 들어간다.)
+  // 두번째 클릭시 "텍스트"만 남는다.
+  // draggedLength > 0; 드래그된 택스트 앞뒤에 ** 이 붙는다.
+  // 두번째 클릭하면 드래그된 택스트 앞뒤에 **만 사라진다.
+  const handleDecoBtn = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    type: string
+  ) => {
+    const startPoint = txtAreaCont.current.selectionStart;
+    const endPoint = txtAreaCont.current.selectionEnd;
+    // const draggedLength = endPoint - startPoint;
+
+    if (type === "bold") {
+      const checker = /\*\*([\w\W ]*)\*\*/;
+      const checked =
+        txtAreaCont.current.value.substring(startPoint, endPoint) || false;
+      const beforeTxt = txtAreaCont.current.value.substring(startPoint, 0);
+      const afterTxt = txtAreaCont.current.value.substring(endPoint);
+      const draggedTxt = checker.exec(checked)
+        ? checker.exec(checked)![1]
+        : "**" +
+          (txtAreaCont.current.value.substring(startPoint, endPoint) ||
+            "텍스트") +
+          "**";
+      const result = beforeTxt + draggedTxt + afterTxt;
+      setContents(result);
+    } else if (type === "italic") {
+      const checker = /\*\*([\w\W ]*)\*\*/;
+      const checked =
+        txtAreaCont.current.value.substring(startPoint, endPoint) || false;
+      const beforeTxt = txtAreaCont.current.value.substring(startPoint, 0);
+      const afterTxt = txtAreaCont.current.value.substring(endPoint);
+      const draggedTxt = checker.exec(checked)
+        ? checker.exec(checked)![1]
+        : " _" +
+          (txtAreaCont.current.value.substring(startPoint, endPoint) ||
+            "텍스트") +
+          "_ ";
+      const result = beforeTxt + draggedTxt + afterTxt;
+      setContents(result);
+    } else if (type === "cross") {
+      const checker = /\*\*([\w\W ]*)\*\*/;
+      const checked =
+        txtAreaCont.current.value.substring(startPoint, endPoint) || false;
+      const beforeTxt = txtAreaCont.current.value.substring(startPoint, 0);
+      const afterTxt = txtAreaCont.current.value.substring(endPoint);
+      const draggedTxt = checker.exec(checked)
+        ? checker.exec(checked)![1]
+        : "~~" +
+          (txtAreaCont.current.value.substring(startPoint, endPoint) ||
+            "텍스트") +
+          "~~";
+      const result = beforeTxt + draggedTxt + afterTxt;
+      setContents(result);
+    }
+  };
 
   return (
     <>
@@ -151,14 +203,17 @@ export const EditorContainer = () => {
             />
             <WriteForm
               handleTextAreaChange={handleTextAreaChange}
-              handleHtag={handleHtag}
+              handleDecoBtn={handleDecoBtn}
+              handleHeadBtn={handleHeadBtn}
               contents={contents}
+              txtAreaCont={txtAreaCont}
             />
           </EditorForm>
           <BottomMenu handleSubmitModal={handleSubmitModal} />
         </EditorWrap>
         <MDWrap theme={theme}>
-          <MDviewr title={title} contents={contents} />
+          <MDviewer title={title} contents={contents} />
+          {/* props로 항상 state가 넘어가야 해서 Ref를 넘겨줄 수 없다. */}
         </MDWrap>
       </WriteSection>
       {submit && (

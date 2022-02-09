@@ -10,42 +10,56 @@ import { ThemeContext } from "../../../pages/_app";
 import { ThemeProps } from "../../../types/Theme";
 
 interface ButtonProps {
-  handleHtag: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleHeadBtn: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleDecoBtn: any;
 }
 
-export const ToolBar = ({ handleHtag }: ButtonProps) => {
+export const ToolBar = ({ handleDecoBtn, handleHeadBtn }: ButtonProps) => {
   const { theme } = useContext(ThemeContext);
 
   return (
     <Container>
-      <BtnHead theme={theme} onClick={handleHtag} type="button">
+      <h4 className="sr-only">ToolBar</h4>
+      <BtnHead onClick={handleHeadBtn} theme={theme} type="button">
         <div>
           H<span>1</span>
         </div>
       </BtnHead>
-      <BtnHead theme={theme} onClick={handleHtag} type="button">
+      <BtnHead onClick={handleHeadBtn} theme={theme} type="button">
         <div>
           H<span>2</span>
         </div>
       </BtnHead>
-      <BtnHead theme={theme} onClick={handleHtag} type="button">
+      <BtnHead onClick={handleHeadBtn} theme={theme} type="button">
         <div>
           H<span>3</span>
         </div>
       </BtnHead>
-      <BtnHead theme={theme} onClick={handleHtag} type="button">
+      <BtnHead onClick={handleHeadBtn} theme={theme} type="button">
         <div>
           H<span>4</span>
         </div>
       </BtnHead>
       <BorderLine theme={theme} />
-      <BtnIcon theme={theme} type="button">
+      <BtnIcon
+        onClick={(e) => handleDecoBtn(e, "bold")}
+        theme={theme}
+        type="button"
+      >
         <FormatBoldIcon />
       </BtnIcon>
-      <BtnIcon theme={theme} type="button">
+      <BtnIcon
+        onClick={(e) => handleDecoBtn(e, "italic")}
+        theme={theme}
+        type="button"
+      >
         <FormatItalicIcon />
       </BtnIcon>
-      <BtnIcon theme={theme} type="button">
+      <BtnIcon
+        onClick={(e) => handleDecoBtn(e, "cross")}
+        theme={theme}
+        type="button"
+      >
         <svg
           stroke="currentColor"
           fill="currentColor"
@@ -59,7 +73,6 @@ export const ToolBar = ({ handleHtag }: ButtonProps) => {
         </svg>
       </BtnIcon>
       <BorderLine theme={theme} />
-
       <BtnIcon theme={theme} type="button">
         <FormatQuoteIcon />
       </BtnIcon>
@@ -133,3 +146,6 @@ const BorderLine = styled.div<ThemeProps>`
   margin: 0 8px;
   background: ${({ theme }) => theme.SUBBACKGROUND};
 `;
+function e(e: any, arg1: string): void {
+  throw new Error("Function not implemented.");
+}
