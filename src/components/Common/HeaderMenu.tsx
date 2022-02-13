@@ -5,8 +5,6 @@ import { useContext } from "react"
 import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
 import { signOut } from "next-auth/react"
-import qs from "qs"
-import { useData } from "../../hooks/useData"
 import Cookies from "js-cookie"
 
 interface HeaderMenuProps {
@@ -18,15 +16,15 @@ export const HeaderMenu = ({ username, session }: HeaderMenuProps) => {
   const { theme } = useContext(ThemeContext)
 
   const userCookieData = Cookies.get("user")
-  if (!userCookieData) return null
+  if (!userCookieData) return <h1>로딩중</h1>
 
-  //   에러 처리
-  const userData = JSON.parse(userCookieData)
+  // 에러 처리
+  const userInfo = JSON.parse(userCookieData).attributes
 
   return (
     <Menus theme={theme}>
       <MenuList>
-        <Link href={`/${userData.userid}`} passHref>
+        <Link href={`/${userInfo.userid}`} passHref>
           <MenuBtn theme={theme}>내 벨로그</MenuBtn>
         </Link>
       </MenuList>
@@ -46,7 +44,7 @@ export const HeaderMenu = ({ username, session }: HeaderMenuProps) => {
         </Link>
       </MenuList>
       <MenuList>
-        <Link href={"/"} passHref>
+        <Link href={"/setting"} passHref>
           <MenuBtn theme={theme}>설정</MenuBtn>
         </Link>
       </MenuList>

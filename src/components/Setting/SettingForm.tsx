@@ -1,92 +1,69 @@
-import { css } from "@emotion/react"
 import styled from "@emotion/styled"
-import Image from "next/image"
-import { useContext, useState } from "react"
-import { Theme } from "../../styles/theme"
+import { useContext } from "react"
 import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
-import { MEDIA_QUERY_END_POINT } from "../../constants"
-
+import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "../../constants"
 import {
+  btnStyle,
   DefaultBtn,
-  DefaultInput,
   EditBtn,
-  formStyle,
   Notice,
   SettingDesc,
+  SettingDetail,
+  SettingDetails,
   SettingName,
   UserSetting,
 } from "./CommonStyle"
 import Profile from "./ProfileSetting"
 import SnsSetting from "./SnsSetting"
+import Cookies from "js-cookie"
+import VelogTitleSetting from "./VelogTitleSetting"
+import axios from "axios"
+import { signOut } from "next-auth/react"
+import Router from "next/router"
 
 export const SettingForm = () => {
   const { theme } = useContext(ThemeContext)
 
-  const [editProfile, setEditProfile] = useState(false)
-  const [editVelogTitle, setEditVelogTitle] = useState(false)
-  const [editSns, setEditSns] = useState(false)
+  const userCookieData = Cookies.get("user")
+  if (!userCookieData) return null
+  //   에러 처리
+  const userData = JSON.parse(userCookieData)
 
-  const handleEditProfile = (check: boolean) => {
-    setEditProfile(check)
-  }
-
-  const handleEditSns = (check: boolean) => {
-    setEditSns(check)
+  const withdrawalUser = () => {
+    axios
+      .delete(`${API_ENDPOINT}/userinfos/${userData.id}`)
+      .then(function (res) {
+        Cookies.remove("user")
+        signOut()
+        Router.replace("/")
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
   }
 
   return (
     <SettingContainer theme={theme}>
       <ProfileContainer>
-        <Profile check={editProfile} setCheck={handleEditProfile} />
+        <Profile user={userData} />
       </ProfileContainer>
       {/* 유저 정보 */}
       <UserSettingContainer theme={theme}>
-        <UserSetting>
-          <SettingName>벨로그 제목</SettingName>
-          {editVelogTitle ? (
-            <SettingDesc>
-              <TitleForm>
-                <DefaultInput theme={theme}></DefaultInput>
-                <DefaultBtn
-                  background={theme.MAIN}
-                  hover={theme.SUB}
-                  color={theme.BACKGROUND}
-                  theme={theme}
-                >
-                  저장
-                </DefaultBtn>
-              </TitleForm>
-            </SettingDesc>
-          ) : (
-            <SettingDesc>
-              <SettingDetails>
-                <SettingDetail theme={theme}>Delight</SettingDetail>
-              </SettingDetails>
-              <EditBtn
-                onClick={() => setEditVelogTitle(!editProfile)}
-                theme={theme}
-              >
-                수정
-              </EditBtn>
-            </SettingDesc>
-          )}
-        </UserSetting>
-        <Notice theme={theme}>
-          개인 페이지의 좌측 상단에 나타나는 페이지 제목입니다.
-        </Notice>
+        <VelogTitleSetting user={userData} />
       </UserSettingContainer>
       <UserSettingContainer theme={theme}>
-        <SnsSetting editSns={editSns} setEditSns={handleEditSns} />
+        <SnsSetting user={userData} />
       </UserSettingContainer>
       <UserSettingContainer theme={theme}>
         <UserSetting>
           <SettingName>이메일 주소</SettingName>
           <SettingDesc>
             <SettingDetails>
-              <SettingDetail theme={theme}>Delight</SettingDetail>
+              <SettingDetail theme={theme}>
+                {userData.attributes.email}
+              </SettingDetail>
             </SettingDetails>
-            <EditBtn theme={theme}>수정</EditBtn>
           </SettingDesc>
         </UserSetting>
         <Notice theme={theme}>
@@ -95,7 +72,7 @@ export const SettingForm = () => {
       </UserSettingContainer>
       <UserSettingContainer theme={theme}>
         <UserSetting>
-          <SettingName>소셜 정보</SettingName>
+          <SettingName>이메일 수신 설정</SettingName>
           <SettingDesc>
             <AlarmContainer>
               <AlarmChecker>
@@ -114,18 +91,20 @@ export const SettingForm = () => {
         <UserSetting>
           <SettingName>회원 탈퇴</SettingName>
           <SettingDesc>
-            <DefaultBtn
+            <WithdrawalBtn
               theme={theme}
               background={theme.WARNING_MAIN}
               hover={theme.WARNING_SUB}
               color={theme.BACKGROUND}
+              type="button"
+              onClick={withdrawalUser}
             >
               회원 탈퇴
-            </DefaultBtn>
+            </WithdrawalBtn>
           </SettingDesc>
         </UserSetting>
         <Notice theme={theme}>
-          개인 페이지의 좌측 상단에 나타나는 페이지 제목입니다.
+          탈퇴 시 작성하신 포스트 및 댓글이 모두 삭제되며 복구되지 않습니다.
         </Notice>
       </UserSettingContainer>
     </SettingContainer>
@@ -157,19 +136,6 @@ const UserSettingContainer = styled.article<ThemeProps>`
     &:not(:nth-of-type(2)) {
       border-top: 1px solid ${({ theme }) => theme.SUBBACKGROUND};
     }
-  }
-`
-
-const SettingDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-const SettingDetail = styled.p<ThemeProps>`
-  line-height: 1.5;
-  padding: 8px 0;
-  color: ${({ theme }) => theme.SUB_FONT};
-  @media screen and (min-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
-    padding: 0;
   }
 `
 
@@ -207,7 +173,6 @@ const AlarmBtn = styled.button<ThemeProps>`
     border-radius: 50%;
   }
 `
-
-const TitleForm = styled.form`
-  ${formStyle}
+const WithdrawalBtn = styled.button`
+  ${btnStyle}
 `
