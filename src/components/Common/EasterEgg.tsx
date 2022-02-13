@@ -1,22 +1,27 @@
-import { keyframes } from "@emotion/react";
-import styled from "@emotion/styled";
-import { Egg } from "@mui/icons-material";
-import Link from "next/link";
-import React from "react";
+import { keyframes } from "@emotion/react"
+import styled from "@emotion/styled"
+import { Egg } from "@mui/icons-material"
+import { useSession } from "next-auth/react"
+import Link from "next/link"
+import React from "react"
 
 function EasterEgg() {
-    return (
-        <>
-            <LinkWrap>
-                <Link href="/introduce">
-                    <EggIcon />
-                </Link>
-            </LinkWrap>
-        </>
-    );
+  const { data: session } = useSession()
+
+  return (
+    <>
+      <LinkWrap>
+        <Link href="/introduce" passHref>
+          <a>
+            <EggIcon />
+          </a>
+        </Link>
+      </LinkWrap>
+    </>
+  )
 }
 
-export default EasterEgg;
+export default EasterEgg
 
 const Shake = keyframes`
     0% {
@@ -33,14 +38,14 @@ const Shake = keyframes`
     }
 `
 const LinkWrap = styled.div`
-    position: fixed;
-    bottom: 30px;
-    left: 30px;
-    cursor: pointer;
-    &:hover {
-        animation: ${Shake} 1s;
-    }
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  cursor: pointer;
+  &:hover {
+    animation: ${Shake} 1s;
+  }
 `
 const EggIcon = styled(Egg)`
-    font-size: 32px;
+  font-size: 32px;
 `

@@ -673,3 +673,18 @@ export const MAIN_CARD_DATA = [
 // count,
 // day,
 // thumbnail,
+
+export const MockUser = {
+  email: "",
+  userid: "",
+  profile: "",
+  profileimage: "",
+  facebook: "",
+  home: "",
+  twitter: "",
+  github: "",
+  velogtitle: "",
+  profilename: "",
+  aboutme: "",
+  snsemail: "",
+}
