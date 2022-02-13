@@ -10,9 +10,10 @@ import { API_ENDPOINT } from "../../constants"
 import useSWR, { useSWRConfig } from "swr"
 import { fetcher } from "../../utils/fetcher"
 import Cookies from "js-cookie"
+import { Theme } from "../../styles/theme"
 
 const SignUp = () => {
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
   const { theme } = useContext(ThemeContext)
   const [nickName, setNickName] = useState(session?.user?.name)
   const [email, setEmail] = useState(session?.user?.email)
@@ -96,7 +97,7 @@ const SignUp = () => {
           placeholder="당신을 한 줄로 소개해보세요"
           autoComplete="off"
         ></input>
-        <ButtonWrap theme={theme} isEmpty>
+        <ButtonWrap theme={theme}>
           {isDuplicate && <Warn>이미 존재하는 아이디 입니다.</Warn>}
           {isEmpty && <Warn>빈 칸이 존재합니다.</Warn>}
           <InnerButtonWrap theme={theme} isEmpty>
@@ -116,7 +117,12 @@ const SignUp = () => {
 
 export default SignUp
 
-const SignUpWrap = styled.div<ThemeProps>`
+interface Props {
+  isEmpty: boolean
+  theme: Theme
+}
+
+const SignUpWrap = styled.div<Props>`
   display: flex;
   flex-direction: column;
   margin: 100px 256px 0 256px;
@@ -181,12 +187,12 @@ const SignUpWrap = styled.div<ThemeProps>`
         }
     }
 `
-const ButtonWrap = styled.div<ThemeProps>`
+const ButtonWrap = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 96px;
 `
-const InnerButtonWrap = styled.div<ThemeProps>`
+const InnerButtonWrap = styled.div<Props>`
   font-size: 24px;
   margin-top: 20px;
   .cancel {

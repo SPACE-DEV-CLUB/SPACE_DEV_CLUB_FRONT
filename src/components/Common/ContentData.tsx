@@ -22,7 +22,7 @@ const ContentData = ({ tag, username = undefined }: ContentDataProps) => {
       {
         sort: ["publishedAt:desc"],
         pagination: {
-          page: pageIndex,
+          page: pageIndex + 1,
           pageSize: PAGE_SIZE,
         },
         populate: ["hashtags", "userid"],
@@ -84,28 +84,21 @@ const ContentData = ({ tag, username = undefined }: ContentDataProps) => {
     <>
       <section>
         {data
-          ? data
-              .filter((e, i) => {
-                if (size == 1) return true
-                else {
-                  return i !== 0
-                }
-              })
-              .map((loaded) => {
-                return loaded.data.map((e: any, i: number) => (
-                  <MyCard
-                    key={i}
-                    mySearch={!username}
-                    imageUrl={e.attributes.imageUrl}
-                    title={e.attributes.title}
-                    contents={e.attributes.contents}
-                    tag={e.attributes.hashtags.data}
-                    date={e.attributes.publishedAt}
-                    // comment={e.attributes.comment}
-                    username={e.attributes.userid.data?.attributes.userid}
-                  />
-                ))
-              })
+          ? data.map((loaded) => {
+              return loaded.data.map((e: any, i: number) => (
+                <MyCard
+                  key={i}
+                  mySearch={!username}
+                  imageUrl={e.attributes.imageUrl}
+                  title={e.attributes.title}
+                  contents={e.attributes.contents}
+                  tag={e.attributes.hashtags.data}
+                  date={e.attributes.publishedAt}
+                  // comment={e.attributes.comment}
+                  username={e.attributes.userid.data?.attributes.userid}
+                />
+              ))
+            })
           : !isValidating && <BlankPage dataname={"포스트"} />}
       </section>
       <TargetElement ref={setTarget}>
