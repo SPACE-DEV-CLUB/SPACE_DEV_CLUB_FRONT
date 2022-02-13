@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { PALLETS_LIGHT } from "../../constants/index";
 import Link from "next/link";
 
 import { Theme } from "../../styles/theme";
@@ -7,6 +6,8 @@ import { useContext } from "react";
 import { ThemeContext } from "../../pages/_app";
 
 import { handleDate } from "../../utils/date";
+import { Hashtags } from "./DetailHeader";
+import { Tag } from "../Common/Tag";
 
 interface ThemeProps {
   theme: Theme;
@@ -15,23 +16,18 @@ interface ThemeProps {
 interface UserData {
   userName: string | string[] | undefined;
   createdAt: string;
+  hashtags: Hashtags[];
 }
-
-const tagDatas = [
-  {
-    id: 0,
-    name: "태그입니다1",
-  },
-  {
-    id: 1,
-    name: "태그입니다2",
-  },
-];
 
 const user = true;
 
-export const UDHashContainer = ({ userName, createdAt }: UserData) => {
+export const UDHashContainer = ({
+  userName,
+  createdAt,
+  hashtags,
+}: UserData) => {
   const { theme } = useContext(ThemeContext);
+
   return (
     <article>
       <h2 className="sr-only">해시태그 및 글 수정, 삭제</h2>
@@ -56,43 +52,19 @@ export const UDHashContainer = ({ userName, createdAt }: UserData) => {
           </div>
         )}
       </UDContainer>
-      <TagContainer>
-        {tagDatas.map((tag) => {
-          const { id, name } = tag;
-          return (
-            <TagItem theme={theme} key={`Tag-key-${id}`}>
-              <Link href="#" passHref>
-                <Tag theme={theme}>{name}</Tag>
-              </Link>
-            </TagItem>
-          );
-        })}
-      </TagContainer>
+      {hashtags.map((tag) => {
+        return (
+          <Tag key={`Detail_tag_${tag.id}`} tagName={tag.attributes.name}></Tag>
+        );
+      })}
     </article>
   );
 };
 
-const TagContainer = styled.ul`
-  display: flex;
-  margin: 16px 0;
-`;
-const TagItem = styled.li<ThemeProps>`
-  background-color: ${({ theme }) => theme.SUB};
-  border-radius: 25px;
-  padding: 5px 15px;
-  &:not(:last-child) {
-    margin-right: 15px;
-  }
-  &:hover {
-    background-color: ${({ theme }) => theme.BACKGROUND};
-  }
-`;
-const Tag = styled.a<ThemeProps>`
-  color: ${({ theme }) => theme.MAIN};
-`;
 const UDContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 20px;
 `;
 const Nickname = styled.a<ThemeProps>`
   color: ${({ theme }) => theme.MAIN_FONT};

@@ -1,21 +1,21 @@
-import styled from "@emotion/styled"
-import Link from "next/link"
+import styled from "@emotion/styled";
+import Link from "next/link";
 
-import BorderInnerIcon from "@mui/icons-material/BorderInner"
+import BorderInnerIcon from "@mui/icons-material/BorderInner";
 
-import { Theme } from "../../styles/theme"
-import { useContext, useState } from "react"
-import { ThemeContext } from "../../pages/_app"
+import { Theme } from "../../../styles/theme";
+import { useContext } from "react";
+import { ThemeContext } from "../../../pages/_app";
 
-import { handleDate } from "../../utils/date"
+import { handleDate } from "../../../utils/date";
 
 interface ThemeProps {
-  theme: Theme
+  theme: Theme;
 }
 
 export const Comment = ({ comments, user }: any) => {
-  const { theme } = useContext(ThemeContext)
-  let loginUserID = 1
+  const { theme } = useContext(ThemeContext);
+  let loginUserID = 1;
 
   return (
     <div>
@@ -53,37 +53,37 @@ export const Comment = ({ comments, user }: any) => {
       </ProfileContainer>
       <CommentText>{comments.attributes.content}</CommentText>
     </div>
-  )
-}
+  );
+};
 
 const ProfileContainer = styled.div`
   width: 100%;
   display: flex;
   margin-top: 60px;
-`
+`;
 const UserProfile = styled.img`
   width: 65px;
   height: 65px;
   border-radius: 50%;
   margin-right: 10px;
-`
+`;
 const ProfileData = styled.div`
   width: 85%;
   line-height: 1;
   margin-top: 18px;
-`
+`;
 const Profile = styled.div`
   display: flex;
   justify-content: space-between;
-`
+`;
 const UserNickname = styled.p`
   font-weight: 700;
   :hover {
     opacity: 0.9;
     text-decoration: underline;
   }
-`
-const UDContainer = styled.div``
+`;
+const UDContainer = styled.div``;
 const UDItem = styled.a<ThemeProps>`
   color: ${({ theme }) => theme.ICON};
   font-weight: 500;
@@ -91,19 +91,19 @@ const UDItem = styled.a<ThemeProps>`
   &:hover {
     color: ${({ theme }) => theme.SUB_FONT};
   }
-`
+`;
 const User = styled.a<ThemeProps>`
   color: ${({ theme }) => theme.MAIN_FONT};
-`
+`;
 const CreatedAt = styled.p<ThemeProps>`
   color: ${({ theme }) => theme.SUB_FONT};
   margin-top: 8px;
   font-size: 13px;
-`
+`;
 const CommentText = styled.div`
   font-size: 19px;
   margin: 30px 0 60px 0;
-`
+`;
 const CommentPlus = styled.div<ThemeProps>`
   display: inline-flex;
   align-items: center;
@@ -115,4 +115,4 @@ const CommentPlus = styled.div<ThemeProps>`
     height: 15px;
     margin-right: 10px;
   }
-`
+`;
