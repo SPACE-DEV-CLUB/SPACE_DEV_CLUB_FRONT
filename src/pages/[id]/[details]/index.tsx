@@ -145,7 +145,7 @@ const DetailsIndexPage: NextPage = () => {
         <div>
           <Header username={"deli-ght"} user={true} />
           <DetailContainer>
-            <LeftHeader likepost={postObj.likeposts.data} />
+            <LeftHeader likepost={postObj.likeposts.data} postid={postid} />
             <DetailHeader
               title={postObj.title}
               contents={postObj.contents}

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { API_ENDPOINT, PALLETS_LIGHT } from "../../constants/index";
 import Link from "next/link";
 
@@ -12,6 +12,11 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { Theme } from "../../styles/theme";
 import { useContext } from "react";
 import { ThemeContext } from "../../pages/_app";
+import axios, { Method } from "axios";
+
+import Cookies from "js-cookie";
+import { handleDate } from "../../utils/date";
+
 // import useSWR from "swr";
 // import axios from "axios";
 
@@ -21,13 +26,39 @@ interface ThemeProps {
 
 interface LikePost {
   likepost: never[];
+  postid: number;
 }
 
-export const LeftHeader = ({ likepost }: LikePost) => {
+interface ILikePost {
+  id: number;
+  attributes: {
+    postid: {
+      data: [
+        {
+          id: number;
+        }
+      ];
+    };
+  };
+}
+export const LeftHeader = ({ likepost, postid }: LikePost) => {
   const { theme } = useContext(ThemeContext);
   const [heartNum, setHeartNum] = useState(likepost.length);
   const [heartClick, setHeartClick] = useState(false);
   const [shareClick, setShareClick] = useState(false);
+  const [putId, setPutId] = useState(0);
+
+  const userCookieData = Cookies.get("user");
+
+  // 에러 처리
+  useEffect(() => {
+    getLikeData();
+  }, []);
+
+  if (!userCookieData) return <h1>로딩중</h1>;
+  const userId: number = JSON.parse(userCookieData).id;
+  const userName: string = JSON.parse(userCookieData).attributes.userid;
+
   // const fetcher = (url: string) =>
   //   axios.put(url).then((res) => console.log(res.data));
   // const { data, error } = useSWR(`${API_ENDPOINT}/posts`, fetcher);
@@ -42,11 +73,57 @@ export const LeftHeader = ({ likepost }: LikePost) => {
 
     setHeartClick(!heartClick);
     !heartClick ? (num += 1) : (num -= 1);
+    !heartClick ? postLike() : postUnLike();
     setHeartNum(num);
   };
 
   const handleShare = () => {
     setShareClick(!shareClick);
+  };
+
+  const getLikeData = async () => {
+    const response = await axios({
+      method: "get",
+      url: `${API_ENDPOINT}/likeposts?populate=*&filters[userid][userid]=${userName}`,
+    });
+    const handleOverlap = response.data.data.some((post: ILikePost) => {
+      if (post.attributes.postid.data[0].id === postid) {
+        setPutId(post.id);
+        return true;
+      }
+    });
+    handleOverlap && setHeartClick(true);
+  };
+
+  const postLike = async () => {
+    axios({
+      method: "post" as Method,
+      url: `${API_ENDPOINT}/likeposts`,
+      data: {
+        data: {
+          userid: userId,
+          postid: postid,
+        },
+      },
+    }).then(function (response) {
+      console.log(response);
+      setPutId(response.data.data.id);
+    });
+  };
+
+  const postUnLike = async () => {
+    axios({
+      method: "delete" as Method,
+      url: `${API_ENDPOINT}/likeposts/${putId}`,
+      data: {
+        data: {
+          userid: userId,
+          postid: postid,
+        },
+      },
+    }).then(function (response) {
+      console.log(response);
+    });
   };
 
   return (
