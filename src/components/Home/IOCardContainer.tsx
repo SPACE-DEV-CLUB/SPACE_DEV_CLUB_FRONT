@@ -69,7 +69,7 @@ export const IOCardContainer = ({
     const query = qs.stringify(
       {
         pagination: {
-          page: pageIndex,
+          page: pageIndex + 1,
           pageSize: PAGE_SIZE,
         },
         populate: ["*"],
@@ -127,27 +127,20 @@ export const IOCardContainer = ({
     <>
       <Container>
         {data &&
-          data
-            .filter((e, i) => {
-              if (size == 1) return true
-              else {
-                return i !== 0
-              }
-            })
-            .map((loaded) => {
-              return loaded.data.map((e: any, i: number) => (
-                <PostCard
-                  key={`${e}_${i}`}
-                  imageUrl={e.attributes.imageUrl}
-                  title={e.attributes.title}
-                  contents={e.attributes.contents}
-                  comments={e.attributes.comments}
-                  username={"deli-ght"}
-                  count={e.attributes.count}
-                  publishedAt={e.attributes.publishedAt}
-                />
-              ))
-            })}
+          data.map((loaded) => {
+            return loaded.data.map((e: any, i: number) => (
+              <PostCard
+                key={`${e}_${i}`}
+                imageUrl={e.attributes.imageUrl}
+                title={e.attributes.title}
+                contents={e.attributes.contents}
+                comments={e.attributes.comments}
+                username={"deli-ght"}
+                count={e.attributes.count}
+                publishedAt={e.attributes.publishedAt}
+              />
+            ))
+          })}
       </Container>
       <TargetElement ref={setTarget}>
         {isValidating && !isReachingEnd.current && <div>로딩중</div>}
