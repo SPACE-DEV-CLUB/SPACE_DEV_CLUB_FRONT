@@ -6,7 +6,7 @@ import { DetailHeader } from "../../../components/Details/DetailHeader";
 import { LeftHeader } from "../../../components/Details/LeftHeader";
 import { RightHeader } from "../../../components/Details/RightHeader";
 
-// import { CardContainer } from "../../../components/Home/CardContainer";
+import { DetailCard } from "../../../components/Details/DetailCard";
 import { Header } from "../../../components/Common/Header";
 
 import { Theme } from "../../../styles/theme";
@@ -21,18 +21,17 @@ interface ThemeProps {
   theme: Theme;
 }
 
-interface User {
+export interface Hashtags {
   id: number;
-  username: string;
-  email: string;
-  provider: string;
-  confirmed: boolean;
-  blocked: boolean;
-  createdAt: string;
-  updatedAt: string;
+  attributes: {
+    name: string;
+    createdAt: string;
+    description: string;
+    image: string;
+  };
 }
 
-interface Post {
+export interface Post {
   id: number;
   attributes: {
     title: string;
@@ -59,10 +58,21 @@ interface Post {
       data: [];
     };
     hashtags: {
-      data: [];
+      data: Hashtags[];
     };
   };
 }
+
+// interface SeriesBox {
+//   id: number;
+//   attributes: {
+//     createdAt: string;
+//     publishedAt: string;
+//     title: string;
+//   };
+// }
+
+// interface SeriesPost {}
 
 interface ReadingPost {
   id: number;
@@ -86,11 +96,23 @@ const DetailsIndexPage: NextPage = () => {
     "populate=*"
   );
 
-  if (!DetailData) return <div>로딩중</div>;
-  if (DetailError) return <div>에러</div>;
+  const { data: SeriesBoxData, error: SeriesBoxError } = useData(
+    "series-boxes",
+    ""
+  );
+
+  const { data: SeriesPostData, error: SeriesPostError } = useData(
+    "series-posts",
+    ""
+  );
+
+  if (!DetailData || !SeriesBoxData || !SeriesPostData)
+    return <div>로딩중</div>;
+  if (DetailError || SeriesBoxError || SeriesPostError) return <div>에러</div>;
+
+  // console.log(SeriesBoxData);
 
   let postid = 0;
-
   let postObj = {
     title: "",
     contents: "",
@@ -103,9 +125,21 @@ const DetailsIndexPage: NextPage = () => {
     },
     createdAt: "",
     hashtags: {
-      data: [],
+      data: [
+        {
+          id: 0,
+          attributes: {
+            name: "",
+            createdAt: "",
+            description: "",
+            image: "",
+          },
+        },
+      ],
     },
   };
+  // let seriesBox = {};
+  // let seriesPost = {};
 
   let user: userInfo = {
     email: "",
@@ -133,6 +167,25 @@ const DetailsIndexPage: NextPage = () => {
       return true;
     }
   });
+  const interested = DetailData.data.filter((details: Post) => {
+    const hashtagArr = details.attributes.hashtags.data.map(
+      (data) => data.attributes.name
+    );
+    const isInclude = postObj.hashtags.data.filter((data) =>
+      hashtagArr.includes(data.attributes.name)
+    );
+    return isInclude.length > 0;
+  });
+
+  function shuffle(arr: Post[]) {
+    return arr.sort(() => Math.random() - 0.5);
+  }
+  const random_interested =
+    interested.length >= 10
+      ? shuffle(interested).slice(0, 10)
+      : shuffle(interested);
+
+  // SeriesBoxData.data.some((seriesBox) => {});
 
   return (
     <main>
@@ -159,7 +212,7 @@ const DetailsIndexPage: NextPage = () => {
             <RightHeader />
           </DetailContainer>
           <PostsContainer theme={theme}>
-            {/* <CardContainer filter="zz" /> */}
+            <DetailCard interested={random_interested} />
           </PostsContainer>
         </div>
       ) : (
