@@ -6,8 +6,9 @@ import { useContext } from "react";
 import { ThemeContext } from "../../pages/_app";
 
 import { handleDate } from "../../utils/date";
-import { Hashtags } from "./DetailHeader";
+
 import { Tag } from "../Common/Tag";
+import { Hashtags } from "../../pages/[id]/[details]";
 
 interface ThemeProps {
   theme: Theme;

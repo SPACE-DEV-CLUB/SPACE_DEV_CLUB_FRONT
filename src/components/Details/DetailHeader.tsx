@@ -8,16 +8,7 @@ import useIO from "../../hooks/useIO";
 import { API_ENDPOINT } from "../../constants";
 import axios, { Method } from "axios";
 import { userInfo } from "../../types/Main";
-
-export interface Hashtags {
-  id: number;
-  attributes: {
-    name: string;
-    createdAt: string;
-    description: string;
-    image: string;
-  };
-}
+import { Hashtags } from "../../pages/[id]/[details]";
 
 interface Comments {
   id: number;
