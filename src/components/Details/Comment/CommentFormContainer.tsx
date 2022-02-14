@@ -1,17 +1,14 @@
 import styled from "@emotion/styled";
-import { CommentContainer } from "./CommentContainer";
-import { PALLETS_LIGHT } from "../../constants";
 
-import { Theme } from "../../styles/theme";
+import { Theme } from "../../../styles/theme";
 import { useContext, useState } from "react";
-import { ThemeContext } from "../../pages/_app";
+import { ThemeContext } from "../../../pages/_app";
 
-import { useData } from "../../hooks/useData";
+import { useData } from "../../../hooks/useData";
 
 import BorderInnerIcon from "@mui/icons-material/BorderInner";
 
-import { CommentForm } from "./CommentForm";
-import { ComComForm } from "./ComComForm";
+import { CommentForm, ComComForm, CommentContainer } from ".";
 
 interface ThemeProps {
   theme: Theme;

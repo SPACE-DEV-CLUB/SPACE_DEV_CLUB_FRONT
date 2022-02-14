@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
-import { PALLETS_LIGHT } from "../../constants";
+import { PALLETS_LIGHT } from "../../../constants";
 
-import { Theme } from "../../styles/theme";
-import { useContext, useState } from "react";
-import { ThemeContext } from "../../pages/_app";
+import { Theme } from "../../../styles/theme";
+import { useContext } from "react";
+import { ThemeContext } from "../../../pages/_app";
 
 interface ThemeProps {
   theme: Theme;
