@@ -85,3 +85,24 @@ export interface userInfo {
   snsemail: string
   readingpost?: any[]
 }
+
+export interface Post {
+  contents: string
+  createdAt: string
+  description: string
+  postidx: number
+  private: boolean
+  publishedAt: string
+  series_box: SeriesBox | undefined | null
+  title: string
+  updatedAt: string
+  url: string
+  userid: userInfo
+}
+
+export interface SeriesBox {
+  createdAt: string
+  publishedAt: string
+  title: string
+  updatedAt: string
+}

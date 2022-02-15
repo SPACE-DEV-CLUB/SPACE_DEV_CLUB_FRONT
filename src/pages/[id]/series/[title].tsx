@@ -7,6 +7,8 @@ import SeriesEditContainer from "../../../components/MyPage/Series/SeriesEditCon
 import { useContext } from "react"
 import { ThemeContext } from "../../../pages/_app"
 import { ThemeProps } from "../../../types/Theme"
+import qs from "qs"
+import { useData } from "../../../hooks/useData"
 
 const Series = () => {
   const { theme } = useContext(ThemeContext)
@@ -15,6 +17,33 @@ const Series = () => {
 
   const [editTitle, setEditTitle] = useState(false)
   const [order, setOrder] = useState(false)
+
+  const query = qs.stringify(
+    {
+      populate: ["series_box", "userid"],
+      sort: ["postidx"],
+      filters: {
+        userid: {
+          userid: {
+            $eq: id,
+          },
+        },
+        series_box: {
+          title: {
+            $eq: title,
+          },
+        },
+      },
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  )
+
+  const { data, isValidating } = useData("posts", query)
+  console.log(data)
+
+  if (isValidating) return null
 
   const handleOrder = () => {
     setOrder(!order)
@@ -31,13 +60,14 @@ const Series = () => {
         <SeriesTitle theme={theme} contentEditable={editTitle}>
           {title}
         </SeriesTitle>
-        {editTitle ? (
-          <SeriesEditContainer handleEdit={handleEdit} />
+        {data && editTitle ? (
+          <SeriesEditContainer handleEdit={handleEdit} post={data.data} />
         ) : (
           <SeriesContaienr
             handleEdit={handleEdit}
             handleOrder={handleOrder}
             order={order}
+            post={data.data}
           />
         )}
       </Main>

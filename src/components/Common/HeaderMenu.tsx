@@ -6,6 +6,7 @@ import { ThemeContext } from "../../pages/_app"
 import { ThemeProps } from "../../types/Theme"
 import { signOut } from "next-auth/react"
 import Cookies from "js-cookie"
+import Loading from "./Loading"
 
 interface HeaderMenuProps {
   username: string | string[] | undefined
@@ -16,7 +17,7 @@ export const HeaderMenu = ({ username, session }: HeaderMenuProps) => {
   const { theme } = useContext(ThemeContext)
 
   const userCookieData = Cookies.get("user")
-  if (!userCookieData) return <h1>로딩중</h1>
+  if (!userCookieData) return <Loading />
 
   // 에러 처리
   const userInfo = JSON.parse(userCookieData).attributes

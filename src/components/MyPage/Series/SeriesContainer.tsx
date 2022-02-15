@@ -7,17 +7,24 @@ import { Theme } from "../../../styles/theme"
 import { useContext } from "react"
 import { ThemeContext } from "../../../pages/_app"
 import { ThemeProps } from "../../../types/Theme"
+import { Post } from "../../../types/Main"
+import { handleDate } from "../../../utils/date"
 
 interface SeriesContainerProps {
   handleEdit: () => void
   handleOrder: () => void
   order: boolean
+  post: {
+    id: number
+    attributes: Post
+  }[]
 }
 
 const SeriesContaienr = ({
   handleEdit,
   handleOrder,
   order,
+  post,
 }: SeriesContainerProps) => {
   const { theme } = useContext(ThemeContext)
   return (
@@ -36,29 +43,31 @@ const SeriesContaienr = ({
       </OrderBtnContainer>
       <CardContainer>
         {order
-          ? DETAIL_CARD_DATA.map((e, i) => {
+          ? post
+              .map((e, i) => {
+                return (
+                  <DetailCard
+                    key={`series-detail-${e.id}`}
+                    margin={"64px 0 0 0"}
+                    padding={"16px"}
+                    postIdx={e.attributes.postidx}
+                    postTitle={e.attributes.title}
+                    postDesc={e.attributes.description}
+                    date={handleDate(e.attributes.createdAt)}
+                  />
+                )
+              })
+              .reverse()
+          : post.map((e, i) => {
               return (
                 <DetailCard
-                  key={i}
+                  key={`series-detail-${e.id}`}
                   margin={"64px 0 0 0"}
                   padding={"16px"}
-                  postIdx={e.postIdx}
-                  postTitle={e.postTitle}
-                  postDesc={e.postDesc}
-                  date={e.date}
-                />
-              )
-            }).reverse()
-          : DETAIL_CARD_DATA.map((e, i) => {
-              return (
-                <DetailCard
-                  key={i}
-                  margin={"64px 0 0 0"}
-                  padding={"16px"}
-                  postIdx={e.postIdx}
-                  postTitle={e.postTitle}
-                  postDesc={e.postDesc}
-                  date={e.date}
+                  postIdx={e.attributes.postidx}
+                  postTitle={e.attributes.title}
+                  postDesc={e.attributes.description}
+                  date={handleDate(e.attributes.createdAt)}
                 />
               )
             })}
