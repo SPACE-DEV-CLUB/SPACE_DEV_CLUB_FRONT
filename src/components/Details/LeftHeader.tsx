@@ -14,11 +14,8 @@ import { useContext } from "react";
 import { ThemeContext } from "../../pages/_app";
 import axios, { Method } from "axios";
 
-import Cookies from "js-cookie";
 import { handleDate } from "../../utils/date";
-
-// import useSWR from "swr";
-// import axios from "axios";
+import { breakpoints } from "@mui/system";
 
 interface ThemeProps {
   theme: Theme;
@@ -27,6 +24,8 @@ interface ThemeProps {
 interface LikePost {
   likepost: never[];
   postid: number;
+  loginUserId: number | undefined;
+  loginUserName: string | string[] | undefined;
 }
 
 interface ILikePost {
@@ -41,23 +40,21 @@ interface ILikePost {
     };
   };
 }
-export const LeftHeader = ({ likepost, postid }: LikePost) => {
+export const LeftHeader = ({
+  likepost,
+  postid,
+  loginUserId,
+  loginUserName,
+}: LikePost) => {
   const { theme } = useContext(ThemeContext);
   const [heartNum, setHeartNum] = useState(likepost.length);
   const [heartClick, setHeartClick] = useState(false);
   const [shareClick, setShareClick] = useState(false);
   const [putId, setPutId] = useState(0);
 
-  const userCookieData = Cookies.get("user");
-
-  // 에러 처리
   useEffect(() => {
-    getLikeData();
+    loginUserId && getLikeData();
   }, []);
-
-  if (!userCookieData) return <h1>로딩중</h1>;
-  const userId: number = JSON.parse(userCookieData).id;
-  const userName: string = JSON.parse(userCookieData).attributes.userid;
 
   // const fetcher = (url: string) =>
   //   axios.put(url).then((res) => console.log(res.data));
@@ -69,6 +66,11 @@ export const LeftHeader = ({ likepost, postid }: LikePost) => {
   // console.log(data, "sdfsdf");
 
   const handleHeart = () => {
+    if (!loginUserId) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
     let num = heartNum;
 
     setHeartClick(!heartClick);
@@ -84,7 +86,7 @@ export const LeftHeader = ({ likepost, postid }: LikePost) => {
   const getLikeData = async () => {
     const response = await axios({
       method: "get",
-      url: `${API_ENDPOINT}/likeposts?populate=*&filters[userid][userid]=${userName}`,
+      url: `${API_ENDPOINT}/likeposts?populate=*&filters[userid][userid]=${loginUserName}`,
     });
     const handleOverlap = response.data.data.some((post: ILikePost) => {
       if (post.attributes.postid.data[0].id === postid) {
@@ -101,7 +103,7 @@ export const LeftHeader = ({ likepost, postid }: LikePost) => {
       url: `${API_ENDPOINT}/likeposts`,
       data: {
         data: {
-          userid: userId,
+          userid: loginUserId,
           postid: postid,
         },
       },
@@ -117,7 +119,7 @@ export const LeftHeader = ({ likepost, postid }: LikePost) => {
       url: `${API_ENDPOINT}/likeposts/${putId}`,
       data: {
         data: {
-          userid: userId,
+          userid: loginUserId,
           postid: postid,
         },
       },

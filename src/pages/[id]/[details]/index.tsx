@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { useData } from "../../../hooks/useData";
 import { ErrorPage } from "../../../components/Common/ErrorPage";
 import { userInfo } from "../../../types/Main";
+import Cookies from "js-cookie";
 
 interface ThemeProps {
   theme: Theme;
@@ -96,21 +97,20 @@ const DetailsIndexPage: NextPage = () => {
     "populate=*"
   );
 
-  const { data: SeriesBoxData, error: SeriesBoxError } = useData(
-    "series-boxes",
-    ""
-  );
+  const { data: SeriesBoxData, error: SeriesBoxError } =
+    useData("series-boxes");
 
-  const { data: SeriesPostData, error: SeriesPostError } = useData(
-    "series-posts",
-    ""
-  );
+  const { data: SeriesPostData, error: SeriesPostError } =
+    useData("series-posts");
 
-  if (!DetailData || !SeriesBoxData || !SeriesPostData)
-    return <div>로딩중</div>;
-  if (DetailError || SeriesBoxError || SeriesPostError) return <div>에러</div>;
+  if (!DetailData) return <div>로딩중</div>;
+  if (DetailError) return <div>에러</div>;
 
-  // console.log(SeriesBoxData);
+  const userCookieData = Cookies.get("user");
+
+  const loginUserId = userCookieData && JSON.parse(userCookieData!).id;
+  const loginUserName =
+    userCookieData && JSON.parse(userCookieData!).attributes.userid;
 
   let postid = 0;
   let postObj = {
@@ -198,7 +198,12 @@ const DetailsIndexPage: NextPage = () => {
         <div>
           <Header username={"deli-ght"} user={true} />
           <DetailContainer>
-            <LeftHeader likepost={postObj.likeposts.data} postid={postid} />
+            <LeftHeader
+              likepost={postObj.likeposts.data}
+              postid={postid}
+              loginUserId={loginUserId}
+              loginUserName={loginUserName}
+            />
             <DetailHeader
               title={postObj.title}
               contents={postObj.contents}
@@ -208,6 +213,8 @@ const DetailsIndexPage: NextPage = () => {
               createdAt={postObj.createdAt}
               userdata={user}
               hashtags={postObj.hashtags.data}
+              loginUserId={loginUserId}
+              loginUserName={loginUserName}
             />
             <RightHeader />
           </DetailContainer>
