@@ -135,27 +135,6 @@ const SignUpWrap = styled.div<Props>`
     font-size: 24px;
     font-weight: 400;
   }
-  form {
-    display: inline-flex;
-    flex-direction: column;
-    margin: 48px 0;
-    label {
-      margin: 24px 0;
-    }
-    input {
-      position: relative;
-      border-top: none;
-      border-left: none;
-      border-right: none;
-      background: transparent;
-      color: ${({ theme }) => theme.SUB_FONT};
-      height: 38px;
-      font-size: 24px;
-      ::placeholder,
-      ::-webkit-input-placeholder {
-        font-size: 24px;
-        font-weight: 400;
-    }
     form {
         display: inline-flex;
         flex-direction: column;
@@ -195,13 +174,6 @@ const ButtonWrap = styled.div`
 const InnerButtonWrap = styled.div<Props>`
   font-size: 24px;
   margin-top: 20px;
-  .cancel {
-    color: ${({ theme }) => theme.MAIN_FONT};
-    padding: 10px 32px;
-    border-radius: 24px;
-    background: ${({ theme }) => theme.SUBBACKGROUND};
-    font-size: 24px;
-    margin-top: 20px;
     .cancel {
         color: ${({ theme }) => theme.MAIN_FONT};
         padding: 10px 32px;
