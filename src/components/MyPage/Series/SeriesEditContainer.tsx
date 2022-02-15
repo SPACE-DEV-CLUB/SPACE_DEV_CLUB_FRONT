@@ -3,32 +3,35 @@ import DetailCard from "../../../components/MyPage/Series/DetailCard"
 import { DETAIL_CARD_DATA } from "../../../data"
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd"
 import { HTMLAttributes, useState } from "react"
-import { DetailCardProps } from "../../../types/Main"
+import { DetailCardProps, Post } from "../../../types/Main"
 import React from "react"
 import DraggableItem from "./DraggableItem"
 import { useContext } from "react"
 import { ThemeContext } from "../../../pages/_app"
 import { ThemeProps } from "../../../types/Theme"
+import { handleDate } from "../../../utils/date"
 
 interface SeriesContainerProps {
   handleEdit: () => void
+  post: {
+    id: number
+    attributes: Post
+  }[]
 }
 
-const SeriesEditContainer = ({ handleEdit }: SeriesContainerProps) => {
+const SeriesEditContainer = ({ handleEdit, post }: SeriesContainerProps) => {
   const { theme } = useContext(ThemeContext)
 
   const getItems = (count: number) =>
     Array.from({ length: count }, (v, k) => k).map((k) => ({
       id: `Item ${k + 1}`,
-      postIdx: DETAIL_CARD_DATA[k].postIdx, //e.postIdx
-      postTitle: DETAIL_CARD_DATA[k].postTitle,
-      postDesc: DETAIL_CARD_DATA[k].postDesc,
-      date: DETAIL_CARD_DATA[k].date,
+      postIdx: post[k].attributes.postidx, //e.postIdx
+      postTitle: post[k].attributes.title,
+      postDesc: post[k].attributes.description,
+      date: handleDate(post[k].attributes.createdAt),
     }))
 
-  const [state, setState] = useState<DetailCardProps[]>(
-    getItems(DETAIL_CARD_DATA.length)
-  )
+  const [state, setState] = useState<DetailCardProps[]>(getItems(post.length))
 
   const reorder = (
     list: DetailCardProps[],

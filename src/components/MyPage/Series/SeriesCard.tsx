@@ -14,10 +14,10 @@ export const SeriesCard = ({
   updateDate,
   username,
 }: {
-  imageUrl: string
+  imageUrl: string | null
   postTitle: string
   count?: number
-  updateDate: number
+  updateDate: string
   username: string | string[] | undefined
 }) => {
   const router = useRouter()
@@ -31,7 +31,7 @@ export const SeriesCard = ({
             width={732}
             height={402}
             alt="sample image"
-            src={imageUrl}
+            src={"/image/post_thumbnail.png"}
           />
           <h2>{postTitle}</h2>
         </a>
@@ -39,7 +39,7 @@ export const SeriesCard = ({
       <DateCommentContainer theme={theme}>
         <span>{count}개의 포스트</span>
         <span> · </span>
-        <span>마지막 업데이트 {updateDate}</span>
+        <span className="updateDate">마지막 업데이트 {updateDate}</span>
       </DateCommentContainer>
     </Container>
   )
@@ -88,5 +88,8 @@ const DateCommentContainer = styled.div<ThemeProps>`
   font-size: 14px;
   @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     font-size: 12px;
+  }
+  .updateDate {
+    color: ${({ theme }) => theme.POINT_FONT};
   }
 `
