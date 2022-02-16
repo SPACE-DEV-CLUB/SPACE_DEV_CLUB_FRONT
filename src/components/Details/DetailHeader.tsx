@@ -1,41 +1,19 @@
 import styled from "@emotion/styled";
-import { UDHashContainer } from "./UDHashContainer";
-import { SeriesContainer } from "./SeriesContainer";
+import { UDHashContainer, SeriesContainer, Carousel } from ".";
 import { Intro } from "../MyPage";
-import { Carousel } from "./Carousel";
 import { CommentFormContainer } from "./Comment";
 import useIO from "@hooks/useIO";
 import { API_ENDPOINT } from "@constants/index";
 import axios, { Method } from "axios";
 import { userInfo } from "../../types/Main";
-import { Hashtags } from "@pages/[id]/[details]";
+import { Hashtags, PostContext } from "@pages/[id]/[details]";
+import { useContext } from "react";
 
-interface Comments {
-  id: number;
-  attributes: {
-    userid: number;
-    postid: number;
-    content: string;
-    createdAt: string;
-    depth: number;
-    order: number;
-    group: number;
-    is_deleted: boolean;
-  };
-}
-
-interface DetailData {
-  title: string;
-  contents: string;
+interface Props {
   userName: string | string[] | undefined;
-  createdAt: string;
-  postid: number;
-  comments: Comments[];
   userdata: userInfo;
-  hashtags: Hashtags[];
   loginUserId: number | undefined;
   loginUserName: string | string[] | undefined;
-  postUserId: number;
 }
 
 interface ReadingPost {
@@ -50,18 +28,13 @@ interface ReadingPost {
 }
 
 export const DetailHeader = ({
-  title,
-  contents,
   userName,
-  comments,
-  postid,
-  createdAt,
   userdata,
-  hashtags,
   loginUserId,
   loginUserName,
-  postUserId,
-}: DetailData) => {
+}: Props) => {
+  const { postid, postObj } = useContext(PostContext);
+
   const getReadingData = async () => {
     let putId = 0;
     const response = await axios({
@@ -116,24 +89,18 @@ export const DetailHeader = ({
 
   return (
     <Header>
-      <h2>{title}</h2>
+      <h2>{postObj.title}</h2>
       <UDHashContainer
         userName={userName}
-        createdAt={createdAt}
-        hashtags={hashtags}
+        // hashtags={hashtags}
         loginUserId={loginUserId}
-        postUserId={postUserId}
       />
       <SeriesContainer />
-      <div>{contents}</div>
+      <div>{postObj.contents}</div>
       <div ref={setTarget}></div>
       <Intro username={userName} userdata={userdata} />
       <Carousel />
-      <CommentFormContainer
-        comments={comments}
-        loginUserId={loginUserId}
-        postid={postid}
-      />
+      <CommentFormContainer loginUserId={loginUserId} />
     </Header>
   );
 };

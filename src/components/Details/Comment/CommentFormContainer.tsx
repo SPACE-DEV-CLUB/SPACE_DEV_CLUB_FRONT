@@ -9,6 +9,7 @@ import { useData } from "@hooks/useData";
 import BorderInnerIcon from "@mui/icons-material/BorderInner";
 
 import { CommentForm, ReCommentForm, CommentContainer } from ".";
+import { PostContext } from "@src/pages/[id]/[details]";
 
 interface ThemeProps {
   theme: Theme;
@@ -29,24 +30,19 @@ export interface CommentData {
 }
 
 interface Props {
-  comments: CommentData[];
-  postid: number;
   loginUserId?: number;
 }
 
-export const CommentFormContainer = ({
-  comments,
-  postid,
-  loginUserId,
-}: Props) => {
+export const CommentFormContainer = ({ loginUserId }: Props) => {
   const { theme } = useContext(ThemeContext);
-  comments
+  const { postObj } = useContext(PostContext);
+  postObj.comments.data
     .sort((a, b) => a.attributes.order - b.attributes.order)
     .sort((a, b) => a.attributes.depth - b.attributes.depth)
     .sort((a, b) => a.attributes.group - b.attributes.group);
 
   let newComment: CommentData[][] = [];
-  comments.forEach((comment) => {
+  postObj.comments.data.forEach((comment) => {
     const group = comment.attributes.group;
     if (!newComment[group]) newComment[group] = [comment];
     else newComment[group] = [...newComment[group], comment];
@@ -69,12 +65,8 @@ export const CommentFormContainer = ({
   return (
     <article>
       <h3 className="sr-only">상세 페이지 댓글</h3>
-      <CommentNum>{comments.length}개의 댓글</CommentNum>
-      <CommentForm
-        postid={postid}
-        loginUserId={loginUserId}
-        CommentLen={newComment.length}
-      />
+      <CommentNum>{postObj.comments.data.length}개의 댓글</CommentNum>
+      <CommentForm loginUserId={loginUserId} CommentLen={newComment.length} />
 
       {newComment.map((group: CommentData[], i: number) => {
         return (
@@ -108,7 +100,6 @@ export const CommentFormContainer = ({
               <ReCommentForm
                 onComment={onComment}
                 index={i}
-                postid={postid}
                 loginUserId={loginUserId}
                 CommentLen={newComment.length}
               />

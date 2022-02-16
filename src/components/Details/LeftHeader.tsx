@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { API_ENDPOINT, PALLETS_LIGHT } from "@constants/index";
 import Link from "next/link";
 
@@ -10,20 +10,18 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 import { Theme } from "@styles/theme";
-import { useContext } from "react";
 import { ThemeContext } from "@pages/_app";
 import axios, { Method } from "axios";
 
 import { handleDate } from "../../utils/date";
 import { breakpoints } from "@mui/system";
+import { PostContext } from "@src/pages/[id]/[details]";
 
 interface ThemeProps {
   theme: Theme;
 }
 
-interface LikePost {
-  likepost: never[];
-  postid: number;
+interface Props {
   loginUserId: number | undefined;
   loginUserName: string | string[] | undefined;
 }
@@ -40,14 +38,10 @@ interface ILikePost {
     };
   };
 }
-export const LeftHeader = ({
-  likepost,
-  postid,
-  loginUserId,
-  loginUserName,
-}: LikePost) => {
+export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
   const { theme } = useContext(ThemeContext);
-  const [heartNum, setHeartNum] = useState(likepost.length);
+  const { postid, postObj } = useContext(PostContext);
+  const [heartNum, setHeartNum] = useState(postObj.likeposts.data.length);
   const [heartClick, setHeartClick] = useState(false);
   const [shareClick, setShareClick] = useState(false);
   const [putId, setPutId] = useState(0);
@@ -55,15 +49,6 @@ export const LeftHeader = ({
   useEffect(() => {
     loginUserId && getLikeData();
   }, []);
-
-  // const fetcher = (url: string) =>
-  //   axios.put(url).then((res) => console.log(res.data));
-  // const { data, error } = useSWR(`${API_ENDPOINT}/posts`, fetcher);
-
-  // if (!data) return <div>로딩중</div>;
-  // if (error) return <div>에러</div>;
-
-  // console.log(data, "sdfsdf");
 
   const handleHeart = () => {
     if (!loginUserId) {

@@ -15,7 +15,6 @@ interface ThemeProps {
 interface Props {
   onComment: (index: number) => void;
   index: number;
-  postid: number;
   loginUserId?: number;
   CommentLen: number;
 }
@@ -23,7 +22,6 @@ interface Props {
 export const ReCommentForm = ({
   onComment,
   index,
-  postid,
   loginUserId,
   CommentLen,
 }: Props) => {
@@ -42,11 +40,7 @@ export const ReCommentForm = ({
       )}
       {commentForm === true && (
         <ComComContainer>
-          <CommentForm
-            postid={postid}
-            loginUserId={loginUserId}
-            CommentLen={CommentLen}
-          />
+          <CommentForm loginUserId={loginUserId} CommentLen={CommentLen} />
           <CommentRemove theme={theme} onClick={onCommentForm}>
             취소
           </CommentRemove>

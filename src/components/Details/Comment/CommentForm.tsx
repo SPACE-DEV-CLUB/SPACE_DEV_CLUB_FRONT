@@ -5,53 +5,68 @@ import { Theme } from "@styles/theme";
 import React, { useContext, useState } from "react";
 import { ThemeContext } from "@pages/_app";
 import axios, { Method } from "axios";
+import { PostContext } from "@src/pages/[id]/[details]";
+import { useSWRConfig } from "swr";
 
 interface ThemeProps {
   theme: Theme;
 }
 
 interface Props {
-  postid: number;
   loginUserId?: number;
   CommentLen: number;
 }
 
-export const CommentForm = ({ postid, loginUserId, CommentLen }: Props) => {
+export const CommentForm = ({ loginUserId, CommentLen }: Props) => {
   const { theme } = useContext(ThemeContext);
+  const { postid, postObj } = useContext(PostContext);
   const [commentText, setCommentText] = useState("");
+  const { mutate } = useSWRConfig();
 
   const SubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // setCommentText("");
+
+    const Data = {
+      userid: loginUserId!,
+      postid: postid,
+      content: commentText,
+      depth: 0,
+      order: 0,
+      group: CommentLen,
+      is_deleted: false,
+      posts: postid,
+    };
+
     await axios({
       method: "post" as Method,
       url: `${API_ENDPOINT}/comments`,
       data: {
-        data: {
-          userid: loginUserId,
-          postid: postid,
-          content: commentText,
-          depth: 0,
-          order: 0,
-          group: CommentLen,
-          is_deleted: false,
-          posts: postid,
-        },
+        data: Data,
       },
     });
+    setCommentText("");
+    mutate(`${API_ENDPOINT}/posts?populate=*`);
   };
 
   const ChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCommentText(e.target.value);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      SubmitComment(e);
+    }
+  };
+
   return (
     <article>
       <h3 className="sr-only">상세 페이지 댓글 입력 폼</h3>
-      <CommentF onSubmit={SubmitComment}>
+      <CommentF onSubmit={SubmitComment} onKeyDown={(e) => handleKeyDown(e)}>
         <TextArea
           theme={theme}
           name="댓글 입력"
+          value={commentText}
           placeholder="댓글을 작성하세요"
           onChange={ChangeText}
         ></TextArea>
