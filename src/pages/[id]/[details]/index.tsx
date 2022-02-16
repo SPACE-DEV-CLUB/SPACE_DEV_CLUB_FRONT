@@ -2,19 +2,21 @@ import { NextPage } from "next";
 import styled from "@emotion/styled";
 import Head from "next/head";
 
-import { DetailHeader } from "../../../components/Details/DetailHeader";
-import { LeftHeader } from "../../../components/Details/LeftHeader";
-import { RightHeader } from "../../../components/Details/RightHeader";
+import {
+  DetailHeader,
+  LeftHeader,
+  RightHeader,
+  DetailCard,
+} from "@components/Details";
 
-import { DetailCard } from "../../../components/Details/DetailCard";
-import { Header } from "../../../components/Common/Header";
+import { Header } from "@components/Common/Header";
 
-import { Theme } from "../../../styles/theme";
+import { Theme } from "@styles/theme";
 import { useContext } from "react";
-import { ThemeContext } from "../../_app";
+import { ThemeContext } from "@pages/_app";
 import { useRouter } from "next/router";
-import { useData } from "../../../hooks/useData";
-import { ErrorPage } from "../../../components/Common/ErrorPage";
+import { useData } from "@hooks/useData";
+import { ErrorPage } from "@components/Common/ErrorPage";
 import { userInfo } from "../../../types/Main";
 import Cookies from "js-cookie";
 
@@ -123,6 +125,12 @@ const DetailsIndexPage: NextPage = () => {
     comments: {
       data: [],
     },
+    userid: {
+      data: {
+        id: 0,
+        attributes: {},
+      },
+    },
     createdAt: "",
     hashtags: {
       data: [
@@ -167,6 +175,7 @@ const DetailsIndexPage: NextPage = () => {
       return true;
     }
   });
+
   const interested = DetailData.data.filter((details: Post) => {
     const hashtagArr = details.attributes.hashtags.data.map(
       (data) => data.attributes.name
@@ -207,6 +216,7 @@ const DetailsIndexPage: NextPage = () => {
             <DetailHeader
               title={postObj.title}
               contents={postObj.contents}
+              postUserId={postObj.userid.data.id}
               userName={userName}
               comments={postObj.comments.data}
               postid={postid}

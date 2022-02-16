@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { PALLETS_LIGHT } from "../../constants";
+import { PALLETS_LIGHT } from "@constants/index";
 import Link from "next/link";
 
 export const RightHeader = () => {

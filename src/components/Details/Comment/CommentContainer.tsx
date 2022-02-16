@@ -1,30 +1,20 @@
 import styled from "@emotion/styled";
-import { Comment } from ".";
+import { Comment, CommentData } from ".";
 
-interface Comments {
-  comments: {
-    id: number;
-    attributes: {
-      userid: number;
-      postid: number;
-      content: string;
-      createdAt: string;
-      depth: number;
-      order: number;
-      group: number;
-      is_deleted: boolean;
-    };
+export interface CommentUser {
+  id: number;
+  attributes: {
+    userid: string;
+    profileimage: string;
   };
-  userData: [
-    {
-      id: number;
-      attributes: {
-        userid: string;
-        profileimage: string;
-      };
-    }
-  ];
-  commentBtn: boolean;
+}
+
+interface Props {
+  comments: CommentData;
+  userData: CommentUser[];
+  commentBtn: boolean[];
+  index: number;
+  loginUserId?: number;
 }
 
 let user = {
@@ -39,7 +29,9 @@ export const CommentContainer = ({
   comments,
   userData,
   commentBtn,
-}: Comments) => {
+  index,
+  loginUserId,
+}: Props) => {
   const depth = comments.attributes.depth;
 
   userData.some((data) => {
@@ -52,21 +44,14 @@ export const CommentContainer = ({
   return (
     <Container>
       <h3 className="sr-only">상세 페이지에 생성된 댓글</h3>
-      {depth === 0 && <Comment comments={comments} user={user} />}
-      {depth === 1 && commentBtn === true && (
+      {depth === 0 && (
+        <Comment comments={comments} user={user} loginUserId={loginUserId} />
+      )}
+      {depth === 1 && commentBtn[index] === true && (
         <Comcom>
-          <Comment comments={comments} user={user} />
+          <Comment comments={comments} user={user} loginUserId={loginUserId} />
         </Comcom>
       )}
-
-      {/* {other.length === 0 ? (
-        <div></div>
-      ) : (
-        <CommentPlus theme={theme}>
-          <BorderInnerIcon className="comment-plus" />
-          {other.length}개의 답글
-        </CommentPlus>
-      )} */}
     </Container>
   );
 };

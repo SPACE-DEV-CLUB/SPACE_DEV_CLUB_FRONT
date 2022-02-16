@@ -1,21 +1,25 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 
-import BorderInnerIcon from "@mui/icons-material/BorderInner";
-
-import { Theme } from "../../../styles/theme";
+import { Theme } from "@styles/theme";
 import { useContext } from "react";
-import { ThemeContext } from "../../../pages/_app";
+import { ThemeContext } from "@pages/_app";
 
-import { handleDate } from "../../../utils/date";
+import { handleDate } from "@utils/date";
+import { CommentData, CommentUser } from ".";
 
 interface ThemeProps {
   theme: Theme;
 }
 
-export const Comment = ({ comments, user }: any) => {
+interface Props {
+  comments: CommentData;
+  user: CommentUser;
+  loginUserId?: number;
+}
+
+export const Comment = ({ comments, user, loginUserId }: Props) => {
   const { theme } = useContext(ThemeContext);
-  let loginUserID = 1;
 
   return (
     <div>
@@ -35,7 +39,7 @@ export const Comment = ({ comments, user }: any) => {
                 <User theme={theme}>{user.attributes.userid}</User>
               </Link>
             </UserNickname>
-            {comments.attributes.userid === loginUserID && (
+            {comments.attributes.userid === loginUserId && (
               <UDContainer>
                 <Link href="#" passHref>
                   <UDItem theme={theme}>수정</UDItem>

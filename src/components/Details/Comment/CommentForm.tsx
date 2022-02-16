@@ -1,25 +1,59 @@
 import styled from "@emotion/styled";
-import { PALLETS_LIGHT } from "../../../constants";
+import { API_ENDPOINT, PALLETS_LIGHT } from "@constants/index";
 
-import { Theme } from "../../../styles/theme";
-import { useContext } from "react";
-import { ThemeContext } from "../../../pages/_app";
+import { Theme } from "@styles/theme";
+import React, { useContext, useState } from "react";
+import { ThemeContext } from "@pages/_app";
+import axios, { Method } from "axios";
 
 interface ThemeProps {
   theme: Theme;
 }
 
-export const CommentForm = () => {
+interface Props {
+  postid: number;
+  loginUserId?: number;
+  CommentLen: number;
+}
+
+export const CommentForm = ({ postid, loginUserId, CommentLen }: Props) => {
   const { theme } = useContext(ThemeContext);
+  const [commentText, setCommentText] = useState("");
+
+  const SubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // setCommentText("");
+    await axios({
+      method: "post" as Method,
+      url: `${API_ENDPOINT}/comments`,
+      data: {
+        data: {
+          userid: loginUserId,
+          postid: postid,
+          content: commentText,
+          depth: 0,
+          order: 0,
+          group: CommentLen,
+          is_deleted: false,
+          posts: postid,
+        },
+      },
+    });
+  };
+
+  const ChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCommentText(e.target.value);
+  };
 
   return (
     <article>
       <h3 className="sr-only">상세 페이지 댓글 입력 폼</h3>
-      <CommentF action="">
+      <CommentF onSubmit={SubmitComment}>
         <TextArea
           theme={theme}
           name="댓글 입력"
           placeholder="댓글을 작성하세요"
+          onChange={ChangeText}
         ></TextArea>
         <BtnContainer>
           <CommentBtn theme={theme} type="submit">
