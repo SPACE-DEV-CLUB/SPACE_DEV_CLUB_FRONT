@@ -33,6 +33,8 @@ interface DetailData {
   comments: Comments[];
   userdata: userInfo;
   hashtags: Hashtags[];
+  loginUserId: number | undefined;
+  loginUserName: string | string[] | undefined;
 }
 
 interface ReadingPost {
@@ -55,12 +57,14 @@ export const DetailHeader = ({
   createdAt,
   userdata,
   hashtags,
+  loginUserId,
+  loginUserName,
 }: DetailData) => {
-  const getReadingData = async (userName: string) => {
+  const getReadingData = async () => {
     let putId = 0;
     const response = await axios({
       method: "get",
-      url: `${API_ENDPOINT}/readingposts?populate=*&filters[userid][profilename]=${userName}`,
+      url: `${API_ENDPOINT}/readingposts?populate=*&filters[userid][userid]=${loginUserName}`,
     });
     const handleOverlap = response.data.data.some((post: ReadingPost) => {
       if (post.attributes.postid.data.id === postid) {
@@ -79,7 +83,7 @@ export const DetailHeader = ({
       url: `${API_ENDPOINT}/readingposts/${putid}`,
       data: {
         data: {
-          userid: 163,
+          userid: loginUserId,
           postid: postid,
         },
       },
@@ -97,7 +101,7 @@ export const DetailHeader = ({
   ) => {
     if (entry.isIntersecting) {
       observer.unobserve(entry.target);
-      getReadingData("ong");
+      loginUserId && getReadingData();
     }
   };
 
@@ -118,7 +122,7 @@ export const DetailHeader = ({
       />
       <SeriesContainer />
       <div>{contents}</div>
-      {/* <div ref={setTarget}></div> */}
+      <div ref={setTarget}></div>
       <Intro username={userName} userdata={userdata} />
       <Carousel />
       <CommentFormContainer comments={comments} />
