@@ -8,6 +8,20 @@
         "displayName": true,
         "preprocess": false
       }
+    ],
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "@components": "./src/components",
+          "@constants": "./src/constants",
+          "@types": "./src/types",
+          "@hooks": "./src/hooks",
+          "@utils": "./src/utils"
+        },
+        "extensions": [".js", ".jsx", ".tsx"]
+      }
     ]
   ]
 }
