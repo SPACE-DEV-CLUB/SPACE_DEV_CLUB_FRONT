@@ -1,14 +1,15 @@
 import styled from "@emotion/styled"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Header } from "../../../components/Common/Header"
-import SeriesContaienr from "../../../components/MyPage/Series/SeriesContainer"
 import SeriesEditContainer from "../../../components/MyPage/Series/SeriesEditContainer"
 import { useContext } from "react"
 import { ThemeContext } from "../../../pages/_app"
 import { ThemeProps } from "../../../types/Theme"
 import qs from "qs"
 import { useData } from "../../../hooks/useData"
+import { PostProps } from "../../../types/Main"
+import SeriesContainers from "../../../components/MyPage/Series/SeriesContainer"
 
 const Series = () => {
   const { theme } = useContext(ThemeContext)
@@ -37,13 +38,19 @@ const Series = () => {
     },
     {
       encodeValuesOnly: true,
-    }
+    },
   )
 
-  const { data, isValidating } = useData("posts", query)
-  console.log(data)
+  const { data, error } = useData("posts", query)
 
-  if (isValidating) return null
+  const [postlist, setPostlist] = useState<PostProps[]>()
+
+  useEffect(() => {
+    if (data) setPostlist(data.data)
+  }, [data])
+
+  if (!data) return null
+  if (error) return <div>error</div>
 
   const handleOrder = () => {
     setOrder(!order)
@@ -51,6 +58,10 @@ const Series = () => {
 
   const handleEdit = () => {
     setEditTitle(!editTitle)
+  }
+
+  const handlePost = (post: PostProps[]) => {
+    setPostlist(post)
   }
   return (
     <>
@@ -60,15 +71,23 @@ const Series = () => {
         <SeriesTitle theme={theme} contentEditable={editTitle}>
           {title}
         </SeriesTitle>
-        {data && editTitle ? (
-          <SeriesEditContainer handleEdit={handleEdit} post={data.data} />
+        {data ? (
+          editTitle ? (
+            <SeriesEditContainer
+              handleEdit={handleEdit}
+              post={postlist!}
+              setPost={handlePost}
+            />
+          ) : (
+            <SeriesContainers
+              handleEdit={handleEdit}
+              handleOrder={handleOrder}
+              order={order}
+              post={postlist ? postlist : data.data}
+            />
+          )
         ) : (
-          <SeriesContaienr
-            handleEdit={handleEdit}
-            handleOrder={handleOrder}
-            order={order}
-            post={data.data}
-          />
+          <></>
         )}
       </Main>
     </>

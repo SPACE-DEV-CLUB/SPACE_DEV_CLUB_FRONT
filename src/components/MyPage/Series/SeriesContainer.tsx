@@ -20,7 +20,7 @@ interface SeriesContainerProps {
   }[]
 }
 
-const SeriesContaienr = ({
+const SeriesContainers = ({
   handleEdit,
   handleOrder,
   order,
@@ -136,4 +136,4 @@ const Order = styled.span`
 `
 const CardContainer = styled.article``
 
-export default SeriesContaienr
+export default SeriesContainers

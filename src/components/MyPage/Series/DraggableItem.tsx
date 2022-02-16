@@ -1,10 +1,11 @@
 import React, { memo } from "react"
 import { Draggable } from "react-beautiful-dnd"
 import DetailCard from "./DetailCard"
-import { DetailCardProps } from "../../../types/Main"
+import { PostProps } from "../../../types/Main"
+import { handleDate } from "../../../utils/date"
 
 type DragItem = {
-  e: DetailCardProps
+  e: PostProps
   i: number
 }
 
@@ -23,9 +24,9 @@ function DraggableItem({ e, i }: DragItem) {
             padding={"16px"}
             opacity={snapshot.isDragging}
             postIdx={i + 1}
-            postTitle={e.postTitle}
-            postDesc={e.postDesc}
-            date={e.date}
+            postTitle={e.attributes.title}
+            postDesc={e.attributes.description}
+            date={handleDate(e.attributes.createdAt)}
           />
         </div>
       )}
