@@ -33,7 +33,7 @@ export const Series = ({ username }: SeriesProps) => {
   const { data, isValidating } = useData("series-boxes", query)
 
   if (isValidating) return null
-  console.log(data)
+
   return (
     <SeriesContainer>
       {data ? (

@@ -1,46 +1,48 @@
 import styled from "@emotion/styled"
-import DetailCard from "../../../components/MyPage/Series/DetailCard"
-import { DETAIL_CARD_DATA } from "../../../data"
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd"
-import { HTMLAttributes, useState } from "react"
-import { DetailCardProps, Post } from "../../../types/Main"
+import { useState } from "react"
+import { DetailCardProps, Post, PostProps } from "../../../types/Main"
 import React from "react"
 import DraggableItem from "./DraggableItem"
 import { useContext } from "react"
 import { ThemeContext } from "../../../pages/_app"
 import { ThemeProps } from "../../../types/Theme"
 import { handleDate } from "../../../utils/date"
+import axios from "axios"
+import { API_ENDPOINT } from "../../../constants"
 
 interface SeriesContainerProps {
   handleEdit: () => void
-  post: {
-    id: number
-    attributes: Post
-  }[]
+  post: PostProps[]
+  setPost: (post: PostProps[]) => void
 }
 
-const SeriesEditContainer = ({ handleEdit, post }: SeriesContainerProps) => {
+const SeriesEditContainer = ({
+  handleEdit,
+  post,
+  setPost,
+}: SeriesContainerProps) => {
   const { theme } = useContext(ThemeContext)
 
-  const getItems = (count: number) =>
-    Array.from({ length: count }, (v, k) => k).map((k) => ({
-      id: `Item ${k + 1}`,
-      postIdx: post[k].attributes.postidx, //e.postIdx
-      postTitle: post[k].attributes.title,
-      postDesc: post[k].attributes.description,
-      date: handleDate(post[k].attributes.createdAt),
-    }))
-
-  const [state, setState] = useState<DetailCardProps[]>(getItems(post.length))
-
   const reorder = (
-    list: DetailCardProps[],
+    list: PostProps[],
     startIndex: number,
-    endIndex: number
-  ): DetailCardProps[] => {
+    endIndex: number,
+  ): PostProps[] => {
     const result = Array.from(list)
     const [removed] = result.splice(startIndex, 1)
     result.splice(endIndex, 0, removed)
+    result.forEach(async (e: PostProps, i: number) => {
+      await axios
+        .put(`${API_ENDPOINT}/posts/${e.id}`, {
+          data: {
+            postidx: i + 1,
+          },
+        })
+        .then((res) => {
+          e.attributes.postidx = i + 1
+        })
+    })
     return result
   }
 
@@ -56,8 +58,8 @@ const SeriesEditContainer = ({ handleEdit, post }: SeriesContainerProps) => {
   const onDragEnd = ({ destination, source }: DropResult): void => {
     // dropped outside the list
     if (!destination) return
-    const newItems = reorder(state, source.index, destination.index)
-    setState(newItems)
+    const newItems = reorder(post, source.index, destination.index)
+    setPost(newItems)
   }
   return (
     <SeriesContainer>
@@ -75,7 +77,7 @@ const SeriesEditContainer = ({ handleEdit, post }: SeriesContainerProps) => {
                 ref={provided.innerRef}
                 style={getItemStyle(snapshot.isDraggingOver)}
               >
-                {state.map((e, i) => (
+                {post.map((e, i) => (
                   <DraggableItem key={`${e}_${i}`} e={e} i={i} />
                 ))}
                 {provided.placeholder}

@@ -106,3 +106,8 @@ export interface SeriesBox {
   title: string
   updatedAt: string
 }
+
+export interface PostProps {
+  id: number
+  attributes: Post
+}

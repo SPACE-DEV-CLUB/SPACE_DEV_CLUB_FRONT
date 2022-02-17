@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react"
 import { useSession, signOut } from "next-auth/react"
 import { ThemeContext } from "../../pages/_app"
 import { Lock } from "@mui/icons-material"
-import { ThemeProps } from "../../types/Theme"
 import axios from "axios"
 import Router from "next/router"
 import { API_ENDPOINT } from "../../constants"
@@ -46,7 +45,6 @@ const SignUp = () => {
           },
         })
         .then((res) => {
-          console.log(res)
           cache.delete(`${API_ENDPOINT}/userinfos`)
           Cookies.set("user", JSON.stringify(res.data.data))
           // 회원가입 이후 유저 데이터 쿠키에 저장 추가해야함.
@@ -135,36 +133,36 @@ const SignUpWrap = styled.div<Props>`
     font-size: 24px;
     font-weight: 400;
   }
-    form {
-        display: inline-flex;
-        flex-direction: column;
-        margin: 48px 0;
-        label {
-            margin: 24px 0;
-        }
-        input {
-            position: relative;
-            border-top: none;
-            border-left: none;
-            border-right: none;
-            border-bottom: 2px solid ${({ isEmpty }) => (isEmpty ? "red" : "")};
-            background: transparent;
-            color: ${({ theme }) => theme.SUB_FONT};
-            height: 38px;
-            font-size: 24px;
-            ::placeholder,
-            ::-webkit-input-placeholder {
-                font-size: 24px;
-            }
-            &.fixed-value {
-                border-bottom: 2px solid;
-            }
-            &:focus {
-                outline: none;
-                border-bottom: 2px solid ${({ theme }) => theme.BUTTON_MAIN};
-            }
-        }
+  form {
+    display: inline-flex;
+    flex-direction: column;
+    margin: 48px 0;
+    label {
+      margin: 24px 0;
     }
+    input {
+      position: relative;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-bottom: 2px solid ${({ isEmpty }) => (isEmpty ? "red" : "")};
+      background: transparent;
+      color: ${({ theme }) => theme.SUB_FONT};
+      height: 38px;
+      font-size: 24px;
+      ::placeholder,
+      ::-webkit-input-placeholder {
+        font-size: 24px;
+      }
+      &.fixed-value {
+        border-bottom: 2px solid;
+      }
+      &:focus {
+        outline: none;
+        border-bottom: 2px solid ${({ theme }) => theme.BUTTON_MAIN};
+      }
+    }
+  }
 `
 const ButtonWrap = styled.div`
   display: flex;
@@ -174,23 +172,23 @@ const ButtonWrap = styled.div`
 const InnerButtonWrap = styled.div<Props>`
   font-size: 24px;
   margin-top: 20px;
-    .cancel {
-        color: ${({ theme }) => theme.MAIN_FONT};
-        padding: 10px 32px;
-        border-radius: 24px;
-        background: ${({ theme }) => theme.SUBBACKGROUND};
-        font-size: 24px;
-        cursor: pointer;
-    }
-    .nextpage {
-        color: #131313;
-        padding: 10px 32px;
-        margin-left: 16px;
-        border-radius: 24px;
-        font-size: 24px;
-        background: ${({ theme }) => theme.SUB};
-        cursor: pointer;
-    }
+  .cancel {
+    color: ${({ theme }) => theme.MAIN_FONT};
+    padding: 10px 32px;
+    border-radius: 24px;
+    background: ${({ theme }) => theme.SUBBACKGROUND};
+    font-size: 24px;
+    cursor: pointer;
+  }
+  .nextpage {
+    color: #131313;
+    padding: 10px 32px;
+    margin-left: 16px;
+    border-radius: 24px;
+    font-size: 24px;
+    background: ${({ theme }) => theme.SUB};
+    cursor: pointer;
+  }
 `
 const Warn = styled.strong`
   color: red;
