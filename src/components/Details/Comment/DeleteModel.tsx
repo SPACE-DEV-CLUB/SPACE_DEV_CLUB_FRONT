@@ -8,6 +8,7 @@ import axios, { Method } from "axios";
 import { API_ENDPOINT } from "@src/constants";
 import { useSWRConfig } from "swr";
 import { CommentData } from ".";
+import { PostContext } from "@src/pages/[id]/[details]";
 
 interface ThemeProps {
   theme: Theme;
@@ -20,7 +21,16 @@ interface Props {
 
 export const DeleteModel = ({ setIsDelete, comments }: Props) => {
   const { theme } = useContext(ThemeContext);
+  const { postObj } = useContext(PostContext);
   const { mutate } = useSWRConfig();
+
+  const Delete = async (id: number) => {
+    await axios({
+      method: "delete" as Method,
+      url: `${API_ENDPOINT}/comments/${id}`,
+    });
+    mutate(`${API_ENDPOINT}/posts?populate=*`);
+  };
 
   const onClickNo = () => {
     setIsDelete(false);
@@ -28,12 +38,15 @@ export const DeleteModel = ({ setIsDelete, comments }: Props) => {
   };
 
   const onClickYes = async () => {
-    await axios({
-      method: "delete" as Method,
-      url: `${API_ENDPOINT}/comments/${comments.id}`,
-    });
+    if (comments.attributes.depth === 0) {
+      const everyComment = postObj.comments.data.filter(
+        (group) => group.attributes.group === comments.attributes.group
+      );
+      everyComment.forEach((data) => Delete(data.id));
+    } else {
+      Delete(comments.id);
+    }
     document.body.style.overflow = "unset";
-    mutate(`${API_ENDPOINT}/posts?populate=*`);
   };
 
   return (

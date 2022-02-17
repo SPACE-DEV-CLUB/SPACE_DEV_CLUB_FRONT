@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { API_ENDPOINT, PALLETS_LIGHT } from "@constants/index";
 
 import { Theme } from "@styles/theme";
-import React, { useContext, useState } from "react";
+import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { ThemeContext } from "@pages/_app";
 import axios, { Method } from "axios";
 import { PostContext } from "@src/pages/[id]/[details]";
@@ -14,10 +14,17 @@ interface ThemeProps {
 
 interface Props {
   loginUserId?: number;
-  CommentLen: number;
+  CommentGroup: number;
+  CommentOrder: number;
+  setCommentForm: Dispatch<SetStateAction<boolean>>;
 }
 
-export const CommentForm = ({ loginUserId, CommentLen }: Props) => {
+export const CommentForm = ({
+  loginUserId,
+  CommentGroup,
+  CommentOrder,
+  setCommentForm,
+}: Props) => {
   const { theme } = useContext(ThemeContext);
   const { postid, postObj } = useContext(PostContext);
   const [commentText, setCommentText] = useState("");
@@ -25,14 +32,20 @@ export const CommentForm = ({ loginUserId, CommentLen }: Props) => {
 
   const SubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let CommentDepth;
+    if (CommentOrder === 0) {
+      CommentDepth = 0;
+    } else {
+      CommentDepth = 1;
+    }
 
     const Data = {
       userid: loginUserId!,
       postid: postid,
       content: commentText,
-      depth: 0,
-      order: 0,
-      group: CommentLen,
+      depth: CommentDepth,
+      order: CommentOrder,
+      group: CommentGroup,
       is_deleted: false,
       posts: postid,
     };
@@ -45,6 +58,7 @@ export const CommentForm = ({ loginUserId, CommentLen }: Props) => {
       },
     });
     setCommentText("");
+    setCommentForm(false);
     mutate(`${API_ENDPOINT}/posts?populate=*`);
   };
 

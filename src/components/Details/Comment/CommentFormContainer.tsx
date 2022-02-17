@@ -36,6 +36,7 @@ interface Props {
 export const CommentFormContainer = ({ loginUserId }: Props) => {
   const { theme } = useContext(ThemeContext);
   const { postObj } = useContext(PostContext);
+  const [commentForm, setCommentForm] = useState(false);
   postObj.comments.data
     .sort((a, b) => a.attributes.order - b.attributes.order)
     .sort((a, b) => a.attributes.depth - b.attributes.depth)
@@ -66,7 +67,12 @@ export const CommentFormContainer = ({ loginUserId }: Props) => {
     <article>
       <h3 className="sr-only">상세 페이지 댓글</h3>
       <CommentNum>{postObj.comments.data.length}개의 댓글</CommentNum>
-      <CommentForm loginUserId={loginUserId} CommentLen={newComment.length} />
+      <CommentForm
+        CommentOrder={0}
+        loginUserId={loginUserId}
+        CommentGroup={newComment[newComment.length - 1][0].attributes.group + 1}
+        setCommentForm={setCommentForm}
+      />
 
       {newComment.map((group: CommentData[], i: number) => {
         return (
@@ -101,7 +107,8 @@ export const CommentFormContainer = ({ loginUserId }: Props) => {
                 onComment={onComment}
                 index={i}
                 loginUserId={loginUserId}
-                CommentLen={newComment.length}
+                CommentGroup={i}
+                CommentOrder={group[group.length - 1].attributes.order + 1}
               />
             )}
           </div>
