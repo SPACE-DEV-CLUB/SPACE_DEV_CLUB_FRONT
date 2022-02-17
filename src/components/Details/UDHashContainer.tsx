@@ -8,7 +8,7 @@ import { ThemeContext } from "@pages/_app";
 import { handleDate } from "@utils/date";
 
 import { Tag } from "../Common/Tag";
-import { Hashtags } from "@pages/[id]/[details]";
+import { Hashtags, PostContext } from "@pages/[id]/[details]";
 
 interface ThemeProps {
   theme: Theme;
@@ -16,20 +16,12 @@ interface ThemeProps {
 
 interface Props {
   userName: string | string[] | undefined;
-  createdAt: string;
-  hashtags: Hashtags[];
   loginUserId?: number;
-  postUserId: number;
 }
 
-export const UDHashContainer = ({
-  userName,
-  createdAt,
-  hashtags,
-  loginUserId,
-  postUserId,
-}: Props) => {
+export const UDHashContainer = ({ userName, loginUserId }: Props) => {
   const { theme } = useContext(ThemeContext);
+  const { postObj } = useContext(PostContext);
 
   return (
     <article>
@@ -39,9 +31,9 @@ export const UDHashContainer = ({
           <Link href="#" passHref>
             <Nickname theme={theme}>{userName}</Nickname>
           </Link>
-          <CreatedAt theme={theme}>{handleDate(createdAt)}</CreatedAt>
+          <CreatedAt theme={theme}>{handleDate(postObj.createdAt)}</CreatedAt>
         </div>
-        {loginUserId === postUserId && (
+        {loginUserId === postObj.userid.data.id && (
           <div>
             <Link href="#" passHref>
               <UDItem theme={theme}>통계</UDItem>
@@ -55,7 +47,7 @@ export const UDHashContainer = ({
           </div>
         )}
       </UDContainer>
-      {hashtags.map((tag) => {
+      {postObj.hashtags.data.map((tag) => {
         return (
           <Tag key={`Detail_tag_${tag.id}`} tagName={tag.attributes.name}></Tag>
         );
