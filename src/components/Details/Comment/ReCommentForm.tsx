@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import styled from "@emotion/styled";
 
-import { Theme } from "../../../styles/theme";
-import { ThemeContext } from "../../../pages/_app";
+import { Theme } from "@styles/theme";
+import { ThemeContext } from "@pages/_app";
 
 import BorderHorizontalIcon from "@mui/icons-material/BorderHorizontal";
 
@@ -12,11 +12,21 @@ interface ThemeProps {
   theme: Theme;
 }
 
-interface OnComment {
-  onComment: () => void;
+interface Props {
+  onComment: (index: number) => void;
+  index: number;
+  postid: number;
+  loginUserId?: number;
+  CommentLen: number;
 }
 
-export const ComComForm = ({ onComment }: OnComment) => {
+export const ReCommentForm = ({
+  onComment,
+  index,
+  postid,
+  loginUserId,
+  CommentLen,
+}: Props) => {
   const { theme } = useContext(ThemeContext);
   const [commentForm, setCommentForm] = useState(false);
   const onCommentForm = () => {
@@ -32,13 +42,17 @@ export const ComComForm = ({ onComment }: OnComment) => {
       )}
       {commentForm === true && (
         <ComComContainer>
-          <CommentForm />
+          <CommentForm
+            postid={postid}
+            loginUserId={loginUserId}
+            CommentLen={CommentLen}
+          />
           <CommentRemove theme={theme} onClick={onCommentForm}>
             취소
           </CommentRemove>
         </ComComContainer>
       )}
-      <OnComment theme={theme} onClick={onComment}>
+      <OnComment theme={theme} onClick={(e) => onComment(index)}>
         <BorderHorizontalIcon />
         숨기기
       </OnComment>

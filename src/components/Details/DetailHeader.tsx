@@ -4,11 +4,11 @@ import { SeriesContainer } from "./SeriesContainer";
 import { Intro } from "../MyPage";
 import { Carousel } from "./Carousel";
 import { CommentFormContainer } from "./Comment";
-import useIO from "../../hooks/useIO";
-import { API_ENDPOINT } from "../../constants";
+import useIO from "@hooks/useIO";
+import { API_ENDPOINT } from "@constants/index";
 import axios, { Method } from "axios";
 import { userInfo } from "../../types/Main";
-import { Hashtags } from "../../pages/[id]/[details]";
+import { Hashtags } from "@pages/[id]/[details]";
 
 interface Comments {
   id: number;
@@ -35,6 +35,7 @@ interface DetailData {
   hashtags: Hashtags[];
   loginUserId: number | undefined;
   loginUserName: string | string[] | undefined;
+  postUserId: number;
 }
 
 interface ReadingPost {
@@ -59,6 +60,7 @@ export const DetailHeader = ({
   hashtags,
   loginUserId,
   loginUserName,
+  postUserId,
 }: DetailData) => {
   const getReadingData = async () => {
     let putId = 0;
@@ -119,13 +121,19 @@ export const DetailHeader = ({
         userName={userName}
         createdAt={createdAt}
         hashtags={hashtags}
+        loginUserId={loginUserId}
+        postUserId={postUserId}
       />
       <SeriesContainer />
       <div>{contents}</div>
       <div ref={setTarget}></div>
       <Intro username={userName} userdata={userdata} />
       <Carousel />
-      <CommentFormContainer comments={comments} />
+      <CommentFormContainer
+        comments={comments}
+        loginUserId={loginUserId}
+        postid={postid}
+      />
     </Header>
   );
 };

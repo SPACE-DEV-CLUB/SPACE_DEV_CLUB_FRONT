@@ -18,10 +18,12 @@
     "paths": {
       "@src/*": ["./src/*"],
       "@components/*": ["src/components/*"],
-      "@constants/*": ["src/costants/*"],
+      "@constants/*": ["src/constants/*"],
       "@types/*": ["src/types/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@styles/*": ["src/styles/*"],
+      "@pages/*": ["src/pages/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

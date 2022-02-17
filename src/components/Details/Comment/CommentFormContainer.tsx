@@ -1,36 +1,20 @@
 import styled from "@emotion/styled";
 
-import { Theme } from "../../../styles/theme";
+import { Theme } from "@styles/theme";
 import { useContext, useState } from "react";
-import { ThemeContext } from "../../../pages/_app";
+import { ThemeContext } from "@pages/_app";
 
-import { useData } from "../../../hooks/useData";
+import { useData } from "@hooks/useData";
 
 import BorderInnerIcon from "@mui/icons-material/BorderInner";
 
-import { CommentForm, ComComForm, CommentContainer } from ".";
+import { CommentForm, ReCommentForm, CommentContainer } from ".";
 
 interface ThemeProps {
   theme: Theme;
 }
 
-interface Comments {
-  comments: {
-    id: number;
-    attributes: {
-      userid: number;
-      postid: number;
-      content: string;
-      createdAt: string;
-      depth: number;
-      order: number;
-      group: number;
-      is_deleted: boolean;
-    };
-  }[];
-}
-
-interface Comment {
+export interface CommentData {
   id: number;
   attributes: {
     userid: number;
@@ -44,36 +28,38 @@ interface Comment {
   };
 }
 
-export const CommentFormContainer = ({ comments }: Comments) => {
+interface Props {
+  comments: CommentData[];
+  postid: number;
+  loginUserId?: number;
+}
+
+export const CommentFormContainer = ({
+  comments,
+  postid,
+  loginUserId,
+}: Props) => {
   const { theme } = useContext(ThemeContext);
+  comments
+    .sort((a, b) => a.attributes.order - b.attributes.order)
+    .sort((a, b) => a.attributes.depth - b.attributes.depth)
+    .sort((a, b) => a.attributes.group - b.attributes.group);
 
-  comments.sort((a, b) => {
-    return a.attributes.group < b.attributes.group
-      ? -1
-      : a.attributes.group > b.attributes.group
-      ? 1
-      : a.attributes.depth < b.attributes.depth
-      ? -1
-      : a.attributes.depth > b.attributes.depth
-      ? 1
-      : a.attributes.order < b.attributes.order
-      ? -1
-      : a.attributes.order > b.attributes.order
-      ? 1
-      : 0;
-  });
-
-  const [commentBtn, setCommentBtn] = useState(false);
-  const onComment = () => {
-    setCommentBtn(!commentBtn);
-  };
-
-  let newComment: any = [];
-  comments.map((comment) => {
+  let newComment: CommentData[][] = [];
+  comments.forEach((comment) => {
     const group = comment.attributes.group;
     if (!newComment[group]) newComment[group] = [comment];
     else newComment[group] = [...newComment[group], comment];
   });
+
+  const [commentBtn, setCommentBtn] = useState(
+    Array(newComment.length).fill(false)
+  );
+
+  const onComment = (i: number) => {
+    commentBtn[i] = !commentBtn[i];
+    setCommentBtn([...commentBtn]);
+  };
 
   const { data: userData, error: UserError } = useData("userinfos");
 
@@ -84,49 +70,49 @@ export const CommentFormContainer = ({ comments }: Comments) => {
     <article>
       <h3 className="sr-only">상세 페이지 댓글</h3>
       <CommentNum>{comments.length}개의 댓글</CommentNum>
-      <CommentForm />
+      <CommentForm
+        postid={postid}
+        loginUserId={loginUserId}
+        CommentLen={newComment.length}
+      />
 
-      {newComment.map((group: [], i: number) => {
+      {newComment.map((group: CommentData[], i: number) => {
         return (
           <div key={`${i + 1}`}>
-            {group.map((comments: Comment) => {
+            {group.map((comments: CommentData) => {
               return (
                 <div key={`CommentUser-${comments.id}`}>
                   <CommentContainer
                     comments={comments}
                     userData={userData.data}
                     commentBtn={commentBtn}
+                    index={i}
+                    loginUserId={loginUserId}
                   />
                 </div>
               );
             })}
-            {/* {group.length === 0 && (
-              <OnComment theme={theme} onClick={onComment}>
-                <BorderInnerIcon />
-                {group.length - 1}개의 답글
-              </OnComment>
-            )} */}
-            {/* {group.length > 1 && commentBtn === false ? (
-              <OnComment theme={theme} onClick={onComment}>
-                <BorderInnerIcon />
-                {group.length - 1}개의 답글
-              </OnComment>
-            ) : (
-              <ComComForm onComment={onComment} />
-            )} */}
-            {group.length > 1 && commentBtn === false && (
-              <OnComment theme={theme} onClick={onComment}>
+            {group.length > 1 && commentBtn[i] === false && (
+              <OnComment theme={theme} onClick={(e) => onComment(i)}>
                 <BorderInnerIcon />
                 {group.length - 1}개의 답글
               </OnComment>
             )}
-            {group.length < 2 && commentBtn === false && (
-              <OnComment theme={theme} onClick={onComment}>
+            {group.length < 2 && commentBtn[i] === false && (
+              <OnComment theme={theme} onClick={(e) => onComment(i)}>
                 <BorderInnerIcon />
                 댓글 남기기
               </OnComment>
             )}
-            {commentBtn === true && <ComComForm onComment={onComment} />}
+            {commentBtn[i] === true && (
+              <ReCommentForm
+                onComment={onComment}
+                index={i}
+                postid={postid}
+                loginUserId={loginUserId}
+                CommentLen={newComment.length}
+              />
+            )}
           </div>
         );
       })}

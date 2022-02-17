@@ -1,32 +1,34 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 
-import { Theme } from "../../styles/theme";
+import { Theme } from "@styles/theme";
 import { useContext } from "react";
-import { ThemeContext } from "../../pages/_app";
+import { ThemeContext } from "@pages/_app";
 
-import { handleDate } from "../../utils/date";
+import { handleDate } from "@utils/date";
 
 import { Tag } from "../Common/Tag";
-import { Hashtags } from "../../pages/[id]/[details]";
+import { Hashtags } from "@pages/[id]/[details]";
 
 interface ThemeProps {
   theme: Theme;
 }
 
-interface UserData {
+interface Props {
   userName: string | string[] | undefined;
   createdAt: string;
   hashtags: Hashtags[];
+  loginUserId?: number;
+  postUserId: number;
 }
-
-const user = true;
 
 export const UDHashContainer = ({
   userName,
   createdAt,
   hashtags,
-}: UserData) => {
+  loginUserId,
+  postUserId,
+}: Props) => {
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -39,7 +41,7 @@ export const UDHashContainer = ({
           </Link>
           <CreatedAt theme={theme}>{handleDate(createdAt)}</CreatedAt>
         </div>
-        {user && (
+        {loginUserId === postUserId && (
           <div>
             <Link href="#" passHref>
               <UDItem theme={theme}>통계</UDItem>

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import { API_ENDPOINT, PALLETS_LIGHT } from "../../constants/index";
+import { API_ENDPOINT, PALLETS_LIGHT } from "@constants/index";
 import Link from "next/link";
 
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -9,9 +9,9 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 
-import { Theme } from "../../styles/theme";
+import { Theme } from "@styles/theme";
 import { useContext } from "react";
-import { ThemeContext } from "../../pages/_app";
+import { ThemeContext } from "@pages/_app";
 import axios, { Method } from "axios";
 
 import { handleDate } from "../../utils/date";

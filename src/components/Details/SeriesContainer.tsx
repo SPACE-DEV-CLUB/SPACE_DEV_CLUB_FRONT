@@ -1,20 +1,20 @@
-import styled from "@emotion/styled"
-import { useState } from "react"
-import { PALLETS_LIGHT } from "../../constants/index"
-import Link from "next/link"
+import styled from "@emotion/styled";
+import { useState } from "react";
+import { PALLETS_LIGHT } from "@constants/index";
+import Link from "next/link";
 
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp"
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos"
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
-import BookmarkIcon from "@mui/icons-material/Bookmark"
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 
-import { Theme } from "../../styles/theme"
-import { useContext } from "react"
-import { ThemeContext } from "../../pages/_app"
+import { Theme } from "@styles/theme";
+import { useContext } from "react";
+import { ThemeContext } from "@pages/_app";
 
 interface ThemeProps {
-  theme: Theme
+  theme: Theme;
 }
 
 const seriesData = [
@@ -33,14 +33,14 @@ const seriesData = [
     PATH: "#",
     TITLE: "시리즈3",
   },
-]
+];
 
 export const SeriesContainer = () => {
-  const { theme } = useContext(ThemeContext)
-  const [select, setSelect] = useState(false)
+  const { theme } = useContext(ThemeContext);
+  const [select, setSelect] = useState(false);
   const handleSeries = () => {
-    setSelect(!select)
-  }
+    setSelect(!select);
+  };
   return (
     <Container theme={theme}>
       <SeriesHeader>
@@ -52,14 +52,14 @@ export const SeriesContainer = () => {
       {select && (
         <SeriesList>
           {seriesData.map((series) => {
-            const { ID, PATH, TITLE } = series
+            const { ID, PATH, TITLE } = series;
             return (
               <SeriesItem key={`series-id-${ID}`} theme={theme}>
                 <Link href={PATH} passHref>
                   <SeriesTitle theme={theme}>{TITLE}</SeriesTitle>
                 </Link>
               </SeriesItem>
-            )
+            );
           })}
         </SeriesList>
       )}
@@ -81,8 +81,8 @@ export const SeriesContainer = () => {
         </Pagination>
       </SPContainer>
     </Container>
-  )
-}
+  );
+};
 
 // 시리즈 제목과 svg 컨테이너
 const Container = styled.article<ThemeProps>`
@@ -101,18 +101,18 @@ const Container = styled.article<ThemeProps>`
     height: 60px;
     color: ${PALLETS_LIGHT.MAIN};
   }
-`
+`;
 const SeriesHeader = styled.h3`
   padding-bottom: 32px;
   font-size: 24px;
-`
+`;
 const SeriesName = styled.a<ThemeProps>`
   color: ${({ theme }) => theme.SUB_FONT};
   &:hover {
     opacity: 0.7;
     text-decoration: underline;
   }
-`
+`;
 const SeriesItem = styled.li<ThemeProps>`
   &::before {
     counter-increment: item;
@@ -122,7 +122,7 @@ const SeriesItem = styled.li<ThemeProps>`
     font-style: italic;
     margin-right: 5px;
   }
-`
+`;
 const SeriesTitle = styled.a<ThemeProps>`
   color: ${({ theme }) => theme.SUB_FONT};
   line-height: 30px;
@@ -134,19 +134,19 @@ const SeriesTitle = styled.a<ThemeProps>`
   &:hover {
     text-decoration: underline;
   }
-`
+`;
 const SPContainer = styled.div`
   display: flex;
   justify-content: space-between;
-`
+`;
 const SelectBox = styled.div`
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-`
+`;
 const Select = styled.span`
   margin-top: 5px;
-`
+`;
 const Pagination = styled.div`
   display: flex;
   justify-content: space-between;
@@ -155,21 +155,21 @@ const Pagination = styled.div`
     width: 10px;
     height: 10px;
   }
-`
+`;
 const BtnContainer = styled.div`
   display: flex;
   justify-content: space-between;
-`
+`;
 
 const SeriesList = styled.ol`
   margin-bottom: 60px;
   counter-reset: item 0;
-`
+`;
 
 const SeriesNumber = styled.span`
   margin-right: 20px;
   color: ${PALLETS_LIGHT.MAIN};
-`
+`;
 const Btn = styled.button`
   /* 마지막 페이지면 넘어가기 호버 및 클릭 막기 */
   color: ${PALLETS_LIGHT.MAIN};
@@ -185,4 +185,4 @@ const Btn = styled.button`
     background-color: ${PALLETS_LIGHT.MAIN};
     color: ${PALLETS_LIGHT.CARD_BACKGROUND};
   }
-`
+`;
