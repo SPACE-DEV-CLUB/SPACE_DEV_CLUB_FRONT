@@ -1,14 +1,14 @@
 import styled from "@emotion/styled"
 import { css } from "@emotion/react"
-import { MEDIA_QUERY_END_POINT } from "../../../constants"
+import { MEDIA_QUERY_END_POINT } from "@constants/index"
 import SearchIcon from "@mui/icons-material/Search"
 import { useContext, useRef, useState } from "react"
-import { ThemeContext } from "../../../pages/_app"
-import { ThemeProps } from "../../../types/Theme"
+import { ThemeContext } from "@pages/_app"
+import { ThemeProps } from "@src/types/Theme"
 import ContentData from "../../Common/ContentData"
-import { useData } from "../../../hooks/useData"
+import { useData } from "@hooks/useData"
 import qs from "qs"
-import { Theme } from "../../../styles/theme"
+import { Theme } from "@styles/theme"
 
 interface ContentProps {
   username: string | string[] | undefined
@@ -30,7 +30,7 @@ export const Content = ({ username }: ContentProps) => {
     },
     {
       encodeValuesOnly: true,
-    }
+    },
   )
 
   const postquery = qs.stringify(
@@ -46,7 +46,7 @@ export const Content = ({ username }: ContentProps) => {
     },
     {
       encodeValuesOnly: true,
-    }
+    },
   )
 
   const {
@@ -61,8 +61,8 @@ export const Content = ({ username }: ContentProps) => {
     tagData.current = data.data.filter((e: any) =>
       e.attributes.posts.data.some(
         (post: any) =>
-          post.attributes.userid.data?.attributes.userid === username
-      )
+          post.attributes.userid.data?.attributes.userid === username,
+      ),
     )
   }
 
@@ -106,7 +106,7 @@ export const Content = ({ username }: ContentProps) => {
                       tag.attributes.posts.data.filter(
                         (e: any) =>
                           e.attributes.userid.data?.attributes.userid ===
-                          username
+                          username,
                       ).length
                     }
                     )
@@ -144,7 +144,8 @@ export const Content = ({ username }: ContentProps) => {
                   {
                     tag.attributes.posts.data.filter(
                       (e: any) =>
-                        e.attributes.userid.data?.attributes.userid === username
+                        e.attributes.userid.data?.attributes.userid ===
+                        username,
                     ).length
                   }
                   )

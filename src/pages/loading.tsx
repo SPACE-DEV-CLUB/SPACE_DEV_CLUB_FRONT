@@ -1,5 +1,5 @@
 import { NextPage } from "next"
-import Loading from "../components/Common/Loading"
+import Loading from "@components/Common/Loading"
 
 const loading: NextPage = () => {
   return <Loading />

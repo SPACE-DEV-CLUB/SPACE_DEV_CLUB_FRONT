@@ -2,7 +2,7 @@ import { useRouter } from "next/router"
 import { memo, useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 import { LinearProgress } from "@mui/material"
-import { useData } from "../../hooks/useData"
+import { useData } from "@hooks/useData"
 import qs from "qs"
 import Cookies from "js-cookie"
 
@@ -26,7 +26,7 @@ function Loading() {
     },
     {
       encodeValuesOnly: true,
-    }
+    },
   )
 
   const { data, error } = useData("userinfos", query)

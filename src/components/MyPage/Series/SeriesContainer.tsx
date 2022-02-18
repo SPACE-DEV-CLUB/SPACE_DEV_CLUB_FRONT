@@ -1,14 +1,13 @@
 import styled from "@emotion/styled"
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
 import { css } from "@emotion/react"
-import DetailCard from "../../../components/MyPage/Series/DetailCard"
-import { DETAIL_CARD_DATA } from "../../../data"
-import { Theme } from "../../../styles/theme"
+import DetailCard from "@components/MyPage/Series/DetailCard"
+import { Theme } from "@styles/theme"
 import { useContext } from "react"
-import { ThemeContext } from "../../../pages/_app"
-import { ThemeProps } from "../../../types/Theme"
-import { Post } from "../../../types/Main"
-import { handleDate } from "../../../utils/date"
+import { ThemeContext } from "@pages/_app"
+import { ThemeProps } from "@src/types/Theme"
+import { Post } from "@src/types/Main"
+import { handleDate } from "@utils/date"
 
 interface SeriesContainerProps {
   handleEdit: () => void

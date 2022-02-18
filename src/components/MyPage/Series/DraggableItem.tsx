@@ -1,8 +1,8 @@
 import React, { memo } from "react"
 import { Draggable } from "react-beautiful-dnd"
 import DetailCard from "./DetailCard"
-import { PostProps } from "../../../types/Main"
-import { handleDate } from "../../../utils/date"
+import { PostProps } from "@src/types/Main"
+import { handleDate } from "@utils/date"
 
 type DragItem = {
   e: PostProps

@@ -1,8 +1,8 @@
 import styled from "@emotion/styled"
 import { useContext } from "react"
-import { ThemeContext } from "../../pages/_app"
-import { ThemeProps } from "../../types/Theme"
-import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "../../constants"
+import { ThemeContext } from "@src/pages/_app"
+import { ThemeProps } from "@src/types/Theme"
+import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "@src/constants"
 import {
   btnStyle,
   DefaultBtn,

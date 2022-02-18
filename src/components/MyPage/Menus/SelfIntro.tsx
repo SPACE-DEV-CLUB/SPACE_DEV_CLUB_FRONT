@@ -1,11 +1,10 @@
 import styled from "@emotion/styled"
 import { useState } from "react"
 import Image from "next/image"
-import { MEDIA_QUERY_END_POINT } from "../../../constants"
-import { Theme } from "../../../styles/theme"
+import { MEDIA_QUERY_END_POINT } from "@constants/index"
 import { useContext } from "react"
-import { ThemeContext } from "../../../pages/_app"
-import { ThemeProps } from "../../../types/Theme"
+import { ThemeContext } from "@pages/_app"
+import { ThemeProps } from "@src/types/Theme"
 
 export const SelfIntro = () => {
   let [mode, setMode] = useState(false)

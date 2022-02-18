@@ -1,14 +1,13 @@
 import React from "react"
 import styled from "@emotion/styled"
 import Image from "next/image"
-import SAMPLE_IMAGE from "../../../../public/image/sample.jpeg"
-import { MEDIA_QUERY_END_POINT } from "../../../constants"
+import { MEDIA_QUERY_END_POINT } from "@constants/index"
 import { css } from "@emotion/react"
-import { DetailCardProps } from "../../../types/Main"
-import { Theme } from "../../../styles/theme"
+import { DetailCardProps } from "@src/types/Main"
+import { Theme } from "@styles/theme"
 import { useContext } from "react"
-import { ThemeContext } from "../../../pages/_app"
-import { ThemeProps } from "../../../types/Theme"
+import { ThemeContext } from "@pages/_app"
+import { ThemeProps } from "@src/types/Theme"
 
 const DetailCard = ({
   margin = "0",
@@ -39,7 +38,7 @@ const DetailCard = ({
               width={192}
               height={100}
               layout="responsive"
-              src={SAMPLE_IMAGE}
+              src={props.imageUrl || "/image/sample.jpeg"}
             ></Image>
           </ImageContainer>
           <DescContainer theme={theme}>
