@@ -2,11 +2,11 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 
 import { Theme } from "@styles/theme";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ThemeContext } from "@pages/_app";
 
 import { handleDate } from "@utils/date";
-import { CommentData, CommentUser } from ".";
+import { CommentData, CommentUser, DeleteModel } from ".";
 
 interface ThemeProps {
   theme: Theme;
@@ -19,7 +19,13 @@ interface Props {
 }
 
 export const Comment = ({ comments, user, loginUserId }: Props) => {
+  const [isdelete, setIsDelete] = useState(false);
   const { theme } = useContext(ThemeContext);
+
+  const onClickDelete = async () => {
+    setIsDelete(true);
+    document.body.style.overflow = "hidden";
+  };
 
   return (
     <div>
@@ -41,12 +47,12 @@ export const Comment = ({ comments, user, loginUserId }: Props) => {
             </UserNickname>
             {comments.attributes.userid === loginUserId && (
               <UDContainer>
-                <Link href="#" passHref>
-                  <UDItem theme={theme}>수정</UDItem>
-                </Link>
-                <Link href="#" passHref>
-                  <UDItem theme={theme}>삭제</UDItem>
-                </Link>
+                <UDItem type="button" theme={theme}>
+                  수정
+                </UDItem>
+                <UDItem onClick={onClickDelete} type="button" theme={theme}>
+                  삭제
+                </UDItem>
               </UDContainer>
             )}
           </Profile>
@@ -56,6 +62,9 @@ export const Comment = ({ comments, user, loginUserId }: Props) => {
         </ProfileData>
       </ProfileContainer>
       <CommentText>{comments.attributes.content}</CommentText>
+      {isdelete && (
+        <DeleteModel setIsDelete={setIsDelete} comments={comments} />
+      )}
     </div>
   );
 };
@@ -88,7 +97,7 @@ const UserNickname = styled.p`
   }
 `;
 const UDContainer = styled.div``;
-const UDItem = styled.a<ThemeProps>`
+const UDItem = styled.button<ThemeProps>`
   color: ${({ theme }) => theme.ICON};
   font-weight: 500;
   margin-right: 7px;
@@ -107,16 +116,4 @@ const CreatedAt = styled.p<ThemeProps>`
 const CommentText = styled.div`
   font-size: 19px;
   margin: 30px 0 60px 0;
-`;
-const CommentPlus = styled.div<ThemeProps>`
-  display: inline-flex;
-  align-items: center;
-  color: ${({ theme }) => theme.MAIN};
-  cursor: pointer;
-  font-weight: 700;
-  .comment-plus {
-    width: 15px;
-    height: 15px;
-    margin-right: 10px;
-  }
 `;
