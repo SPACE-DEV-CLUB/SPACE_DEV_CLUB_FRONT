@@ -6,7 +6,7 @@ interface MDViewerProps {
   title: string;
   contents: string;
 }
-export const MDviewr = ({ title, contents }: MDViewerProps) => {
+export const MDviewer = ({ title, contents }: MDViewerProps) => {
   marked.setOptions({ breaks: true, gfm: true });
 
   return (
