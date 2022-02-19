@@ -1,5 +1,4 @@
 let today = new Date();
-let todayDay = today.getDay();
 
 const handleTime = (day: Date) => {
   const timeDiff = today.getMinutes() - day.getMinutes();
@@ -14,8 +13,9 @@ const handleInADay = (day: Date) => {
 
 export const handleDate = (createdAt: string) => {
   let day = new Date(createdAt);
+
   day.setDate(day.getDate() + 7);
-  const diff = today.getTime() - day.getTime();
+  const diff = today.getDate() - day.getDate();
   if (diff > 0) {
     day.setDate(day.getDate() - 7);
     return (
@@ -27,8 +27,8 @@ export const handleDate = (createdAt: string) => {
       "일"
     );
   } else {
-    return day.getDay() - todayDay === 0
+    return day.getDay() - today.getDay() === 0
       ? handleInADay(day)
-      : Math.abs(day.getDay() - todayDay) + "일전";
+      : Math.abs(7 - day.getDay()) + "일전";
   }
 };

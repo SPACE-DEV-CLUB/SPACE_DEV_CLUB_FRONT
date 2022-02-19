@@ -8,7 +8,7 @@ import { ThemeContext } from "@pages/_app";
 import { handleDate } from "@utils/date";
 
 import { Tag } from "../Common/Tag";
-import { Hashtags, PostContext } from "@pages/[id]/[details]";
+import { PostContext } from "@pages/[id]/[details]";
 
 interface ThemeProps {
   theme: Theme;

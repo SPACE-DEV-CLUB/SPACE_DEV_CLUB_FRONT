@@ -47,6 +47,9 @@ export const ReCommentForm = ({
             loginUserId={loginUserId}
             CommentGroup={CommentGroup}
             setCommentForm={setCommentForm}
+            type="ReCommentCreate"
+            CommentContent=""
+            CommentId={0}
           />
           <CommentRemove theme={theme} onClick={onCommentForm}>
             취소

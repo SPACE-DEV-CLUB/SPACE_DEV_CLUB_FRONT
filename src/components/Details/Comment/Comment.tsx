@@ -7,47 +7,57 @@ import { ThemeContext } from "@pages/_app";
 
 import { handleDate } from "@utils/date";
 import { CommentData, CommentUser, DeleteModel } from ".";
+import { UpdateCommentForm } from "./UpdateCommentForm";
 
 interface ThemeProps {
   theme: Theme;
 }
 
 interface Props {
-  comments: CommentData;
+  comment: CommentData;
   user: CommentUser;
   loginUserId?: number;
 }
 
-export const Comment = ({ comments, user, loginUserId }: Props) => {
-  const [isdelete, setIsDelete] = useState(false);
+export const Comment = ({ comment, user, loginUserId }: Props) => {
+  const [isDelete, setIsDelete] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const { userid, profileimage } = user.attributes;
+  const {
+    userid: Cuserid,
+    createdAt: CcreatedAt,
+    content: Ccontent,
+  } = comment.attributes;
+
   const { theme } = useContext(ThemeContext);
 
-  const onClickDelete = async () => {
+  const onClickDelete = () => {
     setIsDelete(true);
     document.body.style.overflow = "hidden";
+  };
+
+  const onClickUpdate = () => {
+    setIsUpdate(true);
   };
 
   return (
     <div>
       <ProfileContainer>
-        <Link href={`/${user.attributes.userid}`}>
+        <Link href={`/${userid}`}>
           <a>
-            <UserProfile
-              src={user.attributes.profileimage}
-              alt={`${user.attributes.userid}프로필 사진`}
-            />
+            <UserProfile src={profileimage} alt={`${userid}프로필 사진`} />
           </a>
         </Link>
         <ProfileData>
           <Profile>
             <UserNickname>
-              <Link href={`/${user.attributes.userid}`} passHref>
-                <User theme={theme}>{user.attributes.userid}</User>
+              <Link href={`/${userid}`} passHref>
+                <User theme={theme}>{userid}</User>
               </Link>
             </UserNickname>
-            {comments.attributes.userid === loginUserId && (
+            {Cuserid === loginUserId && !isUpdate && (
               <UDContainer>
-                <UDItem type="button" theme={theme}>
+                <UDItem onClick={onClickUpdate} type="button" theme={theme}>
                   수정
                 </UDItem>
                 <UDItem onClick={onClickDelete} type="button" theme={theme}>
@@ -56,15 +66,18 @@ export const Comment = ({ comments, user, loginUserId }: Props) => {
               </UDContainer>
             )}
           </Profile>
-          <CreatedAt theme={theme}>
-            {handleDate(comments.attributes.createdAt)}
-          </CreatedAt>
+          <CreatedAt theme={theme}>{handleDate(CcreatedAt)}</CreatedAt>
         </ProfileData>
       </ProfileContainer>
-      <CommentText>{comments.attributes.content}</CommentText>
-      {isdelete && (
-        <DeleteModel setIsDelete={setIsDelete} comments={comments} />
+      {isUpdate && (
+        <UpdateCommentForm
+          loginUserId={loginUserId}
+          comment={comment}
+          setIsUpdate={setIsUpdate}
+        />
       )}
+      {!isUpdate && <CommentText>{Ccontent}</CommentText>}
+      {isDelete && <DeleteModel setIsDelete={setIsDelete} comment={comment} />}
     </div>
   );
 };
