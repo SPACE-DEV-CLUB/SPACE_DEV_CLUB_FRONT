@@ -16,11 +16,15 @@ const toggleThemeDict: Record<Theme, Theme> = {
 export const useTheme = () => {
   const [theme, setTheme] = useState<Theme>(themeLocalStorage.get() ?? "light");
 
-  const toggleTheme = useCallback(() => {
-    const selectedTheme = toggleThemeDict[theme];
-    themeLocalStorage.set(theme);
-    setTheme(theme);
-  }, [theme, setTheme]);
+  const toggleTheme = useCallback(
+    () =>
+      setTheme((prev) => {
+        const selectedTheme = toggleThemeDict[prev];
+        themeLocalStorage.set(selectedTheme);
+        return selectedTheme;
+      }),
+    [setTheme]
+  );
 
   return { theme, toggleTheme };
 };
