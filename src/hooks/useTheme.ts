@@ -14,20 +14,13 @@ const toggleThemeDict: Record<Theme, Theme> = {
 };
 
 export const useTheme = () => {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>(themeLocalStorage.get() ?? "light");
 
   const toggleTheme = useCallback(() => {
     const selectedTheme = toggleThemeDict[theme];
     themeLocalStorage.set(theme);
     setTheme(theme);
   }, [theme, setTheme]);
-
-  useEffect(() => {
-    const localTheme = themeLocalStorage.get();
-    if (localTheme != null) {
-      setTheme(localTheme);
-    }
-  }, []);
 
   return { theme, toggleTheme };
 };
