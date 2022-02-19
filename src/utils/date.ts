@@ -15,7 +15,7 @@ export const handleDate = (createdAt: string) => {
   let day = new Date(createdAt);
 
   day.setDate(day.getDate() + 7);
-  const diff = today.getDate() - day.getDate();
+  const diff = today.getTime() - day.getTime();
   if (diff > 0) {
     day.setDate(day.getDate() - 7);
     return (
