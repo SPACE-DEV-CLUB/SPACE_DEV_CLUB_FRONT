@@ -1,30 +1,23 @@
-import { fetcher } from "../../utils/fetcher"
 import useSWRInfinite from "swr/infinite"
-import { API_ENDPOINT } from "../../constants"
 import { useEffect, useRef, useState } from "react"
 import styled from "@emotion/styled"
 import qs from "qs"
-import { PostCard } from "."
-import { MEDIA_QUERY_END_POINT } from "../../constants"
+import { MEDIA_QUERY_END_POINT, API_ENDPOINT } from "@constants/."
+import { fetcher } from "@utils/fetcher"
+import { ListCard } from "."
 
 let PAGE_SIZE = 3
 
-const formatDate = (date: Date) => {
-  let d = new Date(date)
-  let month = "" + (d.getMonth() + 1)
-  let day = "" + d.getDate()
-  let year = d.getFullYear()
-  if (month.length < 2) {
-    month = "0" + month
-  }
-  if (day.length < 2) {
-    day = "0" + day
-  }
-  return [year, month, day].join("-")
+interface CardContainerProps {
+  filter: string
+  username?: string | null 
 }
 
-export const CardContainer = ({filter} : 
-  {filter : string}) => {
+export const ListCardContainer = ({
+  filter,
+  username
+}: CardContainerProps) => {
+
   useEffect(() => {
     PAGE_SIZE = window.matchMedia(
       `(min-width: ${MEDIA_QUERY_END_POINT.XLARGE})`
@@ -41,22 +34,6 @@ export const CardContainer = ({filter} :
       : 1
   }, [])
 
-  const today = new Date()
-  today.setDate(today.getDate() + 1)
-
-  const filterDay = new Date()
-  if (filter === "오늘") {
-    filterDay.setDate(filterDay.getDate() - 1)
-  } else if (filter === "이번 주") {
-    filterDay.setDate(filterDay.getDate() - 7)
-  } else if (filter === "이번 달") {
-    filterDay.setDate(1)
-  } else if (filter === "올 해") {
-    filterDay.setFullYear(filterDay.getFullYear(), 0, 1)
-  } else {
-    filterDay.setFullYear(2021, 0, 1)
-  }
-
   const getKey = (pageIndex: number, previousPageData: any) => {
 
     if (previousPageData && !previousPageData.data) return null
@@ -64,24 +41,25 @@ export const CardContainer = ({filter} :
     const query = qs.stringify(
       {
         pagination: {
-          page: pageIndex + 1,
+          page: pageIndex,
           pageSize: PAGE_SIZE,
         },
-        populate: ["*"],
+        populate: "*",
         sort: ["publishedAt:desc"],
         filters: {
-          publishedAt: {
-            $gte: `${formatDate(filterDay)}`,
-            $lte: `${formatDate(today)}`,
+          userid: {
+            email: {
+              $eq: username,
+            },
           },
         },
       },
       {
         encodeValuesOnly: true,
       }
-    )
-    return `${API_ENDPOINT}/posts?${query}`
-  }
+    );
+    return `${API_ENDPOINT}/${filter}?${query}`;
+  };
 
   const { data, size, setSize, error, isValidating } = useSWRInfinite(
     getKey,
@@ -119,16 +97,15 @@ export const CardContainer = ({filter} :
         {data &&
           data.map((loaded) => {
             return loaded.data.map((e: any, i: number) => (
-              <PostCard
+              <ListCard
                 key={`${e}_${i}`}
-                imageUrl={e.attributes.imageUrl}
-                title={e.attributes.title}
-                contents={e.attributes.contents}
-                comments={e.attributes.comments}
-                username={"deli-ght"}
-                count={e.attributes.count}
-                publishedAt={e.attributes.publishedAt}
-              />
+                title={e.attributes.postid.data.attributes.title}
+                contents={e.attributes.postid.data.attributes.contents}
+                comments={e.attributes.postid.data.attributes.comments}
+                username={e.attributes.userid.data.attributes.userid}
+                count={e.attributes.postid.data.attributes.count}
+                publishedAt={e.attributes.postid.data.attributes.publishedAt}
+              /> 
             ))
           })}
       </Container>
@@ -139,29 +116,34 @@ export const CardContainer = ({filter} :
   )
 }
 const Container = styled.section`
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 16px;
-  margin: 0 auto;
-  @media (min-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
-  }
-  @media (min-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-    max-width: ${MEDIA_QUERY_END_POINT.TABLET};
-  }
-  @media (min-width: ${MEDIA_QUERY_END_POINT.LARGE}) {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 32px;
-    max-width: ${MEDIA_QUERY_END_POINT.LARGE};
-  }
-  @media (min-width: ${MEDIA_QUERY_END_POINT.XLARGE}) {
-    grid-template-columns: repeat(5, 1fr);
-    gap: 32px;
-    max-width: 1728px;
-  }
+display: grid;
+grid-template-columns: repeat(1, 1fr);
+gap: 16px;
+margin: 0 auto;
+@media (min-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+@media (min-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: ${MEDIA_QUERY_END_POINT.TABLET};
+}
+@media (min-width: ${MEDIA_QUERY_END_POINT.DESKTOP}) {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: ${MEDIA_QUERY_END_POINT.TABLET};
+}
+@media (min-width: ${MEDIA_QUERY_END_POINT.LARGE}) {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  max-width: ${MEDIA_QUERY_END_POINT.LARGE};
+}
+@media (min-width: ${MEDIA_QUERY_END_POINT.XLARGE}) {
+  grid-template-columns: repeat(5, 1fr);
+  gap: 32px;
+  max-width: 1728px;
+}
 `
 
 const TargetElement = styled.article`
