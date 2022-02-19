@@ -10,7 +10,7 @@ import { useContext } from "react"
 import { ThemeContext } from "@pages/_app"
 import { ThemeProps } from "@src/types/Theme"
 import Link from "next/link"
-import { Theme } from "@styles/theme"
+import { ThemeOptions } from "@styles/theme"
 import { userInfo } from "@src/types/Main"
 
 interface IntroProps {
@@ -128,7 +128,7 @@ const IntroSns = styled.ul`
 `
 
 interface SnsEmailProps {
-  theme: Theme
+  theme: ThemeOptions
   email: string | null
 }
 

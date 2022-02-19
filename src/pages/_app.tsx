@@ -5,8 +5,8 @@ import { GlobalStyle } from "../styles/global-styles";
 import {
   lightTheme,
   darkTheme,
-  ThemeOptions,
   Theme,
+  ThemeOptions,
   themeOptionsByThemeKindDict,
 } from "../styles/theme";
 import { useTheme } from "../hooks/useTheme";
@@ -28,7 +28,7 @@ export const ThemeContext = createContext<ContextProps>({
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const { theme, toggleTheme } = useTheme();
   const globalStyles = useMemo(
-    () => GlobalStyle(themeOptionsByThemeKindDict[theme as Theme]),
+    () => GlobalStyle(themeOptionsByThemeKindDict[theme]),
     [theme]
   );
   return (

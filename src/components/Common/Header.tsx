@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react"
 import { HeaderMenu } from "./HeaderMenu"
 import Link from "next/link"
 import { css } from "@emotion/react"
-import { Theme } from "@styles/theme"
+import { ThemeOptions } from "@styles/theme"
 import { useContext } from "react"
 import { ThemeContext } from "@pages/_app"
 import { ThemeProps } from "@src/types/Theme"
@@ -175,7 +175,7 @@ export const Header = ({
 
 type HeaderComponentProps = {
   top: number
-  theme: Theme
+  theme: ThemeOptions
   check: boolean
 }
 

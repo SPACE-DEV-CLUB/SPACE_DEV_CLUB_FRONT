@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 
-import { Theme } from "@styles/theme";
+import { ThemeOptions } from "@styles/theme";
 import { useContext } from "react";
 import { ThemeContext } from "@pages/_app";
 
@@ -11,7 +11,7 @@ import { Tag } from "../Common/Tag";
 import { Hashtags, PostContext } from "@pages/[id]/[details]";
 
 interface ThemeProps {
-  theme: Theme;
+  theme: ThemeOptions;
 }
 
 interface Props {

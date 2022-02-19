@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
-import { Theme } from "../styles/theme";
+import { ThemeOptions } from "../styles/theme";
 
-export const GlobalStyle = (props: Theme) =>
+export const GlobalStyle = (props: ThemeOptions) =>
   css`
     html,
     body,

@@ -8,7 +8,7 @@ import { ThemeProps } from "@src/types/Theme"
 import ContentData from "../../Common/ContentData"
 import { useData } from "@hooks/useData"
 import qs from "qs"
-import { Theme } from "@styles/theme"
+import { ThemeOptions } from "@styles/theme"
 
 interface ContentProps {
   username: string | string[] | undefined
@@ -236,7 +236,7 @@ const SmallTaglist = styled.section<ThemeProps>`
 
 interface TagBtnProps {
   check: boolean
-  theme: Theme
+  theme: ThemeOptions
 }
 
 const largeBtnStyle = (props: TagBtnProps) => css`

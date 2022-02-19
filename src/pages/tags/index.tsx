@@ -3,7 +3,7 @@ import { NextPage } from "next"
 import { Header } from "@components/Common/Header"
 import { useContext, useState, useRef, useEffect } from "react"
 import { ThemeContext } from "@pages/_app"
-import { Theme } from "@styles/theme"
+import { ThemeOptions } from "@styles/theme"
 import TagCards from "@components/Tags/TagCards"
 import Head from "next/head"
 import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "@src/constants"
@@ -129,7 +129,7 @@ const SortContainer = styled.article`
 `
 
 type SortProps = {
-  theme: Theme
+  theme: ThemeOptions
   active: boolean
 }
 

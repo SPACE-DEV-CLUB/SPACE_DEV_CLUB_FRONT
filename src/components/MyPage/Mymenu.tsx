@@ -3,7 +3,7 @@ import styled from "@emotion/styled"
 import Link from "next/link"
 import React, { useState } from "react"
 import { MEDIA_QUERY_END_POINT } from "@constants/index"
-import { Theme } from "@styles/theme"
+import { ThemeOptions } from "@styles/theme"
 import { useContext } from "react"
 import { ThemeContext } from "@pages/_app"
 import { ThemeProps } from "@src/types/Theme"
@@ -53,7 +53,7 @@ const Menubar = styled.nav<ThemeProps>`
 `
 type FocusNum = {
   index: boolean
-  theme: Theme
+  theme: ThemeOptions
 }
 
 const focus = (props: FocusNum) => css`

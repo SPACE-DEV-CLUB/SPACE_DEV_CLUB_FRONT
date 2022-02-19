@@ -3,12 +3,12 @@ import Link from 'next/link';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Image from 'next/image';
 import SAMPLE_IMG from '../../../public/image/sampleUser2.jpg';
-import { Theme } from '../../styles/theme';
+import { ThemeOptions } from '../../styles/theme';
 import { useContext } from 'react';
 import { ThemeContext } from '../../pages/_app';
 import { handleDate } from '../../utils/date';
 interface ThemeProps {
-  theme: Theme;
+  theme: ThemeOptions;
 }
 
 export const PostCard = ({

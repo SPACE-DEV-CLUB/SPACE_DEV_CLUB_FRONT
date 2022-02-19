@@ -1,7 +1,7 @@
 import { css } from "@emotion/react"
 import styled from "@emotion/styled"
 import { MEDIA_QUERY_END_POINT } from "@src/constants"
-import { Theme } from "@styles/theme"
+import { ThemeOptions } from "@styles/theme"
 import { userInfo } from "@src/types/Main"
 import { ThemeProps } from "@src/types/Theme"
 export interface SettingProps {
@@ -12,7 +12,7 @@ export interface SettingProps {
 }
 
 export interface SnsListProps {
-  theme: Theme
+  theme: ThemeOptions
   edit: boolean
 }
 

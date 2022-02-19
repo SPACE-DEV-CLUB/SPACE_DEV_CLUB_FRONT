@@ -9,12 +9,12 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 
-import { Theme } from "@styles/theme";
+import { ThemeOptions } from "@styles/theme";
 import { useContext } from "react";
 import { ThemeContext } from "@pages/_app";
 
 interface ThemeProps {
-  theme: Theme;
+  theme: ThemeOptions;
 }
 
 const seriesData = [

@@ -1,5 +1,5 @@
 import { css, keyframes } from "@emotion/react"
-import { Theme } from "./theme"
+import { ThemeOptions } from "./theme"
 
 export const fade = keyframes`
   from{
@@ -16,7 +16,7 @@ export const fade = keyframes`
 interface LoaderBoxProps {
   width: number
   height: number
-  theme: Theme
+  theme: ThemeOptions
 }
 
 export const loaderStyle = ({ width, height, theme }: LoaderBoxProps) => css`

@@ -4,7 +4,7 @@ import Image from "next/image"
 import { MEDIA_QUERY_END_POINT } from "@constants/index"
 import { css } from "@emotion/react"
 import { DetailCardProps } from "@src/types/Main"
-import { Theme } from "@styles/theme"
+import { ThemeOptions } from "@styles/theme"
 import { useContext } from "react"
 import { ThemeContext } from "@pages/_app"
 import { ThemeProps } from "@src/types/Theme"
@@ -57,7 +57,7 @@ interface Containerprops {
   margin: string
   padding: string
   opacity: boolean
-  theme: Theme
+  theme: ThemeOptions
 }
 
 const containerstyle = (props: Containerprops) => css`

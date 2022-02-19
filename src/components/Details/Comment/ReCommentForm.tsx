@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import styled from "@emotion/styled";
 
-import { Theme } from "@styles/theme";
+import { ThemeOptions } from "@styles/theme";
 import { ThemeContext } from "@pages/_app";
 
 import BorderHorizontalIcon from "@mui/icons-material/BorderHorizontal";
@@ -9,7 +9,7 @@ import BorderHorizontalIcon from "@mui/icons-material/BorderHorizontal";
 import { CommentForm } from ".";
 
 interface ThemeProps {
-  theme: Theme;
+  theme: ThemeOptions;
 }
 
 interface Props {

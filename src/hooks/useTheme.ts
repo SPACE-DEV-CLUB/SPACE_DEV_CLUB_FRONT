@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import { Theme, themeOptionsByThemeKindDict } from "../../styles/theme";
-import { LocalStorage } from "../../local-storage";
+import {
+  Theme,
+  ThemeOptions,
+  themeOptionsByThemeKindDict,
+} from "../styles/theme";
+import { LocalStorage } from "../local-storage";
 
 const themeLocalStorage = new LocalStorage<Theme>("theme");
 

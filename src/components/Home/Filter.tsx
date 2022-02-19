@@ -5,14 +5,14 @@ import { Notice, SelectBox } from './index';
 import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from '../../constants';
 import MovingIcon from '@mui/icons-material/Moving';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { Theme } from '../../styles/theme';
+import { ThemeOptions } from '../../styles/theme';
 import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../../pages/_app';
 import { CardContainer } from '../Home/CardContainer';
 import { IOCardContainer } from '../Home/IOCardContainer';
 
 interface StyledType {
-  theme: Theme;
+  theme: ThemeOptions;
   route: string;
 }
 

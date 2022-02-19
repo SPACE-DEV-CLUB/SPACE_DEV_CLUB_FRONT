@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 
-import { Theme } from "@styles/theme";
+import { ThemeOptions } from "@styles/theme";
 import { useContext, useState } from "react";
 import { ThemeContext } from "@pages/_app";
 
@@ -9,7 +9,7 @@ import { handleDate } from "@utils/date";
 import { CommentData, CommentUser, DeleteModel } from ".";
 
 interface ThemeProps {
-  theme: Theme;
+  theme: ThemeOptions;
 }
 
 interface Props {

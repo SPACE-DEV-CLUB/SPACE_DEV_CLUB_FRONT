@@ -11,7 +11,7 @@ import {
 
 import { Header } from "@components/Common/Header";
 
-import { Theme } from "@styles/theme";
+import { ThemeOptions } from "@styles/theme";
 import { createContext, useContext } from "react";
 import { ThemeContext } from "@pages/_app";
 import { useRouter } from "next/router";
@@ -21,7 +21,7 @@ import { userInfo } from "../../../types/Main";
 import Cookies from "js-cookie";
 
 interface ThemeProps {
-  theme: Theme;
+  theme: ThemeOptions;
 }
 
 export interface Hashtags {

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { Theme } from "@styles/theme";
+import { ThemeOptions } from "@styles/theme";
 import { useContext, useState } from "react";
 import { ThemeContext } from "@pages/_app";
 
@@ -12,7 +12,7 @@ import { CommentForm, ReCommentForm, CommentContainer } from ".";
 import { PostContext } from "@src/pages/[id]/[details]";
 
 interface ThemeProps {
-  theme: Theme;
+  theme: ThemeOptions;
 }
 
 export interface CommentData {

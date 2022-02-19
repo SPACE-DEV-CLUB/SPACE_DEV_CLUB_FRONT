@@ -2,17 +2,17 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useState } from 'react';
 import { PALLETS_LIGHT } from '../../constants';
-import { Theme } from '../../styles/theme';
+import { ThemeOptions } from '../../styles/theme';
 import { useContext } from 'react';
 import { ThemeContext } from '../../pages/_app';
 
 interface StyledType {
-  theme: Theme;
+  theme: ThemeOptions;
   visible: boolean;
 }
 
 interface ThemeProps {
-  theme: Theme;
+  theme: ThemeOptions;
 }
 
 const OPTIONS = [

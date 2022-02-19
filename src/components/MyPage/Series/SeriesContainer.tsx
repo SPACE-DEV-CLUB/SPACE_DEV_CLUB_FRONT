@@ -2,7 +2,7 @@ import styled from "@emotion/styled"
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
 import { css } from "@emotion/react"
 import DetailCard from "@components/MyPage/Series/DetailCard"
-import { Theme } from "@styles/theme"
+import { ThemeOptions } from "@styles/theme"
 import { useContext } from "react"
 import { ThemeContext } from "@pages/_app"
 import { ThemeProps } from "@src/types/Theme"
@@ -100,7 +100,7 @@ const OrderBtnContainer = styled.div`
 
 interface IconType {
   orderlist: boolean
-  theme: Theme
+  theme: ThemeOptions
 }
 
 const iconOrder = (props: IconType) => css`

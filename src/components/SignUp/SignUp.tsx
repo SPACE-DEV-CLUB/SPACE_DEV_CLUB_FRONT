@@ -9,7 +9,7 @@ import { API_ENDPOINT } from "../../constants"
 import useSWR, { useSWRConfig } from "swr"
 import { fetcher } from "../../utils/fetcher"
 import Cookies from "js-cookie"
-import { Theme } from "../../styles/theme"
+import { ThemeOptions } from "../../styles/theme"
 
 const SignUp = () => {
   const { data: session } = useSession()
@@ -117,7 +117,7 @@ export default SignUp
 
 interface Props {
   isEmpty: boolean
-  theme: Theme
+  theme: ThemeOptions
 }
 
 const SignUpWrap = styled.div<Props>`

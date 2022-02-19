@@ -1,12 +1,12 @@
 import styled from "@emotion/styled"
 import Link from "next/link"
 
-import { Theme } from "@styles/theme"
+import { ThemeOptions } from "@styles/theme"
 import { useContext } from "react"
 import { ThemeContext } from "@pages/_app"
 
 interface ThemeProps {
-  theme: Theme
+  theme: ThemeOptions
 }
 
 export const ErrorPage = () => {

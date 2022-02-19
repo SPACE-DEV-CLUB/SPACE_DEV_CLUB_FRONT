@@ -9,7 +9,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 
-import { Theme } from "@styles/theme";
+import { ThemeOptions } from "@styles/theme";
 import { ThemeContext } from "@pages/_app";
 import axios, { Method } from "axios";
 
@@ -18,7 +18,7 @@ import { breakpoints } from "@mui/system";
 import { PostContext } from "@src/pages/[id]/[details]";
 
 interface ThemeProps {
-  theme: Theme;
+  theme: ThemeOptions;
 }
 
 interface Props {
