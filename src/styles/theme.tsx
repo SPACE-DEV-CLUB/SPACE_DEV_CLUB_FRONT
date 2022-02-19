@@ -1,4 +1,26 @@
-export const lightTheme = {
+export type ThemeOptions = {
+  MAIN: string;
+  SUB: string;
+  BACKGROUND: string;
+  SUBBACKGROUND: string;
+  CARD_BACKGROUND: string;
+  MAIN_FONT: string;
+  SUB_FONT: string;
+  POINT_FONT: string;
+  ICON: string;
+  BORDER: string;
+  TOGGLE_BACKGROUND: string;
+  LOGO: string;
+  BUTTON_MAIN: string;
+  BUTTON_SUB: string;
+  WARNING_MAIN: string;
+  WARNING_SUB: string;
+  ModelRGBA: string;
+};
+
+export type Theme = "dark" | "light";
+
+export const lightTheme: ThemeOptions = {
   MAIN: "#6868AD",
   SUB: "#dbd7ff",
   BACKGROUND: "#fdfdff",
@@ -18,9 +40,7 @@ export const lightTheme = {
   ModelRGBA: "rgba(255, 255, 255, 0.8)",
 };
 
-export type Theme = typeof lightTheme;
-
-export const darkTheme: Theme = {
+export const darkTheme: ThemeOptions = {
   MAIN: "#dbd7ff",
   SUB: "#6868AD",
   BACKGROUND: "#202124",
@@ -38,6 +58,11 @@ export const darkTheme: Theme = {
   WARNING_MAIN: "#ffa4a2",
   WARNING_SUB: "#e57373",
   ModelRGBA: "rgba(0, 0, 0, 0.8)",
+};
+
+export const themeOptionsByThemeKindDict: Record<Theme, ThemeOptions> = {
+  dark: darkTheme,
+  light: lightTheme,
 };
 
 // #ffffff*
