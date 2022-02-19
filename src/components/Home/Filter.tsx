@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import styled from '@emotion/styled';
+import { useSession } from "next-auth/react"
 import { Notice, SelectBox } from './index';
 import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from '../../constants';
 import MovingIcon from '@mui/icons-material/Moving';
@@ -9,7 +10,7 @@ import { Theme } from '../../styles/theme';
 import { useState, useContext, useEffect } from 'react';
 import { ThemeContext } from '../../pages/_app';
 import { CardContainer } from '../Home/CardContainer';
-import { IOCardContainer } from '../Home/IOCardContainer';
+import {ListCardContainer} from '../Home/ListCardContainer'
 
 interface StyledType {
   theme: Theme;
@@ -20,18 +21,18 @@ export const Filter = ({ route }: { route: string }) => {
   const { theme } = useContext(ThemeContext);
 
   const [filteredText, setFilteredText] = useState(
-    route === 'home'
-      ? '이번 주'
-      : 'recent'
-      ? '최신'
-      : 'read'
-      ? '읽기목록'
-      : '좋아요'
+    route === 'home' ? '이번 주' :
+    route === 'recent' ? '최신' : 
+    route ===  'read' ? 'readingposts' :
+    route ===  'liked' ? 'likeposts' :
+    ''
   );
 
-  function handleClick(e: string) {
+  function handleFilter(e: string) {
     setFilteredText((i) => (i = e));
   }
+
+  const { data: session, status } = useSession();
 
   return (
     <>
@@ -68,15 +69,20 @@ export const Filter = ({ route }: { route: string }) => {
             </Link>
             <Line theme={theme} route={route}></Line>
           </BoxContainer>
-          <SelectBox onClicked={handleClick} route={route}></SelectBox>
+          <SelectBox onClicked={handleFilter} route={route}></SelectBox>
         </BoxContainer>
         <Notice route={route}></Notice>
       </FilterContainer>
-      {/* <CardContainer filter={filteredText}></CardContainer> */}
-      <IOCardContainer
+      {(route === 'recent' || route === 'home')?
+      <CardContainer
         filter={filteredText}
-        username={undefined}
-      ></IOCardContainer>
+      ></CardContainer>
+      : 
+      <ListCardContainer 
+        filter={filteredText}
+        username={session?.user?.email}
+  />
+    }
     </>
   );
 };
