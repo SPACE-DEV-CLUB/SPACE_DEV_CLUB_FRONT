@@ -10,7 +10,7 @@ export interface CommentUser {
 }
 
 interface Props {
-  comments: CommentData;
+  comment: CommentData;
   userData: CommentUser[];
   commentBtn: boolean[];
   index: number;
@@ -26,16 +26,16 @@ let user = {
 };
 
 export const CommentContainer = ({
-  comments,
+  comment,
   userData,
   commentBtn,
   index,
   loginUserId,
 }: Props) => {
-  const depth = comments.attributes.depth;
+  const depth = comment.attributes.depth;
 
   userData.some((data) => {
-    if (data.id === comments.attributes.userid) {
+    if (data.id === comment.attributes.userid) {
       user = data;
       return true;
     }
@@ -45,11 +45,11 @@ export const CommentContainer = ({
     <Container>
       <h3 className="sr-only">상세 페이지에 생성된 댓글</h3>
       {depth === 0 && (
-        <Comment comments={comments} user={user} loginUserId={loginUserId} />
+        <Comment comment={comment} user={user} loginUserId={loginUserId} />
       )}
       {depth === 1 && commentBtn[index] === true && (
         <Comcom>
-          <Comment comments={comments} user={user} loginUserId={loginUserId} />
+          <Comment comment={comment} user={user} loginUserId={loginUserId} />
         </Comcom>
       )}
     </Container>

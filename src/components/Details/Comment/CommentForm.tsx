@@ -17,6 +17,9 @@ interface Props {
   CommentGroup: number;
   CommentOrder: number;
   setCommentForm: Dispatch<SetStateAction<boolean>>;
+  type: string;
+  CommentContent: string;
+  CommentId: number;
 }
 
 export const CommentForm = ({
@@ -24,42 +27,63 @@ export const CommentForm = ({
   CommentGroup,
   CommentOrder,
   setCommentForm,
+  CommentContent,
+  CommentId,
+  type,
 }: Props) => {
   const { theme } = useContext(ThemeContext);
   const { postid, postObj } = useContext(PostContext);
-  const [commentText, setCommentText] = useState("");
+  const [commentText, setCommentText] = useState(CommentContent);
   const { mutate } = useSWRConfig();
 
-  const SubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
+  const SubmitComment = async (
+    e: React.FormEvent<HTMLFormElement>,
+    type: string
+  ) => {
     e.preventDefault();
-    let CommentDepth;
-    if (CommentOrder === 0) {
-      CommentDepth = 0;
-    } else {
-      CommentDepth = 1;
+    if (type === "CommentCreate" || type === "ReCommentCreate") {
+      let CommentDepth;
+      if (CommentOrder === 0) {
+        CommentDepth = 0;
+      } else {
+        CommentDepth = 1;
+      }
+
+      const Data = {
+        userid: loginUserId!,
+        postid: postid,
+        content: commentText,
+        depth: CommentDepth,
+        order: CommentOrder,
+        group: CommentGroup,
+        is_deleted: false,
+        posts: postid,
+      };
+
+      await axios({
+        method: "post" as Method,
+        url: `${API_ENDPOINT}/comments`,
+        data: {
+          data: Data,
+        },
+      });
+      setCommentText("");
+      setCommentForm(false);
+      mutate(`${API_ENDPOINT}/posts?populate=*`);
+    } else if (type === "CommentUpdate") {
+      const Data = {
+        content: commentText,
+      };
+      await axios({
+        method: "put" as Method,
+        url: `${API_ENDPOINT}/comments/${CommentId}`,
+        data: {
+          data: Data,
+        },
+      });
+      setCommentForm(false);
+      mutate(`${API_ENDPOINT}/posts?populate=*`);
     }
-
-    const Data = {
-      userid: loginUserId!,
-      postid: postid,
-      content: commentText,
-      depth: CommentDepth,
-      order: CommentOrder,
-      group: CommentGroup,
-      is_deleted: false,
-      posts: postid,
-    };
-
-    await axios({
-      method: "post" as Method,
-      url: `${API_ENDPOINT}/comments`,
-      data: {
-        data: Data,
-      },
-    });
-    setCommentText("");
-    setCommentForm(false);
-    mutate(`${API_ENDPOINT}/posts?populate=*`);
   };
 
   const ChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -69,14 +93,17 @@ export const CommentForm = ({
   const handleKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      SubmitComment(e);
+      SubmitComment(e, type);
     }
   };
 
   return (
     <article>
       <h3 className="sr-only">상세 페이지 댓글 입력 폼</h3>
-      <CommentF onSubmit={SubmitComment} onKeyDown={(e) => handleKeyDown(e)}>
+      <CommentF
+        onSubmit={(e) => SubmitComment(e, type)}
+        onKeyDown={(e) => handleKeyDown(e)}
+      >
         <TextArea
           theme={theme}
           name="댓글 입력"
@@ -86,7 +113,7 @@ export const CommentForm = ({
         ></TextArea>
         <BtnContainer>
           <CommentBtn theme={theme} type="submit">
-            댓글 작성
+            {type === "CommentUpdate" ? "댓글 수정" : "댓글 작성"}
           </CommentBtn>
         </BtnContainer>
       </CommentF>

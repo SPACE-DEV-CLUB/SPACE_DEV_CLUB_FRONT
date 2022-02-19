@@ -37,6 +37,7 @@ export const CommentFormContainer = ({ loginUserId }: Props) => {
   const { theme } = useContext(ThemeContext);
   const { postObj } = useContext(PostContext);
   const [commentForm, setCommentForm] = useState(false);
+
   postObj.comments.data
     .sort((a, b) => a.attributes.order - b.attributes.order)
     .sort((a, b) => a.attributes.depth - b.attributes.depth)
@@ -72,16 +73,19 @@ export const CommentFormContainer = ({ loginUserId }: Props) => {
         loginUserId={loginUserId}
         CommentGroup={newComment[newComment.length - 1][0].attributes.group + 1}
         setCommentForm={setCommentForm}
+        type="CommentCreate"
+        CommentContent=""
+        CommentId={0}
       />
 
       {newComment.map((group: CommentData[], i: number) => {
         return (
           <div key={`${i + 1}`}>
-            {group.map((comments: CommentData) => {
+            {group.map((comment: CommentData) => {
               return (
-                <div key={`CommentUser-${comments.id}`}>
+                <div key={`CommentUser-${comment.id}`}>
                   <CommentContainer
-                    comments={comments}
+                    comment={comment}
                     userData={userData.data}
                     commentBtn={commentBtn}
                     index={i}

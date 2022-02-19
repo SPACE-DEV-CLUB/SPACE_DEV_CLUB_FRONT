@@ -16,10 +16,10 @@ interface ThemeProps {
 
 interface Props {
   setIsDelete: Dispatch<SetStateAction<boolean>>;
-  comments: CommentData;
+  comment: CommentData;
 }
 
-export const DeleteModel = ({ setIsDelete, comments }: Props) => {
+export const DeleteModel = ({ setIsDelete, comment }: Props) => {
   const { theme } = useContext(ThemeContext);
   const { postObj } = useContext(PostContext);
   const { mutate } = useSWRConfig();
@@ -38,13 +38,13 @@ export const DeleteModel = ({ setIsDelete, comments }: Props) => {
   };
 
   const onClickYes = async () => {
-    if (comments.attributes.depth === 0) {
+    if (comment.attributes.depth === 0) {
       const everyComment = postObj.comments.data.filter(
-        (group) => group.attributes.group === comments.attributes.group
+        (group) => group.attributes.group === comment.attributes.group
       );
       everyComment.forEach((data) => Delete(data.id));
     } else {
-      Delete(comments.id);
+      Delete(comment.id);
     }
     document.body.style.overflow = "unset";
   };

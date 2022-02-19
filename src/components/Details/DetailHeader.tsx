@@ -6,7 +6,7 @@ import useIO from "@hooks/useIO";
 import { API_ENDPOINT } from "@constants/index";
 import axios, { Method } from "axios";
 import { userInfo } from "../../types/Main";
-import { Hashtags, PostContext } from "@pages/[id]/[details]";
+import { PostContext } from "@pages/[id]/[details]";
 import { useContext } from "react";
 
 interface Props {
@@ -90,11 +90,7 @@ export const DetailHeader = ({
   return (
     <Header>
       <h2>{postObj.title}</h2>
-      <UDHashContainer
-        userName={userName}
-        // hashtags={hashtags}
-        loginUserId={loginUserId}
-      />
+      <UDHashContainer userName={userName} loginUserId={loginUserId} />
       <SeriesContainer />
       <div>{postObj.contents}</div>
       <div ref={setTarget}></div>
