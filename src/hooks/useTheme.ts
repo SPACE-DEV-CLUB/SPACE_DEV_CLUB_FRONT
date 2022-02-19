@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Theme,
   ThemeOptions,
@@ -16,12 +16,11 @@ const toggleThemeDict: Record<Theme, Theme> = {
 export const useTheme = () => {
   const [theme, setTheme] = useState<Theme>("light");
 
-  const setMode = (mode: Theme) => {
-    themeLocalStorage.set(mode);
-    setTheme(mode);
-  };
-
-  const toggleTheme = () => setMode(toggleThemeDict[theme]);
+  const toggleTheme = useCallback(() => {
+    const selectedTheme = toggleThemeDict[theme];
+    themeLocalStorage.set(theme);
+    setTheme(theme);
+  }, [theme, setTheme]);
 
   useEffect(() => {
     const localTheme = themeLocalStorage.get();
