@@ -1,37 +1,45 @@
-import type { AppProps } from "next/app"
-import React, { createContext } from "react"
-import { Global } from "@emotion/react"
-import { GlobalStyle } from "@styles/global-styles"
-import { lightTheme, darkTheme, Theme } from "@styles/theme"
-import { useDarkMode } from "@hooks/useDarkMode"
-import DarkModeToggle from "@components/Home/DarkModetoggle"
-import { SessionProvider } from "next-auth/react"
+import type { AppProps } from "next/app";
+import React, { createContext, useMemo } from "react";
+import { Global } from "@emotion/react";
+import { GlobalStyle } from "../styles/global-styles";
+import {
+  lightTheme,
+  darkTheme,
+  ThemeOptions,
+  Theme,
+  themeOptionsByThemeKindDict,
+} from "../styles/theme";
+import { useTheme } from "../hooks/useTheme";
+import DarkModeToggle from "../components/Home/DarkModetoggle";
+import { SessionProvider } from "next-auth/react";
 
 interface ContextProps {
-  theme: Theme
-  toggleTheme: () => void
+  theme: Theme;
+  toggleTheme: () => void;
 }
 
 export const ThemeContext = createContext<ContextProps>({
-  theme: lightTheme,
+  theme: "light",
   toggleTheme: () => {
-    return null
+    return null;
   },
-})
+});
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
-  const { theme, toggleTheme } = useDarkMode()
+  const { theme, toggleTheme } = useTheme();
+  const globalStyles = useMemo(
+    () => GlobalStyle(themeOptionsByThemeKindDict[theme as Theme]),
+    [theme]
+  );
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <SessionProvider session={session}>
-        <Global
-          styles={GlobalStyle(theme === lightTheme ? lightTheme : darkTheme)}
-        />
+        <Global styles={globalStyles} />
         <Component {...pageProps} />
         <DarkModeToggle />
       </SessionProvider>
     </ThemeContext.Provider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

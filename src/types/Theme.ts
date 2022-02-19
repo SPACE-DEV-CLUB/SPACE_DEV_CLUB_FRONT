@@ -1,6 +1,6 @@
-import { Theme } from "../styles/theme"
+import { ThemeOptions } from "../styles/theme"
 
 export interface ThemeProps {
-  theme: Theme
+  theme: ThemeOptions
   isEmpty?: boolean
 }
