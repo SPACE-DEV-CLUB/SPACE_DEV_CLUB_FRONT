@@ -40,7 +40,7 @@ export const HeaderMenu = ({ username, session }: HeaderMenuProps) => {
         </Link>
       </MenuList>
       <MenuList>
-        <Link href={"/"} passHref>
+        <Link href={"/list/read"} passHref>
           <MenuBtn theme={theme}>읽기 목록</MenuBtn>
         </Link>
       </MenuList>
