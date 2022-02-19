@@ -1,9 +1,9 @@
 import { css } from "@emotion/react"
 import styled from "@emotion/styled"
-import { MEDIA_QUERY_END_POINT } from "../../constants"
-import { Theme } from "../../styles/theme"
-import { userInfo } from "../../types/Main"
-import { ThemeProps } from "../../types/Theme"
+import { MEDIA_QUERY_END_POINT } from "@src/constants"
+import { Theme } from "@styles/theme"
+import { userInfo } from "@src/types/Main"
+import { ThemeProps } from "@src/types/Theme"
 export interface SettingProps {
   user: {
     id: number

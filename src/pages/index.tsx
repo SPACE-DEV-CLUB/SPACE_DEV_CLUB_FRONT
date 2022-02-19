@@ -1,9 +1,9 @@
 import styled from "@emotion/styled"
 import type { NextPage } from "next"
 import Head from "next/head"
-import { Filter } from "../components/Home/Filter"
-import { Header } from "../components/Common/Header"
-import EasterEgg from "../components/Common/EasterEgg"
+import { Filter } from "@components/Home/Filter"
+import { Header } from "@components/Common/Header"
+import EasterEgg from "@components/Common/EasterEgg"
 
 const Home: NextPage = () => {
   return (

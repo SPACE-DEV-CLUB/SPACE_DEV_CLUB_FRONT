@@ -6,13 +6,13 @@ import { useEffect, useRef, useState } from "react"
 import { HeaderMenu } from "./HeaderMenu"
 import Link from "next/link"
 import { css } from "@emotion/react"
-import { Theme } from "../../styles/theme"
+import { Theme } from "@styles/theme"
 import { useContext } from "react"
-import { ThemeContext } from "../../pages/_app"
-import { ThemeProps } from "../../types/Theme"
+import { ThemeContext } from "@pages/_app"
+import { ThemeProps } from "@src/types/Theme"
 import { signIn, useSession } from "next-auth/react"
 
-import { MEDIA_QUERY_END_POINT } from "../../constants"
+import { MEDIA_QUERY_END_POINT } from "@src/constants"
 import { useRouter } from "next/router"
 
 interface HeaderProps {

@@ -2,8 +2,8 @@ import styled from "@emotion/styled"
 import axios from "axios"
 import Cookies from "js-cookie"
 import { useContext, useState } from "react"
-import { API_ENDPOINT } from "../../constants"
-import { ThemeContext } from "../../pages/_app"
+import { API_ENDPOINT } from "@src/constants"
+import { ThemeContext } from "@src/pages/_app"
 import {
   DefaultBtn,
   DefaultInput,
@@ -24,7 +24,7 @@ const VelogTitleSetting = ({ user }: SettingProps) => {
   const [velogTitle, setVelogTitle] = useState(
     user.attributes.velogtitle
       ? user.attributes.velogtitle
-      : `${user.attributes.userid}.log`
+      : `${user.attributes.userid}.log`,
   )
 
   const handleTitle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

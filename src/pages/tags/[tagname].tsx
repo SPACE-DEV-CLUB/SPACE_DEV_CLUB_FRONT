@@ -4,12 +4,12 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import qs from "qs"
 import { useContext } from "react"
-import { Header } from "../../components/Common/Header"
-import ContentData from "../../components/Common/ContentData"
-import TagLoading from "../../components/Tags/TagLoading"
-import { MEDIA_QUERY_END_POINT } from "../../constants"
-import { useData } from "../../hooks/useData"
-import { ThemeProps } from "../../types/Theme"
+import { Header } from "@components/Common/Header"
+import ContentData from "@components/Common/ContentData"
+import TagLoading from "@components/Tags/TagLoading"
+import { MEDIA_QUERY_END_POINT } from "@src/constants"
+import { useData } from "@hooks/useData"
+import { ThemeProps } from "@src/types/Theme"
 import { ThemeContext } from "../_app"
 
 const SearchTag = () => {
@@ -32,7 +32,7 @@ const SearchTag = () => {
     },
     {
       encodeValuesOnly: true,
-    }
+    },
   )
   const { data, error } = useData("hashtags", query)
 

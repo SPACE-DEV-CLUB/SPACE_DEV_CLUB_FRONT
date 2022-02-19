@@ -3,9 +3,9 @@ import axios from "axios"
 import Cookies from "js-cookie"
 import Image from "next/image"
 import React, { useContext, useState } from "react"
-import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "../../constants"
-import { ThemeContext } from "../../pages/_app"
-import { ThemeProps } from "../../types/Theme"
+import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "@src/constants"
+import { ThemeContext } from "@pages/_app"
+import { ThemeProps } from "@src/types/Theme"
 import {
   BtnContainer,
   btnStyle,
@@ -65,7 +65,7 @@ const ProfileSetting = ({ user }: SettingProps) => {
   }
 
   const handleProfile = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault()
     setCheck(false)

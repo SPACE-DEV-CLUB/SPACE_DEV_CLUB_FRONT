@@ -1,8 +1,8 @@
 import { MyCard } from "../MyPage/MyCard"
 import CardLoading from "./CardLoading"
-import { fetcher } from "../../utils/fetcher"
+import { fetcher } from "@utils/fetcher"
 import useSWRInfinite from "swr/infinite"
-import { API_ENDPOINT } from "../../constants"
+import { API_ENDPOINT } from "@constants/index"
 import { useEffect, useRef, useState, memo } from "react"
 import styled from "@emotion/styled"
 import qs from "qs"
@@ -45,14 +45,14 @@ const ContentData = ({ tag, username = undefined }: ContentDataProps) => {
       },
       {
         encodeValuesOnly: true,
-      }
+      },
     )
     return `${API_ENDPOINT}/posts?${query}`
   }
 
   const { data, size, setSize, error, isValidating } = useSWRInfinite(
     getKey,
-    fetcher
+    fetcher,
   )
 
   const isEmpty = data?.[0]?.data.length === 0

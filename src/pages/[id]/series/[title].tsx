@@ -1,15 +1,15 @@
 import styled from "@emotion/styled"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { Header } from "../../../components/Common/Header"
-import SeriesEditContainer from "../../../components/MyPage/Series/SeriesEditContainer"
+import { Header } from "@components/Common/Header"
+import SeriesEditContainer from "@components/MyPage/Series/SeriesEditContainer"
 import { useContext } from "react"
-import { ThemeContext } from "../../../pages/_app"
-import { ThemeProps } from "../../../types/Theme"
+import { ThemeContext } from "@pages/_app"
+import { ThemeProps } from "@src/types/Theme"
 import qs from "qs"
-import { useData } from "../../../hooks/useData"
-import { PostProps } from "../../../types/Main"
-import SeriesContainers from "../../../components/MyPage/Series/SeriesContainer"
+import { useData } from "@hooks/useData"
+import { PostProps } from "@src/types/Main"
+import SeriesContainers from "@components/MyPage/Series/SeriesContainer"
 
 const Series = () => {
   const { theme } = useContext(ThemeContext)

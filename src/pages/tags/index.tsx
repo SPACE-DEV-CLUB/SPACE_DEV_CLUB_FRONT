@@ -1,16 +1,16 @@
 import styled from "@emotion/styled"
 import { NextPage } from "next"
-import { Header } from "../../components/Common/Header"
+import { Header } from "@components/Common/Header"
 import { useContext, useState, useRef, useEffect } from "react"
-import { ThemeContext } from "../../pages/_app"
-import { Theme } from "../../styles/theme"
-import TagCards from "../../components/Tags/TagCards"
+import { ThemeContext } from "@pages/_app"
+import { Theme } from "@styles/theme"
+import TagCards from "@components/Tags/TagCards"
 import Head from "next/head"
-import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "../../constants"
-import TagMainLoading from "../../components/Tags/TagMainLoading"
+import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "@src/constants"
+import TagMainLoading from "@components/Tags/TagMainLoading"
 import useSWRInfinite from "swr/infinite"
 import qs from "qs"
-import { fetcher } from "../../utils/fetcher"
+import { fetcher } from "@utils/fetcher"
 
 const PAGE_SIZE = 4
 // 데이터 쌓인 후 12로 변경
@@ -34,7 +34,7 @@ const Tags: NextPage = () => {
 
   const { data, size, setSize, error, isValidating } = useSWRInfinite(
     getKey,
-    fetcher
+    fetcher,
   )
 
   const isEmpty = data?.[0]?.data.length === 0
@@ -106,7 +106,7 @@ const Tags: NextPage = () => {
                       tagDesc={e.attributes.description}
                       tagCount={e.attributes.posts.data.length}
                     />
-                  ))
+                  )),
                 )}
             </TagsContainer>
           </>

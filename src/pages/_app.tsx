@@ -1,10 +1,10 @@
 import type { AppProps } from "next/app"
 import React, { createContext } from "react"
 import { Global } from "@emotion/react"
-import { GlobalStyle } from "../styles/global-styles"
-import { lightTheme, darkTheme, Theme } from "../styles/theme"
-import { useDarkMode } from "../hooks/useDarkMode"
-import DarkModeToggle from "../components/Home/DarkModetoggle"
+import { GlobalStyle } from "@styles/global-styles"
+import { lightTheme, darkTheme, Theme } from "@styles/theme"
+import { useDarkMode } from "@hooks/useDarkMode"
+import DarkModeToggle from "@components/Home/DarkModetoggle"
 import { SessionProvider } from "next-auth/react"
 
 interface ContextProps {

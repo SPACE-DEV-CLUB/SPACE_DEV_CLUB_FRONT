@@ -1,15 +1,13 @@
 import styled from "@emotion/styled"
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd"
-import { useState } from "react"
-import { DetailCardProps, Post, PostProps } from "../../../types/Main"
+import { PostProps } from "@src/types/Main"
 import React from "react"
 import DraggableItem from "./DraggableItem"
 import { useContext } from "react"
-import { ThemeContext } from "../../../pages/_app"
-import { ThemeProps } from "../../../types/Theme"
-import { handleDate } from "../../../utils/date"
+import { ThemeContext } from "@pages/_app"
+import { ThemeProps } from "@src/types/Theme"
 import axios from "axios"
-import { API_ENDPOINT } from "../../../constants"
+import { API_ENDPOINT } from "@constants/index"
 
 interface SeriesContainerProps {
   handleEdit: () => void

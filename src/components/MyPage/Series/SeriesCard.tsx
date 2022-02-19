@@ -1,11 +1,11 @@
 import styled from "@emotion/styled"
 import Image from "next/image"
 import Link from "next/link"
-import { MEDIA_QUERY_END_POINT } from "../../../constants"
+import { MEDIA_QUERY_END_POINT } from "@constants/index"
 import { useRouter } from "next/router"
 import { useContext } from "react"
-import { ThemeContext } from "../../../pages/_app"
-import { ThemeProps } from "../../../types/Theme"
+import { ThemeContext } from "@pages/_app"
+import { ThemeProps } from "@src/types/Theme"
 
 export const SeriesCard = ({
   imageUrl,

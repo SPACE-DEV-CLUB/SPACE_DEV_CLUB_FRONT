@@ -1,9 +1,9 @@
 import styled from "@emotion/styled"
 import { useContext } from "react"
-import { MEDIA_QUERY_END_POINT } from "../../constants"
-import { ThemeContext } from "../../pages/_app"
-import { cardBasic, fade, loaderStyle } from "../../styles/loading-styled"
-import { ThemeProps } from "../../types/Theme"
+import { MEDIA_QUERY_END_POINT } from "@src/constants"
+import { ThemeContext } from "@src/pages/_app"
+import { cardBasic, fade, loaderStyle } from "@src/styles/loading-styled"
+import { ThemeProps } from "@src/types/Theme"
 
 const TagCardLoading = () => {
   const { theme } = useContext(ThemeContext)

@@ -1,10 +1,9 @@
-import { css, keyframes } from "@emotion/react"
 import styled from "@emotion/styled"
 import { useContext } from "react"
-import { MEDIA_QUERY_END_POINT } from "../../constants"
-import { ThemeContext } from "../../pages/_app"
-import { loaderStyle, cardBasic } from "../../styles/loading-styled"
-import { ThemeProps } from "../../types/Theme"
+import { MEDIA_QUERY_END_POINT } from "@constants/index"
+import { ThemeContext } from "@pages/_app"
+import { loaderStyle, cardBasic } from "@styles/loading-styled"
+import { ThemeProps } from "@src/types/Theme"
 
 const CardLoading = () => {
   const { theme } = useContext(ThemeContext)
