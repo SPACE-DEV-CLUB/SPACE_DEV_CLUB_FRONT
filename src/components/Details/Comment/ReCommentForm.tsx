@@ -16,14 +16,16 @@ interface Props {
   onComment: (index: number) => void;
   index: number;
   loginUserId?: number;
-  CommentLen: number;
+  CommentGroup: number;
+  CommentOrder: number;
 }
 
 export const ReCommentForm = ({
   onComment,
   index,
   loginUserId,
-  CommentLen,
+  CommentGroup,
+  CommentOrder,
 }: Props) => {
   const { theme } = useContext(ThemeContext);
   const [commentForm, setCommentForm] = useState(false);
@@ -40,7 +42,12 @@ export const ReCommentForm = ({
       )}
       {commentForm === true && (
         <ComComContainer>
-          <CommentForm loginUserId={loginUserId} CommentLen={CommentLen} />
+          <CommentForm
+            CommentOrder={CommentOrder}
+            loginUserId={loginUserId}
+            CommentGroup={CommentGroup}
+            setCommentForm={setCommentForm}
+          />
           <CommentRemove theme={theme} onClick={onCommentForm}>
             취소
           </CommentRemove>
