@@ -45,7 +45,7 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
   const [heartClick, setHeartClick] = useState(false);
   const [shareClick, setShareClick] = useState(false);
   const [putId, setPutId] = useState(0);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     loginUserId && getLikeData();
   }, []);
@@ -56,6 +56,10 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
       return;
     }
 
+    if (loading) {
+      alert("로딩중입니다. 잠시만 기다려주세요.");
+      return;
+    }
     let num = heartNum;
 
     setHeartClick(!heartClick);
@@ -83,6 +87,7 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
   };
 
   const postLike = async () => {
+    setLoading(true);
     axios({
       method: "post" as Method,
       url: `${API_ENDPOINT}/likeposts`,
@@ -95,10 +100,12 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
     }).then(function (response) {
       console.log(response);
       setPutId(response.data.data.id);
+      setLoading(false);
     });
   };
 
   const postUnLike = async () => {
+    setLoading(true);
     axios({
       method: "delete" as Method,
       url: `${API_ENDPOINT}/likeposts/${putId}`,
@@ -110,6 +117,7 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
       },
     }).then(function (response) {
       console.log(response);
+      setLoading(false);
     });
   };
 
