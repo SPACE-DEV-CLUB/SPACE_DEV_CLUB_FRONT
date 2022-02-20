@@ -1,8 +1,8 @@
+import { useRouter } from "next/router"
 import { NextPage } from "next"
 import React from "react"
 import { Content } from "@components/MyPage/Menus"
 import MypageLayout from "@components/MyPage/MypageLayout"
-import { useRouter } from "next/router"
 
 const Mypage: NextPage = () => {
   const router = useRouter()

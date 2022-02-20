@@ -1,11 +1,7 @@
 import styled from "@emotion/styled"
-import { useState } from "react"
-import { PALLETS_LIGHT } from "../../constants"
-import { Theme } from "../../styles/theme"
-import { useContext } from "react"
-import { ThemeContext } from "../../pages/_app"
-import React, { createContext } from "react"
-import { ThemeProvider } from "@emotion/react"
+import React, { useState,  useContext } from "react"
+import { Theme } from "@styles/theme"
+import { ThemeContext } from "@pages/_app"
 
 const OPTIONS = [
     { key: "today", value: "today", name: "오늘" },
@@ -13,12 +9,6 @@ const OPTIONS = [
     { key: "month", value: "month", name: "이번 달" },
     { key: "year", value: "year", name: "올 해" },
 ]
-
-interface StyledType {
-    theme: Theme
-    route: string
-}
-
 interface ThemeProps {
     theme: Theme
 }

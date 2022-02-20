@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useContext } from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useContext } from 'react';
 import SAMPLE_IMG from '../../../public/image/sampleUser2.jpg';
 import { Theme } from '@styles/theme';
 import { ThemeContext } from '@pages/_app';

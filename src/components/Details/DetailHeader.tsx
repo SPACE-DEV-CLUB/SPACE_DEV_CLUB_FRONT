@@ -62,12 +62,7 @@ export const DetailHeader = ({
           postid: postid,
         },
       },
-    }).then(function (response) {
-      console.log(response);
-      console.log(`method : ${method}`);
-      console.log(`data-id : ${putid}`);
-      console.log(`post-id : ${postid}`);
-    });
+    })
   };
 
   const onIntersect: IntersectionObserverCallback = async (

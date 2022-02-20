@@ -1,11 +1,10 @@
-import { fetcher } from "../../utils/fetcher"
 import useSWRInfinite from "swr/infinite"
-import { API_ENDPOINT } from "../../constants"
 import { useEffect, useRef, useState } from "react"
 import styled from "@emotion/styled"
 import qs from "qs"
-import { PostCard } from "."
-import { MEDIA_QUERY_END_POINT } from "../../constants"
+import { fetcher } from "@utils/fetcher"
+import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "@constants/."
+import { ListCard, ListCardLoading } from "."
 
 let PAGE_SIZE = 3
 
@@ -119,13 +118,13 @@ export const CardContainer = ({filter} :
         {data &&
           data.map((loaded) => {
             return loaded.data.map((e: any, i: number) => (
-              <PostCard
+              <ListCard
                 key={`${e}_${i}`}
                 imageUrl={e.attributes.imageUrl}
                 title={e.attributes.title}
                 contents={e.attributes.contents}
                 comments={e.attributes.comments}
-                username={"deli-ght"}
+                username={'deli-ght'}
                 count={e.attributes.count}
                 publishedAt={e.attributes.publishedAt}
               />
@@ -133,7 +132,12 @@ export const CardContainer = ({filter} :
           })}
       </Container>
       <TargetElement ref={setTarget}>
-        {isValidating && !isReachingEnd.current && <div>로딩중</div>}
+        {isValidating && !isReachingEnd.current &&
+            <Container>
+            {[...Array(PAGE_SIZE)].map((e, i) => (
+                <ListCardLoading key={i}/>
+              ))}
+            </Container>}
       </TargetElement>
     </>
   )
@@ -142,24 +146,38 @@ const Container = styled.section`
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 16px;
-  margin: 0 auto;
+  margin: 0 auto 16px;
   @media (min-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     grid-template-columns: repeat(2, 1fr);
     gap: 32px;
+    margin: 0 auto 16px;
   }
+
   @media (min-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
+    margin-bottom:32px;
     max-width: ${MEDIA_QUERY_END_POINT.TABLET};
   }
+
+  @media (min-width: ${MEDIA_QUERY_END_POINT.DESKTOP}) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-bottom:32px;
+    max-width: ${MEDIA_QUERY_END_POINT.TABLET};
+  }
+
   @media (min-width: ${MEDIA_QUERY_END_POINT.LARGE}) {
     grid-template-columns: repeat(4, 1fr);
     gap: 32px;
-    max-width: ${MEDIA_QUERY_END_POINT.LARGE};
+    margin-bottom:32px;
+    max-width: ${MEDIA_QUERY_END_POINT.DESKTOP};
   }
+  
   @media (min-width: ${MEDIA_QUERY_END_POINT.XLARGE}) {
     grid-template-columns: repeat(5, 1fr);
     gap: 32px;
+    margin-bottom:32px;
     max-width: 1728px;
   }
 `

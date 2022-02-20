@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Filter } from "../../components/Home/Filter";
-import { Header } from "../../components/Common/Header";
+import { Filter } from "@components/Home/Filter";
+import { Header } from "@components/Common/Header";
 
 const Home: NextPage = () => {
   return (

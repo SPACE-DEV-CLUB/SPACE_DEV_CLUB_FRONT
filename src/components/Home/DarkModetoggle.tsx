@@ -1,10 +1,10 @@
-import React, { ReactElement, useContext } from 'react';
-import styled from '@emotion/styled';
-import { ThemeContext } from '../../pages/_app';
-import { lightTheme, Theme } from '../../styles/theme';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { MEDIA_QUERY_END_POINT } from '../../constants';
+import styled from '@emotion/styled';
+import React, { ReactElement, useContext } from 'react';
+import { ThemeContext } from '@pages/_app';
+import { lightTheme, Theme } from '@styles/theme';
+import { MEDIA_QUERY_END_POINT } from '@constants/.';
 
 interface ToggleProps {
   theme: Theme;

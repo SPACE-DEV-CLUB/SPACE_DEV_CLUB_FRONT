@@ -1,10 +1,8 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { useState } from 'react';
-import { PALLETS_LIGHT } from '../../constants';
-import { Theme } from '../../styles/theme';
-import { useContext } from 'react';
-import { ThemeContext } from '../../pages/_app';
+import { useState, useContext  } from 'react';
+import { ThemeContext } from '@pages/_app';
+import { Theme } from '@styles/theme';
 
 interface StyledType {
   theme: Theme;
