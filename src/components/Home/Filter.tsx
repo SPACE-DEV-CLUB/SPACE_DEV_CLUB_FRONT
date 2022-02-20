@@ -1,17 +1,13 @@
-import Link from 'next/link';
-import React from 'react';
-import styled from '@emotion/styled';
-import { useSession } from "next-auth/react"
-import { Notice, SelectBox } from './index';
-import { MEDIA_QUERY_END_POINT, PALLETS_LIGHT } from '../../constants';
 import MovingIcon from '@mui/icons-material/Moving';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { Theme } from '../../styles/theme';
-import { useState, useContext, useEffect } from 'react';
-import { ThemeContext } from '../../pages/_app';
-import { CardContainer } from '../Home/CardContainer';
-import {ListCardContainer} from '../Home/ListCardContainer'
-
+import styled from '@emotion/styled';
+import { useSession } from "next-auth/react"
+import Link from 'next/link';
+import React, { useState, useContext } from 'react';
+import { MEDIA_QUERY_END_POINT } from '@constants/.';
+import { Theme } from '@styles/theme';
+import { ThemeContext } from '@pages/_app';
+import { Notice, SelectBox, CardContainer, ListCardContainer } from '.';
 interface StyledType {
   theme: Theme;
   route: string;
@@ -36,7 +32,7 @@ export const Filter = ({ route }: { route: string }) => {
 
   return (
     <>
-      <FilterContainer>
+      <FilterContainer route={route}>
         <BoxContainer>
           <BoxContainer>
             <Link
@@ -142,7 +138,7 @@ const Line = styled.div<StyledType>`
   background: ${({ theme }) => theme.MAIN_FONT};
 `;
 
-const FilterContainer = styled.div`
+const FilterContainer = styled.div<{ route: string }>`
   display: flex;
   justify-content: space-between;
   padding: 32px 0;
@@ -153,7 +149,7 @@ const FilterContainer = styled.div`
     max-width: ${MEDIA_QUERY_END_POINT.TABLET};
   }
   @media (min-width: ${MEDIA_QUERY_END_POINT.LARGE}) {
-    max-width: ${MEDIA_QUERY_END_POINT.LARGE};
+    max-width: ${MEDIA_QUERY_END_POINT.DESKTOP};
   }
   @media (min-width: ${MEDIA_QUERY_END_POINT.XLARGE}) {
     max-width: 1728px;

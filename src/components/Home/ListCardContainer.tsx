@@ -1,10 +1,10 @@
 import useSWRInfinite from "swr/infinite"
-import { useEffect, useRef, useState } from "react"
-import styled from "@emotion/styled"
 import qs from "qs"
-import { MEDIA_QUERY_END_POINT, API_ENDPOINT } from "@constants/."
+import styled from "@emotion/styled"
+import { useEffect, useRef, useState } from "react"
 import { fetcher } from "@utils/fetcher"
-import { ListCard } from "."
+import { MEDIA_QUERY_END_POINT, API_ENDPOINT } from "@constants/."
+import { ListCard , ListCardLoading} from "."
 
 let PAGE_SIZE = 3
 
@@ -45,7 +45,7 @@ export const ListCardContainer = ({
           pageSize: PAGE_SIZE,
         },
         populate: "*",
-        sort: ["publishedAt:desc"],
+        sort: ["updatedAt:desc"],
         filters: {
           userid: {
             email: {
@@ -110,7 +110,12 @@ export const ListCardContainer = ({
           })}
       </Container>
       <TargetElement ref={setTarget}>
-        {isValidating && !isReachingEnd.current && <div>로딩중</div>}
+        {isValidating && !isReachingEnd.current &&
+            <Container>
+            {[...Array(PAGE_SIZE)].map((e, i) => (
+                <ListCardLoading key={i}/>
+              ))}
+            </Container>}
       </TargetElement>
     </>
   )
@@ -119,33 +124,41 @@ const Container = styled.section`
 display: grid;
 grid-template-columns: repeat(1, 1fr);
 gap: 16px;
-margin: 0 auto;
+margin: 0 auto 16px;
 @media (min-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
   grid-template-columns: repeat(2, 1fr);
   gap: 32px;
+  margin: 0 auto 16px;
 }
+
 @media (min-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
+  margin-bottom:32px;
   max-width: ${MEDIA_QUERY_END_POINT.TABLET};
 }
+
 @media (min-width: ${MEDIA_QUERY_END_POINT.DESKTOP}) {
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
+  margin-bottom:32px;
   max-width: ${MEDIA_QUERY_END_POINT.TABLET};
 }
+
 @media (min-width: ${MEDIA_QUERY_END_POINT.LARGE}) {
   grid-template-columns: repeat(4, 1fr);
   gap: 32px;
-  max-width: ${MEDIA_QUERY_END_POINT.LARGE};
+  margin-bottom:32px;
+  max-width: ${MEDIA_QUERY_END_POINT.DESKTOP};
 }
+
 @media (min-width: ${MEDIA_QUERY_END_POINT.XLARGE}) {
   grid-template-columns: repeat(5, 1fr);
   gap: 32px;
+  margin-bottom:32px;
   max-width: 1728px;
 }
 `
-
 const TargetElement = styled.article`
   width: 100%;
   height: 100px;
