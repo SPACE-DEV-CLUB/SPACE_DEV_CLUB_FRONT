@@ -21,8 +21,8 @@ export const EditorContainer = () => {
   const [imageSrc, setImageSrc] = useState<
     string | null | ArrayBuffer | undefined
   >("");
-
   const { theme } = useContext(ThemeContext);
+
   // useEffect(() => {
   //   let timer: any;
   //   if (submit) {
@@ -113,17 +113,132 @@ export const EditorContainer = () => {
     setContents(e.target.value);
   };
 
+  console.log("txtAreaCont value", txtAreaCont);
+
+  //알고리즘임
+  // 1.클릭된 문자열 위치를 확인해서 (split or match) 몇번째줄인지 확인한다.
+  // 2.해당 문자열 앞에 버튼에 맞는 hTag를 추가해준다. "#" + "n번째줄"
+  // 3.해당 문자열을 다시 합쳐 (join?) setState에 넣어준다.
+  // 4.버튼을 두번 누르면 아무일도 일어나지 않게 막는다.
+  // 5.커서가 없으면 마지막줄에 바로 들어간다.
   const handleHeadBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     const hElemnt = e.target as HTMLElement;
-    let hTag = hElemnt.innerText;
+    const hTag = hElemnt.innerText;
+    const textSplit = txtAreaCont.current.value.split("\n");
+    const textLengthArray: any[] = [];
+    textSplit.forEach((i: string) => {
+      textLengthArray.push(i.length as any);
+    });
+    let endPoint = txtAreaCont.current.selectionEnd;
+    let checkLine = 0;
+
+    for (let i = 0; i < textSplit.length; i++) {
+      // let benchMark = endPoint;
+      endPoint -= textLengthArray[i];
+      if (endPoint <= 0 || endPoint === 1) {
+        checkLine = i;
+        break;
+      } else if (endPoint > 0) {
+        checkLine = textSplit.length - 1;
+      }
+    }
+
     if (hTag === "H1" || hTag === "1") {
-      console.log("clcked h1");
+      if (checkLine === 0) {
+        let addMd = textSplit.splice(checkLine, 1, "# " + textSplit[checkLine]);
+        for (let i = 1; i < textSplit.length; i++) {
+          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
+        }
+      } else {
+        let addMd = textSplit.splice(
+          checkLine,
+          1,
+          "\n# " + textSplit[checkLine]
+        );
+        for (let i = 1; i < checkLine; i++) {
+          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
+        }
+        for (let i = checkLine + 1; i < textSplit.length; i++) {
+          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
+        }
+      }
+      let result = textSplit.join("");
+      setContents(result);
     } else if (hTag === "H2" || hTag === "2") {
-      console.log("clcked h2");
+      if (checkLine === 0) {
+        let addMd = textSplit.splice(
+          checkLine,
+          1,
+          "## " + textSplit[checkLine]
+        );
+        for (let i = 1; i < textSplit.length; i++) {
+          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
+        }
+      } else {
+        let addMd = textSplit.splice(
+          checkLine,
+          1,
+          "\n## " + textSplit[checkLine]
+        );
+        for (let i = 1; i < checkLine; i++) {
+          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
+        }
+        for (let i = checkLine + 1; i < textSplit.length; i++) {
+          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
+        }
+      }
+      let result = textSplit.join("");
+      setContents(result);
     } else if (hTag === "H3" || hTag === "3") {
-      console.log("clcked h3");
+      if (checkLine === 0) {
+        let addMd = textSplit.splice(
+          checkLine,
+          1,
+          "### " + textSplit[checkLine]
+        );
+        for (let i = 1; i < textSplit.length; i++) {
+          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
+        }
+      } else {
+        let addMd = textSplit.splice(
+          checkLine,
+          1,
+          "\n### " + textSplit[checkLine]
+        );
+        for (let i = 1; i < checkLine; i++) {
+          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
+        }
+        for (let i = checkLine + 1; i < textSplit.length; i++) {
+          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
+        }
+      }
+      let result = textSplit.join("");
+      setContents(result);
     } else if (hTag === "H4" || hTag === "4") {
-      console.log("clcked h4");
+      if (checkLine === 0) {
+        let addMd = textSplit.splice(
+          checkLine,
+          1,
+          "#### " + textSplit[checkLine]
+        );
+        for (let i = 1; i < textSplit.length; i++) {
+          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
+        }
+      } else {
+        let addMd = textSplit.splice(
+          checkLine,
+          1,
+          "\n#### " + textSplit[checkLine]
+        );
+        for (let i = 1; i < checkLine; i++) {
+          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
+        }
+        for (let i = checkLine + 1; i < textSplit.length; i++) {
+          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
+        }
+      }
+      let result = textSplit.join("");
+      setContents(result);
     }
   };
 
@@ -266,3 +381,6 @@ const MDWrap = styled.article<ThemeProps>`
     display: none;
   }
 `;
+function typeOf(endPoint: any): any {
+  throw new Error("Function not implemented.");
+}
