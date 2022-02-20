@@ -12,51 +12,79 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { Theme } from "@styles/theme";
 import { useContext } from "react";
 import { ThemeContext } from "@pages/_app";
+import { PostContext } from "@src/pages/[id]/[details]";
+import { useRouter } from "next/router";
 
 interface ThemeProps {
   theme: Theme;
 }
 
-const seriesData = [
-  {
-    ID: 0,
-    PATH: "#",
-    TITLE: "시리즈1",
-  },
-  {
-    ID: 1,
-    PATH: "#",
-    TITLE: "시리즈2",
-  },
-  {
-    ID: 2,
-    PATH: "#",
-    TITLE: "시리즈3",
-  },
-];
+interface CurrentPost {
+  currentPost: number | undefined;
+  SeriesBoxPostLength: number;
+}
+
+interface Current {
+  theme: Theme;
+  currentPost: boolean;
+}
 
 export const SeriesContainer = () => {
   const { theme } = useContext(ThemeContext);
+  const router = useRouter();
+  const { postid, postObj, series } = useContext(PostContext);
   const [select, setSelect] = useState(false);
+
+  const userId = postObj.userid.data.id;
+  const seriesBox = series.filter(
+    (s) => userId === s.attributes.userid.data.id
+  )[0];
+  const userName = seriesBox.attributes.userid.data.attributes.userid;
+  const SeriesBoxPost = seriesBox.attributes.post.data;
+  const currentPost = SeriesBoxPost.map((data, i) => {
+    if (data.id === postid) return i + 1;
+  }).filter((index) => index)[0];
+
   const handleSeries = () => {
     setSelect(!select);
   };
+
+  const onClickBtn = (type: string) => {
+    if (type === "prev" && currentPost !== 1) {
+      const link = SeriesBoxPost[currentPost! - 2].attributes.url;
+      router.push(`/${userName}/${link}`);
+    }
+    if (type === "next" && currentPost !== SeriesBoxPost.length) {
+      const link = SeriesBoxPost[currentPost!].attributes.url;
+      router.push(`/${userName}/${link}`);
+    }
+  };
+
   return (
     <Container theme={theme}>
       <SeriesHeader>
-        <Link href="#" passHref>
-          <SeriesName theme={theme}>시리즈제목</SeriesName>
+        <Link
+          href={`/${userName}/series/${seriesBox.attributes.title}`}
+          passHref
+        >
+          <SeriesName theme={theme}>{seriesBox.attributes.title}</SeriesName>
         </Link>
       </SeriesHeader>
       <BookmarkIcon className="BookmarkIcon" />
       {select && (
         <SeriesList>
-          {seriesData.map((series) => {
-            const { ID, PATH, TITLE } = series;
+          {SeriesBoxPost.map((data, i) => {
+            const { title, url } = data.attributes;
+
             return (
-              <SeriesItem key={`series-id-${ID}`} theme={theme}>
-                <Link href={PATH} passHref>
-                  <SeriesTitle theme={theme}>{TITLE}</SeriesTitle>
+              <SeriesItem key={`series-id-${data.id}`} theme={theme}>
+                <Link href={`/${userName}/${url}`} passHref>
+                  <SeriesTitle
+                    theme={theme}
+                    currentPost={currentPost === i + 1}
+                  >
+                    {title}
+                  </SeriesTitle>
                 </Link>
               </SeriesItem>
             );
@@ -69,14 +97,26 @@ export const SeriesContainer = () => {
           <Select>{select ? "숨기기" : "목록 보기"}</Select>
         </SelectBox>
         <Pagination>
-          <SeriesNumber>2/3</SeriesNumber>
+          {
+            <SeriesNumber>
+              {currentPost}/{SeriesBoxPost.length}
+            </SeriesNumber>
+          }
           <BtnContainer>
-            <Btn>
+            <PrevBtn
+              onClick={(e) => onClickBtn("prev")}
+              currentPost={currentPost}
+              SeriesBoxPostLength={SeriesBoxPost.length}
+            >
               <ArrowBackIosIcon className="series-arrow" />
-            </Btn>
-            <Btn>
+            </PrevBtn>
+            <NextBtn
+              onClick={(e) => onClickBtn("next")}
+              currentPost={currentPost}
+              SeriesBoxPostLength={SeriesBoxPost.length}
+            >
               <ArrowForwardIosIcon className="series-arrow" />
-            </Btn>
+            </NextBtn>
           </BtnContainer>
         </Pagination>
       </SPContainer>
@@ -84,7 +124,6 @@ export const SeriesContainer = () => {
   );
 };
 
-// 시리즈 제목과 svg 컨테이너
 const Container = styled.article<ThemeProps>`
   margin-top: 32px;
   padding: 32px 24px;
@@ -123,14 +162,15 @@ const SeriesItem = styled.li<ThemeProps>`
     margin-right: 5px;
   }
 `;
-const SeriesTitle = styled.a<ThemeProps>`
+const SeriesTitle = styled.a<Current>`
   color: ${({ theme }) => theme.SUB_FONT};
   line-height: 30px;
-  /* 선택된 시리즈.. 생각해보기 */
-  &.on {
-    color: ${PALLETS_LIGHT.MAIN};
-    font-weight: 700;
-  }
+  ${({ currentPost }) =>
+    currentPost
+      ? `    color: ${PALLETS_LIGHT.MAIN};
+    font-weight: 700;`
+      : ""}
+
   &:hover {
     text-decoration: underline;
   }
@@ -170,9 +210,9 @@ const SeriesNumber = styled.span`
   margin-right: 20px;
   color: ${PALLETS_LIGHT.MAIN};
 `;
-const Btn = styled.button`
-  /* 마지막 페이지면 넘어가기 호버 및 클릭 막기 */
+const PrevBtn = styled.div<CurrentPost>`
   color: ${PALLETS_LIGHT.MAIN};
+  cursor: ${({ currentPost }) => (currentPost !== 1 ? "pointer" : "auto")};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -181,8 +221,34 @@ const Btn = styled.button`
   border: 1px solid ${PALLETS_LIGHT.SUB};
   border-radius: 50%;
   font-size: 20px;
-  &:hover {
+  opacity: ${({ currentPost }) => (currentPost !== 1 ? 1 : 0.3)};
+  cursor: ${({ currentPost }) =>
+    currentPost !== 1
+      ? `  &:hover {
     background-color: ${PALLETS_LIGHT.MAIN};
     color: ${PALLETS_LIGHT.CARD_BACKGROUND};
-  }
+  }`
+      : ""};
+`;
+const NextBtn = styled.div<CurrentPost>`
+  color: ${PALLETS_LIGHT.MAIN};
+  cursor: ${({ currentPost, SeriesBoxPostLength }) =>
+    currentPost !== SeriesBoxPostLength ? "pointer" : "auto"};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid ${PALLETS_LIGHT.SUB};
+  border-radius: 50%;
+  font-size: 20px;
+  opacity: ${({ currentPost, SeriesBoxPostLength }) =>
+    currentPost !== SeriesBoxPostLength ? 1 : 0.3};
+  ${({ currentPost, SeriesBoxPostLength }) =>
+    currentPost !== SeriesBoxPostLength
+      ? `  &:hover {
+    background-color: ${PALLETS_LIGHT.MAIN};
+    color: ${PALLETS_LIGHT.CARD_BACKGROUND};
+  }`
+      : ""};
 `;
