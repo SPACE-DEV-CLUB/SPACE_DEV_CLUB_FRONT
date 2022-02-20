@@ -96,7 +96,9 @@ export const DetailHeader = ({
       <div ref={setTarget}></div>
       <Intro username={userName} userdata={userdata} />
       <Carousel />
-      <CommentFormContainer loginUserId={loginUserId} />
+      {postObj.comments.data.length !== 0 && (
+        <CommentFormContainer loginUserId={loginUserId} />
+      )}
     </Header>
   );
 };

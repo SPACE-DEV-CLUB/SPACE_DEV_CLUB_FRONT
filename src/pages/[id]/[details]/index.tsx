@@ -134,10 +134,38 @@ let postObj = {
     ],
   },
 };
+let series = [
+  {
+    id: 0,
+    attributes: {
+      title: "",
+      userid: {
+        data: {
+          id: 0,
+          attributes: {
+            userid: "",
+          },
+        },
+      },
+      post: {
+        data: [
+          {
+            id: 0,
+            attributes: {
+              title: "",
+              url: "",
+            },
+          },
+        ],
+      },
+    },
+  },
+];
 
 export const PostContext = createContext({
   postid: postid,
   postObj: postObj,
+  series: series,
 });
 
 const DetailsIndexPage: NextPage = () => {
@@ -151,15 +179,15 @@ const DetailsIndexPage: NextPage = () => {
     "populate=*"
   );
 
-  // const { data: SeriesBoxData, error: SeriesBoxError } =
-  //   useData("series-boxes");
+  const { data: SeriesBoxData, error: SeriesBoxError } = useData(
+    "series-boxes",
+    "populate=*"
+  );
 
-  // const { data: SeriesPostData, error: SeriesPostError } =
-  //   useData("series-posts");
+  if (!DetailData || !SeriesBoxData) return <div>로딩중</div>;
+  if (DetailError || SeriesBoxError) return <div>에러</div>;
 
-  if (!DetailData) return <div>로딩중</div>;
-  if (DetailError) return <div>에러</div>;
-
+  const series = SeriesBoxData.data;
   const userCookieData = Cookies.get("user");
 
   const loginUserId = userCookieData && JSON.parse(userCookieData!).id;
@@ -217,7 +245,7 @@ const DetailsIndexPage: NextPage = () => {
   // SeriesBoxData.data.some((seriesBox) => {});
 
   return (
-    <PostContext.Provider value={{ postid, postObj }}>
+    <PostContext.Provider value={{ postid, postObj, series }}>
       <Head>
         <title>{postObj.title}</title>
         <meta name="description" content={postObj.contents} />
