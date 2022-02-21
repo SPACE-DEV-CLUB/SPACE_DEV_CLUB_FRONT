@@ -187,16 +187,16 @@ const DetailsIndexPage: NextPage = () => {
         <div>
           <Header username={"deli-ght"} user={true} />
           <DetailContainer>
-            {/* <LeftHeader
+            <LeftHeader
               loginUserId={loginUserId}
               loginUserName={loginUserName}
-            /> */}
-            <DetailHeader
+            />
+            {/* <DetailHeader
               userName={userName}
               userdata={user}
               loginUserId={loginUserId}
               loginUserName={loginUserName}
-            />
+            /> */}
             <RightHeader />
           </DetailContainer>
           <PostsContainer theme={theme}>
