@@ -10,23 +10,10 @@ import BorderInnerIcon from "@mui/icons-material/BorderInner";
 
 import { CommentForm, ReCommentForm, CommentContainer } from ".";
 import { PostContext } from "@src/pages/[id]/[details]";
+import { CommentData } from "@src/types/Detail";
 
 interface ThemeProps {
   theme: Theme;
-}
-
-export interface CommentData {
-  id: number;
-  attributes: {
-    userid: number;
-    postid: number;
-    content: string;
-    createdAt: string;
-    depth: number;
-    order: number;
-    group: number;
-    is_deleted: boolean;
-  };
 }
 
 interface Props {

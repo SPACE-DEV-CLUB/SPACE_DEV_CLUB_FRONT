@@ -7,8 +7,8 @@ import { ThemeContext } from "@pages/_app";
 import axios, { Method } from "axios";
 import { API_ENDPOINT } from "@src/constants";
 import { useSWRConfig } from "swr";
-import { CommentData } from ".";
 import { PostContext } from "@src/pages/[id]/[details]";
+import { CommentData } from "@src/types/Detail";
 
 interface ThemeProps {
   theme: Theme;

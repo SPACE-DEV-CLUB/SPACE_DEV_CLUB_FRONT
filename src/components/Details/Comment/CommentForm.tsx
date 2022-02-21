@@ -32,7 +32,7 @@ export const CommentForm = ({
   type,
 }: Props) => {
   const { theme } = useContext(ThemeContext);
-  const { postid, postObj } = useContext(PostContext);
+  const { postid } = useContext(PostContext);
   const [commentText, setCommentText] = useState(CommentContent);
   const { mutate } = useSWRConfig();
 
@@ -41,48 +41,52 @@ export const CommentForm = ({
     type: string
   ) => {
     e.preventDefault();
-    if (type === "CommentCreate" || type === "ReCommentCreate") {
-      let CommentDepth;
-      if (CommentOrder === 0) {
-        CommentDepth = 0;
-      } else {
-        CommentDepth = 1;
+    if (loginUserId) {
+      if (type === "CommentCreate" || type === "ReCommentCreate") {
+        let CommentDepth;
+        if (CommentOrder === 0) {
+          CommentDepth = 0;
+        } else {
+          CommentDepth = 1;
+        }
+
+        const Data = {
+          userid: loginUserId!,
+          postid: postid,
+          content: commentText,
+          depth: CommentDepth,
+          order: CommentOrder,
+          group: CommentGroup,
+          is_deleted: false,
+          posts: postid,
+        };
+
+        await axios({
+          method: "post" as Method,
+          url: `${API_ENDPOINT}/comments`,
+          data: {
+            data: Data,
+          },
+        });
+        setCommentText("");
+        setCommentForm(false);
+        mutate(`${API_ENDPOINT}/posts?populate=*`);
+      } else if (type === "CommentUpdate") {
+        const Data = {
+          content: commentText,
+        };
+        await axios({
+          method: "put" as Method,
+          url: `${API_ENDPOINT}/comments/${CommentId}`,
+          data: {
+            data: Data,
+          },
+        });
+        setCommentForm(false);
+        mutate(`${API_ENDPOINT}/posts?populate=*`);
       }
-
-      const Data = {
-        userid: loginUserId!,
-        postid: postid,
-        content: commentText,
-        depth: CommentDepth,
-        order: CommentOrder,
-        group: CommentGroup,
-        is_deleted: false,
-        posts: postid,
-      };
-
-      await axios({
-        method: "post" as Method,
-        url: `${API_ENDPOINT}/comments`,
-        data: {
-          data: Data,
-        },
-      });
-      setCommentText("");
-      setCommentForm(false);
-      mutate(`${API_ENDPOINT}/posts?populate=*`);
-    } else if (type === "CommentUpdate") {
-      const Data = {
-        content: commentText,
-      };
-      await axios({
-        method: "put" as Method,
-        url: `${API_ENDPOINT}/comments/${CommentId}`,
-        data: {
-          data: Data,
-        },
-      });
-      setCommentForm(false);
-      mutate(`${API_ENDPOINT}/posts?populate=*`);
+    } else {
+      alert("로그인 이후에 이용할 수 있습니다.");
     }
   };
 

@@ -1,13 +1,6 @@
 import styled from "@emotion/styled";
-import { Comment, CommentData } from ".";
-
-export interface CommentUser {
-  id: number;
-  attributes: {
-    userid: string;
-    profileimage: string;
-  };
-}
+import { CommentData, CommentUser } from "@src/types/Detail";
+import { Comment } from ".";
 
 interface Props {
   comment: CommentData;

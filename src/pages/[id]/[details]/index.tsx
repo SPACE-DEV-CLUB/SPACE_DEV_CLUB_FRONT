@@ -19,73 +19,10 @@ import { useData } from "@hooks/useData";
 import { ErrorPage } from "@components/Common/ErrorPage";
 import { userInfo } from "../../../types/Main";
 import Cookies from "js-cookie";
+import { Post } from "@src/types/Detail";
 
 interface ThemeProps {
   theme: Theme;
-}
-
-export interface Hashtags {
-  id: number;
-  attributes: {
-    name: string;
-    createdAt: string;
-    description: string;
-    image: string;
-  };
-}
-
-export interface Post {
-  id: number;
-  attributes: {
-    title: string;
-    contents: string;
-    published: boolean;
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-    url: string;
-    private: null;
-
-    userid: {
-      data: {
-        id: number;
-        attributes: userInfo;
-      };
-    };
-
-    likeposts: {
-      data: [];
-    };
-
-    comments: {
-      data: [];
-    };
-    hashtags: {
-      data: Hashtags[];
-    };
-  };
-}
-
-// interface SeriesBox {
-//   id: number;
-//   attributes: {
-//     createdAt: string;
-//     publishedAt: string;
-//     title: string;
-//   };
-// }
-
-// interface SeriesPost {}
-
-interface ReadingPost {
-  id: number;
-  attributes: {
-    postid: {
-      data: {
-        id: number;
-      };
-    };
-  };
 }
 
 let postid = 0;
@@ -194,9 +131,6 @@ const DetailsIndexPage: NextPage = () => {
   const loginUserName =
     userCookieData && JSON.parse(userCookieData!).attributes.userid;
 
-  // let seriesBox = {};
-  // let seriesPost = {};
-
   let user: userInfo = {
     email: "",
     userid: "",
@@ -242,8 +176,6 @@ const DetailsIndexPage: NextPage = () => {
       ? shuffle(interested).slice(0, 10)
       : shuffle(interested);
 
-  // SeriesBoxData.data.some((seriesBox) => {});
-
   return (
     <PostContext.Provider value={{ postid, postObj, series }}>
       <Head>
@@ -255,10 +187,10 @@ const DetailsIndexPage: NextPage = () => {
         <div>
           <Header username={"deli-ght"} user={true} />
           <DetailContainer>
-            <LeftHeader
+            {/* <LeftHeader
               loginUserId={loginUserId}
               loginUserName={loginUserName}
-            />
+            /> */}
             <DetailHeader
               userName={userName}
               userdata={user}

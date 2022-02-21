@@ -14,6 +14,7 @@ import { useContext } from "react";
 import { ThemeContext } from "@pages/_app";
 import { PostContext } from "@src/pages/[id]/[details]";
 import { useRouter } from "next/router";
+import { SeriesBox, SeriesBoxPost } from "@src/types/Detail";
 
 interface ThemeProps {
   theme: Theme;
@@ -29,19 +30,23 @@ interface Current {
   currentPost: boolean;
 }
 
-export const SeriesContainer = () => {
+interface Props {
+  seriesBox: SeriesBox;
+  userName: string | string[] | undefined;
+  SeriesBoxPost: SeriesBoxPost[];
+}
+
+export const SeriesContainer = ({
+  seriesBox,
+  SeriesBoxPost,
+  userName,
+}: Props) => {
   const { theme } = useContext(ThemeContext);
   const router = useRouter();
   const { postid, postObj, series } = useContext(PostContext);
   const [select, setSelect] = useState(false);
 
-  const userId = postObj.userid.data.id;
-  const seriesBox = series.filter(
-    (s) => userId === s.attributes.userid.data.id
-  )[0];
-  const userName = seriesBox.attributes.userid.data.attributes.userid;
-  const SeriesBoxPost = seriesBox.attributes.post.data;
-  const currentPost = SeriesBoxPost.map((data, i) => {
+  const currentPost = SeriesBoxPost.map((data: SeriesBoxPost, i: number) => {
     if (data.id === postid) return i + 1;
   }).filter((index) => index)[0];
 

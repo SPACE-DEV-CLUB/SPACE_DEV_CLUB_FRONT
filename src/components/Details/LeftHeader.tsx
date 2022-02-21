@@ -13,8 +13,6 @@ import { Theme } from "@styles/theme";
 import { ThemeContext } from "@pages/_app";
 import axios, { Method } from "axios";
 
-import { handleDate } from "../../utils/date";
-import { breakpoints } from "@mui/system";
 import { PostContext } from "@src/pages/[id]/[details]";
 
 interface ThemeProps {
