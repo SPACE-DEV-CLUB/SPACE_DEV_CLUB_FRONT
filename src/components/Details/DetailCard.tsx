@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { PostCard } from "../Home/Card";
 import { MEDIA_QUERY_END_POINT } from "@constants/index";
-import { Post } from "@pages/[id]/[details]";
+import { Post } from "@src/types/Detail";
 
 interface Interested {
   interested: Post[];

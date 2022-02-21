@@ -6,8 +6,9 @@ import { useContext, useState } from "react";
 import { ThemeContext } from "@pages/_app";
 
 import { handleDate } from "@utils/date";
-import { CommentData, CommentUser, DeleteModel } from ".";
+import { DeleteModel } from ".";
 import { UpdateCommentForm } from "./UpdateCommentForm";
+import { CommentData, CommentUser } from "@src/types/Detail";
 
 interface ThemeProps {
   theme: Theme;

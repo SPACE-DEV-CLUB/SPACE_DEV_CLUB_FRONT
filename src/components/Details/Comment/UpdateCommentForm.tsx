@@ -1,10 +1,11 @@
 import React, { Dispatch, SetStateAction } from "react";
 import styled from "@emotion/styled";
-import { CommentData, CommentForm } from ".";
+import { CommentForm } from ".";
 
 import { Theme } from "@styles/theme";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ThemeContext } from "@pages/_app";
+import { CommentData } from "@src/types/Detail";
 
 interface ThemeProps {
   theme: Theme;

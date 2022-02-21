@@ -33,7 +33,12 @@ export const DetailHeader = ({
   loginUserId,
   loginUserName,
 }: Props) => {
-  const { postid, postObj } = useContext(PostContext);
+  const { postid, postObj, series } = useContext(PostContext);
+  const userId = postObj.userid.data.id;
+  const seriesBox = series.filter(
+    (s) => userId === s.attributes.userid.data.id
+  )[0];
+  const SeriesBoxPost = seriesBox.attributes.post.data;
 
   const getReadingData = async () => {
     let putId = 0;
@@ -86,11 +91,15 @@ export const DetailHeader = ({
     <Header>
       <h2>{postObj.title}</h2>
       <UDHashContainer userName={userName} loginUserId={loginUserId} />
-      <SeriesContainer />
+      <SeriesContainer
+        seriesBox={seriesBox}
+        userName={userName}
+        SeriesBoxPost={SeriesBoxPost}
+      />
       <div>{postObj.contents}</div>
       <div ref={setTarget}></div>
       <Intro username={userName} userdata={userdata} />
-      <Carousel />
+      <Carousel userName={userName} SeriesBoxPost={SeriesBoxPost} />
       {postObj.comments.data.length !== 0 && (
         <CommentFormContainer loginUserId={loginUserId} />
       )}

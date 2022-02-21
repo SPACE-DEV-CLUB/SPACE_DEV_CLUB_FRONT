@@ -6,33 +6,18 @@ import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { PALLETS_LIGHT } from "@constants/index";
+import { SeriesBoxPost } from "@src/types/Detail";
 
 type IndexTypeProps = {
   index: number;
 };
 
-export const Carousel = () => {
-  const detailData = {
-    id: 0,
-    content: [
-      {
-        href: "1",
-        title: "시리즈1",
-      },
-      {
-        href: "2",
-        title: "시리즈2",
-      },
-      {
-        href: "2",
-        title: "시리즈3",
-      },
-      {
-        href: "3",
-        title: "시리즈4",
-      },
-    ],
-  };
+interface Props {
+  userName: string | string[] | undefined;
+  SeriesBoxPost: SeriesBoxPost[];
+}
+
+export const Carousel = ({ SeriesBoxPost, userName }: Props) => {
   const [caroucelIndex, setCaroucelIndex] = useState(0);
 
   const handlePrevBtn = () => {
@@ -40,7 +25,7 @@ export const Carousel = () => {
     setCaroucelIndex(caroucelIndex - 1);
   };
   const handleNextBtn = () => {
-    if (caroucelIndex === detailData.content.length - 1) return;
+    if (caroucelIndex === SeriesBoxPost.length - 1) return;
     setCaroucelIndex(caroucelIndex + 1);
   };
 
@@ -57,11 +42,15 @@ export const Carousel = () => {
       </PrevContainer>
       <CarouselContainer>
         <CarouselItem index={caroucelIndex}>
-          {detailData.content.map((s, i) => {
+          {SeriesBoxPost.map((post, i) => {
             return (
-              <Link href={s.href} key={`carousel-${i}`} passHref>
+              <Link
+                href={`/${userName}/${post.attributes.url}`}
+                key={`carousel-post-${i}`}
+                passHref
+              >
                 <CarouselLink>
-                  <CarouselTitle>{s.title}</CarouselTitle>
+                  <CarouselTitle>{post.attributes.title}</CarouselTitle>
                 </CarouselLink>
               </Link>
             );
@@ -69,7 +58,7 @@ export const Carousel = () => {
         </CarouselItem>
       </CarouselContainer>
       <NextContainer>
-        {caroucelIndex === detailData.content.length - 1 ? (
+        {caroucelIndex === SeriesBoxPost.length - 1 ? (
           <div></div>
         ) : (
           <Btn type="button" onClick={handleNextBtn}>
