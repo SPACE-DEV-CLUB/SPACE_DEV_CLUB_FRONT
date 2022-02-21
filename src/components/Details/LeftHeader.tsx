@@ -28,24 +28,22 @@ interface ILikePost {
   id: number;
   attributes: {
     postid: {
-      data: [
-        {
-          id: number;
-        }
-      ];
+      data: {
+        id: number;
+      };
     };
   };
 }
 export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
   const { theme } = useContext(ThemeContext);
-  const { postid, postObj } = useContext(PostContext);
-  const [heartNum, setHeartNum] = useState(postObj.likeposts.data.length);
+  const { postid } = useContext(PostContext);
+  const [heartNum, setHeartNum] = useState(0);
   const [heartClick, setHeartClick] = useState(false);
   const [shareClick, setShareClick] = useState(false);
   const [putId, setPutId] = useState(0);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    loginUserId && getLikeData();
+    loginUserId && getLikeData() && getLoggedUserLikeData();
   }, []);
 
   const handleHeart = () => {
@@ -65,18 +63,24 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
     !heartClick ? postLike() : postUnLike();
     setHeartNum(num);
   };
-
   const handleShare = () => {
     setShareClick(!shareClick);
   };
-
   const getLikeData = async () => {
+    const response = await axios({
+      method: "get",
+      url: `${API_ENDPOINT}/likeposts?populate=*&filters[postid][id]=${postid}`,
+    });
+    setHeartNum(response.data.data.length);
+  };
+
+  const getLoggedUserLikeData = async () => {
     const response = await axios({
       method: "get",
       url: `${API_ENDPOINT}/likeposts?populate=*&filters[userid][userid]=${loginUserName}`,
     });
     const handleOverlap = response.data.data.some((post: ILikePost) => {
-      if (post.attributes.postid.data[0].id === postid) {
+      if (post.attributes.postid.data.id === postid) {
         setPutId(post.id);
         return true;
       }
@@ -96,7 +100,7 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
         },
       },
     }).then(function (response) {
-      console.log(response);
+      // console.log(response);
       setPutId(response.data.data.id);
       setLoading(false);
     });
@@ -114,7 +118,6 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
         },
       },
     }).then(function (response) {
-      console.log(response);
       setLoading(false);
     });
   };
