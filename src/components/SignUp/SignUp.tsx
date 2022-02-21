@@ -10,6 +10,8 @@ import useSWR, { useSWRConfig } from "swr"
 import { fetcher } from "../../utils/fetcher"
 import Cookies from "js-cookie"
 import { Theme } from "../../styles/theme"
+import { useData } from "@src/hooks/useData"
+import qs from "qs"
 
 const SignUp = () => {
   const { data: session } = useSession()
@@ -21,7 +23,21 @@ const SignUp = () => {
   const [isDuplicate, setDuplicate] = useState(false)
   const [isEmpty, setEmpty] = useState(false)
   const { cache } = useSWRConfig()
-  const { data, error } = useSWR(`${API_ENDPOINT}/userinfos`, fetcher)
+  const query = qs.stringify(
+    {
+      populate: ["*"],
+      filters: {
+        email: {
+          $eq: session?.user?.email,
+        },
+      },
+    },
+    {
+      encodeValuesOnly: true,
+    },
+  )
+
+  const { data, error } = useData("userinfos", query)  
   const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault()
     setDuplicate(false)
