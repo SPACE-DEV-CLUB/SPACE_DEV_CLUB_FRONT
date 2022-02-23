@@ -6,6 +6,7 @@ import { SubmitModal } from "./SubmitModal";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
 import { ThemeContext } from "../../pages/_app";
 import { ThemeProps } from "../../types/Theme";
+import toolBarHTag from "@src/utils/tooBarHTag";
 
 export const EditorContainer = () => {
   const [tagInput, setTagInput] = useState("");
@@ -133,7 +134,6 @@ export const EditorContainer = () => {
     let checkLine = 0;
 
     for (let i = 0; i < textSplit.length; i++) {
-      // let benchMark = endPoint;
       endPoint -= textLengthArray[i];
       if (endPoint <= 0 || endPoint === 1) {
         checkLine = i;
@@ -144,100 +144,16 @@ export const EditorContainer = () => {
     }
 
     if (hTag === "H1" || hTag === "1") {
-      if (checkLine === 0) {
-        let addMd = textSplit.splice(checkLine, 1, "# " + textSplit[checkLine]);
-        for (let i = 1; i < textSplit.length; i++) {
-          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
-        }
-      } else {
-        let addMd = textSplit.splice(
-          checkLine,
-          1,
-          "\n# " + textSplit[checkLine]
-        );
-        for (let i = 1; i < checkLine; i++) {
-          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
-        }
-        for (let i = checkLine + 1; i < textSplit.length; i++) {
-          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
-        }
-      }
-      let result = textSplit.join("");
+      const result = toolBarHTag(textSplit, checkLine);
       setContents(result);
     } else if (hTag === "H2" || hTag === "2") {
-      if (checkLine === 0) {
-        let addMd = textSplit.splice(
-          checkLine,
-          1,
-          "## " + textSplit[checkLine]
-        );
-        for (let i = 1; i < textSplit.length; i++) {
-          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
-        }
-      } else {
-        let addMd = textSplit.splice(
-          checkLine,
-          1,
-          "\n## " + textSplit[checkLine]
-        );
-        for (let i = 1; i < checkLine; i++) {
-          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
-        }
-        for (let i = checkLine + 1; i < textSplit.length; i++) {
-          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
-        }
-      }
-      let result = textSplit.join("");
+      const result = toolBarHTag(textSplit, checkLine);
       setContents(result);
     } else if (hTag === "H3" || hTag === "3") {
-      if (checkLine === 0) {
-        let addMd = textSplit.splice(
-          checkLine,
-          1,
-          "### " + textSplit[checkLine]
-        );
-        for (let i = 1; i < textSplit.length; i++) {
-          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
-        }
-      } else {
-        let addMd = textSplit.splice(
-          checkLine,
-          1,
-          "\n### " + textSplit[checkLine]
-        );
-        for (let i = 1; i < checkLine; i++) {
-          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
-        }
-        for (let i = checkLine + 1; i < textSplit.length; i++) {
-          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
-        }
-      }
-      let result = textSplit.join("");
+      const result = toolBarHTag(textSplit, checkLine);
       setContents(result);
     } else if (hTag === "H4" || hTag === "4") {
-      if (checkLine === 0) {
-        let addMd = textSplit.splice(
-          checkLine,
-          1,
-          "#### " + textSplit[checkLine]
-        );
-        for (let i = 1; i < textSplit.length; i++) {
-          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
-        }
-      } else {
-        let addMd = textSplit.splice(
-          checkLine,
-          1,
-          "\n#### " + textSplit[checkLine]
-        );
-        for (let i = 1; i < checkLine; i++) {
-          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
-        }
-        for (let i = checkLine + 1; i < textSplit.length; i++) {
-          let splitLine = textSplit.splice(i, 1, "\n" + textSplit[i]);
-        }
-      }
-      let result = textSplit.join("");
+      const result = toolBarHTag(textSplit, checkLine);
       setContents(result);
     }
   };
@@ -254,7 +170,6 @@ export const EditorContainer = () => {
   ) => {
     const startPoint = txtAreaCont.current.selectionStart;
     const endPoint = txtAreaCont.current.selectionEnd;
-    // const draggedLength = endPoint - startPoint;
 
     if (type === "bold") {
       const checker = /\*\*([\w\W ]*)\*\*/;
