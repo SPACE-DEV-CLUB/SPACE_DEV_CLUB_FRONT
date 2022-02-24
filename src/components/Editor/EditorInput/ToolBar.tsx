@@ -10,32 +10,32 @@ import { ThemeContext } from "../../../pages/_app";
 import { ThemeProps } from "../../../types/Theme";
 
 interface ButtonProps {
-  handleHeadBtn: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleLineStyle: (e: React.MouseEvent<HTMLButtonElement>) => void;
   handleDecoBtn: any;
 }
 
-export const ToolBar = ({ handleDecoBtn, handleHeadBtn }: ButtonProps) => {
+export const ToolBar = ({ handleDecoBtn, handleLineStyle }: ButtonProps) => {
   const { theme } = useContext(ThemeContext);
 
   return (
     <Container>
       <h4 className="sr-only">ToolBar</h4>
-      <BtnHead onClick={handleHeadBtn} theme={theme} type="button">
+      <BtnHead onClick={handleLineStyle} theme={theme} type="button">
         <div>
           H<span>1</span>
         </div>
       </BtnHead>
-      <BtnHead onClick={handleHeadBtn} theme={theme} type="button">
+      <BtnHead onClick={handleLineStyle} theme={theme} type="button">
         <div>
           H<span>2</span>
         </div>
       </BtnHead>
-      <BtnHead onClick={handleHeadBtn} theme={theme} type="button">
+      <BtnHead onClick={handleLineStyle} theme={theme} type="button">
         <div>
           H<span>3</span>
         </div>
       </BtnHead>
-      <BtnHead onClick={handleHeadBtn} theme={theme} type="button">
+      <BtnHead onClick={handleLineStyle} theme={theme} type="button">
         <div>
           H<span>4</span>
         </div>
@@ -73,7 +73,7 @@ export const ToolBar = ({ handleDecoBtn, handleHeadBtn }: ButtonProps) => {
         </svg>
       </BtnIcon>
       <BorderLine theme={theme} />
-      <BtnIcon theme={theme} type="button">
+      <BtnIcon onClick={handleLineStyle} theme={theme} type="button">
         <FormatQuoteIcon />
       </BtnIcon>
       <BtnIcon theme={theme} type="button">
