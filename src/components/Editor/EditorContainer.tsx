@@ -6,7 +6,8 @@ import { SubmitModal } from "./SubmitModal";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
 import { ThemeContext } from "../../pages/_app";
 import { ThemeProps } from "../../types/Theme";
-import toolBarHTag from "@src/utils/tooBarHTag";
+import toolBarHTag from "@src/utils/toolBarHTag";
+import toolBarDeco from "@src/utils/toolBarDeco";
 
 export const EditorContainer = () => {
   const [tagInput, setTagInput] = useState("");
@@ -172,46 +173,13 @@ export const EditorContainer = () => {
     const endPoint = txtAreaCont.current.selectionEnd;
 
     if (type === "bold") {
-      const checker = /\*\*([\w\W ]*)\*\*/;
-      const checked =
-        txtAreaCont.current.value.substring(startPoint, endPoint) || false;
-      const beforeTxt = txtAreaCont.current.value.substring(startPoint, 0);
-      const afterTxt = txtAreaCont.current.value.substring(endPoint);
-      const draggedTxt = checker.exec(checked)
-        ? checker.exec(checked)![1]
-        : "**" +
-          (txtAreaCont.current.value.substring(startPoint, endPoint) ||
-            "텍스트") +
-          "**";
-      const result = beforeTxt + draggedTxt + afterTxt;
+      const result = toolBarDeco(txtAreaCont, startPoint, endPoint, "**", "**");
       setContents(result);
     } else if (type === "italic") {
-      const checker = /\*\*([\w\W ]*)\*\*/;
-      const checked =
-        txtAreaCont.current.value.substring(startPoint, endPoint) || false;
-      const beforeTxt = txtAreaCont.current.value.substring(startPoint, 0);
-      const afterTxt = txtAreaCont.current.value.substring(endPoint);
-      const draggedTxt = checker.exec(checked)
-        ? checker.exec(checked)![1]
-        : " _" +
-          (txtAreaCont.current.value.substring(startPoint, endPoint) ||
-            "텍스트") +
-          "_ ";
-      const result = beforeTxt + draggedTxt + afterTxt;
+      const result = toolBarDeco(txtAreaCont, startPoint, endPoint, " _", "_ ");
       setContents(result);
     } else if (type === "cross") {
-      const checker = /\*\*([\w\W ]*)\*\*/;
-      const checked =
-        txtAreaCont.current.value.substring(startPoint, endPoint) || false;
-      const beforeTxt = txtAreaCont.current.value.substring(startPoint, 0);
-      const afterTxt = txtAreaCont.current.value.substring(endPoint);
-      const draggedTxt = checker.exec(checked)
-        ? checker.exec(checked)![1]
-        : "~~" +
-          (txtAreaCont.current.value.substring(startPoint, endPoint) ||
-            "텍스트") +
-          "~~";
-      const result = beforeTxt + draggedTxt + afterTxt;
+      const result = toolBarDeco(txtAreaCont, startPoint, endPoint, "~~", "~~");
       setContents(result);
     }
   };
