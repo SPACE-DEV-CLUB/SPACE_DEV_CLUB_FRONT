@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import Link from "next/link";
@@ -15,10 +15,14 @@ type IndexTypeProps = {
 interface Props {
   userName: string | string[] | undefined;
   SeriesBoxPost: SeriesBoxPost[];
+  currentPost: number | undefined;
 }
 
-export const Carousel = ({ SeriesBoxPost, userName }: Props) => {
+export const Carousel = ({ SeriesBoxPost, userName, currentPost }: Props) => {
   const [caroucelIndex, setCaroucelIndex] = useState(0);
+  useEffect(() => {
+    setCaroucelIndex(currentPost! - 1);
+  }, [currentPost]);
 
   const handlePrevBtn = () => {
     if (caroucelIndex === 0) return;

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import { PostCard } from "../Home/Card";
 import { MEDIA_QUERY_END_POINT } from "@constants/index";
 import { Post } from "@src/types/Detail";
+import { ListCard } from "../Home";
 
 interface Interested {
   interested: Post[];
@@ -18,7 +18,7 @@ export const DetailCard = ({ interested }: Interested) => {
           else username = data.attributes.userid.data.attributes.userid;
 
           return (
-            <PostCard
+            <ListCard
               key={`${data}_${index}`}
               // imageUrl={data.attributes.imageUrl}
               title={data.attributes.title}

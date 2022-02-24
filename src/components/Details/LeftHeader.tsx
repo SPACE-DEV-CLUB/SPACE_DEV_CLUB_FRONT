@@ -34,6 +34,7 @@ interface ILikePost {
     };
   };
 }
+
 export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
   const { theme } = useContext(ThemeContext);
   const { postid } = useContext(PostContext);
@@ -42,6 +43,7 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
   const [shareClick, setShareClick] = useState(false);
   const [putId, setPutId] = useState(0);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     loginUserId && getLikeData() && getLoggedUserLikeData();
   }, [postid]);
@@ -100,7 +102,6 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
         },
       },
     }).then(function (response) {
-      // console.log(response);
       setPutId(response.data.data.id);
       setLoading(false);
     });

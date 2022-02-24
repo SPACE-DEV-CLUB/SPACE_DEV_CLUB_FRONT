@@ -12,7 +12,7 @@ import {
 import { Header } from "@components/Common/Header";
 
 import { Theme } from "@styles/theme";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { ThemeContext } from "@pages/_app";
 import { useRouter } from "next/router";
 import { useData } from "@hooks/useData";
@@ -71,38 +71,10 @@ let postObj = {
     ],
   },
 };
-let series = [
-  {
-    id: 0,
-    attributes: {
-      title: "",
-      userid: {
-        data: {
-          id: 0,
-          attributes: {
-            userid: "",
-          },
-        },
-      },
-      post: {
-        data: [
-          {
-            id: 0,
-            attributes: {
-              title: "",
-              url: "",
-            },
-          },
-        ],
-      },
-    },
-  },
-];
 
 export const PostContext = createContext({
   postid: postid,
   postObj: postObj,
-  series: series,
 });
 
 const DetailsIndexPage: NextPage = () => {
@@ -116,15 +88,9 @@ const DetailsIndexPage: NextPage = () => {
     "populate=*"
   );
 
-  const { data: SeriesBoxData, error: SeriesBoxError } = useData(
-    "series-boxes",
-    "populate=*"
-  );
+  if (!DetailData) return <div>로딩중</div>;
+  if (DetailError) return <div>에러</div>;
 
-  if (!DetailData || !SeriesBoxData) return <div>로딩중</div>;
-  if (DetailError || SeriesBoxError) return <div>에러</div>;
-
-  const series = SeriesBoxData.data;
   const userCookieData = Cookies.get("user");
 
   const loginUserId = userCookieData && JSON.parse(userCookieData!).id;
@@ -177,7 +143,7 @@ const DetailsIndexPage: NextPage = () => {
       : shuffle(interested);
 
   return (
-    <PostContext.Provider value={{ postid, postObj, series }}>
+    <PostContext.Provider value={{ postid, postObj }}>
       <Head>
         <title>{postObj.title}</title>
         <meta name="description" content={postObj.contents} />
@@ -191,12 +157,12 @@ const DetailsIndexPage: NextPage = () => {
               loginUserId={loginUserId}
               loginUserName={loginUserName}
             />
-            {/* <DetailHeader
+            <DetailHeader
               userName={userName}
               userdata={user}
               loginUserId={loginUserId}
               loginUserName={loginUserName}
-            /> */}
+            />
             <RightHeader />
           </DetailContainer>
           <PostsContainer theme={theme}>
