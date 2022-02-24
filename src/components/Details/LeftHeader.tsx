@@ -44,7 +44,7 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     loginUserId && getLikeData() && getLoggedUserLikeData();
-  }, []);
+  }, [postid]);
 
   const handleHeart = () => {
     if (!loginUserId) {
