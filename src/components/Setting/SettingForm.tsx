@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { ThemeContext } from "@src/pages/_app"
 import { ThemeProps } from "@src/types/Theme"
 import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "@src/constants"
@@ -21,9 +21,11 @@ import VelogTitleSetting from "./VelogTitleSetting"
 import axios from "axios"
 import { signOut } from "next-auth/react"
 import Router from "next/router"
+import { Modal } from "../Common/Modal"
 
 export const SettingForm = () => {
   const { theme } = useContext(ThemeContext)
+  const [showModal, setShowModal] = useState(false)
 
   const userCookieData = Cookies.get("user")
   if (!userCookieData) return null
@@ -42,6 +44,16 @@ export const SettingForm = () => {
         console.log(error)
       })
   }
+
+  const handleShowModal = () => {
+    setShowModal(true)
+  }
+
+  const handleCancel = () => {
+    setShowModal(false)
+  }
+
+  document.body.style.overflow = "unset"
 
   return (
     <SettingContainer theme={theme}>
@@ -97,10 +109,20 @@ export const SettingForm = () => {
               hover={theme.WARNING_SUB}
               color={theme.BACKGROUND}
               type="button"
-              onClick={withdrawalUser}
+              onClick={handleShowModal}
             >
               회원 탈퇴
             </WithdrawalBtn>
+            {showModal && (
+              <Modal
+                title={"회원 탈퇴"}
+                check={showModal}
+                handleOK={withdrawalUser}
+                handleCancel={handleCancel}
+              >
+                정말로 탈퇴 하시겠습니까?
+              </Modal>
+            )}
           </SettingDesc>
         </UserSetting>
         <Notice theme={theme}>

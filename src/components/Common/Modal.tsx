@@ -1,45 +1,54 @@
 import styled from "@emotion/styled"
-import React, { useContext } from "react"
+import React, { ReactChild, useContext } from "react"
 import { ThemeContext } from "@pages/_app"
 import { ThemeProps } from "@src/types/Theme"
 
 type ModalProps = {
-  title?: string
-  cont?: string
+  title: string
+  handleOK: () => void
+  handleCancel: () => void
+  children: ReactChild
+  check: boolean
 }
-export default function Modal({ title, cont }: ModalProps) {
+export const Modal = ({
+  title,
+  handleOK,
+  handleCancel,
+  children,
+}: ModalProps) => {
   const { theme } = useContext(ThemeContext)
+  document.body.style.overflow = "hidden"
   return (
-    <Container>
-      <ContContainer>
+    <Container theme={theme}>
+      <ContContainer theme={theme}>
         <ModalTop theme={theme}>
-          <h2>시리즈 삭제</h2>
-          <p>
-            시리즈를 정말 삭제하시겠습니까?
-            <br />
-            시리즈 안에 들어있는 포스트들은 삭제되지 않습니다.
-          </p>
+          <h2>{title}</h2>
+          <p>{children}</p>
         </ModalTop>
         <ModalBottom theme={theme}>
-          <button className="btn-cancel">취소</button>
-          <button className="btn-approve">확인</button>
+          <button type="button" className="btn-cancel" onClick={handleCancel}>
+            취소
+          </button>
+          <button type="button" className="btn-approve" onClick={handleOK}>
+            확인
+          </button>
         </ModalBottom>
       </ContContainer>
     </Container>
   )
 }
 
-const Container = styled.section`
+const Container = styled.section<ThemeProps>`
   position: fixed;
   width: 100%;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.8);
+  background: ${({ theme }) => theme.ModelRGBA};
   z-index: 999;
   top: 0;
   left: 0;
 `
 
-const ContContainer = styled.section`
+const ContContainer = styled.section<ThemeProps>`
   position: absolute;
   margin: 0 auto;
   left: 50%;
@@ -48,8 +57,8 @@ const ContContainer = styled.section`
   width: 352px;
   height: 140px;
   padding: 32px 24px;
-  background: #ffffff;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  background: ${({ theme }) => theme.BACKGROUND};
+  box-shadow: ${({ theme }) => theme.TOGGLE_BACKGROUND} 0px 0px 5px 1px;
   border-radius: 4px;
 `
 
@@ -80,6 +89,7 @@ const ModalBottom = styled.div<ThemeProps>`
   }
   .btn-cancel {
     background: ${({ theme }) => theme.TOGGLE_BACKGROUND};
+    color: ${({ theme }) => theme.MAIN_FONT};
   }
   .btn-approve {
     background: ${({ theme }) => theme.MAIN};
