@@ -1,53 +1,53 @@
-import React, { Dispatch, SetStateAction } from "react";
-import styled from "@emotion/styled";
+import React, { Dispatch, SetStateAction } from "react"
+import styled from "@emotion/styled"
 
-import { Theme } from "@styles/theme";
-import { useContext, useState } from "react";
-import { ThemeContext } from "@pages/_app";
-import axios, { Method } from "axios";
-import { API_ENDPOINT } from "@src/constants";
-import { useSWRConfig } from "swr";
-import { PostContext } from "@src/pages/[id]/[details]";
-import { CommentData } from "@src/types/Detail";
+import { Theme } from "@styles/theme"
+import { useContext, useState } from "react"
+import { ThemeContext } from "@pages/_app"
+import axios, { Method } from "axios"
+import { API_ENDPOINT } from "@src/constants"
+import { useSWRConfig } from "swr"
+import { PostContext } from "@src/pages/[id]/[details]"
+import { CommentData } from "@src/types/Detail"
 
 interface ThemeProps {
-  theme: Theme;
+  theme: Theme
 }
 
 interface Props {
-  setIsDelete: Dispatch<SetStateAction<boolean>>;
-  comment: CommentData;
+  setIsDelete: Dispatch<SetStateAction<boolean>>
+  comment: CommentData
 }
 
 export const DeleteModel = ({ setIsDelete, comment }: Props) => {
-  const { theme } = useContext(ThemeContext);
-  const { postObj } = useContext(PostContext);
-  const { mutate } = useSWRConfig();
+  const { theme } = useContext(ThemeContext)
+  const { postObj } = useContext(PostContext)
+  const { mutate } = useSWRConfig()
 
   const Delete = async (id: number) => {
     await axios({
       method: "delete" as Method,
       url: `${API_ENDPOINT}/comments/${id}`,
-    });
-    mutate(`${API_ENDPOINT}/posts?populate=*`);
-  };
+    })
+    mutate(`${API_ENDPOINT}/posts?populate=*`)
+  }
 
   const onClickNo = () => {
-    setIsDelete(false);
-    document.body.style.overflow = "unset";
-  };
+    setIsDelete(false)
+    document.body.style.overflow = "unset"
+  }
 
   const onClickYes = async () => {
     if (comment.attributes.depth === 0) {
       const everyComment = postObj.comments.data.filter(
-        (group) => group.attributes.group === comment.attributes.group
-      );
-      everyComment.forEach((data) => Delete(data.id));
+        (group) => group.attributes.group === comment.attributes.group,
+      )
+      everyComment.forEach((data) => Delete(data.id))
     } else {
-      Delete(comment.id);
+      Delete(comment.id)
     }
-    document.body.style.overflow = "unset";
-  };
+    document.body.style.overflow = "unset"
+  }
 
   return (
     <ModelBack theme={theme}>
@@ -64,8 +64,8 @@ export const DeleteModel = ({ setIsDelete, comment }: Props) => {
         </BtnContainer>
       </IsDelModel>
     </ModelBack>
-  );
-};
+  )
+}
 
 const ModelBack = styled.div<ThemeProps>`
   position: fixed;
@@ -74,7 +74,7 @@ const ModelBack = styled.div<ThemeProps>`
   left: 0;
   right: 0;
   background-color: ${({ theme }) => theme.ModelRGBA};
-`;
+`
 const IsDelModel = styled.article<ThemeProps>`
   padding: 2rem;
   box-sizing: border-box;
@@ -86,20 +86,20 @@ const IsDelModel = styled.article<ThemeProps>`
   height: 12rem;
   border-radius: 4px;
   box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
-`;
+`
 const Title = styled.h4`
   line-height: 1.5;
   font-weight: bold;
   font-size: 1.5rem;
-`;
+`
 const Desc = styled.p`
   line-height: 1.5;
   margin: 15px 0px 25px 0px;
-`;
+`
 const BtnContainer = styled.div`
   display: flex;
   justify-content: end;
-`;
+`
 const NoBtn = styled.button<ThemeProps>`
   display: inline-flex;
   align-items: center;
@@ -115,7 +115,7 @@ const NoBtn = styled.button<ThemeProps>`
   &:hover {
     opacity: 0.7;
   }
-`;
+`
 const YesBtn = styled.button<ThemeProps>`
   display: inline-flex;
   align-items: center;
@@ -131,4 +131,4 @@ const YesBtn = styled.button<ThemeProps>`
   &:hover {
     opacity: 0.7;
   }
-`;
+`
