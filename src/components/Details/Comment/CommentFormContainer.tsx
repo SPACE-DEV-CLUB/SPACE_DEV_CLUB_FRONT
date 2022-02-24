@@ -37,6 +37,11 @@ export const CommentFormContainer = ({ loginUserId }: Props) => {
     else newComment[group] = [...newComment[group], comment];
   });
 
+  const CommentGroup =
+    postObj.comments.data !== []
+      ? 1
+      : newComment[newComment.length - 1][0].attributes.group + 1;
+
   const [commentBtn, setCommentBtn] = useState(
     Array(newComment.length).fill(false)
   );
@@ -58,7 +63,7 @@ export const CommentFormContainer = ({ loginUserId }: Props) => {
       <CommentForm
         CommentOrder={0}
         loginUserId={loginUserId}
-        CommentGroup={newComment[newComment.length - 1][0].attributes.group + 1}
+        CommentGroup={CommentGroup}
         setCommentForm={setCommentForm}
         type="CommentCreate"
         CommentContent=""

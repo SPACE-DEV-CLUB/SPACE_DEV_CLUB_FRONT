@@ -7,7 +7,8 @@ import { API_ENDPOINT } from "@constants/index";
 import axios, { Method } from "axios";
 import { userInfo } from "../../types/Main";
 import { PostContext } from "@pages/[id]/[details]";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { SeriesBoxPost } from "@src/types/Detail";
 
 interface Props {
   userName: string | string[] | undefined;
@@ -33,12 +34,41 @@ export const DetailHeader = ({
   loginUserId,
   loginUserName,
 }: Props) => {
-  const { postid, postObj, series } = useContext(PostContext);
+  const { postid, postObj } = useContext(PostContext);
   const userId = postObj.userid.data.id;
-  const seriesBox = series.filter(
-    (s) => userId === s.attributes.userid.data.id
-  )[0];
-  const SeriesBoxPost = seriesBox.attributes.post.data;
+  const [currentPost, setCurrentPost] = useState(1);
+  const [seriesData, setSeriesData] = useState({
+    title: "",
+    userid: {
+      data: {
+        id: 0,
+        attributes: {
+          userid: "",
+        },
+      },
+    },
+    post: {
+      data: [{ id: 0, attributes: { title: "", url: "" } }],
+    },
+  });
+
+  useEffect(() => {
+    GetSeries();
+    seriesData.post.data.filter((data, i) => {
+      if (data.id === postid) {
+        setCurrentPost(i + 1);
+        return true;
+      }
+    })[0];
+  }, [postid]);
+
+  const GetSeries = async () => {
+    const response = await axios({
+      method: "get",
+      url: `${API_ENDPOINT}/series-boxes?populate=*&filters[userid]=${userId}&filters[post][id]=${postid}`,
+    });
+    setSeriesData(response.data.data[0].attributes);
+  };
 
   const getReadingData = async () => {
     let putId = 0;
@@ -67,7 +97,7 @@ export const DetailHeader = ({
           postid: postid,
         },
       },
-    })
+    });
   };
 
   const onIntersect: IntersectionObserverCallback = async (
@@ -92,17 +122,21 @@ export const DetailHeader = ({
       <h2>{postObj.title}</h2>
       <UDHashContainer userName={userName} loginUserId={loginUserId} />
       <SeriesContainer
-        seriesBox={seriesBox}
+        seriesBox={seriesData}
         userName={userName}
-        SeriesBoxPost={SeriesBoxPost}
+        SeriesBoxPost={seriesData.post.data}
+        currentPost={currentPost}
       />
       <div>{postObj.contents}</div>
       <div ref={setTarget}></div>
       <Intro username={userName} userdata={userdata} />
-      <Carousel userName={userName} SeriesBoxPost={SeriesBoxPost} />
-      {postObj.comments.data.length !== 0 && (
-        <CommentFormContainer loginUserId={loginUserId} />
-      )}
+      <Carousel
+        userName={userName}
+        SeriesBoxPost={seriesData.post.data}
+        currentPost={currentPost}
+      />
+
+      <CommentFormContainer loginUserId={loginUserId} />
     </Header>
   );
 };

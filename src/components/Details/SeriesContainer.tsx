@@ -12,7 +12,6 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { Theme } from "@styles/theme";
 import { useContext } from "react";
 import { ThemeContext } from "@pages/_app";
-import { PostContext } from "@src/pages/[id]/[details]";
 import { useRouter } from "next/router";
 import { SeriesBox, SeriesBoxPost } from "@src/types/Detail";
 
@@ -34,21 +33,18 @@ interface Props {
   seriesBox: SeriesBox;
   userName: string | string[] | undefined;
   SeriesBoxPost: SeriesBoxPost[];
+  currentPost: number | undefined;
 }
 
 export const SeriesContainer = ({
   seriesBox,
   SeriesBoxPost,
   userName,
+  currentPost,
 }: Props) => {
-  const { theme } = useContext(ThemeContext);
   const router = useRouter();
-  const { postid, postObj, series } = useContext(PostContext);
+  const { theme } = useContext(ThemeContext);
   const [select, setSelect] = useState(false);
-
-  const currentPost = SeriesBoxPost.map((data: SeriesBoxPost, i: number) => {
-    if (data.id === postid) return i + 1;
-  }).filter((index) => index)[0];
 
   const handleSeries = () => {
     setSelect(!select);
@@ -68,11 +64,8 @@ export const SeriesContainer = ({
   return (
     <Container theme={theme}>
       <SeriesHeader>
-        <Link
-          href={`/${userName}/series/${seriesBox.attributes.title}`}
-          passHref
-        >
-          <SeriesName theme={theme}>{seriesBox.attributes.title}</SeriesName>
+        <Link href={`/${userName}/series/${seriesBox.title}`} passHref>
+          <SeriesName theme={theme}>{seriesBox.title}</SeriesName>
         </Link>
       </SeriesHeader>
       <BookmarkIcon className="BookmarkIcon" />

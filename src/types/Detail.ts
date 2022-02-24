@@ -65,20 +65,17 @@ export interface CommentData {
 }
 
 export interface SeriesBox {
-  id: number;
-  attributes: {
-    title: string;
-    userid: {
-      data: {
-        id: number;
-        attributes: {
-          userid: string;
-        };
+  title: string;
+  userid: {
+    data: {
+      id: number;
+      attributes: {
+        userid: string;
       };
     };
-    post: {
-      data: SeriesBoxPost[];
-    };
+  };
+  post: {
+    data: SeriesBoxPost[];
   };
 }
 
