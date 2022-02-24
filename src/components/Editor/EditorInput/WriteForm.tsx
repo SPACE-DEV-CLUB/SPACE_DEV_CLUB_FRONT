@@ -6,7 +6,7 @@ import { ThemeProps } from "../../../types/Theme";
 
 interface WriteFormProps {
   handleTextAreaChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  handleHeadBtn: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleLineStyle: (e: React.MouseEvent<HTMLButtonElement>) => void;
   handleDecoBtn: any;
   contents: string;
   txtAreaCont: any;
@@ -17,12 +17,15 @@ export const WriteForm = ({
   handleDecoBtn,
   contents,
   txtAreaCont,
-  handleHeadBtn,
+  handleLineStyle,
 }: WriteFormProps) => {
   const { theme } = useContext(ThemeContext);
   return (
     <Container theme={theme}>
-      <ToolBar handleHeadBtn={handleHeadBtn} handleDecoBtn={handleDecoBtn} />
+      <ToolBar
+        handleLineStyle={handleLineStyle}
+        handleDecoBtn={handleDecoBtn}
+      />
       <label htmlFor="editorContents" className="sr-only">
         에디터 컨텐츠 입력란
       </label>

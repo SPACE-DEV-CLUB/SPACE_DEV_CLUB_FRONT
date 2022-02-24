@@ -6,8 +6,8 @@ import { SubmitModal } from "./SubmitModal";
 import { MEDIA_QUERY_END_POINT } from "../../constants";
 import { ThemeContext } from "../../pages/_app";
 import { ThemeProps } from "../../types/Theme";
-import toolBarHTag from "@src/utils/toolBarHTag";
 import toolBarDeco from "@src/utils/toolBarDeco";
+import toolBarChkBtn from "@src/utils/toolBarChkBtn";
 
 export const EditorContainer = () => {
   const [tagInput, setTagInput] = useState("");
@@ -119,13 +119,13 @@ export const EditorContainer = () => {
 
   //알고리즘임
   // 1.클릭된 문자열 위치를 확인해서 (split or match) 몇번째줄인지 확인한다.
-  // 2.해당 문자열 앞에 버튼에 맞는 hTag를 추가해준다. "#" + "n번째줄"
+  // 2.해당 문자열 앞에 버튼에 맞는 selectedTag를 추가해준다. "#" + "n번째줄"
   // 3.해당 문자열을 다시 합쳐 (join?) setState에 넣어준다.
   // 4.버튼을 두번 누르면 아무일도 일어나지 않게 막는다.
   // 5.커서가 없으면 마지막줄에 바로 들어간다.
-  const handleHeadBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const hElemnt = e.target as HTMLElement;
-    const hTag = hElemnt.innerText;
+  const handleLineStyle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const btnElement = e.target as HTMLElement;
+    const selectedTag = btnElement.innerText;
     const textSplit = txtAreaCont.current.value.split("\n");
     const textLengthArray: any[] = [];
     textSplit.forEach((i: string) => {
@@ -133,6 +133,8 @@ export const EditorContainer = () => {
     });
     let endPoint = txtAreaCont.current.selectionEnd;
     let checkLine = 0;
+
+    console.log("e", e);
 
     for (let i = 0; i < textSplit.length; i++) {
       endPoint -= textLengthArray[i];
@@ -144,19 +146,8 @@ export const EditorContainer = () => {
       }
     }
 
-    if (hTag === "H1" || hTag === "1") {
-      const result = toolBarHTag(textSplit, checkLine);
-      setContents(result);
-    } else if (hTag === "H2" || hTag === "2") {
-      const result = toolBarHTag(textSplit, checkLine);
-      setContents(result);
-    } else if (hTag === "H3" || hTag === "3") {
-      const result = toolBarHTag(textSplit, checkLine);
-      setContents(result);
-    } else if (hTag === "H4" || hTag === "4") {
-      const result = toolBarHTag(textSplit, checkLine);
-      setContents(result);
-    }
+    const result = toolBarChkBtn(selectedTag, textSplit, checkLine);
+    setContents(result);
   };
 
   // 중복효과 고려
@@ -184,6 +175,8 @@ export const EditorContainer = () => {
     }
   };
 
+  const handleQuoteBtn = () => {};
+
   return (
     <>
       <WriteSection>
@@ -202,7 +195,7 @@ export const EditorContainer = () => {
             <WriteForm
               handleTextAreaChange={handleTextAreaChange}
               handleDecoBtn={handleDecoBtn}
-              handleHeadBtn={handleHeadBtn}
+              handleLineStyle={handleLineStyle}
               contents={contents}
               txtAreaCont={txtAreaCont}
             />

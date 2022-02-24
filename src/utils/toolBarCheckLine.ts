@@ -1,6 +1,14 @@
-const toolBarHTag = (lineArray: Array<string>, currentLine: number) => {
+const toolBarCheckLine = (
+  lineArray: Array<string>,
+  currentLine: number,
+  markDown: string
+) => {
   if (currentLine === 0) {
-    let addMd = lineArray.splice(currentLine, 1, "# " + lineArray[currentLine]);
+    let addMd = lineArray.splice(
+      currentLine,
+      1,
+      markDown + lineArray[currentLine]
+    );
     for (let i = 1; i < lineArray.length; i++) {
       let splitLine = lineArray.splice(i, 1, "\n" + lineArray[i]);
     }
@@ -8,7 +16,7 @@ const toolBarHTag = (lineArray: Array<string>, currentLine: number) => {
     let addMd = lineArray.splice(
       currentLine,
       1,
-      "\n# " + lineArray[currentLine]
+      "\n" + markDown + lineArray[currentLine]
     );
     for (let i = 1; i < lineArray.length; i++) {
       if (i === currentLine) continue;
@@ -19,4 +27,4 @@ const toolBarHTag = (lineArray: Array<string>, currentLine: number) => {
   return result;
 };
 
-export default toolBarHTag;
+export default toolBarCheckLine;
