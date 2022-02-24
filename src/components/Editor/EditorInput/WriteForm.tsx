@@ -1,15 +1,16 @@
 import styled from "@emotion/styled";
 import { ToolBar } from "./ToolBar";
 import { useContext } from "react";
-import { ThemeContext } from "../../../pages/_app";
-import { ThemeProps } from "../../../types/Theme";
+import { ThemeContext } from "@pages/_app";
+import { ThemeProps } from "@src/types/Theme";
 
 interface WriteFormProps {
   handleTextAreaChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleLineStyle: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleCodeBox: any;
   handleDecoBtn: any;
-  contents: string;
   txtAreaCont: any;
+  contents: string;
 }
 
 export const WriteForm = ({
@@ -18,6 +19,7 @@ export const WriteForm = ({
   contents,
   txtAreaCont,
   handleLineStyle,
+  handleCodeBox,
 }: WriteFormProps) => {
   const { theme } = useContext(ThemeContext);
   return (
@@ -25,6 +27,7 @@ export const WriteForm = ({
       <ToolBar
         handleLineStyle={handleLineStyle}
         handleDecoBtn={handleDecoBtn}
+        handleCodeBox={handleCodeBox}
       />
       <label htmlFor="editorContents" className="sr-only">
         에디터 컨텐츠 입력란

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useContext } from "react";
-import { ThemeContext } from "../../../pages/_app";
-import { ThemeProps } from "../../../types/Theme";
+import { ThemeContext } from "@pages/_app";
+import { ThemeProps } from "@src/types/Theme";
 
 interface TagProps {
   tagName: string;

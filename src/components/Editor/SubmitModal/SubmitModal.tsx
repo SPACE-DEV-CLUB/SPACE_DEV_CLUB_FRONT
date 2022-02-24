@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 import { useContext } from "react";
 import { MEDIA_QUERY_END_POINT } from "../../../constants";
-import { Button } from "../../Common/Button";
-import { ThemeContext } from "../../../pages/_app";
-import { ThemeProps } from "../../../types/Theme";
+import { Button } from "@components/Common/Button";
+import { ThemeContext } from "@pages/_app";
+import { ThemeProps } from "@src/types/Theme";
 
 interface SubmitModalProps {
   handleInfoPostChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;

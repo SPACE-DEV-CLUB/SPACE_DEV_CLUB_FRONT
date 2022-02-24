@@ -1,10 +1,9 @@
-import styled from "@emotion/styled";
-import { PALLETS_LIGHT } from "../../../constants";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Button } from "../../Common/Button";
 import { useContext } from "react";
-import { ThemeContext } from "../../../pages/_app";
-import { ThemeProps } from "../../../types/Theme";
+import styled from "@emotion/styled";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Button } from "@components/Common/Button";
+import { ThemeContext } from "@pages/_app";
+import { ThemeProps } from "@src/types/Theme";
 
 interface ButtonProps {
   bgColor: string;

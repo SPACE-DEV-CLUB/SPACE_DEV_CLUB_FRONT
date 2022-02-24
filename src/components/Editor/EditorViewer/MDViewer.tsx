@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { marked } from "marked";
-import editorStyle from "../../../styles/editorStyle";
+import editorStyle from "@src/styles/editorStyle";
 
 interface MDViewerProps {
   title: string;
