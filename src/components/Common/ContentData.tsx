@@ -13,9 +13,14 @@ const PAGE_SIZE = 2
 interface ContentDataProps {
   username?: string | string[] | undefined
   tag: string
+  search?: string | undefined
 }
 
-const ContentData = ({ tag, username = undefined }: ContentDataProps) => {
+const ContentData = ({
+  tag,
+  search = undefined,
+  username = undefined,
+}: ContentDataProps) => {
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.data) return null
     const query = qs.stringify(
@@ -41,6 +46,18 @@ const ContentData = ({ tag, username = undefined }: ContentDataProps) => {
                 },
               }
             : {},
+          $or: [
+            {
+              contents: {
+                $containsi: [search],
+              },
+            },
+            {
+              title: {
+                $containsi: [search],
+              },
+            },
+          ],
         },
       },
       {
@@ -50,10 +67,7 @@ const ContentData = ({ tag, username = undefined }: ContentDataProps) => {
     return `${API_ENDPOINT}/posts?${query}`
   }
 
-  const { data, size, setSize, error, isValidating } = useSWRInfinite(
-    getKey,
-    fetcher,
-  )
+  const { data, size, setSize, isValidating } = useSWRInfinite(getKey, fetcher)
 
   const isEmpty = data?.[0]?.data.length === 0
   const isReachingEnd = useRef<boolean>(false)

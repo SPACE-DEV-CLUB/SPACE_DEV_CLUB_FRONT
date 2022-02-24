@@ -133,9 +133,11 @@ export const Header = ({
               >
                 로그인
               </button>
-              <SearchBtn theme={theme} className="sc-dxgOiQ ghkPCb">
-                <SearchIcon htmlColor={theme.MAIN_FONT} />
-              </SearchBtn>
+              <Link href={"/search"} passHref>
+                <SearchBtn theme={theme} className="sc-dxgOiQ ghkPCb">
+                  <SearchIcon htmlColor={theme.MAIN_FONT} />
+                </SearchBtn>
+              </Link>
             </>
           )}
           {session && (

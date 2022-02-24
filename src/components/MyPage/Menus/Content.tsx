@@ -2,7 +2,7 @@ import styled from "@emotion/styled"
 import { css } from "@emotion/react"
 import { MEDIA_QUERY_END_POINT } from "@constants/index"
 import SearchIcon from "@mui/icons-material/Search"
-import { useContext, useRef, useState } from "react"
+import { ChangeEvent, useContext, useRef, useState } from "react"
 import { ThemeContext } from "@pages/_app"
 import { ThemeProps } from "@src/types/Theme"
 import ContentData from "../../Common/ContentData"
@@ -17,8 +17,9 @@ interface ContentProps {
 export const Content = ({ username }: ContentProps) => {
   const { theme } = useContext(ThemeContext)
   const tagchecker = useRef("")
-  const [tag, setTag] = useState("")
   const tagData = useRef([])
+  const [tag, setTag] = useState("")
+  const [search, setSearch] = useState("")
 
   const query = qs.stringify(
     {
@@ -32,6 +33,10 @@ export const Content = ({ username }: ContentProps) => {
       encodeValuesOnly: true,
     },
   )
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value)
+  }
 
   const postquery = qs.stringify(
     {
@@ -76,7 +81,11 @@ export const Content = ({ username }: ContentProps) => {
       <SearchContainer theme={theme}>
         <article className="searchBox">
           <SearchIcon />
-          <input type="text" placeholder="검색어를 입력하세요." />
+          <input
+            type="text"
+            onChange={(e) => handleSearch(e)}
+            placeholder="검색어를 입력하세요."
+          />
         </article>
       </SearchContainer>
       <SmallTaglist theme={theme}>
@@ -155,7 +164,11 @@ export const Content = ({ username }: ContentProps) => {
           })}
         </ul>
       </LargeTaglist>
-      <ContentData username={username} tag={tagchecker.current} />
+      <ContentData
+        username={username}
+        tag={tagchecker.current}
+        search={search}
+      />
     </ContentContainer>
   )
 }
