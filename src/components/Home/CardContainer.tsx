@@ -66,7 +66,7 @@ export const CardContainer = ({filter} :
           page: pageIndex + 1,
           pageSize: PAGE_SIZE,
         },
-        populate: ["*"],
+        populate: ["userid","comments"],
         sort: ["publishedAt:desc"],
         filters: {
           publishedAt: {
@@ -89,7 +89,6 @@ export const CardContainer = ({filter} :
 
   const isEmpty = data?.[0]?.length === 0
   const isReachingEnd = useRef<boolean>(false)
-
   const [target, setTarget] = useState<HTMLElement | null | undefined>(null)
 
   useEffect(() => {
@@ -123,8 +122,8 @@ export const CardContainer = ({filter} :
                 imageUrl={e.attributes.imageUrl}
                 title={e.attributes.title}
                 contents={e.attributes.contents}
-                comments={e.attributes.comments}
-                username={'deli-ght'}
+                comments={e.attributes.comments.data.length}
+                username={e.attributes.userid.data.attributes.userid}
                 count={e.attributes.count}
                 publishedAt={e.attributes.publishedAt}
               />

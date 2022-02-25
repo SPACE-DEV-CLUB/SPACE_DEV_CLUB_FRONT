@@ -98,7 +98,6 @@ color:transparent;
 ${cardBasic}
 `
 
-
 const PostContent = styled.p<ThemeProps>`
 color: ${({ theme }) => theme.SUB_FONT};
 font-size: 14px;
@@ -112,7 +111,6 @@ justify-items:center;
 ${cardBasic}
 `;
 
-
 const ThumbnailWrap= styled.section`
   position: relative;
   padding-top: 52%;
@@ -122,7 +120,6 @@ const ThumbnailWrap= styled.section`
     box-sizing: border-box;
   }
 `;
-
 
 const AuthorDesc = styled.footer<ThemeProps>`
   display: flex;

@@ -22,7 +22,6 @@ const OPTIONS = [
 
 export const Notice = ({ route }: { route: string }) => {
   const { theme } = useContext(ThemeContext);
-
   const [visible, setVisible] = useState(false);
   const boxClickHandler = () => {
     setVisible(!visible);

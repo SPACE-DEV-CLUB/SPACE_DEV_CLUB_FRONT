@@ -101,6 +101,7 @@ const ClockIcon = styled(AccessTimeIcon)<{ route: string }>`
     font-size: 20px;
   }
 `;
+
 const FilterName = styled.a<StyledType>`
   font-weight: bold;
   width: ${(props) =>
