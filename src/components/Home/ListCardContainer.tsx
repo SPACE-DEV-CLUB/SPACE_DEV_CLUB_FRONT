@@ -41,10 +41,14 @@ export const ListCardContainer = ({
     const query = qs.stringify(
       {
         pagination: {
-          page: pageIndex,
+          page: pageIndex + 1,
           pageSize: PAGE_SIZE,
         },
-        populate: "*",
+        populate: {
+          postid: {
+            populate:["userid", "comments","likeposts"],
+          },
+        },
         sort: ["updatedAt:desc"],
         filters: {
           userid: {
@@ -58,6 +62,7 @@ export const ListCardContainer = ({
         encodeValuesOnly: true,
       }
     );
+
     return `${API_ENDPOINT}/${filter}?${query}`;
   };
 
@@ -101,9 +106,9 @@ export const ListCardContainer = ({
                 key={`${e}_${i}`}
                 title={e.attributes.postid.data.attributes.title}
                 contents={e.attributes.postid.data.attributes.contents}
-                comments={e.attributes.postid.data.attributes.comments}
-                username={e.attributes.userid.data.attributes.userid}
-                count={e.attributes.postid.data.attributes.count}
+                comments={e.attributes.postid.data.attributes.comments.data.length}
+                username={e.attributes.postid.data.attributes.userid.data.attributes.userid}
+                count={1}
                 publishedAt={e.attributes.postid.data.attributes.publishedAt}
               /> 
             ))

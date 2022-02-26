@@ -10,6 +10,30 @@ interface ToggleProps {
   theme: Theme;
 }
 
+export default function DarkModeToggle(): ReactElement {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
+  return (
+    <ToggleButton onClick={toggleTheme} theme={theme}>
+      {theme === lightTheme ? (
+        <>
+          <Emoji>
+            <DarkModeIcon aria-label="darkMoon" />
+          </Emoji>
+          <ModeContent>다크 모드</ModeContent>
+        </>
+      ) : (
+        <>
+          <Emoji>
+            <LightModeIcon aria-label="lightSun" />
+          </Emoji>
+          <ModeContent>라이트 모드</ModeContent>
+        </>
+      )}
+    </ToggleButton>
+  );
+}
+
 const ToggleButton = styled('button')<ToggleProps>`
   position: fixed;
   width: 115px;
@@ -51,27 +75,3 @@ const ModeContent = styled.p`
   font-size: 0.8rem;
   margin-left: 5px;
 `;
-
-export default function DarkModeToggle(): ReactElement {
-  const { theme, toggleTheme } = useContext(ThemeContext);
-
-  return (
-    <ToggleButton onClick={toggleTheme} theme={theme}>
-      {theme === lightTheme ? (
-        <>
-          <Emoji>
-            <DarkModeIcon aria-label="darkMoon" />
-          </Emoji>
-          <ModeContent>다크 모드</ModeContent>
-        </>
-      ) : (
-        <>
-          <Emoji>
-            <LightModeIcon aria-label="lightSun" />
-          </Emoji>
-          <ModeContent>라이트 모드</ModeContent>
-        </>
-      )}
-    </ToggleButton>
-  );
-}
