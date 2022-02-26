@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { useState, useContext } from "react";
 import { TagGenerator } from "./TagGenerator";
-import { ThemeContext } from "../../../pages/_app";
-import { ThemeProps } from "../../../types/Theme";
+import { ThemeContext } from "@pages/_app";
+import { ThemeProps } from "@src/types/Theme";
 
 interface WriteHeaderProps {
   handleTitleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;

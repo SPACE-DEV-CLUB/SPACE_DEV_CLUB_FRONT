@@ -6,15 +6,20 @@ import LinkIcon from "@mui/icons-material/Link";
 import ImageIcon from "@mui/icons-material/Image";
 import CodeIcon from "@mui/icons-material/Code";
 import { useContext } from "react";
-import { ThemeContext } from "../../../pages/_app";
-import { ThemeProps } from "../../../types/Theme";
+import { ThemeContext } from "@pages/_app";
+import { ThemeProps } from "@src/types/Theme";
 
 interface ButtonProps {
   handleLineStyle: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleCodeBox: any;
   handleDecoBtn: any;
 }
 
-export const ToolBar = ({ handleDecoBtn, handleLineStyle }: ButtonProps) => {
+export const ToolBar = ({
+  handleDecoBtn,
+  handleLineStyle,
+  handleCodeBox,
+}: ButtonProps) => {
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -82,7 +87,7 @@ export const ToolBar = ({ handleDecoBtn, handleLineStyle }: ButtonProps) => {
       <BtnIcon theme={theme} type="button">
         <ImageIcon />
       </BtnIcon>
-      <BtnIcon theme={theme} type="button">
+      <BtnIcon onClick={handleCodeBox} theme={theme} type="button">
         <CodeIcon />
       </BtnIcon>
     </Container>

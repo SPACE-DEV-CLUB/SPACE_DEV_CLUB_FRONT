@@ -1,11 +1,9 @@
 import { MutableRefObject } from "react";
 
-const toolBarDeco = (
+const toolBarCodeBox = (
   txtAreaCont: MutableRefObject<any>,
   startPoint: number,
-  endPoint: number,
-  firstMd: string,
-  lastMd: string
+  endPoint: number
 ) => {
   const checker = /\*\*([\w\W ]*)\*\*/;
   const checked =
@@ -14,11 +12,13 @@ const toolBarDeco = (
   const afterTxt = txtAreaCont.current.value.substring(endPoint);
   const draggedTxt = checker.exec(checked)
     ? checker.exec(checked)![1]
-    : firstMd +
-      (txtAreaCont.current.value.substring(startPoint, endPoint) || "텍스트") +
-      lastMd;
+    : "\n```\n" +
+      (txtAreaCont.current.value.substring(startPoint, endPoint) ||
+        "코드를 입력하세요.") +
+      "\n```\n";
+
   const result = beforeTxt + draggedTxt + afterTxt;
   return result;
 };
 
-export default toolBarDeco;
+export default toolBarCodeBox;

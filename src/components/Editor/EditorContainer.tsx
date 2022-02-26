@@ -1,13 +1,18 @@
 import styled from "@emotion/styled";
 import { useState, useRef, useContext, useEffect } from "react";
-import { WriteHeader, WriteForm, BottomMenu } from "./EditorInput";
-import { MDviewer } from "./EditorViewer";
-import { SubmitModal } from "./SubmitModal";
-import { MEDIA_QUERY_END_POINT } from "../../constants";
-import { ThemeContext } from "../../pages/_app";
-import { ThemeProps } from "../../types/Theme";
+import {
+  WriteHeader,
+  WriteForm,
+  BottomMenu,
+} from "@components/Editor/EditorInput";
+import { MDviewer } from "@components/Editor/EditorViewer";
+import { SubmitModal } from "@components/Editor/SubmitModal";
+import { MEDIA_QUERY_END_POINT } from "@constants/index";
+import { ThemeContext } from "@pages/_app";
+import { ThemeProps } from "@src/types/Theme";
 import toolBarDeco from "@src/utils/toolBarDeco";
 import toolBarChkBtn from "@src/utils/toolBarChkBtn";
+import toolBarCodeBox from "@src/utils/toolBarCodeBox";
 
 export const EditorContainer = () => {
   const [tagInput, setTagInput] = useState("");
@@ -115,8 +120,6 @@ export const EditorContainer = () => {
     setContents(e.target.value);
   };
 
-  console.log("txtAreaCont value", txtAreaCont);
-
   //알고리즘임
   // 1.클릭된 문자열 위치를 확인해서 (split or match) 몇번째줄인지 확인한다.
   // 2.해당 문자열 앞에 버튼에 맞는 selectedTag를 추가해준다. "#" + "n번째줄"
@@ -133,8 +136,6 @@ export const EditorContainer = () => {
     });
     let endPoint = txtAreaCont.current.selectionEnd;
     let checkLine = 0;
-
-    console.log("e", e);
 
     for (let i = 0; i < textSplit.length; i++) {
       endPoint -= textLengthArray[i];
@@ -162,7 +163,6 @@ export const EditorContainer = () => {
   ) => {
     const startPoint = txtAreaCont.current.selectionStart;
     const endPoint = txtAreaCont.current.selectionEnd;
-
     if (type === "bold") {
       const result = toolBarDeco(txtAreaCont, startPoint, endPoint, "**", "**");
       setContents(result);
@@ -175,7 +175,17 @@ export const EditorContainer = () => {
     }
   };
 
-  const handleQuoteBtn = () => {};
+  // 1. 그냥 클릭시 백틱3개와 코드를 입력하세요가 나온다.
+  // 2. 드래그시 해당 부분의 텍스트를 백틱이 감싼다. 여기서 오류가 있다. 줄 중간을 드래그 하면 MDviewer가 오류남.(실제 벨로그 오류)
+  // 3. 드래그시 해당 부분이 아닌 해당 줄들을 백틱이 감싸게 개선한다.
+  //4. 두번 누르면 코드 친게 지워지도록 - 벨로그랑 비교해서 개선 사항
+  const handleCodeBox = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const startPoint = txtAreaCont.current.selectionStart;
+    const endPoint = txtAreaCont.current.selectionEnd;
+
+    const result = toolBarCodeBox(txtAreaCont, startPoint, endPoint);
+    setContents(result);
+  };
 
   return (
     <>
@@ -198,6 +208,7 @@ export const EditorContainer = () => {
               handleLineStyle={handleLineStyle}
               contents={contents}
               txtAreaCont={txtAreaCont}
+              handleCodeBox={handleCodeBox}
             />
           </EditorForm>
           <BottomMenu handleSubmitModal={handleSubmitModal} />
