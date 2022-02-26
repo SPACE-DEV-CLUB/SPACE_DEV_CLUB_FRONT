@@ -13,7 +13,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main>
-        <Header username={"deli-ght"} user={false} />
+        <Header user={false} />
         <Filter route={"recent"}></Filter>
       </Main>
     </div>
