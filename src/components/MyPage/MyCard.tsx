@@ -13,6 +13,7 @@ import { handleDate } from "@utils/date"
 type PropsTypes = {
   imageUrl: string
   title: string
+  userid: string
   contents: string
   tag?: Array<string> | undefined | null
   date: string
@@ -23,10 +24,12 @@ type PropsTypes = {
   isPrivate?: boolean
   commentLength?: number
   profileImg?: string | undefined
+  url?: string | undefined | null
 }
 export const MyCard = ({
   imageUrl,
   title,
+  userid,
   contents,
   tag,
   date,
@@ -37,21 +40,22 @@ export const MyCard = ({
   isPrivate,
   commentLength,
   profileImg,
+  url
 }: PropsTypes) => {
   const { theme } = useContext(ThemeContext)
   const filteredDate = handleDate(date)
   return (
     <MyCardContainer theme={theme}>
-      {mySearch && <Profile id={username} profileImgUrl={profileImg}></Profile>}
-      <Link href={`/${username}`} passHref>
-        <a>
-          <ImageContainer
+      {mySearch && <a href={`/${userid}`}><Profile id={username} profileImgUrl={profileImg}></Profile></a>}
+      <Link href={`/${username}/${url}`} passHref>
+        <a href={`/${username}/${url}`}>
+          {imageUrl && <ImageContainer
             layout="responsive"
             width={734}
             height={402}
             alt="sample image"
-            src={imageUrl ? imageUrl : "/image/sample.jpeg"}
-          />
+            src={imageUrl}
+          />}
           <h2>{title}</h2>
         </a>
       </Link>

@@ -11,13 +11,14 @@ export const SearchBar = () => {
     const { theme } = useContext(ThemeContext);
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState("");
-    const queryHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const queryHandler = (e: React.
+        ChangeEvent<HTMLInputElement>) => {
         if(e.target.value !== ' '){
             setSearchQuery(e.target.value);
         }
     };
-    const inputRef = useRef<HTMLInputElement>(null);
 
+    const inputRef = useRef<HTMLInputElement>(null);
     useEffect(() => {
         inputRef.current?.focus();
     }, [inputRef]);
