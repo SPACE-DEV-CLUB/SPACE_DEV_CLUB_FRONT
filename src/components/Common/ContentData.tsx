@@ -109,6 +109,7 @@ const ContentData = ({
                   tag={e.attributes.hashtags.data}
                   date={e.attributes.publishedAt}
                   // comment={e.attributes.comment}
+                  userid={e.attributes.userid.data.attributes.userid}
                   username={e.attributes.userid.data?.attributes.userid}
                 />
               ))

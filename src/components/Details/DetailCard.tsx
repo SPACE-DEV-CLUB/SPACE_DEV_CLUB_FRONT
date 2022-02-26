@@ -27,6 +27,8 @@ export const DetailCard = ({ interested }: Interested) => {
               username={username}
               // count={data.attributes.count}
               publishedAt={data.attributes.publishedAt}
+              url={data.attributes.url}
+              userImg={''}
             />
           );
         })}

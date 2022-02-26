@@ -15,7 +15,7 @@ export const FindPost = ({ postNum }: PropsTypes) => {
 }
 
 const FindContainer = styled.div`
-  padding: 18px 0;
+  padding: 18px 0 60px 0;
   p {
     font-size: 18px;
   }

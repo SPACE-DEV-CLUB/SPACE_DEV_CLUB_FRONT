@@ -1,27 +1,14 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import Image from 'next/image';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useContext } from 'react';
-import SAMPLE_IMG from '../../../public/image/sampleUser2.jpg';
 import { Theme } from '@styles/theme';
 import { ThemeContext } from '@pages/_app';
 import { handleDate } from '@utils/date';
 interface ThemeProps {
   theme: Theme;
 }
-
-export const ListCard = ({
-  imageUrl,
-  title,
-  contents,
-  comments,
-  username,
-  count,
-  thumbnail,
-  publishedAt,
-}: {
-  imageUrl?: string;
+interface Cardprops {
   title: string;
   contents: string;
   comments?: number;
@@ -29,21 +16,43 @@ export const ListCard = ({
   count?: number;
   thumbnail?: string;
   publishedAt: string;
-}) => {
+  url: string;
+  userImg: string | undefined;
+}
+
+export const ListCard = ({
+  title,
+  contents,
+  comments,
+  username,
+  count,
+  thumbnail,
+  publishedAt,
+  url,
+  userImg
+} : Cardprops) => {
   const { theme } = useContext(ThemeContext);
 
-  const handleImageError = (
+  const handleThumbnailError = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
-    event.currentTarget.src = '/image/post_thumbnail.png';
+    event.currentTarget.src = '/image/default_thumbnail.png';
+    event.currentTarget.style.transform = "scale(0.8)";
+  };
+
+  const handleAuthorImgError = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = '/image/junghoon_memoji.png';
+    event.currentTarget.style.transform = "scale(1.2)";
   };
 
   return (
     <Card theme={theme}>
-      <Link href={`/@${username}`} passHref>
+      <Link href={`/${username}/${url}`} passHref>
         <a>
           <ThumbnailWrap>
-            <Thumbnail src={''} alt="" onError={handleImageError}/>
+            <Thumbnail src={''} alt="" onError={handleThumbnailError}/>
           </ThumbnailWrap>
           <Post theme={theme}>
             <PostTitle theme={theme}>{title}</PostTitle>
@@ -57,13 +66,14 @@ export const ListCard = ({
         </a>
       </Link>
       <AuthorDesc theme={theme}>
-        <Link href="/" passHref>
+        <Link href={`/${username}`} passHref>
           <Author theme={theme}>
             <AuthorImg
-              src={SAMPLE_IMG}
+              src={userImg}
               alt=""
               width={24}
               height={24}
+              onError={handleAuthorImgError}
             ></AuthorImg>
             <Preposition theme={theme}>
               by
@@ -135,6 +145,7 @@ const PostDesc = styled.span<ThemeProps>`
 const ThumbnailWrap= styled.section`
   position: relative;
   padding-top: 52%;
+  background: white;
 `;
 
 const Thumbnail = styled.img`
@@ -142,7 +153,7 @@ const Thumbnail = styled.img`
   height:100%;
   position: absolute;
   top:0;  
-  object-fit: cover;
+  object-fit: contain;
 `;
 
 const Dot = styled.span`
@@ -157,9 +168,10 @@ const AuthorDesc = styled.footer<ThemeProps>`
   border-top: 1px solid ${({ theme }) => theme.TOGGLE_BACKGROUND};
 `;
 
-const  AuthorImg = styled(Image)`
+const  AuthorImg = styled.img`
   display: block;
   border-radius: 50%;
+  object-fit: cover;
 `;
 
 const Author = styled.a<ThemeProps>`

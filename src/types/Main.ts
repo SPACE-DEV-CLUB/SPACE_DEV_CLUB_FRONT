@@ -32,6 +32,8 @@ export interface CardProps {
   attributes: {
     title: string
     contents: string
+    url: string | undefined | null
+    imageurl: string | undefined
     hashtags: {
       data: string[] | undefined
     }

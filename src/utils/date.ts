@@ -2,11 +2,11 @@ let today = new Date();
 
 const handleTime = (day: Date) => {
   const timeDiff = today.getMinutes() - day.getMinutes();
-  return timeDiff < 1 ? "방금전" : Math.floor(timeDiff) + "분 전";
+  const result = timeDiff < 0 ? 60 - timeDiff : timeDiff;
+  return result < 1 ? "방금전" : Math.floor(result) + "분 전";
 };
 
 const handleInADay = (day: Date) => {
-  day.setDate(day.getDate() - 7);
   const dateDiff = (today.getTime() - day.getTime()) / (1000 * 3600);
   return dateDiff < 1 ? handleTime(day) : Math.floor(dateDiff) + "시간 전";
 };
@@ -27,8 +27,10 @@ export const handleDate = (createdAt: string) => {
       "일"
     );
   } else {
-    return day.getDay() - today.getDay() === 0
+    day.setDate(day.getDate() - 7);
+    return today.getTime() - day.getTime() <= 1000 * 3600
       ? handleInADay(day)
-      : Math.abs(7 - day.getDay()) + "일전";
+      : Math.ceil((today.getTime() - day.getTime()) / (1000 * 3600 * 24)) +
+          "일전";
   }
 };

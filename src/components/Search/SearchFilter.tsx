@@ -108,7 +108,9 @@ function SearchFilter() {
                                 .map((e, index) => (
                                     <MyCard
                                         key={index}
-                                        imageUrl="/public/image/sample.jpeg"
+                                        // 이후에 수정
+                                        imageUrl={e.attributes?.imageurl as any}
+                                        userid={e.attributes.userid.data.attributes.userid}
                                         title={e.attributes.title}
                                         contents={e.attributes.contents}
                                         tag={e.attributes.hashtags?.data}
@@ -133,6 +135,7 @@ function SearchFilter() {
                                             e.attributes.userid.data?.attributes
                                                 .profileimage
                                         }
+                                        url={e.attributes?.url}
                                     />
                                 ))}
                         </>

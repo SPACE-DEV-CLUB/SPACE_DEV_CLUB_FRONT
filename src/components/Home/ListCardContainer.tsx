@@ -108,8 +108,10 @@ export const ListCardContainer = ({
                 contents={e.attributes.postid.data.attributes.contents}
                 comments={e.attributes.postid.data.attributes.comments.data.length}
                 username={e.attributes.postid.data.attributes.userid.data.attributes.userid}
+                userImg={e.attributes.postid.data.attributes.userid.data.attributes.profileimage}
                 count={1}
                 publishedAt={e.attributes.postid.data.attributes.publishedAt}
+                url={e.attributes.postid.data.attributes.url}
               /> 
             ))
           })}
