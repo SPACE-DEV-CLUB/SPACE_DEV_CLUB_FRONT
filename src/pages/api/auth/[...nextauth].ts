@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-
+///
 const GOOGLE_AUTHORIZATION_URL =
   "https://accounts.google.com/o/oauth2/v2/auth?" +
   new URLSearchParams({
