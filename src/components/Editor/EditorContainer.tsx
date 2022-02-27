@@ -19,6 +19,7 @@ export const EditorContainer = () => {
   //state data for POST down below
   const [title, setTitle] = useState<string>("");
   const [contents, setContents] = useState<string>("");
+  const [linkModal, setLinkModal] = useState(false);
   const txtAreaCont = useRef<any>("");
   const [listTagDatas, setListTagDatas] = useState<Array<string>>([]);
   //Modal state for POST down below
@@ -179,12 +180,18 @@ export const EditorContainer = () => {
   // 2. 드래그시 해당 부분의 텍스트를 백틱이 감싼다. 여기서 오류가 있다. 줄 중간을 드래그 하면 MDviewer가 오류남.(실제 벨로그 오류)
   // 3. 드래그시 해당 부분이 아닌 해당 줄들을 백틱이 감싸게 개선한다.
   //4. 두번 누르면 코드 친게 지워지도록 - 벨로그랑 비교해서 개선 사항
+
   const handleCodeBox = (e: React.MouseEvent<HTMLButtonElement>) => {
     const startPoint = txtAreaCont.current.selectionStart;
     const endPoint = txtAreaCont.current.selectionEnd;
-
     const result = toolBarCodeBox(txtAreaCont, startPoint, endPoint);
     setContents(result);
+  };
+
+  const handleLinkModal = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setLinkModal(!linkModal);
+    console.log("e", e);
+    console.log("linkModal", linkModal);
   };
 
   return (
@@ -209,6 +216,8 @@ export const EditorContainer = () => {
               contents={contents}
               txtAreaCont={txtAreaCont}
               handleCodeBox={handleCodeBox}
+              handleLinkModal={handleLinkModal}
+              linkModal={linkModal}
             />
           </EditorForm>
           <BottomMenu handleSubmitModal={handleSubmitModal} />
