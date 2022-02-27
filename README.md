@@ -1,16 +1,19 @@
 # SPACE DEV CLUB 🚀
 
-  <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FJunghoon-P%2FSPACE_DEV_CLUB_FRONT&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
-  <img src="https://img.shields.io/github/stars/Junghoon-P/SPACE_DEV_CLUB_FRONT" alt="stars"/>
-  <img src="https://img.shields.io/github/issues-pr/Junghoon-P/SPACE_DEV_CLUB_FRONT" alt="open pull requests"/>
+<a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FJunghoon-P%2FSPACE_DEV_CLUB_FRONT&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
+<img src="https://img.shields.io/github/stars/Junghoon-P/SPACE_DEV_CLUB_FRONT" alt="stars"/>
+<img src="https://img.shields.io/github/issues-pr/Junghoon-P/SPACE_DEV_CLUB_FRONT" alt="open pull requests"/>
 
 ## 프로젝트 개요
-velog를 클론하는 프로젝트
+
+[velog](https://velog.io/)를 기반으로 한 기술 블로그 서비스
+실제 블로그 및 에디터를 사용하며 느낀 아쉬운 점들을 수정 및 보완해 스데브만의 블로그 제작
 
 ### 프로젝트 기간
-**2022.01.02 - **
 
-### member
+**2022.01.02-진행중**
+
+### [Members](https://www.spacelog.today/introduce)
 
 <table>
   <tr>
@@ -47,7 +50,7 @@ velog를 클론하는 프로젝트
           src="https://avatars.githubusercontent.com/Junghoon-P"
           width="100px;"
           alt=""
-        /><br /><sub><b>박정훈</b></sub></a
+        /><br /><sub><b>박정훈 (팀장)</b></sub></a
       ><br />
     </td>
     <td align="center">
@@ -73,49 +76,66 @@ velog를 클론하는 프로젝트
 
 ## 기술 환경
 
+### 배포
+
+- vercel
+
 ### 협업툴
+
+- discord
 - slack
 - notion
+
 ### Frontend
+
 - React
 - TypeScript
 - Next.js
-- emotion
-- axios
-- context-api
-- SWR
-- node.js
 
 ### Backend
+
 - strapi
 - postgreSQL
 
+### Library
+
+- next-auth
+- context-api
+- js-cookies
+- axios
+- SWR
+- Marked
+- react-beautiful-dnd
+- emotion
+- mui/icon
+
 ## 역할 분담
 
-| Pages | developer|
-|------|-------|
-|Main page |김기영, 박서영|
-|Mypage | 김민주, 이규리| 
-|Mypage 읽기 목록 | 김기영, 박서영 |
-|Editor| 박정훈, 이현호 |
-|상세페이지 | 박정훈, 이현호|
-|Search page | 김민주, 이규리|
+| Pages                     | developer      |
+| ------------------------- | -------------- |
+| Main page                 | 김기영, 박서영 |
+| Mypage                    | 김민주         |
+| Mypage 읽기 목록          | 김기영, 박서영 |
+| Editor                    | 박정훈         |
+| 상세페이지                | 이현호         |
+| Search page , 로그인 구현 | 이규리         |
 
-## 데이터베이스 구조
-![](https://i.imgur.com/AeG4LF8.png)
-
+<!-- ## 데이터베이스 구조 -->
 
 ## 기능 구현
 
 ### 메인 기능
+
+- 로그인
 - Main page
 - Mypage
 - Mypage 읽기 목록
 - Editor
-- 상세페이지
-- Search page
+- 게시글 상세페이지
+- Search
 
 ### 추가 기능
+
 - 다크모드
 - 공유하기
 - 검색
@@ -124,9 +144,7 @@ velog를 클론하는 프로젝트
 - 게시글 CRUD
 - 댓글 기능
 
-자세한 구현 사항과 진행사항을 확인하기 위해 [팀 페이지](https://scandalous-pleasure-6aa.notion.site/24fc67c23010418e9dde3665fcd529ce?v=8bc5f8c7e6444d4ea63e785fd20b0dfc)를 참고해주세요.
-
-## 개발하며 느낀점
+자세한 구현 사항과 진행사항을 확인하기 위해 [팀 페이지](https://scandalous-pleasure-6aa.notion.site/24fc67c23010418e9dde3665fcd529ce?v=8bc5f8c7e6444d4ea63e785fd20b0dfc) 및 [위키 회의록](https://github.com/SPACE-DEV-CLUB/SPACE_DEV_CLUB_FRONT/wiki)을 참고해주세요.
 
 ## 👏 Contributing
 
@@ -142,4 +160,4 @@ velog를 클론하는 프로젝트
 
 ## 📝 License
 
-This project is [MIT]() licensed.
+This project is [MIT](https://github.com/SPACE-DEV-CLUB/SPACE_DEV_CLUB_FRONT/blob/develop/LICENSE.md) licensed.
