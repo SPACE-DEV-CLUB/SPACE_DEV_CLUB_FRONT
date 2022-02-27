@@ -98,7 +98,7 @@ color:transparent;
 ${cardBasic}
 `
 
-const PostContent = styled.p<ThemeProps>`
+const PostContent = styled.section<ThemeProps>`
 color: ${({ theme }) => theme.SUB_FONT};
 font-size: 14px;
 line-height: 1.5;

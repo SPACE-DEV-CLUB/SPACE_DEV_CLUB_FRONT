@@ -5,6 +5,7 @@ import qs from "qs"
 import { fetcher } from "@utils/fetcher"
 import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "@constants/."
 import { ListCard, ListCardLoading } from "."
+import { ControlPointSharp } from "@material-ui/icons"
 
 let PAGE_SIZE = 3
 
@@ -119,13 +120,14 @@ export const CardContainer = ({filter} :
             return loaded.data.map((e: any, i: number) => (
               <ListCard
                 key={`${e}_${i}`}
-                imageUrl={e.attributes.imageUrl}
                 title={e.attributes.title}
                 contents={e.attributes.contents}
                 comments={e.attributes.comments.data.length}
                 username={e.attributes.userid.data.attributes.userid}
+                userImg={e.attributes.userid.data.attributes.profileimage}
                 count={e.attributes.count}
                 publishedAt={e.attributes.publishedAt}
+                url={e.attributes.url}
               />
             ))
           })}
