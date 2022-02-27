@@ -85,6 +85,8 @@ const MyCardContainer = styled.section<ThemeProps>`
   width: 100%;
   max-width: 768px;
   padding-bottom: 64px;
+  border-bottom: 1px solid ${({ theme }) => theme.ICON};
+;
   & + & {
     padding: 64px 0;
   }
