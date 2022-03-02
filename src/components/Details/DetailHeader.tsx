@@ -9,6 +9,7 @@ import { userInfo } from "../../types/Main";
 import { PostContext } from "@pages/[id]/[details]";
 import { useContext, useEffect, useState } from "react";
 import { SeriesBoxPost } from "@src/types/Detail";
+import { MDviewer } from "../Editor/EditorViewer";
 
 interface Props {
   userName: string | string[] | undefined;
@@ -127,7 +128,7 @@ export const DetailHeader = ({
         SeriesBoxPost={seriesData.post.data}
         currentPost={currentPost}
       />
-      <div>{postObj.contents}</div>
+      <MDviewer title="" contents={postObj.contents} />
       <div ref={setTarget}></div>
       <Intro username={userName} userdata={userdata} />
       <Carousel
