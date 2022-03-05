@@ -2,7 +2,7 @@ let today = new Date();
 
 const handleTime = (day: Date) => {
   const timeDiff = today.getMinutes() - day.getMinutes();
-  const result = timeDiff < 0 ? 60 - timeDiff : timeDiff;
+  const result = timeDiff < 0 ? 60 + timeDiff : timeDiff;
   return result < 1 ? "방금전" : Math.floor(result) + "분 전";
 };
 
