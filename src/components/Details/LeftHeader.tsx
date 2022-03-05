@@ -82,9 +82,11 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
       url: `${API_ENDPOINT}/likeposts?populate=*&filters[userid][userid]=${loginUserName}`,
     });
     const handleOverlap = response.data.data.some((post: ILikePost) => {
-      if (post.attributes.postid.data.id === postid) {
-        setPutId(post.id);
-        return true;
+      if (post.attributes.postid.data !== null) {
+        if (post.attributes.postid.data.id === postid) {
+          setPutId(post.id);
+          return true;
+        }
       }
     });
     handleOverlap && setHeartClick(true);

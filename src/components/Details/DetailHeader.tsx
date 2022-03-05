@@ -8,7 +8,6 @@ import axios, { Method } from "axios";
 import { userInfo } from "../../types/Main";
 import { PostContext } from "@pages/[id]/[details]";
 import { useContext, useEffect, useState } from "react";
-import { SeriesBoxPost } from "@src/types/Detail";
 import { MDviewer } from "../Editor/EditorViewer";
 
 interface Props {
@@ -55,12 +54,14 @@ export const DetailHeader = ({
 
   useEffect(() => {
     GetSeries();
-    seriesData.post.data.filter((data, i) => {
-      if (data.id === postid) {
-        setCurrentPost(i + 1);
-        return true;
-      }
-    })[0];
+    if (seriesData.title) {
+      seriesData.post.data.filter((data, i) => {
+        if (data.id === postid) {
+          setCurrentPost(i + 1);
+          return true;
+        }
+      })[0];
+    }
   }, [postid]);
 
   const GetSeries = async () => {
@@ -68,7 +69,9 @@ export const DetailHeader = ({
       method: "get",
       url: `${API_ENDPOINT}/series-boxes?populate=*&filters[userid]=${userId}&filters[post][id]=${postid}`,
     });
-    setSeriesData(response.data.data[0].attributes);
+    if (response.data.data[0]) {
+      setSeriesData(response.data.data[0].attributes);
+    }
   };
 
   const getReadingData = async () => {
@@ -78,9 +81,11 @@ export const DetailHeader = ({
       url: `${API_ENDPOINT}/readingposts?populate=*&filters[userid][userid]=${loginUserName}`,
     });
     const handleOverlap = response.data.data.some((post: ReadingPost) => {
-      if (post.attributes.postid.data.id === postid) {
-        putId = post.id;
-        return true;
+      if (post.attributes.postid.data !== null) {
+        if (post.attributes.postid.data.id === postid) {
+          putId = post.id;
+          return true;
+        }
       }
     });
     handleOverlap
@@ -122,20 +127,24 @@ export const DetailHeader = ({
     <Header>
       <h2>{postObj.title}</h2>
       <UDHashContainer userName={userName} loginUserId={loginUserId} />
-      <SeriesContainer
-        seriesBox={seriesData}
-        userName={userName}
-        SeriesBoxPost={seriesData.post.data}
-        currentPost={currentPost}
-      />
+      {seriesData.title && (
+        <SeriesContainer
+          seriesBox={seriesData}
+          userName={userName}
+          SeriesBoxPost={seriesData.post.data}
+          currentPost={currentPost}
+        />
+      )}
       <MDviewer title="" contents={postObj.contents} />
       <div ref={setTarget}></div>
       <Intro username={userName} userdata={userdata} />
-      <Carousel
-        userName={userName}
-        SeriesBoxPost={seriesData.post.data}
-        currentPost={currentPost}
-      />
+      {seriesData.title && (
+        <Carousel
+          userName={userName}
+          SeriesBoxPost={seriesData.post.data}
+          currentPost={currentPost}
+        />
+      )}
 
       <CommentFormContainer loginUserId={loginUserId} />
     </Header>

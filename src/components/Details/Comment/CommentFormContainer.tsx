@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 import { Theme } from "@styles/theme";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "@pages/_app";
 
 import { useData } from "@hooks/useData";
@@ -24,6 +24,7 @@ export const CommentFormContainer = ({ loginUserId }: Props) => {
   const { theme } = useContext(ThemeContext);
   const { postObj } = useContext(PostContext);
   const [commentForm, setCommentForm] = useState(false);
+  const [commentGroup, setCommentGroup] = useState(0);
 
   postObj.comments.data
     .sort((a, b) => a.attributes.order - b.attributes.order)
@@ -33,14 +34,20 @@ export const CommentFormContainer = ({ loginUserId }: Props) => {
   let newComment: CommentData[][] = [];
   postObj.comments.data.forEach((comment) => {
     const group = comment.attributes.group;
+
     if (!newComment[group]) newComment[group] = [comment];
     else newComment[group] = [...newComment[group], comment];
   });
 
-  const CommentGroup =
-    postObj.comments.data !== []
-      ? 1
-      : newComment[newComment.length - 1][0].attributes.group + 1;
+  useEffect(() => {
+    if (newComment.length === 0) {
+      setCommentGroup(1);
+    } else {
+      const groupNum =
+        newComment[newComment.length - 1][0].attributes.group + 1;
+      setCommentGroup(groupNum);
+    }
+  }, [newComment]);
 
   const [commentBtn, setCommentBtn] = useState(
     Array(newComment.length).fill(false)
@@ -63,7 +70,7 @@ export const CommentFormContainer = ({ loginUserId }: Props) => {
       <CommentForm
         CommentOrder={0}
         loginUserId={loginUserId}
-        CommentGroup={CommentGroup}
+        CommentGroup={commentGroup}
         setCommentForm={setCommentForm}
         type="CommentCreate"
         CommentContent=""
