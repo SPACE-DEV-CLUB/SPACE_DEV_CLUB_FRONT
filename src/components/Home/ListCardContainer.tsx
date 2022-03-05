@@ -4,8 +4,8 @@ import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 import { fetcher } from "@utils/fetcher";
 import { MEDIA_QUERY_END_POINT, API_ENDPOINT } from "@constants/.";
+import { LoginErrorPage } from "@src/components/Common/LoginErrorPage";
 import { ListCard, ListCardLoading } from ".";
-
 let PAGE_SIZE = 3;
 
 interface CardContainerProps {
@@ -93,46 +93,55 @@ export const ListCardContainer = ({ filter, username }: CardContainerProps) => {
 
   return (
     <>
-      <Container>
-        {data &&
-          data.map((loaded) => {
-            return loaded.data.map((e: any, i: number) => (
-              <ListCard
-                key={`${e}_${i}`}
-                title={e.attributes.postid.data.attributes.title}
-                contents={e.attributes.postid.data.attributes.contents}
-                comments={
-                  e.attributes.postid.data.attributes.comments.data.length
-                }
-                username={
-                  e.attributes.postid.data.attributes.userid.data.attributes
-                    .userid
-                }
-                userImg={
-                  e.attributes.postid.data.attributes.userid.data.attributes
-                    .profileimage
-                }
-                count={
-                  e.attributes.postid.data.attributes.likeposts.data.length
-                }
-                publishedAt={e.attributes.postid.data.attributes.publishedAt}
-                url={e.attributes.postid.data.attributes.url}
-              />
-            ));
-          })}
-      </Container>
-      <TargetElement ref={setTarget}>
-        {isValidating && !isReachingEnd.current && (
+      {username ? (
+        <>
           <Container>
-            {[...Array(PAGE_SIZE)].map((e, i) => (
-              <ListCardLoading key={i} />
-            ))}
+            {data &&
+              data.map((loaded) => {
+                return loaded.data.map((e: any, i: number) => (
+                  <ListCard
+                    key={`${e}_${i}`}
+                    title={e.attributes.postid.data.attributes.title}
+                    contents={e.attributes.postid.data.attributes.contents}
+                    comments={
+                      e.attributes.postid.data.attributes.comments.data.length
+                    }
+                    username={
+                      e.attributes.postid.data.attributes.userid.data.attributes
+                        .userid
+                    }
+                    userImg={
+                      e.attributes.postid.data.attributes.userid.data.attributes
+                        .profileimage
+                    }
+                    count={
+                      e.attributes.postid.data.attributes.likeposts.data.length
+                    }
+                    publishedAt={
+                      e.attributes.postid.data.attributes.publishedAt
+                    }
+                    url={e.attributes.postid.data.attributes.url}
+                  />
+                ));
+              })}
           </Container>
-        )}
-      </TargetElement>
+          <TargetElement ref={setTarget}>
+            {isValidating && !isReachingEnd.current && (
+              <Container>
+                {[...Array(PAGE_SIZE)].map((e, i) => (
+                  <ListCardLoading key={i} />
+                ))}
+              </Container>
+            )}
+          </TargetElement>
+        </>
+      ) : (
+        <LoginErrorPage />
+      )}
     </>
   );
 };
+
 const Container = styled.section`
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -162,7 +171,7 @@ const Container = styled.section`
     grid-template-columns: repeat(4, 1fr);
     gap: 32px;
     margin-bottom: 32px;
-    max-width: ${MEDIA_QUERY_END_POINT.DESKTOP};
+    max-width: 1376px;
   }
 
   @media (min-width: ${MEDIA_QUERY_END_POINT.XLARGE}) {

@@ -150,7 +150,7 @@ const FilterContainer = styled.div<{ route: string }>`
     max-width: ${MEDIA_QUERY_END_POINT.TABLET};
   }
   @media (min-width: ${MEDIA_QUERY_END_POINT.LARGE}) {
-    max-width: ${MEDIA_QUERY_END_POINT.DESKTOP};
+    max-width: 1376px;
   }
   @media (min-width: ${MEDIA_QUERY_END_POINT.XLARGE}) {
     max-width: 1728px;
