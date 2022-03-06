@@ -50,6 +50,7 @@ export const SearchBar = () => {
                     value={searchQuery}
                     onChange={queryHandler}
                     placeholder="검색어를 입력하세요"
+                    onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                 ></input>
             </form>
         </BarContainer>
