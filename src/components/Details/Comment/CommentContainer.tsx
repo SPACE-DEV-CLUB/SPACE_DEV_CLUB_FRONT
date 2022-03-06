@@ -1,38 +1,44 @@
 import styled from "@emotion/styled";
+import { API_ENDPOINT } from "@src/constants";
 import { CommentData, CommentUser } from "@src/types/Detail";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Comment } from ".";
 
 interface Props {
   comment: CommentData;
-  userData: CommentUser[];
   commentBtn: boolean[];
   index: number;
   loginUserId?: number;
 }
 
-let user = {
-  id: 0,
-  attributes: {
-    userid: "",
-    profileimage: "",
-  },
-};
-
 export const CommentContainer = ({
   comment,
-  userData,
   commentBtn,
   index,
   loginUserId,
 }: Props) => {
   const depth = comment.attributes.depth;
 
-  userData.some((data) => {
-    if (data.id === comment.attributes.userid) {
-      user = data;
-      return true;
-    }
+  const [user, setUser] = useState({
+    id: 0,
+    attributes: {
+      userid: "",
+      profileimage: "",
+    },
   });
+
+  const getUserData = async () => {
+    const response = await axios({
+      method: "get",
+      url: `${API_ENDPOINT}/userinfos?populate=*&filters[id]=${comment.attributes.userid}`,
+    });
+    setUser(response.data.data[0]);
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   return (
     <Container>

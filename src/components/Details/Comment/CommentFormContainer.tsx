@@ -4,8 +4,6 @@ import { Theme } from "@styles/theme";
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "@pages/_app";
 
-import { useData } from "@hooks/useData";
-
 import BorderInnerIcon from "@mui/icons-material/BorderInner";
 
 import { CommentForm, ReCommentForm, CommentContainer } from ".";
@@ -58,11 +56,6 @@ export const CommentFormContainer = ({ loginUserId }: Props) => {
     setCommentBtn([...commentBtn]);
   };
 
-  const { data: userData, error: UserError } = useData("userinfos");
-
-  if (!userData) return <div>로딩중</div>;
-  if (UserError) return <div>에러</div>;
-
   return (
     <article>
       <h3 className="sr-only">상세 페이지 댓글</h3>
@@ -85,7 +78,6 @@ export const CommentFormContainer = ({ loginUserId }: Props) => {
                 <div key={`CommentUser-${comment.id}`}>
                   <CommentContainer
                     comment={comment}
-                    userData={userData.data}
                     commentBtn={commentBtn}
                     index={i}
                     loginUserId={loginUserId}

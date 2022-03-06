@@ -6,9 +6,13 @@ import { useContext, useState } from "react";
 import { ThemeContext } from "@pages/_app";
 
 import { handleDate } from "@utils/date";
-import { DeleteModel } from ".";
 import { UpdateCommentForm } from "./UpdateCommentForm";
 import { CommentData, CommentUser } from "@src/types/Detail";
+import { Modal } from "@src/components/Common/Modal";
+import { PostContext } from "@src/pages/[id]/[details]";
+import { useSWRConfig } from "swr";
+import axios, { Method } from "axios";
+import { API_ENDPOINT } from "@src/constants";
 
 interface ThemeProps {
   theme: Theme;
@@ -21,6 +25,8 @@ interface Props {
 }
 
 export const Comment = ({ comment, user, loginUserId }: Props) => {
+  const { postObj } = useContext(PostContext);
+  const { mutate } = useSWRConfig();
   const [isDelete, setIsDelete] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const { userid, profileimage } = user.attributes;
@@ -34,11 +40,35 @@ export const Comment = ({ comment, user, loginUserId }: Props) => {
 
   const onClickDelete = () => {
     setIsDelete(true);
-    document.body.style.overflow = "hidden";
   };
 
   const onClickUpdate = () => {
     setIsUpdate(true);
+  };
+
+  const Delete = async (id: number) => {
+    await axios({
+      method: "delete" as Method,
+      url: `${API_ENDPOINT}/comments/${id}`,
+    });
+    mutate(`${API_ENDPOINT}/posts?populate=*`);
+  };
+
+  const onClickNo = () => {
+    setIsDelete(false);
+    document.body.style.overflow = "unset";
+  };
+
+  const onClickYes = async () => {
+    if (comment.attributes.depth === 0) {
+      const everyComment = postObj.comments.data.filter(
+        (group) => group.attributes.group === comment.attributes.group
+      );
+      everyComment.forEach((data) => Delete(data.id));
+    } else {
+      Delete(comment.id);
+    }
+    document.body.style.overflow = "unset";
   };
 
   return (
@@ -78,7 +108,16 @@ export const Comment = ({ comment, user, loginUserId }: Props) => {
         />
       )}
       {!isUpdate && <CommentText>{Ccontent}</CommentText>}
-      {isDelete && <DeleteModel setIsDelete={setIsDelete} comment={comment} />}
+      {isDelete && (
+        <Modal
+          title="댓글 삭제"
+          handleOK={onClickYes}
+          check={isDelete}
+          handleCancel={onClickNo}
+        >
+          댓글을 정말로 삭제하시겠습니까?
+        </Modal>
+      )}
     </div>
   );
 };
