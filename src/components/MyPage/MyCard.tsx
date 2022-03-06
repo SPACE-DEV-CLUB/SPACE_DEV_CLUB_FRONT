@@ -47,8 +47,7 @@ export const MyCard = ({
   return (
     <MyCardContainer theme={theme}>
       {mySearch && <a href={`/${userid}`}><Profile id={username} profileImgUrl={profileImg}></Profile></a>}
-      <Link href={`/${username}/${url}`} passHref>
-        <a href={`/${username}/${url}`}>
+      <a href={`/${username}/${url}`}>
           {imageUrl && <ImageContainer
             layout="responsive"
             width={734}
@@ -57,8 +56,7 @@ export const MyCard = ({
             src={imageUrl}
           />}
           <h2>{title}</h2>
-        </a>
-      </Link>
+      </a>
       <p>{contents}</p>
       {tag?.map((e: any, index) => (
         <Tag tagName={e.attributes.name} key={index} />
