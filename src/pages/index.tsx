@@ -10,6 +10,7 @@ const Home: NextPage = () => {
     <div>
       <Head>
         <title>spacelog</title>
+        
         <meta
           property="og:image"
           content="https://user-images.githubusercontent.com/47337588/155908236-e0fa1e38-31fd-4616-a382-ef0431b7f362.png"
