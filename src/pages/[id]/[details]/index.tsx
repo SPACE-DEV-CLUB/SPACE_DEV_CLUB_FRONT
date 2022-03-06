@@ -151,7 +151,11 @@ const DetailsIndexPage: NextPage = () => {
       </Head>
       {postObj.title ? (
         <div>
-          <Header username={"deli-ght"} user={true} />
+          <Header
+            username={`${loginUserName}`}
+            user={true}
+            velogtitle={`${user.velogtitle}`}
+          />
           <DetailContainer>
             <LeftHeader
               loginUserId={loginUserId}
