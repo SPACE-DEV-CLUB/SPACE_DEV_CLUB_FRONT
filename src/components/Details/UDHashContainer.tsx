@@ -9,6 +9,7 @@ import { handleDate } from "@utils/date";
 
 import { Tag } from "../Common/Tag";
 import { PostContext } from "@pages/[id]/[details]";
+import { useRouter } from "next/router";
 
 interface ThemeProps {
   theme: Theme;
@@ -22,15 +23,20 @@ interface Props {
 export const UDHashContainer = ({ userName, loginUserId }: Props) => {
   const { theme } = useContext(ThemeContext);
   const { postObj } = useContext(PostContext);
+  const router = useRouter();
+
+  const onClickNickname = () => {
+    router.push(`/${userName}`);
+  };
 
   return (
     <article>
       <h2 className="sr-only">해시태그 및 글 수정, 삭제</h2>
       <UDContainer>
         <div>
-          <Link href="#" passHref>
-            <Nickname theme={theme}>{userName}</Nickname>
-          </Link>
+          <Nickname theme={theme} onClick={onClickNickname}>
+            {userName}
+          </Nickname>
           <CreatedAt theme={theme}>{handleDate(postObj.createdAt)}</CreatedAt>
         </div>
         {loginUserId === postObj.userid.data.id && (
@@ -61,8 +67,9 @@ const UDContainer = styled.div`
   justify-content: space-between;
   margin-bottom: 20px;
 `;
-const Nickname = styled.a<ThemeProps>`
+const Nickname = styled.span<ThemeProps>`
   color: ${({ theme }) => theme.MAIN_FONT};
+  cursor: pointer;
   font-weight: 700;
   &:hover {
     text-decoration: underline;

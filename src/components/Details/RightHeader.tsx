@@ -20,7 +20,7 @@ export const RightHeader = () => {
   return (
     <Container>
       <h2 className="sr-only">목차</h2>
-      {listData.length !== 0 && (
+      {listData && (
         <article>
           {listData.map((str, i) => {
             const strNum = str.match(/#*/)?.join("").length!;

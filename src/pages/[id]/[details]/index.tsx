@@ -165,9 +165,11 @@ const DetailsIndexPage: NextPage = () => {
             />
             <RightHeader />
           </DetailContainer>
-          <PostsContainer theme={theme}>
-            <DetailCard interested={random_interested} />
-          </PostsContainer>
+          {random_interested.length !== 0 && (
+            <PostsContainer theme={theme}>
+              <DetailCard interested={random_interested} />
+            </PostsContainer>
+          )}
         </div>
       ) : (
         <ErrorPage />
