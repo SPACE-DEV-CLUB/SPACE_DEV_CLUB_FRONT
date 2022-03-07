@@ -145,15 +145,18 @@ const FilterContainer = styled.div<{ route: string }>`
   padding: 32px 0;
   align-items: center;
   margin: 0 auto;
+  max-width: 1728px;
 
-  @media (min-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
-    max-width: ${MEDIA_QUERY_END_POINT.TABLET};
-  }
-  @media (min-width: ${MEDIA_QUERY_END_POINT.LARGE}) {
+  @media screen and (max-width: ${MEDIA_QUERY_END_POINT.XLARGE}) {
     max-width: 1376px;
   }
-  @media (min-width: ${MEDIA_QUERY_END_POINT.XLARGE}) {
-    max-width: 1728px;
+
+  @media screen and (max-width: ${MEDIA_QUERY_END_POINT.LARGE}) {
+    max-width: ${MEDIA_QUERY_END_POINT.TABLET};
+  }
+
+  @media screen and (max-width: ${MEDIA_QUERY_END_POINT.LARGE}) {
+    max-width: ${MEDIA_QUERY_END_POINT.TABLET};
   }
 `;
 
