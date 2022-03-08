@@ -17,12 +17,11 @@ type PropsTypes = {
   contents: string
   tag?: Array<string> | undefined | null
   date: string
-  comment?: number | string
   username: string | string[] | undefined
   mySearch?: boolean
   count?: number
   isPrivate?: boolean
-  commentLength?: number
+  commentLength: number
   profileImg?: string | undefined
   url?: string | undefined | null
 }
@@ -33,49 +32,57 @@ export const MyCard = ({
   contents,
   tag,
   date,
-  comment,
   mySearch,
   username,
   count,
   isPrivate,
   commentLength,
   profileImg,
-  url
+  url,
 }: PropsTypes) => {
   const { theme } = useContext(ThemeContext)
   const filteredDate = handleDate(date)
   return (
-    <MyCardContainer theme={theme}>
-      {mySearch && <a href={`/${userid}`}><Profile id={username} profileImgUrl={profileImg}></Profile></a>}
-      <a href={`/${username}/${url}`}>
-          {imageUrl && <ImageContainer
-            layout="responsive"
-            width={734}
-            height={402}
-            alt="sample image"
-            src={imageUrl}
-          />}
+    <Link href={`/${username}/${url}`}>
+      <a>
+        <MyCardContainer theme={theme}>
+          {mySearch && (
+            <a href={`/${userid}`}>
+              <Profile id={username} profileImgUrl={profileImg}></Profile>
+            </a>
+          )}
+
+          {imageUrl && (
+            <ImageContainer
+              layout="responsive"
+              width={734}
+              height={402}
+              alt="sample image"
+              src={imageUrl}
+            />
+          )}
           <h2>{title}</h2>
-      </a>
-      <p>{contents}</p>
-      {tag?.map((e: any, index) => (
-        <Tag tagName={e.attributes.name} key={index} />
-      ))}
-      <DateCommentContainer theme={theme}>
-        <span>{filteredDate}</span>
-        <span> · </span>
-        <span>{commentLength}개의 댓글</span>
-        {isPrivate && (
-          <>
+          <p>{contents}</p>
+          {tag?.map((e: any, index) => (
+            <Tag tagName={e.attributes.name} key={index} />
+          ))}
+          <DateCommentContainer theme={theme}>
+            <span>{filteredDate}</span>
             <span> · </span>
-            <Private theme={theme}>
-              <Lock className="lock-icon" fontSize="small" />
-              비공개
-            </Private>
-          </>
-        )}
-      </DateCommentContainer>
-    </MyCardContainer>
+            <span>{commentLength}개의 댓글</span>
+            {isPrivate && (
+              <>
+                <span> · </span>
+                <Private theme={theme}>
+                  <Lock className="lock-icon" fontSize="small" />
+                  비공개
+                </Private>
+              </>
+            )}
+          </DateCommentContainer>
+        </MyCardContainer>
+      </a>
+    </Link>
   )
 }
 
@@ -84,7 +91,6 @@ const MyCardContainer = styled.section<ThemeProps>`
   max-width: 768px;
   padding-bottom: 64px;
   border-bottom: 1px solid ${({ theme }) => theme.ICON};
-;
   & + & {
     padding: 64px 0;
   }
