@@ -2,11 +2,11 @@ import styled from "@emotion/styled";
 import { useEffect, useState, useContext } from "react";
 import { API_ENDPOINT, PALLETS_LIGHT } from "@constants/index";
 import Link from "next/link";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 import { Theme } from "@styles/theme";
@@ -125,6 +125,21 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
     });
   };
 
+  const copyUrl = () => {
+    alert("링크가 복사되었습니다.");
+    setShareClick(false);
+  };
+
+  const onClickFacebook = () => {
+    const shareUrl = window.location.href;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}/`);
+  };
+
+  const onClickKakao = () => {
+    const { Kakao, location } = window;
+    Kakao.Link.sendScrap({ requestUrl: location.href });
+  };
+
   return (
     <Container>
       <h2 className="sr-only">좋아요 및 공유하기</h2>
@@ -141,37 +156,30 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
           <ShareIcon />
         </div>
         <div
+          onClick={onClickFacebook}
           className={`circleBtn ShareItem ${
             !shareClick ? "ShareOff" : "ShareItem1"
           }`}
         >
-          <Link href="#">
-            <a>
-              <FacebookIcon />
-            </a>
-          </Link>
+          <FacebookIcon />
         </div>
         <div
+          onClick={onClickKakao}
           className={`circleBtn ShareItem ${
             !shareClick ? "ShareOff" : "ShareItem2"
           }`}
         >
-          <Link href="#">
-            <a>
-              <TwitterIcon />
-            </a>
-          </Link>
+          <img src="/image/kakao.png" />
         </div>
         <div
+          onClick={copyUrl}
           className={`circleBtn ShareItem ${
             !shareClick ? "ShareOff" : "ShareItem3"
           }`}
         >
-          <Link href="#">
-            <a>
-              <AttachFileIcon />
-            </a>
-          </Link>
+          <CopyToClipboard text={window.location.href}>
+            <AttachFileIcon />
+          </CopyToClipboard>
         </div>
       </HeartShare>
       <MiniHeart onClick={handleHeart}>
@@ -220,15 +228,14 @@ const HeartShare = styled.article<ThemeProps>`
     border-radius: 50%;
     cursor: pointer;
   }
-  a {
-    color: ${PALLETS_LIGHT.ICON};
-  }
-  .circleBtn:hover > a {
-    color: ${PALLETS_LIGHT.MAIN_FONT};
+  img {
+    width: 20px;
+    height: 20px;
+    filter: opacity(0.5) ${`drop-shadow(0 0 0 ${PALLETS_LIGHT.ICON})`};
   }
   .circleBtn:hover {
-    color: ${PALLETS_LIGHT.MAIN_FONT};
-    border: 1px solid ${PALLETS_LIGHT.MAIN_FONT};
+    color: ${PALLETS_LIGHT.MAIN};
+    border: 1px solid ${PALLETS_LIGHT.MAIN};
   }
 
   .heartOn {

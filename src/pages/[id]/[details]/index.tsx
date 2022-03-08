@@ -83,6 +83,10 @@ const DetailsIndexPage: NextPage = () => {
   const userName = router.query.id;
   const userDetails = router.query.details;
 
+  useEffect(() => {
+    window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+  }, []);
+
   const { data: DetailData, error: DetailError } = useData(
     "posts",
     "populate=*"

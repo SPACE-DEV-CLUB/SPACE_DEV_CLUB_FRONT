@@ -16,6 +16,7 @@
     "@types/js-cookie": "^3.0.1",
     "@types/marked": "^4.0.1",
     "@types/react-beautiful-dnd": "^13.1.2",
+    "@types/react-copy-to-clipboard": "^5.0.2",
     "axios": "^0.24.0",
     "browserslist": "^4.19.1",
     "emotion": "^11.0.0",
@@ -26,6 +27,7 @@
     "qs": "^6.10.3",
     "react": "17.0.2",
     "react-beautiful-dnd": "^13.1.0",
+    "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "17.0.2",
     "swr": "^1.1.2",
     "vercel": "^24.0.0"
