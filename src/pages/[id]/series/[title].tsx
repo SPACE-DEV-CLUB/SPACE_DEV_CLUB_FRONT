@@ -63,6 +63,7 @@ const Series = () => {
   const handlePost = (post: PostProps[]) => {
     setPostlist(post)
   }
+
   return (
     <>
       <Header username={id} user={true} />

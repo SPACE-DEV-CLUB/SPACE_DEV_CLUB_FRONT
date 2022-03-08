@@ -30,7 +30,7 @@ const ContentData = ({
           page: pageIndex + 1,
           pageSize: PAGE_SIZE,
         },
-        populate: ["hashtags", "userid"],
+        populate: ["hashtags", "userid", "photos", "comments"],
         filters: {
           hashtags: tag
             ? {
@@ -70,13 +70,16 @@ const ContentData = ({
   const { data, size, setSize, isValidating } = useSWRInfinite(getKey, fetcher)
 
   const isEmpty = data?.[0]?.data.length === 0
-  const isReachingEnd = useRef<boolean>(false)
+  const isReachingEnd =
+    isEmpty ||
+    (data &&
+      data.reduce((ac, el) => ac + el.data.length, 0) ===
+        data[0].meta.pagination.total)
 
   const [target, setTarget] = useState<HTMLElement | null | undefined>(null)
 
   useEffect(() => {
-    if (size == 1) isReachingEnd.current = false
-    if (!target || isReachingEnd.current) return
+    if (!target || isReachingEnd) return
     const observer = new IntersectionObserver(onIntersect, {
       threshold: 0.4,
     })
@@ -85,12 +88,8 @@ const ContentData = ({
   }, [data, target])
 
   const onIntersect: IntersectionObserverCallback = ([entry], observer) => {
-    if (entry.isIntersecting) {
+    if (entry.isIntersecting && !isReachingEnd) {
       setSize((prev) => prev + 1)
-      isReachingEnd.current =
-        data === undefined
-          ? false
-          : isEmpty || (data && data[data.length - 1]?.data.length < PAGE_SIZE)
     }
   }
 
@@ -103,21 +102,23 @@ const ContentData = ({
                 <MyCard
                   key={i}
                   mySearch={!username}
+                  // img 데이터 수정하기
                   imageUrl={e.attributes.imageUrl}
                   title={e.attributes.title}
                   contents={e.attributes.contents}
                   tag={e.attributes.hashtags.data}
                   date={e.attributes.publishedAt}
-                  // comment={e.attributes.comment}
+                  commentLength={e.attributes.comments.data.length}
                   userid={e.attributes.userid.data.attributes.userid}
                   username={e.attributes.userid.data?.attributes.userid}
+                  url={e.attributes.url}
                 />
               ))
             })
           : !isValidating && <BlankPage dataname={"포스트"} />}
       </section>
       <TargetElement ref={setTarget}>
-        {isValidating && !isReachingEnd.current && <CardLoading />}
+        {isValidating && !isReachingEnd && <CardLoading />}
       </TargetElement>
     </>
   )

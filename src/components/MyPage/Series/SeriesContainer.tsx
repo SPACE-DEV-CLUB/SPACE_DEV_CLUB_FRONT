@@ -51,6 +51,7 @@ const SeriesContainers = ({
                     padding={"16px"}
                     postIdx={e.attributes.postidx}
                     postTitle={e.attributes.title}
+                    // TODO - 포스트 저장할때 description 기본값 설정해줘야함
                     postDesc={e.attributes.description}
                     date={handleDate(e.attributes.createdAt)}
                   />

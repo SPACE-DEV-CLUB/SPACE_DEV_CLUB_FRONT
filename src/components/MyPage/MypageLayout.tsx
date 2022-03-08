@@ -8,6 +8,7 @@ import { ErrorPage } from "../Common/ErrorPage"
 import { Intro } from "./"
 import { Mymenu } from "./Mymenu"
 import CardLoading from "../Common/CardLoading"
+import TagLoading from "../Tags/TagLoading"
 
 interface LayoutProps {
   username: string | string[] | undefined
@@ -32,12 +33,18 @@ const MypageLayout: React.FC<LayoutProps> = ({
     },
     {
       encodeValuesOnly: true,
-    }
+    },
   )
 
-  const { data, error, isValidating } = useData("userinfos", query)
+  const { data, error } = useData("userinfos", query)
 
-  if (isValidating) return <CardLoading />
+  if (!data)
+    return (
+      <MypageLoading>
+        <TagLoading />
+        <CardLoading />
+      </MypageLoading>
+    )
   if (!data?.data[0]) return <ErrorPage />
   return (
     <>
@@ -47,11 +54,7 @@ const MypageLayout: React.FC<LayoutProps> = ({
         <link rel="icon" href="/image/스데브.png" />
       </Head>
       <section>
-        <Header
-          username={username}
-          user={user}
-          velogtitle={data.data[0].attributes.velogtitle}
-        />
+        <Header username={username} user={user} />
         <Main>
           <Intro username={username} userdata={data.data[0].attributes} />
           <Mymenu username={username} indexnum={indexnum} />
@@ -71,4 +74,9 @@ const Main = styled.main`
   }
 `
 
+const MypageLoading = styled.div`
+  & > div {
+    margin: 200px auto;
+  }
+`
 export default MypageLayout

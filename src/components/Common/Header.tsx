@@ -14,6 +14,8 @@ import { signIn, useSession } from "next-auth/react"
 
 import { MEDIA_QUERY_END_POINT } from "@src/constants"
 import { useRouter } from "next/router"
+import { useData } from "@src/hooks/useData"
+import qs from "qs"
 
 interface HeaderProps {
   username?: string | string[] | undefined
@@ -27,7 +29,6 @@ export interface IUser {
 export const Header = ({
   username = "",
   user = false,
-  velogtitle = undefined,
 }: HeaderProps): JSX.Element => {
   const { theme } = useContext(ThemeContext)
   const router = useRouter()
@@ -35,6 +36,18 @@ export const Header = ({
   const [showMenu, setShowMenu] = useState(false)
   const [navTop, setNavTop] = useState(0)
   const [isUserName, setUserName] = useState(false)
+
+  useEffect(() => {
+    setUserName(detectUserName())
+  })
+
+  useEffect(() => {
+    window.addEventListener("scroll", scrollNav)
+
+    return () => {
+      window.removeEventListener("scroll", scrollNav)
+    }
+  }, [])
 
   const handleMenu = () => {
     setShowMenu(!showMenu)
@@ -59,6 +72,20 @@ export const Header = ({
 
   const { data: session, status } = useSession()
 
+  const query = qs.stringify(
+    {
+      filters: {
+        userid: {
+          $eq: username,
+        },
+      },
+    },
+    {
+      encodeValuesOnly: true,
+    },
+  )
+  const { data: userData } = useData("userinfos", query)
+
   function detectUserName() {
     if (router.query.id) {
       return true
@@ -66,18 +93,6 @@ export const Header = ({
       return false
     }
   }
-
-  useEffect(() => {
-    setUserName(detectUserName())
-  })
-
-  useEffect(() => {
-    window.addEventListener("scroll", scrollNav)
-
-    return () => {
-      window.removeEventListener("scroll", scrollNav)
-    }
-  }, [])
 
   return (
     <HeaderComponent theme={theme} top={navTop} check={check}>
@@ -108,7 +123,9 @@ export const Header = ({
               </LogoContainer>
               <LogoContainer href={`/${username}`} passHref>
                 <LogoLink>
-                  <UserName theme={theme}>{velogtitle}</UserName>
+                  <UserName theme={theme}>
+                    {userData && userData.data[0].attributes.velogtitle}
+                  </UserName>
                 </LogoLink>
               </LogoContainer>
             </>
