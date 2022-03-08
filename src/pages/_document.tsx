@@ -21,6 +21,10 @@ export default class MyDocument extends Document {
             `,
             }}
           />
+          <script
+            defer
+            src="https://developers.kakao.com/sdk/js/kakao.js"
+          ></script>
         </Head>
         <body>
           <Main />
