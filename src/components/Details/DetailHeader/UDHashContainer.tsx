@@ -7,7 +7,7 @@ import { ThemeContext } from "@pages/_app";
 
 import { handleDate } from "@utils/date";
 
-import { Tag } from "../Common/Tag";
+import { Tag } from "../../Common/Tag";
 import { PostContext } from "@pages/[id]/[details]";
 import { useRouter } from "next/router";
 

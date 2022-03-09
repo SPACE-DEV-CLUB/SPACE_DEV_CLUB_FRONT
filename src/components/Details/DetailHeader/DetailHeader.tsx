@@ -1,14 +1,14 @@
 import styled from "@emotion/styled";
 import { UDHashContainer, SeriesContainer, Carousel } from ".";
-import { Intro } from "../MyPage";
-import { CommentFormContainer } from "./Comment";
+import { Intro } from "../../MyPage";
+import { CommentFormContainer } from "../Comment";
 import useIO from "@hooks/useIO";
 import { API_ENDPOINT } from "@constants/index";
 import axios, { Method } from "axios";
-import { userInfo } from "../../types/Main";
+import { userInfo } from "../../../types/Main";
 import { PostContext } from "@pages/[id]/[details]";
 import { useContext, useEffect, useState } from "react";
-import { MDviewer } from "../Editor/EditorViewer";
+import { MDviewer } from "../../Editor/EditorViewer";
 
 interface Props {
   userName: string | string[] | undefined;
