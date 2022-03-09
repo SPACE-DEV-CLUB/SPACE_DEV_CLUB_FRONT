@@ -1,7 +1,4 @@
-export * from "./Carousel";
-export * from "./DetailCard";
-export * from "./DetailHeader";
-export * from "./LeftHeader";
-export * from "./RightHeader";
-export * from "./SeriesContainer";
-export * from "./UDHashContainer";
+export { DetailCard } from "./DetailCard";
+export { DetailHeader } from "./DetailHeader/DetailHeader";
+export { RightHeader } from "./RightHeader";
+export { LeftHeader } from "./LeftHeader";

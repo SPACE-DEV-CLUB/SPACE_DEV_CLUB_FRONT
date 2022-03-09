@@ -1,19 +1,15 @@
 import styled from "@emotion/styled";
 import { useEffect, useState, useContext } from "react";
 import { API_ENDPOINT, PALLETS_LIGHT } from "@constants/index";
-import Link from "next/link";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 import { Theme } from "@styles/theme";
 import { ThemeContext } from "@pages/_app";
 import axios, { Method } from "axios";
 
 import { PostContext } from "@src/pages/[id]/[details]";
+import { Share } from "./Share";
 
 interface ThemeProps {
   theme: Theme;
@@ -152,35 +148,7 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
           <FavoriteIcon />
         </div>
         <HeartCounter>{heartNum}</HeartCounter>
-        <div className="circleBtn" onClick={handleShare}>
-          <ShareIcon />
-        </div>
-        <div
-          onClick={onClickFacebook}
-          className={`circleBtn ShareItem ${
-            !shareClick ? "ShareOff" : "ShareItem1"
-          }`}
-        >
-          <FacebookIcon />
-        </div>
-        <div
-          onClick={onClickKakao}
-          className={`circleBtn ShareItem ${
-            !shareClick ? "ShareOff" : "ShareItem2"
-          }`}
-        >
-          <img src="/image/kakao.png" />
-        </div>
-        <div
-          onClick={copyUrl}
-          className={`circleBtn ShareItem ${
-            !shareClick ? "ShareOff" : "ShareItem3"
-          }`}
-        >
-          <CopyToClipboard text={window.location.href}>
-            <AttachFileIcon />
-          </CopyToClipboard>
-        </div>
+        <Share />
       </HeartShare>
       <MiniHeart onClick={handleHeart}>
         <h3 className="sr-only">미니 좋아요 버튼</h3>
@@ -228,11 +196,6 @@ const HeartShare = styled.article<ThemeProps>`
     border-radius: 50%;
     cursor: pointer;
   }
-  img {
-    width: 20px;
-    height: 20px;
-    filter: opacity(0.5) ${`drop-shadow(0 0 0 ${PALLETS_LIGHT.ICON})`};
-  }
   .circleBtn:hover {
     color: ${PALLETS_LIGHT.MAIN};
     border: 1px solid ${PALLETS_LIGHT.MAIN};
@@ -253,28 +216,6 @@ const HeartShare = styled.article<ThemeProps>`
     border: 1px solid ${PALLETS_LIGHT.ICON};
     background-color: none;
   }
-
-  .ShareOff {
-    position: absolute;
-    transform: translateX(0px) translateY(40px);
-    transition: all 0.5s ease-in-out;
-    display: flex;
-    z-index: -1;
-  }
-  .ShareItem {
-    position: absolute;
-    transition: all 0.5s ease-in-out;
-  }
-  .ShareItem1 {
-    transform: translateX(70px) translateY(-10px);
-  }
-  .ShareItem2 {
-    transform: translateX(95px) translateY(40px);
-  }
-  .ShareItem3 {
-    transform: translateX(70px) translateY(90px);
-  }
-
   @media screen and (max-width: 1025px) {
     display: none;
   }
