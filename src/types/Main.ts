@@ -87,7 +87,6 @@ export interface userInfo {
   snsemail: string
   readingpost?: any[]
 }
-
 export interface Post {
   contents: string
   createdAt: string
@@ -99,7 +98,30 @@ export interface Post {
   title: string
   updatedAt: string
   url: string
-  userid: userInfo
+  userid: {
+    data : {
+      attributes : userInfo
+    }
+  }
+  likeposts: {
+    data: []
+  }
+  comments: {
+    data: []
+  } 
+}
+
+export interface ListPost {
+  attributes: {
+    postid: {
+      data : {
+        attributes: Post
+      }
+    }
+    publishedAt: string
+    createdAt: string
+    updatedAt: string
+  }
 }
 
 export interface SeriesBox {

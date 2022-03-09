@@ -4,8 +4,10 @@ import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 import { fetcher } from "@utils/fetcher";
 import { MEDIA_QUERY_END_POINT, API_ENDPOINT } from "@constants/.";
-import { LoginErrorPage } from "@src/components/Common/LoginErrorPage";
+import { LoginErrorPage } from "@components/Common/LoginErrorPage";
+import { ListPost } from "@src/types/Main";
 import { ListCard, ListCardLoading } from ".";
+
 let PAGE_SIZE = 3;
 
 interface CardContainerProps {
@@ -98,31 +100,24 @@ export const ListCardContainer = ({ filter, username }: CardContainerProps) => {
           <Container>
             {data &&
               data.map((loaded) => {
-                return loaded.data.map((e: any, i: number) => (
+
+                return loaded.data.map((e: ListPost, i: number) =>{ 
+
+                  const {title, contents, comments, userid, likeposts, publishedAt, url} = e.attributes.postid.data.attributes
+
+                  return (
                   <ListCard
-                    key={`${e}_${i}`}
-                    title={e.attributes.postid.data.attributes.title}
-                    contents={e.attributes.postid.data.attributes.contents}
-                    comments={
-                      e.attributes.postid.data.attributes.comments.data.length
-                    }
-                    username={
-                      e.attributes.postid.data.attributes.userid.data.attributes
-                        .userid
-                    }
-                    userImg={
-                      e.attributes.postid.data.attributes.userid.data.attributes
-                        .profileimage
-                    }
-                    count={
-                      e.attributes.postid.data.attributes.likeposts.data.length
-                    }
-                    publishedAt={
-                      e.attributes.postid.data.attributes.publishedAt
-                    }
-                    url={e.attributes.postid.data.attributes.url}
+                    key = {`${e}_${i}`}
+                    title = {title}
+                    contents = {contents}
+                    comments = {comments.data.length}
+                    username = {userid.data.attributes.userid}
+                    userImg = {userid.data.attributes.profileimage}
+                    count = {likeposts.data.length}
+                    publishedAt = {publishedAt}
+                    url = {url}
                   />
-                ));
+                )});
               })}
           </Container>
           <TargetElement ref={setTarget}>
