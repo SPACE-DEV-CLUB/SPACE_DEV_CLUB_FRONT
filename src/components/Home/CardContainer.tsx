@@ -5,7 +5,7 @@ import qs from "qs";
 import { fetcher } from "@utils/fetcher";
 import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "@constants/.";
 import { ListCard, ListCardLoading } from ".";
-import { ControlPointSharp } from "@material-ui/icons";
+import { PostProps } from "@src/types/Main";
 
 let PAGE_SIZE = 3;
 
@@ -115,19 +115,23 @@ export const CardContainer = ({ filter }: { filter: string }) => {
       <Container>
         {data &&
           data.map((loaded) => {
-            return loaded.data.map((e: any, i: number) => (
+
+            return loaded.data.map((e: PostProps, i: number) => {
+              const {title, contents, comments, userid, likeposts, publishedAt, url} = e.attributes
+
+            return (
               <ListCard
                 key={`${e}_${i}`}
-                title={e.attributes.title}
-                contents={e.attributes.contents}
-                comments={e.attributes.comments.data.length}
-                username={e.attributes.userid.data.attributes.userid}
-                userImg={e.attributes.userid.data.attributes.profileimage}
-                count={e.attributes.likeposts.data.length}
-                publishedAt={e.attributes.publishedAt}
-                url={e.attributes.url}
+                title={title}
+                contents={contents}
+                comments={comments.data.length}
+                username={userid.data.attributes.userid}
+                userImg={userid.data.attributes.profileimage}
+                count={likeposts.data.length}
+                publishedAt={publishedAt}
+                url={url}
               />
-            ));
+            )});
           })}
       </Container>
       <TargetElement ref={setTarget}>
