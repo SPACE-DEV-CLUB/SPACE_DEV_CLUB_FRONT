@@ -13,7 +13,7 @@ export interface IUser {
 function Loading() {
   const [isUser, setUser] = useState<IUser | undefined | any>("1")
   const router = useRouter()
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
 
   const query = qs.stringify(
     {
