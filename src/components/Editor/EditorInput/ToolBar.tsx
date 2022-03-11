@@ -11,6 +11,7 @@ import { ThemeProps } from "@src/types/Theme";
 
 interface ButtonProps {
   handleLineStyle: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleLinkModal: (e: React.MouseEvent<HTMLButtonElement>) => void;
   handleCodeBox: any;
   handleDecoBtn: any;
 }
@@ -19,6 +20,7 @@ export const ToolBar = ({
   handleDecoBtn,
   handleLineStyle,
   handleCodeBox,
+  handleLinkModal,
 }: ButtonProps) => {
   const { theme } = useContext(ThemeContext);
 
@@ -81,7 +83,7 @@ export const ToolBar = ({
       <BtnIcon onClick={handleLineStyle} theme={theme} type="button">
         <FormatQuoteIcon />
       </BtnIcon>
-      <BtnIcon theme={theme} type="button">
+      <BtnIcon onClick={handleLinkModal} theme={theme} type="button">
         <LinkIcon />
       </BtnIcon>
       <BtnIcon theme={theme} type="button">

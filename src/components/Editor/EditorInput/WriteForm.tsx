@@ -3,13 +3,16 @@ import { ToolBar } from "./ToolBar";
 import { useContext } from "react";
 import { ThemeContext } from "@pages/_app";
 import { ThemeProps } from "@src/types/Theme";
+import { LinkInputModal } from "./LinkInputModal";
 
 interface WriteFormProps {
   handleTextAreaChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleLineStyle: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleLinkModal: (e: React.MouseEvent<HTMLButtonElement>) => void;
   handleCodeBox: any;
   handleDecoBtn: any;
   txtAreaCont: any;
+  linkModal: boolean;
   contents: string;
 }
 
@@ -20,6 +23,8 @@ export const WriteForm = ({
   txtAreaCont,
   handleLineStyle,
   handleCodeBox,
+  handleLinkModal,
+  linkModal,
 }: WriteFormProps) => {
   const { theme } = useContext(ThemeContext);
   return (
@@ -28,6 +33,7 @@ export const WriteForm = ({
         handleLineStyle={handleLineStyle}
         handleDecoBtn={handleDecoBtn}
         handleCodeBox={handleCodeBox}
+        handleLinkModal={handleLinkModal}
       />
       <label htmlFor="editorContents" className="sr-only">
         에디터 컨텐츠 입력란
@@ -41,6 +47,7 @@ export const WriteForm = ({
         theme={theme}
         ref={txtAreaCont}
       />
+      {linkModal && <LinkInputModal />}
     </Container>
   );
 };
