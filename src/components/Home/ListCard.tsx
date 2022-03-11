@@ -33,38 +33,32 @@ export const ListCard = ({
 } : Cardprops) => {
   const { theme } = useContext(ThemeContext);
 
-  const handleThumbnailError = (
-    event: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => {
-    event.currentTarget.src = '/image/default_thumbnail.png';
-    event.currentTarget.style.transform = "scale(0.8)";
-  };
-
   const handleAuthorImgError = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
-    event.currentTarget.src = '/image/junghoon_memoji.png';
+    event.currentTarget.src = '/image/sampleUser.g';
     event.currentTarget.style.transform = "scale(1.2)";
   };
 
   return (
     <Card theme={theme}>
-      <Link href={`/${username}/${url}`} passHref>
-        <a>
-          <ThumbnailWrap>
-            <Thumbnail src={''} alt="" onError={handleThumbnailError}/>
-          </ThumbnailWrap>
-          <Post theme={theme}>
+      <PostSection>
+        <Link href={`/${username}/${url}`} passHref>
+          <a>
+            {thumbnail &&
+            (<ThumbnailWrap theme={theme}>
+              <Thumbnail src={''} alt=""/>
+            </ThumbnailWrap>)}
             <PostTitle theme={theme}>{title}</PostTitle>
             <PostContent theme={theme}>{contents}</PostContent>
-            <div>
-              <PostDesc theme={theme}>{handleDate(publishedAt)}</PostDesc>
-              <Dot>&#183;</Dot>
-              <PostDesc theme={theme}>{comments || 0}개의 댓글</PostDesc>
-            </div>
-          </Post>
-        </a>
-      </Link>
+          </a>
+        </Link>
+        <div>
+            <PostDesc theme={theme}>{handleDate(publishedAt)}</PostDesc>
+            <Dot>&#183;</Dot>
+            <PostDesc theme={theme}>{comments || 0}개의 댓글</PostDesc>
+        </div>
+      </PostSection>
       <AuthorDesc theme={theme}>
         <Link href={`/${username}`} passHref>
           <Author theme={theme}>
@@ -105,11 +99,12 @@ const Card = styled.article<ThemeProps>`
   }
 `;
 
-const Post = styled.section<ThemeProps>`
-  overflow: hidden;
+const PostSection = styled.section`
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  flex: 1 1 0%;
+  overflow: hidden;
 `;
 
 const PostTitle = styled.h4<ThemeProps>`
@@ -142,10 +137,10 @@ const PostDesc = styled.span<ThemeProps>`
   font-size: 12px;
 `;
 
-const ThumbnailWrap= styled.section`
+const ThumbnailWrap = styled.section<ThemeProps>`
   position: relative;
   padding-top: 52%;
-  background: white;
+  background: ${({ theme }) => theme.CARD_BACKGROUND};
 `;
 
 const Thumbnail = styled.img`

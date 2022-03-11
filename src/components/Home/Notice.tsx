@@ -17,7 +17,7 @@ const OPTIONS = [
   { key: 'notice', value: 'notice', link: '/@sdv', name: '공지사항' },
   { key: 'tag', value: 'tag', link: '/tags', name: '태그 목록' },
   { key: 'policy', value: 'policy', link: '/policy', name: '서비스 정책' },
-  { key: 'slack', value: 'slack', link: '/slack', name: 'Slack' },
+  { key: 'EasterEgg', value: 'EasterEgg', link: '/introduce', name: 'easter egg' },
 ];
 
 export const Notice = ({ route }: { route: string }) => {
@@ -35,14 +35,18 @@ export const Notice = ({ route }: { route: string }) => {
           const { key, value, name, link } = option;
           return (
             <List theme={theme} key={key} value={value}>
-              <Link href={link}>
-                <a>{name}</a>
+              <Link href={link} passHref>
+                <Anchor theme={theme}>{name}</Anchor>
               </Link>
             </List>
           );
         })}
         <List theme={theme}>
-          문의 <p>jhp@sdv.io</p>
+          <Link href={"mailto:spacedevclub@gmail.com"} passHref>
+            <Anchor theme={theme}>
+              문의 <AnchorDesc>spacedevclub@gmail.com</AnchorDesc>
+            </Anchor>
+          </Link>
         </List>
       </Box>
     </Container>
@@ -78,23 +82,27 @@ const List = styled.li<ThemeProps>`
   list-style: none;
   font-weight: 600;
   font-size: 14px;
-  padding: 12px 16px;
   cursor: pointer;
   line-height: none;
   color: ${({ theme }) => theme.MAIN_FONT};
 
-  a {
-    color: ${({ theme }) => theme.MAIN_FONT};
-  }
-
   & + & {
     border-top: 1px solid ${({ theme }) => theme.POINT_FONT};
   }
+
   &:last-child {
     font-size: 12px;
   }
-  p {
-    font-weight: 400;
-    font-size: 12px;
-  }
 `;
+
+const Anchor = styled.a<ThemeProps>`
+  display:block;
+  color: ${({ theme }) => theme.MAIN_FONT};
+  padding: 12px 16px; 
+`;
+
+const AnchorDesc = styled.p`
+  font-weight: 400;
+  font-size: 12px;
+`;
+
