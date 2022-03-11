@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { MEDIA_QUERY_END_POINT } from "../../../constants";
 import { Button } from "@components/Common/Button";
 import { ThemeContext } from "@pages/_app";
 import { ThemeProps } from "@src/types/Theme";
+import Cookies from "js-cookie";
 
 interface SubmitModalProps {
   handleInfoPostChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -12,6 +13,9 @@ interface SubmitModalProps {
   handleSubmitModal: React.MouseEventHandler<HTMLButtonElement>;
   infoPostLength: number;
   imageSrc: any;
+  handleSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleUrlValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  hadlePublicState: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const SubmitModal = ({
@@ -21,8 +25,15 @@ export const SubmitModal = ({
   imageSrc,
   handleImageUpload,
   removeThumbNail,
+  handleSubmit,
+  hadlePublicState,
+  handleUrlValue,
 }: SubmitModalProps) => {
   const { theme } = useContext(ThemeContext);
+  const userCookieData = Cookies.get("user");
+  const submitCookieData = userCookieData && JSON.parse(userCookieData!);
+  const loginUserName =
+    userCookieData && JSON.parse(userCookieData!).attributes.userid;
 
   return (
     <SubmitContainer theme={theme}>
@@ -79,7 +90,11 @@ export const SubmitModal = ({
             <article>
               <Title theme={theme}>공개 설정</Title>
               <ButtonWrap>
-                <ToggleBtn theme={theme} type="button">
+                <ToggleBtn
+                  theme={theme}
+                  type="button"
+                  onClick={hadlePublicState}
+                >
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path
                       fill="currentColor"
@@ -88,7 +103,11 @@ export const SubmitModal = ({
                   </svg>
                   <div>전체 공개</div>
                 </ToggleBtn>
-                <ToggleBtn theme={theme} type="button">
+                <ToggleBtn
+                  theme={theme}
+                  type="button"
+                  onClick={hadlePublicState}
+                >
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path
                       fill="currentColor"
@@ -102,8 +121,8 @@ export const SubmitModal = ({
             <SettingUrl>
               <Title theme={theme}>URL 설정</Title>
               <UrlInput theme={theme}>
-                <div>`/@아이디/`</div>
-                <input type="text" />
+                <div>`/@{loginUserName}/`</div>
+                <input type="text" onChange={handleUrlValue} />
               </UrlInput>
             </SettingUrl>
             <SettingSeries theme={theme}>
@@ -132,6 +151,7 @@ export const SubmitModal = ({
               취소
             </Button>
             <Button
+              handleBtn={handleSubmit}
               fontWeight={600}
               type="submit"
               ftColor="#fff"
