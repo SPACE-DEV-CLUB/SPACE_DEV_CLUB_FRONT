@@ -4,12 +4,11 @@ import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 import { fetcher } from "@utils/fetcher";
 import { MEDIA_QUERY_END_POINT, API_ENDPOINT } from "@constants/.";
-import { LoginErrorPage } from "@components/Common/LoginErrorPage";
+import useAuthentication from '@hooks/useAuthentication'
 import { ListPost } from "@src/types/Main";
 import { ListCard, ListCardLoading } from ".";
 
 let PAGE_SIZE = 3;
-
 interface CardContainerProps {
   filter: string;
   username?: string | null;
@@ -31,6 +30,8 @@ export const ListCardContainer = ({ filter, username }: CardContainerProps) => {
       ? 2
       : 1;
   }, []);
+
+  useAuthentication();
 
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.data) return null;
@@ -95,9 +96,7 @@ export const ListCardContainer = ({ filter, username }: CardContainerProps) => {
 
   return (
     <>
-      {username ? (
-        <>
-          <Container>
+        <Container>
             {data &&
               data.map((loaded) => {
 
@@ -130,10 +129,6 @@ export const ListCardContainer = ({ filter, username }: CardContainerProps) => {
             )}
           </TargetElement>
         </>
-      ) : (
-        <LoginErrorPage />
-      )}
-    </>
   );
 };
 
