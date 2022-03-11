@@ -7,4 +7,4 @@ module.exports = {
       "lh3.googleusercontent.com",
     ],
   },
-}
+};

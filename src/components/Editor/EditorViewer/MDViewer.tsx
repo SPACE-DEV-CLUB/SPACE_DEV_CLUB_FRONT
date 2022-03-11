@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { marked } from "marked";
 import editorStyle from "@src/styles/editorStyle";
+import { ErrorPage } from "@components/Common/ErrorPage";
 
 interface MDViewerProps {
   title: string;
