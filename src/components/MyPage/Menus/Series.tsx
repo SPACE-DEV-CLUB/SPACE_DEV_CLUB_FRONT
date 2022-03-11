@@ -76,7 +76,7 @@ export const Series = ({ username }: SeriesProps) => {
             return (
               <SeriesCard
                 key={i}
-                imageUrl={e.attributes.post.data[0].attributes.url}
+                imageUrl={e.attributes.post.data[0]?.attributes.url || ""}
                 postTitle={title}
                 count={e.attributes.post.data.length}
                 updateDate={handleDate(updatedAt)}
