@@ -9,11 +9,10 @@ import Cookies from "js-cookie"
 import Loading from "./Loading"
 
 interface HeaderMenuProps {
-  username: string | string[] | undefined
   session: string | undefined | null
 }
 
-export const HeaderMenu = ({ username, session }: HeaderMenuProps) => {
+export const HeaderMenu = ({ session }: HeaderMenuProps) => {
   const { theme } = useContext(ThemeContext)
 
   const userCookieData = Cookies.get("user")

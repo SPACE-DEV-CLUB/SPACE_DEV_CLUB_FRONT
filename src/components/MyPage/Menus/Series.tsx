@@ -67,7 +67,6 @@ export const Series = ({ username }: SeriesProps) => {
     }
   }
 
-  console.log(data)
   return (
     <SeriesContainer>
       {data ? (

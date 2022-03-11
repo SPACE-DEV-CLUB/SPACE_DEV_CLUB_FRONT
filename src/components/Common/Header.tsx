@@ -124,7 +124,8 @@ export const Header = ({
               <LogoContainer href={`/${username}`} passHref>
                 <LogoLink>
                   <UserName theme={theme}>
-                    {userData && userData.data[0].attributes.velogtitle}
+                    {(userData && userData.data[0]?.attributes.velogtitle) ||
+                      `${username}.log`}
                   </UserName>
                 </LogoLink>
               </LogoContainer>
@@ -177,12 +178,7 @@ export const Header = ({
                   layout="fixed"
                 />
                 <ArrowDropDownIcon className="arrow" />
-                {showMenu && (
-                  <HeaderMenu
-                    username={username}
-                    session={session?.user?.email}
-                  />
-                )}
+                {showMenu && <HeaderMenu session={session?.user?.email} />}
               </UserUtils>
             </>
           )}

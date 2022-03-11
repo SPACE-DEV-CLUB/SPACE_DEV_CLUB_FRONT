@@ -1,35 +1,35 @@
-import styled from "@emotion/styled";
-import { useState, useRef, useContext, useEffect } from "react";
+import styled from "@emotion/styled"
+import { useState, useRef, useContext, useEffect } from "react"
 import {
   WriteHeader,
   WriteForm,
   BottomMenu,
-} from "@components/Editor/EditorInput";
-import { MDviewer } from "@components/Editor/EditorViewer";
-import { SubmitModal } from "@components/Editor/SubmitModal";
-import { MEDIA_QUERY_END_POINT } from "@constants/index";
-import { ThemeContext } from "@pages/_app";
-import { ThemeProps } from "@src/types/Theme";
-import toolBarDeco from "@src/utils/toolBarDeco";
-import toolBarChkBtn from "@src/utils/toolBarChkBtn";
-import toolBarCodeBox from "@src/utils/toolBarCodeBox";
+} from "@components/Editor/EditorInput"
+import { MDviewer } from "@components/Editor/EditorViewer"
+import { SubmitModal } from "@components/Editor/SubmitModal"
+import { MEDIA_QUERY_END_POINT } from "@constants/index"
+import { ThemeContext } from "@pages/_app"
+import { ThemeProps } from "@src/types/Theme"
+import toolBarDeco from "@src/utils/toolBarDeco"
+import toolBarChkBtn from "@src/utils/toolBarChkBtn"
+import toolBarCodeBox from "@src/utils/toolBarCodeBox"
 
 export const EditorContainer = () => {
-  const [tagInput, setTagInput] = useState("");
+  const [tagInput, setTagInput] = useState("")
   //state data for POST down below
-  const [title, setTitle] = useState<string>("");
-  const [contents, setContents] = useState<string>("");
-  const [linkModal, setLinkModal] = useState(false);
-  const txtAreaCont = useRef<any>("");
-  const [listTagDatas, setListTagDatas] = useState<Array<string>>([]);
+  const [title, setTitle] = useState<string>("")
+  const [contents, setContents] = useState<string>("")
+  const [linkModal, setLinkModal] = useState(false)
+  const txtAreaCont = useRef<any>("")
+  const [listTagDatas, setListTagDatas] = useState<Array<string>>([])
   //Modal state for POST down below
-  const [infoPost, setInfoPost] = useState("");
-  const [submit, setSubmit] = useState(false);
-  const [openSubmit, setOpenSubmit] = useState(false);
+  const [infoPost, setInfoPost] = useState("")
+  const [submit, setSubmit] = useState(false)
+  const [openSubmit, setOpenSubmit] = useState(false)
   const [imageSrc, setImageSrc] = useState<
     string | null | ArrayBuffer | undefined
-  >("");
-  const { theme } = useContext(ThemeContext);
+  >("")
+  const { theme } = useContext(ThemeContext)
 
   // useEffect(() => {
   //   let timer: any;
@@ -45,81 +45,81 @@ export const EditorContainer = () => {
   // }, [submit]);
 
   const handleSubmitModal = () => {
-    setSubmit(!submit);
-  };
+    setSubmit(!submit)
+  }
 
   const handleInfoPostChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInfoPost(e.target.value);
-  };
+    setInfoPost(e.target.value)
+  }
 
   //control submit Modal options
 
   const handleImageUpload = (e: { currentTarget: { files: any[] } }) => {
-    const fileBlob = e.currentTarget.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
+    const fileBlob = e.currentTarget.files[0]
+    const reader = new FileReader()
+    reader.readAsDataURL(fileBlob)
     return new Promise<void>((resolve) => {
       reader.onload = () => {
-        setImageSrc(reader.result);
-        resolve();
-      };
-    });
-  };
+        setImageSrc(reader.result)
+        resolve()
+      }
+    })
+  }
 
   const removeThumbNail = () => {
-    setImageSrc("");
-  };
+    setImageSrc("")
+  }
 
   //control tag & tag guide
   const handleTagEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const currentTagetValue = e.currentTarget.value;
+    const currentTagetValue = e.currentTarget.value
 
     if (e.key === "Enter") {
-      e.preventDefault();
-      setTagInput("");
+      e.preventDefault()
+      setTagInput("")
       if (checkOverlap(currentTagetValue)) {
-        setListTagDatas([...listTagDatas, e.currentTarget.value]);
+        setListTagDatas([...listTagDatas, e.currentTarget.value])
       }
     }
-  };
+  }
 
   const checkOverlap = (currentValue: string) => {
     if (tagInput.length > 0) {
-      return !listTagDatas.includes(currentValue);
+      return !listTagDatas.includes(currentValue)
     } else {
-      return false;
+      return false
     }
-  };
+  }
 
   const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTagInput(e.target.value);
-  };
+    setTagInput(e.target.value)
+  }
 
   const onRemove = (e: React.MouseEvent<HTMLElement>) => {
-    const eventTarget = e.target as HTMLElement;
+    const eventTarget = e.target as HTMLElement
 
     setListTagDatas(
       listTagDatas.filter(
-        (listTagData) => listTagData !== eventTarget.innerText
-      )
-    );
-  };
+        (listTagData) => listTagData !== eventTarget.innerText,
+      ),
+    )
+  }
 
   const handleBackSpace = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Backspace") {
-      listTagDatas.pop();
-      setListTagDatas([...listTagDatas]);
+      listTagDatas.pop()
+      setListTagDatas([...listTagDatas])
     }
-  };
+  }
 
   //handle editor input element & tool bar
   const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTitle(e.target.value);
-  };
+    setTitle(e.target.value)
+  }
 
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContents(e.target.value);
-  };
+    setContents(e.target.value)
+  }
 
   //알고리즘임
   // 1.클릭된 문자열 위치를 확인해서 (split or match) 몇번째줄인지 확인한다.
@@ -128,29 +128,29 @@ export const EditorContainer = () => {
   // 4.버튼을 두번 누르면 아무일도 일어나지 않게 막는다.
   // 5.커서가 없으면 마지막줄에 바로 들어간다.
   const handleLineStyle = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const btnElement = e.target as HTMLElement;
-    const selectedTag = btnElement.innerText;
-    const textSplit = txtAreaCont.current.value.split("\n");
-    const textLengthArray: any[] = [];
+    const btnElement = e.target as HTMLElement
+    const selectedTag = btnElement.innerText
+    const textSplit = txtAreaCont.current.value.split("\n")
+    const textLengthArray: any[] = []
     textSplit.forEach((i: string) => {
-      textLengthArray.push(i.length as any);
-    });
-    let endPoint = txtAreaCont.current.selectionEnd;
-    let checkLine = 0;
+      textLengthArray.push(i.length as any)
+    })
+    let endPoint = txtAreaCont.current.selectionEnd
+    let checkLine = 0
 
     for (let i = 0; i < textSplit.length; i++) {
-      endPoint -= textLengthArray[i];
+      endPoint -= textLengthArray[i]
       if (endPoint <= 0 || endPoint === 1) {
-        checkLine = i;
-        break;
+        checkLine = i
+        break
       } else if (endPoint > 0) {
-        checkLine = textSplit.length - 1;
+        checkLine = textSplit.length - 1
       }
     }
 
-    const result = toolBarChkBtn(selectedTag, textSplit, checkLine);
-    setContents(result);
-  };
+    const result = toolBarChkBtn(selectedTag, textSplit, checkLine)
+    setContents(result)
+  }
 
   // 중복효과 고려
   // deco Toobar 목표 기능
@@ -160,21 +160,21 @@ export const EditorContainer = () => {
   // 두번째 클릭하면 드래그된 택스트 앞뒤에 **만 사라진다.
   const handleDecoBtn = (
     e: React.MouseEvent<HTMLButtonElement>,
-    type: string
+    type: string,
   ) => {
-    const startPoint = txtAreaCont.current.selectionStart;
-    const endPoint = txtAreaCont.current.selectionEnd;
+    const startPoint = txtAreaCont.current.selectionStart
+    const endPoint = txtAreaCont.current.selectionEnd
     if (type === "bold") {
-      const result = toolBarDeco(txtAreaCont, startPoint, endPoint, "**", "**");
-      setContents(result);
+      const result = toolBarDeco(txtAreaCont, startPoint, endPoint, "**", "**")
+      setContents(result)
     } else if (type === "italic") {
-      const result = toolBarDeco(txtAreaCont, startPoint, endPoint, " _", "_ ");
-      setContents(result);
+      const result = toolBarDeco(txtAreaCont, startPoint, endPoint, " _", "_ ")
+      setContents(result)
     } else if (type === "cross") {
-      const result = toolBarDeco(txtAreaCont, startPoint, endPoint, "~~", "~~");
-      setContents(result);
+      const result = toolBarDeco(txtAreaCont, startPoint, endPoint, "~~", "~~")
+      setContents(result)
     }
-  };
+  }
 
   // 1. 그냥 클릭시 백틱3개와 코드를 입력하세요가 나온다.
   // 2. 드래그시 해당 부분의 텍스트를 백틱이 감싼다. 여기서 오류가 있다. 줄 중간을 드래그 하면 MDviewer가 오류남.(실제 벨로그 오류)
@@ -182,17 +182,15 @@ export const EditorContainer = () => {
   //4. 두번 누르면 코드 친게 지워지도록 - 벨로그랑 비교해서 개선 사항
 
   const handleCodeBox = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const startPoint = txtAreaCont.current.selectionStart;
-    const endPoint = txtAreaCont.current.selectionEnd;
-    const result = toolBarCodeBox(txtAreaCont, startPoint, endPoint);
-    setContents(result);
-  };
+    const startPoint = txtAreaCont.current.selectionStart
+    const endPoint = txtAreaCont.current.selectionEnd
+    const result = toolBarCodeBox(txtAreaCont, startPoint, endPoint)
+    setContents(result)
+  }
 
   const handleLinkModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setLinkModal(!linkModal);
-    console.log("e", e);
-    console.log("linkModal", linkModal);
-  };
+    setLinkModal(!linkModal)
+  }
 
   return (
     <>
@@ -238,10 +236,10 @@ export const EditorContainer = () => {
         />
       )}
     </>
-  );
-};
+  )
+}
 
-const WriteSection = styled.section``;
+const WriteSection = styled.section``
 
 const EditorWrap = styled.article`
   position: absolute;
@@ -256,12 +254,12 @@ const EditorWrap = styled.article`
     width: 100%;
     right: 0;
   }
-`;
+`
 
 const EditorForm = styled.form<ThemeProps>`
   height: 100%;
   background: ${({ theme }) => theme.BACKGROUND};
-`;
+`
 
 const MDWrap = styled.article<ThemeProps>`
   position: absolute;
@@ -276,7 +274,7 @@ const MDWrap = styled.article<ThemeProps>`
   @media (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     display: none;
   }
-`;
+`
 function typeOf(endPoint: any): any {
-  throw new Error("Function not implemented.");
+  throw new Error("Function not implemented.")
 }

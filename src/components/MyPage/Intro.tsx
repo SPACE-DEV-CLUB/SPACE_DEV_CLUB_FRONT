@@ -25,7 +25,7 @@ export const Intro = ({ username, userdata }: IntroProps) => {
       <div className="introContainer">
         <a>
           <ProfileImg
-            src={userdata.profileimage}
+            src={userdata.profileimage || "/image/sampleUser.jpg"}
             alt="profile"
             width={128}
             height={128}
