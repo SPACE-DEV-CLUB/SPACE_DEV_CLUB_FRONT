@@ -10,6 +10,13 @@ export interface Hashtags {
   };
 }
 
+export interface Photos {
+  id: number;
+  attributes: {
+    src: string;
+    createdAt: string;
+  };
+}
 export interface Post {
   id: number;
   attributes: {
@@ -38,6 +45,9 @@ export interface Post {
     };
     hashtags: {
       data: Hashtags[];
+    };
+    photos: {
+      data: Photos[];
     };
   };
 }
