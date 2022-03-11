@@ -41,7 +41,8 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    loginUserId && getLikeData() && getLoggedUserLikeData();
+    getLikeData();
+    loginUserId && getLoggedUserLikeData();
   }, [postid]);
 
   const handleHeart = () => {
@@ -61,9 +62,7 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
     !heartClick ? postLike() : postUnLike();
     setHeartNum(num);
   };
-  const handleShare = () => {
-    setShareClick(!shareClick);
-  };
+
   const getLikeData = async () => {
     const response = await axios({
       method: "get",
@@ -119,21 +118,6 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
     }).then(function (response) {
       setLoading(false);
     });
-  };
-
-  const copyUrl = () => {
-    alert("링크가 복사되었습니다.");
-    setShareClick(false);
-  };
-
-  const onClickFacebook = () => {
-    const shareUrl = window.location.href;
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}/`);
-  };
-
-  const onClickKakao = () => {
-    const { Kakao, location } = window;
-    Kakao.Link.sendScrap({ requestUrl: location.href });
   };
 
   return (
