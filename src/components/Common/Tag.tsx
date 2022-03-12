@@ -13,15 +13,13 @@ export const Tag = ({ tagName }: TagProps) => {
     const { theme } = useContext(ThemeContext)
 
     return (
-        <TagsContainer theme={theme}>
-            <Link href={`/tags/${tagName}`} passHref>
-                <a>{tagName}</a>
-            </Link>
-        </TagsContainer>
+            <TagsContainer href={`/tags/${tagName}`} theme={theme}>
+                <span>{tagName}</span>
+            </TagsContainer>
     )
 }
 
-const TagsContainer = styled.div<ThemeProps>`
+const TagsContainer = styled.a<ThemeProps>`
     display: inline-flex;
     align-items: center;
     margin: 0 14px 14px 0;
@@ -30,12 +28,16 @@ const TagsContainer = styled.div<ThemeProps>`
     font-weight: 500;
     background: ${({ theme }) => theme.TOGGLE_BACKGROUND};
     border-radius: 15px;
-    a {
+    cursor: pointer;
+    &:hover {
+            opacity: 0.7;
+        }
+        span {
         font-size: 16px;
         color: ${({ theme }) => theme.MAIN};
     }
     @media only screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
-        a {
+        span {
             font-size: 12px;
         }
     }
