@@ -143,7 +143,6 @@ const DetailsIndexPage: NextPage = () => {
       postid = details.id;
       postObj = details.attributes;
       user = details.attributes.userid.data.attributes;
-      console.log(postObj);
       return true;
     }
   });
