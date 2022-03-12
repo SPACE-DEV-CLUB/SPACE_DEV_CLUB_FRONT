@@ -144,6 +144,7 @@ const DetailsIndexPage: NextPage = () => {
       postObj = details.attributes
       user = details.attributes.userid.data.attributes
       return true
+
     }
   })
 

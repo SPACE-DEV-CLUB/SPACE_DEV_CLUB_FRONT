@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styled from "@emotion/styled";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
@@ -6,8 +6,10 @@ import ShareIcon from "@mui/icons-material/Share";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { PALLETS_LIGHT } from "@src/constants";
+import { PostContext } from "@src/pages/[id]/[details]";
 
 export const Share = () => {
+  const { postObj } = useContext(PostContext);
   const [shareClick, setShareClick] = useState(false);
 
   const handleShare = () => {
@@ -26,7 +28,41 @@ export const Share = () => {
 
   const onClickKakao = () => {
     const { Kakao, location } = window;
-    Kakao.Link.sendScrap({ requestUrl: location.href });
+
+    Kakao.Link.sendDefault({
+      objectType: "feed",
+      content: {
+        title: postObj.title,
+        description: postObj.contents.substring(0, 8),
+        imageUrl:
+          "https://cdn.pixabay.com/photo/2017/01/04/12/01/space-1951858_960_720.png",
+        link: {
+          mobileWebUrl: location.href,
+          webUrl: location.href,
+        },
+      },
+      // social: {
+      //   likeCount: 10,
+      //   commentCount: 5,
+      //   sharedCount: 2,
+      // },
+      buttons: [
+        {
+          title: "웹으로 보기",
+          link: {
+            mobileWebUrl: location.href,
+            webUrl: location.href,
+          },
+        },
+        {
+          title: "앱으로 보기",
+          link: {
+            mobileWebUrl: location.href,
+            webUrl: location.href,
+          },
+        },
+      ],
+    });
   };
 
   return (
