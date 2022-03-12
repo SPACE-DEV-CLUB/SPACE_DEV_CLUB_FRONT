@@ -37,7 +37,6 @@ function SearchFilter() {
     `${API_ENDPOINT}/posts?populate=*`,
     fetcher,
   )
-
   useEffect(() => {
     {
       if (!isValidating && router.query.username) {

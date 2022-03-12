@@ -9,6 +9,7 @@ import { ThemeProps } from "@src/types/Theme"
 import { Profile } from "."
 import { Tag } from "../Common/Tag"
 import { handleDate } from "@utils/date"
+import { useRouter } from "next/router"
 
 type PropsTypes = {
   imageUrl: string
@@ -43,16 +44,24 @@ export const MyCard = ({
   const { theme } = useContext(ThemeContext)
   const filteredDate = handleDate(date)
   return (
-    <Link href={`/${username}/${url}`}>
-      <a>
         <MyCardContainer theme={theme}>
           {mySearch && (
             <a href={`/${userid}`}>
               <Profile id={username} profileImgUrl={profileImg}></Profile>
             </a>
           )}
-
           {imageUrl && (
+            <a href={`/${username}/${url}`}>
+            <ImageContainer
+              layout="responsive"
+              width={734}
+              height={402}
+              alt="sample image"
+              src={imageUrl}
+            />
+            </a>
+          )}
+          {imageUrl && isPrivate && (
             <ImageContainer
               layout="responsive"
               width={734}
@@ -61,7 +70,12 @@ export const MyCard = ({
               src={imageUrl}
             />
           )}
-          <h2>{title}</h2>
+          {isPrivate && 
+            <h2>{title}</h2>
+          }
+          {!isPrivate && <a href={`/${username}/${url}`}>
+            <h2>{title}</h2>
+          </a>}
           <p>{contents}</p>
           {tag?.map((e: any, index) => (
             <Tag tagName={e.attributes.name} key={index} />
@@ -81,8 +95,6 @@ export const MyCard = ({
             )}
           </DateCommentContainer>
         </MyCardContainer>
-      </a>
-    </Link>
   )
 }
 
