@@ -16,9 +16,10 @@ export const lightTheme = {
   WARNING_MAIN: "#ef5350",
   WARNING_SUB: "#ff867c",
   ModelRGBA: "rgba(255, 255, 255, 0.8)",
-};
+  TYPE: "light",
+}
 
-export type Theme = typeof lightTheme;
+export type Theme = typeof lightTheme
 
 export const darkTheme: Theme = {
   MAIN: "#dbd7ff",
@@ -38,7 +39,8 @@ export const darkTheme: Theme = {
   WARNING_MAIN: "#ffa4a2",
   WARNING_SUB: "#e57373",
   ModelRGBA: "rgba(0, 0, 0, 0.8)",
-};
+  TYPE: "dark",
+}
 
 // #ffffff*
 // #fefaff*
