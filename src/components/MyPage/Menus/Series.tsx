@@ -43,13 +43,16 @@ export const Series = ({ username }: SeriesProps) => {
   const { data, size, setSize } = useSWRInfinite(getKey, fetcher)
 
   const isEmpty = data?.[0]?.data.length === 0
-  const isReachingEnd = useRef<boolean>(false)
+  const isReachingEnd =
+    isEmpty ||
+    (data &&
+      data.reduce((ac, el) => ac + el.data.length, 0) ===
+        data[0].meta.pagination.total)
 
   const [target, setTarget] = useState<HTMLElement | null | undefined>(null)
 
   useEffect(() => {
-    if (size == 1) isReachingEnd.current = false
-    if (!target || isReachingEnd.current) return
+    if (!target || isReachingEnd) return
     const observer = new IntersectionObserver(onIntersect, {
       threshold: 0.4,
     })
@@ -60,17 +63,13 @@ export const Series = ({ username }: SeriesProps) => {
   const onIntersect: IntersectionObserverCallback = ([entry], observer) => {
     if (entry.isIntersecting) {
       setSize((prev) => prev + 1)
-      isReachingEnd.current =
-        data === undefined
-          ? false
-          : isEmpty || (data && data[data.length - 1]?.data.length < PAGE_SIZE)
     }
   }
 
   return (
     <SeriesContainer>
       {data ? (
-        data.map((cards, index) =>
+        data.map((cards) =>
           cards.data.map((e: any, i: number) => {
             const { title, updatedAt } = e.attributes
             return (
