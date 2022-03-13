@@ -12,6 +12,7 @@ import SkeletonLoading from "../Common/SkeletonLoading"
 import { MyCard } from "../MyPage/MyCard"
 import { FindPost } from "./FindPost"
 import { SearchBar } from "./SearchBar"
+import { useSession } from "next-auth/react"
 
 type MapType = {
   attributes: {
@@ -24,7 +25,6 @@ type FilterType = {
     contents: string
   }
 }
-
 function SearchFilter() {
   const { theme } = useContext(ThemeContext)
   const router = useRouter()
@@ -32,7 +32,7 @@ function SearchFilter() {
   const [filteredData, setFilteredData] = useState<CardProps[]>([])
   const [isLoaded, setIsLoaded] = useState(false)
   const [itemIndex, setItemIndex] = useState(1)
-  // const dataList = data.data.data;
+  const { data: session, status } = useSession()
   const { data, error, isValidating } = useSWR(
     `${API_ENDPOINT}/posts?populate=*`,
     fetcher,
@@ -45,8 +45,8 @@ function SearchFilter() {
             ?.filter(
               (e: any) =>
                 e.attributes.userid.data?.attributes.userid ==
-                router.query.username,
-            )
+                router.query.username
+            ).filter((e: any) => (e.attributes.private == false) || (e.attributes.userid.data.attributes.email == session?.user?.email))
             .filter(
               (e: FilterType) =>
                 e.attributes.title.includes(res as string) ||
@@ -55,16 +55,15 @@ function SearchFilter() {
         )
       } else if (!isValidating) {
         setFilteredData(
-          data.data?.filter(
+          data.data?.filter((e: any) => (e.attributes.private == false) || (e.attributes.userid.data.attributes.email == session?.user?.email)).filter(
             (e: FilterType) =>
               e.attributes.title.includes(res as string) ||
-              e.attributes.contents.includes(res as string),
+              e.attributes.contents.includes(res as string)
           ),
         )
       }
     }
   }, [res])
-
   const timeoutFetcher = (delay = 500) =>
     new Promise((res) => setTimeout(res, delay))
 
@@ -105,9 +104,8 @@ function SearchFilter() {
               {filteredData.slice(0, itemIndex * 5).map((e, index) => (
                 <MyCard
                   key={index}
-                  // 이후에 수정
                   imageUrl={e.attributes?.imageurl as any}
-                  userid={e.attributes.userid.data.attributes.userid}
+                  userid={e.attributes.userid.data?.attributes.userid}
                   title={e.attributes.title}
                   contents={e.attributes.contents}
                   tag={e.attributes.hashtags?.data}
