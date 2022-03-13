@@ -1,23 +1,23 @@
-import useSWRInfinite from "swr/infinite"
-import qs from "qs"
-import styled from "@emotion/styled"
-import { useEffect, useRef, useState } from "react"
-import { fetcher } from "@utils/fetcher"
-import { MEDIA_QUERY_END_POINT, API_ENDPOINT } from "@constants/."
-import useAuthentication from "@hooks/useAuthentication"
-import { ListPost } from "@src/types/Main"
-import { ListCard, ListCardLoading } from "."
+import useSWRInfinite from 'swr/infinite';
+import qs from 'qs';
+import styled from '@emotion/styled';
+import { useEffect, useRef, useState } from 'react';
+import { fetcher } from '@utils/fetcher';
+import { MEDIA_QUERY_END_POINT, API_ENDPOINT } from '@constants/.';
+import useAuthentication from '@hooks/useAuthentication';
+import { ListPost } from '@src/types/Main';
+import { ListCard, ListCardLoading } from '.';
 
-let PAGE_SIZE = 3
+let PAGE_SIZE = 3;
 interface CardContainerProps {
-  filter: string
-  username?: string | null
+  filter: string;
+  username?: string | null;
 }
 
 export const ListCardContainer = ({ filter, username }: CardContainerProps) => {
   useEffect(() => {
     PAGE_SIZE = window.matchMedia(
-      `(min-width: ${MEDIA_QUERY_END_POINT.XLARGE})`,
+      `(min-width: ${MEDIA_QUERY_END_POINT.XLARGE})`
     ).matches
       ? 5
       : window.matchMedia(`(min-width: ${MEDIA_QUERY_END_POINT.LARGE})`).matches
@@ -28,13 +28,13 @@ export const ListCardContainer = ({ filter, username }: CardContainerProps) => {
       : window.matchMedia(`(min-width: ${MEDIA_QUERY_END_POINT.MOBILE})`)
           .matches
       ? 2
-      : 1
-  }, [])
+      : 1;
+  }, []);
 
-  useAuthentication()
+  useAuthentication();
 
   const getKey = (pageIndex: number, previousPageData: any) => {
-    if (previousPageData && !previousPageData.data) return null
+    if (previousPageData && !previousPageData.data) return null;
 
     const query = qs.stringify(
       {
@@ -44,51 +44,54 @@ export const ListCardContainer = ({ filter, username }: CardContainerProps) => {
         },
         populate: {
           postid: {
-            populate: ["userid", "comments", "likeposts"],
+            populate: ['userid', 'comments', 'likeposts'],
           },
         },
-        sort: ["updatedAt:desc"],
+        sort: ['updatedAt:desc'],
         filters: {
           userid: {
             email: {
               $eq: username,
             },
           },
+          postid: {
+            private: false,
+          },
         },
       },
       {
         encodeValuesOnly: true,
-      },
-    )
+      }
+    );
 
-    return `${API_ENDPOINT}/${filter}?${query}`
-  }
+    return `${API_ENDPOINT}/${filter}?${query}`;
+  };
 
-  const { data, setSize, isValidating } = useSWRInfinite(getKey, fetcher)
+  const { data, setSize, isValidating } = useSWRInfinite(getKey, fetcher);
 
-  const isEmpty = data?.[0]?.length === 0
+  const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd =
     isEmpty ||
     (data &&
       data.reduce((ac, el) => ac + el.data.length, 0) ===
-        data[0].meta.pagination.total)
+        data[0].meta.pagination.total);
 
-  const [target, setTarget] = useState<HTMLElement | null | undefined>(null)
+  const [target, setTarget] = useState<HTMLElement | null | undefined>(null);
 
   useEffect(() => {
-    if (!target || isReachingEnd) return
+    if (!target || isReachingEnd) return;
     const observer = new IntersectionObserver(onIntersect, {
       threshold: 0.4,
-    })
-    observer.observe(target)
-    return () => observer && observer.disconnect()
-  }, [data, target])
+    });
+    observer.observe(target);
+    return () => observer && observer.disconnect();
+  }, [data, target]);
 
   const onIntersect: IntersectionObserverCallback = ([entry], observer) => {
     if (entry.isIntersecting) {
-      setSize((prev) => prev + 1)
+      setSize((prev) => prev + 1);
     }
-  }
+  };
 
   return (
     <>
@@ -104,7 +107,7 @@ export const ListCardContainer = ({ filter, username }: CardContainerProps) => {
                 likeposts,
                 publishedAt,
                 url,
-              } = e.attributes.postid.data.attributes
+              } = e.attributes.postid.data.attributes;
 
               return (
                 <ListCard
@@ -118,8 +121,8 @@ export const ListCardContainer = ({ filter, username }: CardContainerProps) => {
                   publishedAt={publishedAt}
                   url={url}
                 />
-              )
-            })
+              );
+            });
           })}
       </Container>
       <TargetElement ref={setTarget}>
@@ -132,8 +135,8 @@ export const ListCardContainer = ({ filter, username }: CardContainerProps) => {
         )}
       </TargetElement>
     </>
-  )
-}
+  );
+};
 
 const Container = styled.section`
   display: grid;
@@ -169,9 +172,9 @@ const Container = styled.section`
     grid-template-columns: repeat(1, 1fr);
     gap: 16px;
   }
-`
+`;
 
 const TargetElement = styled.article`
   width: 100%;
   height: 100px;
-`
+`;

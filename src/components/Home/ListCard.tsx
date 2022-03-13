@@ -29,15 +29,15 @@ export const ListCard = ({
   thumbnail,
   publishedAt,
   url,
-  userImg
-} : Cardprops) => {
+  userImg,
+}: Cardprops) => {
   const { theme } = useContext(ThemeContext);
 
   const handleAuthorImgError = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
-    event.currentTarget.src = '/image/sampleUser.g';
-    event.currentTarget.style.transform = "scale(1.2)";
+    event.currentTarget.src = '/image/sampleUser.jpg';
+    event.currentTarget.style.transform = 'translateY(-3px)';
   };
 
   return (
@@ -45,18 +45,19 @@ export const ListCard = ({
       <PostSection>
         <Link href={`/${username}/${url}`} passHref>
           <a>
-            {thumbnail &&
-            (<ThumbnailWrap theme={theme}>
-              <Thumbnail src={''} alt=""/>
-            </ThumbnailWrap>)}
+            {thumbnail && (
+              <ThumbnailWrap theme={theme}>
+                <Thumbnail src={''} alt="" />
+              </ThumbnailWrap>
+            )}
             <PostTitle theme={theme}>{title}</PostTitle>
             <PostContent theme={theme}>{contents}</PostContent>
           </a>
         </Link>
         <div>
-            <PostDesc theme={theme}>{handleDate(publishedAt)}</PostDesc>
-            <Dot>&#183;</Dot>
-            <PostDesc theme={theme}>{comments || 0}개의 댓글</PostDesc>
+          <PostDesc theme={theme}>{handleDate(publishedAt)}</PostDesc>
+          <Dot>&#183;</Dot>
+          <PostDesc theme={theme}>{comments || 0}개의 댓글</PostDesc>
         </div>
       </PostSection>
       <AuthorDesc theme={theme}>
@@ -108,31 +109,31 @@ const PostSection = styled.section`
 `;
 
 const PostTitle = styled.h4<ThemeProps>`
-color: ${({ theme }) => theme.MAIN_FONT};
-font-size: 16px;
-line-height: 1.5;
-font-weight: 700;
-margin-bottom: 4px;
-word-break: break-word;
-text-overflow: ellipsis;
-white-space: nowrap;
-overflow: hidden;
+  color: ${({ theme }) => theme.MAIN_FONT};
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 700;
+  margin-bottom: 4px;
+  word-break: break-word;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 const PostContent = styled.p<ThemeProps>`
-color: ${({ theme }) => theme.SUB_FONT};
-font-size: 14px;
-line-height: 1.5;
-margin-bottom: 24px;
-word-break: break-word;
-overflow-wrap: break-word;
-height: 63px;
--webkit-line-clamp: 3;
-overflow: hidden;
+  color: ${({ theme }) => theme.SUB_FONT};
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  height: 63px;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 `;
 
-const PostDesc = styled.span<ThemeProps>` 
-  color: ${({ theme }) => theme.POINT_FONT}; 
+const PostDesc = styled.span<ThemeProps>`
+  color: ${({ theme }) => theme.POINT_FONT};
   line-height: 1.5;
   font-size: 12px;
 `;
@@ -145,9 +146,9 @@ const ThumbnailWrap = styled.section<ThemeProps>`
 
 const Thumbnail = styled.img`
   width: 100%;
-  height:100%;
+  height: 100%;
   position: absolute;
-  top:0;  
+  top: 0;
   object-fit: contain;
 `;
 
@@ -163,7 +164,7 @@ const AuthorDesc = styled.footer<ThemeProps>`
   border-top: 1px solid ${({ theme }) => theme.TOGGLE_BACKGROUND};
 `;
 
-const  AuthorImg = styled.img`
+const AuthorImg = styled.img`
   display: block;
   border-radius: 50%;
   object-fit: cover;
@@ -175,9 +176,9 @@ const Author = styled.a<ThemeProps>`
 `;
 
 const Preposition = styled.span<ThemeProps>`
-color: ${({ theme }) => theme.POINT_FONT};
-font-size: 12px;
-margin-left: 8px;
+  color: ${({ theme }) => theme.POINT_FONT};
+  font-size: 12px;
+  margin-left: 8px;
 `;
 
 const AuthorName = styled.strong<ThemeProps>`
