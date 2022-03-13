@@ -93,9 +93,9 @@ export const Share = () => {
           !shareClick ? "ShareOff" : "ShareItem3"
         }`}
       >
-        <CopyToClipboard text={window.location.href}>
+        {/* <CopyToClipboard text={window.location.href}>
           <AttachFileIcon />
-        </CopyToClipboard>
+        </CopyToClipboard> */}
       </div>
     </Container>
   );
