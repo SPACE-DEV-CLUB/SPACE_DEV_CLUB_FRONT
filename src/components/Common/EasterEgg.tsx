@@ -1,13 +1,11 @@
 import { keyframes } from "@emotion/react"
 import styled from "@emotion/styled"
 import { Egg } from "@mui/icons-material"
-import { useSession } from "next-auth/react"
+import { PALLETS_DARK } from "@src/constants"
 import Link from "next/link"
 import React from "react"
 
 function EasterEgg() {
-  const { data: session } = useSession()
-
   return (
     <>
       <LinkWrap>
@@ -48,4 +46,5 @@ const LinkWrap = styled.div`
 `
 const EggIcon = styled(Egg)`
   font-size: 32px;
+  color: ${PALLETS_DARK.ICON}
 `
