@@ -107,13 +107,14 @@ export const ListCardContainer = ({ filter, username }: CardContainerProps) => {
                 likeposts,
                 publishedAt,
                 url,
+                description,
               } = e.attributes.postid.data.attributes;
 
               return (
                 <ListCard
                   key={`${e}_${i}`}
                   title={title}
-                  contents={contents}
+                  description={description || contents}
                   comments={comments.data.length}
                   username={userid.data.attributes.userid}
                   userImg={userid.data.attributes.profileimage}
