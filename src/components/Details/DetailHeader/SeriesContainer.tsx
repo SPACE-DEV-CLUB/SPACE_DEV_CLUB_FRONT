@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { PALLETS_LIGHT } from "@constants/index";
 import Link from "next/link";
 
@@ -10,7 +10,6 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 
 import { Theme } from "@styles/theme";
-import { useContext } from "react";
 import { ThemeContext } from "@pages/_app";
 import { useRouter } from "next/router";
 import { SeriesBox, SeriesBoxPost } from "@src/types/Detail";
@@ -209,6 +208,7 @@ const SeriesNumber = styled.span`
   color: ${PALLETS_LIGHT.MAIN};
 `;
 const PrevBtn = styled.div<CurrentPost>`
+  margin-right: 5px;
   color: ${PALLETS_LIGHT.MAIN};
   cursor: ${({ currentPost }) => (currentPost !== 1 ? "pointer" : "auto")};
   display: flex;

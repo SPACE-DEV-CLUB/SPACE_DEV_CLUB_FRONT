@@ -122,6 +122,7 @@ const OnComment = styled.div<ThemeProps>`
   font-weight: 700;
   display: flex;
   align-items: center;
+  margin-bottom: 40px;
   cursor: pointer;
   &:hover {
     opacity: 0.8;
