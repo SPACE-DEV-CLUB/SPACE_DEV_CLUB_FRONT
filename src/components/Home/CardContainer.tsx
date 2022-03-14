@@ -121,13 +121,14 @@ export const CardContainer = ({ filter }: { filter: string }) => {
                 likeposts,
                 publishedAt,
                 url,
+                description,
               } = e.attributes;
 
               return (
                 <ListCard
                   key={`${e}_${i}`}
                   title={title}
-                  contents={contents}
+                  description={description || contents}
                   comments={comments.data.length}
                   username={userid.data.attributes.userid}
                   userImg={userid.data.attributes.profileimage}

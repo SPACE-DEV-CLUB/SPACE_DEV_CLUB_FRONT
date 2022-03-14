@@ -1,4 +1,4 @@
-import { userInfo } from "./Main";
+import { userInfo } from './Main';
 
 export interface Hashtags {
   id: number;
@@ -28,7 +28,7 @@ export interface Post {
     publishedAt: string;
     url: string;
     private: null;
-
+    description: string;
     userid: {
       data: {
         id: number;

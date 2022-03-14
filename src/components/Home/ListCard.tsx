@@ -10,7 +10,7 @@ interface ThemeProps {
 }
 interface Cardprops {
   title: string;
-  contents: string;
+  description: string;
   comments?: number;
   username?: string | string[] | undefined;
   count?: number;
@@ -22,7 +22,7 @@ interface Cardprops {
 
 export const ListCard = ({
   title,
-  contents,
+  description,
   comments,
   username,
   count,
@@ -51,7 +51,7 @@ export const ListCard = ({
               </ThumbnailWrap>
             )}
             <PostTitle theme={theme}>{title}</PostTitle>
-            <PostContent theme={theme}>{contents}</PostContent>
+            <PostContent theme={theme}>{description}</PostContent>
           </a>
         </Link>
         <div>
@@ -128,8 +128,11 @@ const PostContent = styled.p<ThemeProps>`
   word-break: break-word;
   overflow-wrap: break-word;
   height: 63px;
+  display: -webkit-box;
   -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const PostDesc = styled.span<ThemeProps>`
