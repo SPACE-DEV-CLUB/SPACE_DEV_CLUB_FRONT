@@ -1,32 +1,32 @@
-import { NextPage } from "next"
-import styled from "@emotion/styled"
-import Head from "next/head"
+import { NextPage } from "next";
+import styled from "@emotion/styled";
+import Head from "next/head";
 
 import {
   DetailHeader,
   LeftHeader,
   RightHeader,
   DetailCard,
-} from "@components/Details"
+} from "@components/Details";
 
-import { Header } from "@components/Common/Header"
+import { Header } from "@components/Common/Header";
 
-import { Theme } from "@styles/theme"
-import { createContext, useContext, useEffect } from "react"
-import { ThemeContext } from "@pages/_app"
-import { useRouter } from "next/router"
-import { useData } from "@hooks/useData"
-import { ErrorPage } from "@components/Common/ErrorPage"
-import { userInfo } from "../../../types/Main"
-import Cookies from "js-cookie"
-import { Post } from "@src/types/Detail"
-import SkeletonLoading from "@src/components/Common/SkeletonLoading"
+import { Theme } from "@styles/theme";
+import { createContext, useContext, useEffect } from "react";
+import { ThemeContext } from "@pages/_app";
+import { useRouter } from "next/router";
+import { useData } from "@hooks/useData";
+import { ErrorPage } from "@components/Common/ErrorPage";
+import { userInfo } from "../../../types/Main";
+import Cookies from "js-cookie";
+import { Post } from "@src/types/Detail";
+import SkeletonLoading from "@src/components/Common/SkeletonLoading";
 
 interface ThemeProps {
-  theme: Theme
+  theme: Theme;
 }
 
-let postid = 0
+let postid = 0;
 let postObj = {
   title: "",
   contents: "",
@@ -81,44 +81,44 @@ let postObj = {
       },
     ],
   },
-}
+};
 
 export const PostContext = createContext({
   postid: postid,
   postObj: postObj,
-})
+});
 
 const DetailsIndexPage: NextPage = () => {
-  const { theme } = useContext(ThemeContext)
-  const router = useRouter()
-  const userName = router.query.id
-  const userDetails = router.query.details
+  const { theme } = useContext(ThemeContext);
+  const router = useRouter();
+  const userName = router.query.id;
+  const userDetails = router.query.details;
 
-  const { id } = router.query
+  const { id } = router.query;
 
   useEffect(() => {
     if (!window.Kakao.isInitialized())
-      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY)
-  }, [])
+      window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+  }, []);
 
   const { data: DetailData, error: DetailError } = useData(
     "posts",
-    "populate=*",
-  )
+    "populate=*"
+  );
 
   if (!DetailData)
     return (
       <SkeletonContainer>
         <SkeletonLoading />
       </SkeletonContainer>
-    )
-  if (DetailError) return <ErrorPage />
+    );
+  if (DetailError) return <ErrorPage />;
 
-  const userCookieData = Cookies.get("user")
+  const userCookieData = Cookies.get("user");
 
-  const loginUserId = userCookieData && JSON.parse(userCookieData!).id
+  const loginUserId = userCookieData && JSON.parse(userCookieData!).id;
   const loginUserName =
-    userCookieData && JSON.parse(userCookieData!).attributes.userid
+    userCookieData && JSON.parse(userCookieData!).attributes.userid;
 
   let user: userInfo = {
     email: "",
@@ -133,38 +133,37 @@ const DetailsIndexPage: NextPage = () => {
     profilename: "",
     aboutme: "",
     snsemail: "",
-  }
+  };
 
   DetailData.data.some((details: Post) => {
     if (
       userDetails === details.attributes.url &&
       userName === details.attributes.userid.data.attributes.userid
     ) {
-      postid = details.id
-      postObj = details.attributes
-      user = details.attributes.userid.data.attributes
-      return true
-
+      postid = details.id;
+      postObj = details.attributes;
+      user = details.attributes.userid.data.attributes;
+      return true;
     }
-  })
+  });
 
   const interested = DetailData.data.filter((details: Post) => {
     const hashtagArr = details.attributes.hashtags.data.map(
-      (data) => data.attributes.name,
-    )
+      (data) => data.attributes.name
+    );
     const isInclude = postObj.hashtags.data.filter((data) =>
-      hashtagArr.includes(data.attributes.name),
-    )
-    return isInclude.length > 0
-  })
+      hashtagArr.includes(data.attributes.name)
+    );
+    return isInclude.length > 0;
+  });
 
   function shuffle(arr: Post[]) {
-    return arr.sort(() => Math.random() - 0.5)
+    return arr.sort(() => Math.random() - 0.5);
   }
   const random_interested =
     interested.length >= 10
       ? shuffle(interested).slice(0, 10)
-      : shuffle(interested)
+      : shuffle(interested);
 
   return (
     <PostContext.Provider value={{ postid, postObj }}>
@@ -213,20 +212,20 @@ const DetailsIndexPage: NextPage = () => {
         <ErrorPage />
       )}
     </PostContext.Provider>
-  )
-}
+  );
+};
 
-export default DetailsIndexPage
+export default DetailsIndexPage;
 
 const SkeletonContainer = styled.div`
   padding: 0 50px;
-`
+`;
 const DetailContainer = styled.section`
   position: relative;
   display: flex;
   width: 100%;
   justify-content: center;
-`
+`;
 
 const PostsContainer = styled.div<ThemeProps>`
   width: 100%;
@@ -235,4 +234,4 @@ const PostsContainer = styled.div<ThemeProps>`
   background-color: ${({ theme }) => theme.BACKGROUND};
   box-shadow: rgb(0 0 0 / 8%) 0px 0px 32px;
   margin-top: 50px;
-`
+`;

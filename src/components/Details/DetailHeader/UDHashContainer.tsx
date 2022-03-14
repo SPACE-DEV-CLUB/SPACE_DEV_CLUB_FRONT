@@ -76,9 +76,9 @@ export const UDHashContainer = ({ userName, loginUserId }: Props) => {
         </div>
         {loginUserId === postObj.userid.data.id && (
           <div>
-            <Link href="#" passHref>
+            {/* <Link href="#" passHref>
               <UDItem theme={theme}>통계</UDItem>
-            </Link>
+            </Link> */}
             <Link href="#" passHref>
               <UDItem theme={theme}>수정</UDItem>
             </Link>

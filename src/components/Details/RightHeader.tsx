@@ -1,37 +1,64 @@
 import styled from "@emotion/styled";
-import { useContext, useState } from "react";
-import { PALLETS_LIGHT } from "@constants/index";
+import { useContext, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { PostContext } from "@src/pages/[id]/[details]";
 
-interface StrNum {
+import { Theme } from "@styles/theme";
+import { ThemeContext } from "@pages/_app";
+
+interface StrNumTheme {
   strNum: number;
+  theme: Theme;
+  isTrue: boolean;
+}
+
+interface ThemeProps {
+  theme: Theme;
 }
 
 export const RightHeader = () => {
   const { postObj } = useContext(PostContext);
+  const { theme } = useContext(ThemeContext);
   const [listData, setListData] = useState(postObj.contents.match(/#+ .*/g)!);
-  // const Scrollref = useRef<HTMLDivElement>(null);
+  const [scrollY, setScrollY] = useState<number>(0);
 
-  // const onClickList = () => {
-  //   Scrollref.current?.scrollIntoView({ behavior: "smooth" });
-  // };
+  const listener = () => {
+    setScrollY(window.pageYOffset);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", listener);
+    return () => {
+      window.removeEventListener("scroll", listener);
+    };
+  });
 
   return (
-    <Container>
+    <Container theme={theme}>
       <h2 className="sr-only">목차</h2>
       {listData && (
         <article>
           {listData.map((str, i) => {
             const strNum = str.match(/#*/)?.join("").length!;
-            const strReg = str.match(/[^#+][#]*/g)?.join("");
+            const originHeader = str
+              .match(/[^#+][#]*/g)
+              ?.join("")
+              .trim();
+            const headerId = originHeader
+              ?.match(/[^#]/g)
+              ?.join("")
+              .replace(/\s/g, "-");
+            const target = document.getElementById(`${headerId}`);
+            const targetTop = target?.getBoundingClientRect().top;
+            const headerTop = window.pageYOffset + targetTop!;
+            const isTrue = scrollY + 1 >= headerTop;
 
             return (
-              <Link key={`Detail-List-${i}`} href="#">
-                <a>
-                  <List strNum={strNum}>{strReg}</List>
-                </a>
-              </Link>
+              <a key={`Detail-List-${i}`} href={`#${headerId}`}>
+                <List strNum={strNum} theme={theme} isTrue={isTrue}>
+                  {originHeader}
+                </List>
+              </a>
             );
           })}
         </article>
@@ -40,7 +67,7 @@ export const RightHeader = () => {
   );
 };
 
-const Container = styled.section`
+const Container = styled.section<ThemeProps>`
   position: -webkit-sticky;
   position: sticky;
   top: 290px;
@@ -48,7 +75,7 @@ const Container = styled.section`
 
   article {
     padding: 8px 10px;
-    border-left: 2px solid ${PALLETS_LIGHT.SUB};
+    border-left: 2px solid ${({ theme }) => theme.BUTTON_SUB};
     margin-left: 40px;
   }
   div.h4 {
@@ -58,12 +85,14 @@ const Container = styled.section`
     display: none;
   }
 `;
-const List = styled.div<StrNum>`
+const List = styled.div<StrNumTheme>`
   font-size: 14px;
-  color: ${PALLETS_LIGHT.ICON};
   margin-bottom: 5px;
   margin-left: ${({ strNum }) => strNum * 10}px;
+  color: ${({ isTrue, theme }) => (isTrue ? theme.MAIN : theme.POINT_FONT)};
+  font-weight: ${({ isTrue }) => (isTrue ? 700 : 400)};
   &:hover {
-    color: ${PALLETS_LIGHT.SUB_FONT};
+    color: ${({ theme }) => theme.BUTTON_SUB};
+    font-weight: 700;
   }
 `;
