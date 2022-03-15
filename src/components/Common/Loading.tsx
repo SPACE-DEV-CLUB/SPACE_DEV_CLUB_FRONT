@@ -28,7 +28,8 @@ function Loading() {
       encodeValuesOnly: true,
     },
   )
-
+console.log('test')
+console.log('test')
   const { data, error } = useData("userinfos", query)
 
   useEffect(() => {
