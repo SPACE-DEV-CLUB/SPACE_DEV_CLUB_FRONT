@@ -243,9 +243,7 @@ export const EditorContainer = () => {
   const handleUrlValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWriteUrl(e.target.value);
   };
-
   console.log("contents", contents);
-
   return (
     <>
       <section>
