@@ -21,6 +21,9 @@ import { userInfo } from "../../../types/Main";
 import Cookies from "js-cookie";
 import { Post } from "@src/types/Detail";
 import SkeletonLoading from "@src/components/Common/SkeletonLoading";
+import axios from "axios";
+import { API_ENDPOINT } from "@src/constants";
+import { NextSeo } from "next-seo";
 
 interface ThemeProps {
   theme: Theme;
@@ -54,7 +57,9 @@ let postObj = {
   userid: {
     data: {
       id: 0,
-      attributes: {},
+      attributes: {
+        userid: "",
+      },
     },
   },
   createdAt: "",
@@ -88,31 +93,29 @@ export const PostContext = createContext({
   postObj: postObj,
 });
 
-const DetailsIndexPage: NextPage = () => {
+const DetailsIndexPage: NextPage = ({ data, id, allDatas }: any) => {
   const { theme } = useContext(ThemeContext);
   const router = useRouter();
   const userName = router.query.id;
   const userDetails = router.query.details;
-
-  const { id } = router.query;
 
   useEffect(() => {
     if (!window.Kakao.isInitialized())
       window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
   }, []);
 
-  const { data: DetailData, error: DetailError } = useData(
-    "posts",
-    "populate=*"
-  );
+  // const { data: DetailData, error: DetailError } = useData(
+  //   "posts",
+  //   "populate=*"
+  // );
 
-  if (!DetailData)
-    return (
-      <SkeletonContainer>
-        <SkeletonLoading />
-      </SkeletonContainer>
-    );
-  if (DetailError) return <ErrorPage />;
+  // if (!DetailData)
+  //   return (
+  //     <SkeletonContainer>
+  //       <SkeletonLoading />
+  //     </SkeletonContainer>
+  //   );
+  // if (DetailError) return <ErrorPage />;
 
   const userCookieData = Cookies.get("user");
 
@@ -134,20 +137,22 @@ const DetailsIndexPage: NextPage = () => {
     aboutme: "",
     snsemail: "",
   };
+  postid = data.id;
+  postObj = data.attributes;
+  user = id;
+  // DetailData.data.some((details: Post) => {
+  //   if (
+  //     userDetails === details.attributes.url &&
+  //     userName === details.attributes.userid.data.attributes.userid
+  //   ) {
+  //     postid = details.id;
+  //     postObj = details.attributes;
+  //     user = details.attributes.userid.data.attributes;
+  //     return true;
+  //   }
+  // });
 
-  DetailData.data.some((details: Post) => {
-    if (
-      userDetails === details.attributes.url &&
-      userName === details.attributes.userid.data.attributes.userid
-    ) {
-      postid = details.id;
-      postObj = details.attributes;
-      user = details.attributes.userid.data.attributes;
-      return true;
-    }
-  });
-
-  const interested = DetailData.data.filter((details: Post) => {
+  const interested = allDatas.filter((details: Post) => {
     const hashtagArr = details.attributes.hashtags.data.map(
       (data) => data.attributes.name
     );
@@ -166,55 +171,71 @@ const DetailsIndexPage: NextPage = () => {
       : shuffle(interested);
 
   return (
-    <PostContext.Provider value={{ postid, postObj }}>
-      <Head>
-        <title>{postObj.title}</title>
-        <meta name="url" property="og:url" content={postObj.url} />
-        <meta name="type" property="og:type" content="article" />
-        <meta name="title" property="og:title" content={postObj.title} />
-        <meta
-          name="description"
-          property="og:description"
-          content={postObj.contents}
-        />
-        <meta
-          name="image"
-          property="og:image"
-          content={
-            postObj.photos.data[0]?.attributes.src || "https://ibb.co/C0cXWpt"
-          }
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      {postObj.title ? (
-        <div>
-          <Header username={`${id}`} user={true} />
-          <DetailContainer>
-            <LeftHeader
-              loginUserId={loginUserId}
-              loginUserName={loginUserName}
-            />
-            <DetailHeader
-              userName={userName}
-              userdata={user}
-              loginUserId={loginUserId}
-              loginUserName={loginUserName}
-            />
-            <RightHeader />
-          </DetailContainer>
-          {random_interested.length !== 0 && (
-            <PostsContainer theme={theme}>
-              <DetailCard interested={random_interested} />
-            </PostsContainer>
-          )}
-        </div>
-      ) : (
-        <ErrorPage />
-      )}
-    </PostContext.Provider>
+    <div>
+      <NextSeo
+        openGraph={{
+          type: "website",
+          title: `${data.attributes.title}`,
+          description: `${data.attributes.contents}`,
+          images: [
+            {
+              url: "https://user-images.githubusercontent.com/47337588/155908236-e0fa1e38-31fd-4616-a382-ef0431b7f362.png",
+              alt: "Og Image Alt",
+            },
+          ],
+        }}
+      />
+
+      <PostContext.Provider value={{ postid, postObj }}>
+        {postObj.title ? (
+          <div>
+            <Header username={`${id}`} user={true} />
+            <DetailContainer>
+              <LeftHeader
+                loginUserId={loginUserId}
+                loginUserName={loginUserName}
+              />
+              <DetailHeader
+                userName={userName}
+                userdata={user}
+                loginUserId={loginUserId}
+                loginUserName={loginUserName}
+              />
+              <RightHeader />
+            </DetailContainer>
+            {random_interested.length !== 0 && (
+              <PostsContainer theme={theme}>
+                <DetailCard interested={random_interested} />
+              </PostsContainer>
+            )}
+          </div>
+        ) : (
+          <ErrorPage />
+        )}
+      </PostContext.Provider>
+    </div>
   );
 };
 
+export const getServerSideProps = async (context: any) => {
+  const id = context.query.id;
+  const detail = context.query.details;
+
+  const res = await axios.get(
+    `${API_ENDPOINT}/posts?populate=*&filters[userid][userid]=${id}&filters[url]=${detail}`
+  );
+  const detailRes = await axios.get(`${API_ENDPOINT}/posts?populate=*`);
+
+  const data = res.data.data[0];
+  const allDatas = detailRes.data.data;
+  return {
+    props: {
+      data,
+      id,
+      allDatas,
+    },
+  };
+};
 export default DetailsIndexPage;
 
 const SkeletonContainer = styled.div`
