@@ -42,7 +42,7 @@ function Loading() {
       checkOurUser()
     }
   })
-
+console.log('test')
   const checkOurUser = () => {
     if (isUser === false) {
       router.push("/signup")
