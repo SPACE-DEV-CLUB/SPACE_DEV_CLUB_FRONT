@@ -89,7 +89,7 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
 
   const postLike = async () => {
     setLoading(true);
-    axios({
+    await axios({
       method: "post" as Method,
       url: `${API_ENDPOINT}/likeposts`,
       data: {
@@ -102,11 +102,21 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
       setPutId(response.data.data.id);
       setLoading(false);
     });
+
+    await axios({
+      method: "put" as Method,
+      url: `${API_ENDPOINT}/posts/${postid}`,
+      data: {
+        data: {
+          likes: heartNum + 1,
+        },
+      },
+    });
   };
 
   const postUnLike = async () => {
     setLoading(true);
-    axios({
+    await axios({
       method: "delete" as Method,
       url: `${API_ENDPOINT}/likeposts/${putId}`,
       data: {
@@ -117,6 +127,16 @@ export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
       },
     }).then(function (response) {
       setLoading(false);
+    });
+
+    await axios({
+      method: "put" as Method,
+      url: `${API_ENDPOINT}/posts/${postid}`,
+      data: {
+        data: {
+          likes: heartNum - 1,
+        },
+      },
     });
   };
 

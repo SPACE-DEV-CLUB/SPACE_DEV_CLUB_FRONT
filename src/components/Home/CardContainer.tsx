@@ -1,26 +1,26 @@
-import useSWRInfinite from 'swr/infinite';
-import { useEffect, useRef, useState } from 'react';
-import styled from '@emotion/styled';
-import qs from 'qs';
-import { fetcher } from '@utils/fetcher';
-import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from '@constants/.';
-import { ListCard, ListCardLoading } from '.';
-import { PostProps } from '@src/types/Main';
+import useSWRInfinite from "swr/infinite";
+import { useEffect, useRef, useState } from "react";
+import styled from "@emotion/styled";
+import qs from "qs";
+import { fetcher } from "@utils/fetcher";
+import { API_ENDPOINT, MEDIA_QUERY_END_POINT } from "@constants/.";
+import { ListCard, ListCardLoading } from ".";
+import { PostProps } from "@src/types/Main";
 
 let PAGE_SIZE = 3;
 
 const formatDate = (date: Date) => {
   let d = new Date(date);
-  let month = '' + (d.getMonth() + 1);
-  let day = '' + d.getDate();
+  let month = "" + (d.getMonth() + 1);
+  let day = "" + d.getDate();
   let year = d.getFullYear();
   if (month.length < 2) {
-    month = '0' + month;
+    month = "0" + month;
   }
   if (day.length < 2) {
-    day = '0' + day;
+    day = "0" + day;
   }
-  return [year, month, day].join('-');
+  return [year, month, day].join("-");
 };
 
 export const CardContainer = ({ filter }: { filter: string }) => {
@@ -44,13 +44,13 @@ export const CardContainer = ({ filter }: { filter: string }) => {
   today.setDate(today.getDate() + 1);
 
   const filterDay = new Date();
-  if (filter === '오늘') {
+  if (filter === "오늘") {
     filterDay.setDate(filterDay.getDate() - 1);
-  } else if (filter === '이번 주') {
+  } else if (filter === "이번 주") {
     filterDay.setDate(filterDay.getDate() - 7);
-  } else if (filter === '이번 달') {
+  } else if (filter === "이번 달") {
     filterDay.setDate(1);
-  } else if (filter === '올 해') {
+  } else if (filter === "올 해") {
     filterDay.setFullYear(filterDay.getFullYear(), 0, 1);
   } else {
     filterDay.setFullYear(2021, 0, 1);
@@ -58,21 +58,25 @@ export const CardContainer = ({ filter }: { filter: string }) => {
 
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.data) return null;
-
+    const sortOption = filter === "최신" ? "publishedAt:desc" : "likes:desc";
     const query = qs.stringify(
       {
         pagination: {
           page: pageIndex + 1,
           pageSize: PAGE_SIZE,
         },
-        populate: ['userid', 'comments', 'likeposts'],
-        sort: ['publishedAt:desc'],
+        populate: ["userid", "comments", "likeposts"],
+        sort: [sortOption],
         filters: {
           publishedAt: {
             $gte: `${formatDate(filterDay)}`,
             $lte: `${formatDate(today)}`,
           },
           private: false,
+          likes: {
+            $gte: 0,
+            $lte: 9999,
+          },
         },
       },
       {
@@ -83,7 +87,7 @@ export const CardContainer = ({ filter }: { filter: string }) => {
   };
 
   const { data, size, setSize, isValidating } = useSWRInfinite(getKey, fetcher);
-
+  console.log(data);
   const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd =
     isEmpty ||

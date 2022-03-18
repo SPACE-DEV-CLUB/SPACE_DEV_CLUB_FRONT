@@ -1,10 +1,10 @@
-import styled from '@emotion/styled';
-import Link from 'next/link';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useContext } from 'react';
-import { Theme } from '@styles/theme';
-import { ThemeContext } from '@pages/_app';
-import { handleDate } from '@utils/date';
+import styled from "@emotion/styled";
+import Link from "next/link";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useContext } from "react";
+import { Theme } from "@styles/theme";
+import { ThemeContext } from "@pages/_app";
+import { handleDate } from "@utils/date";
 interface ThemeProps {
   theme: Theme;
 }
@@ -36,8 +36,8 @@ export const ListCard = ({
   const handleAuthorImgError = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
-    event.currentTarget.src = '/image/sampleUser.jpg';
-    event.currentTarget.style.transform = 'translateY(-3px)';
+    event.currentTarget.src = "/image/sampleUser.jpg";
+    event.currentTarget.style.transform = "translateY(-3px)";
   };
 
   return (
@@ -47,7 +47,7 @@ export const ListCard = ({
           <a>
             {thumbnail && (
               <ThumbnailWrap theme={theme}>
-                <Thumbnail src={''} alt="" />
+                <Thumbnail src={""} alt="" />
               </ThumbnailWrap>
             )}
             <PostTitle theme={theme}>{title}</PostTitle>
@@ -63,13 +63,6 @@ export const ListCard = ({
       <AuthorDesc theme={theme}>
         <Link href={`/${username}`} passHref>
           <Author theme={theme}>
-            <AuthorImg
-              src={userImg}
-              alt=""
-              width={24}
-              height={24}
-              onError={handleAuthorImgError}
-            ></AuthorImg>
             <Preposition theme={theme}>
               by
               <AuthorName theme={theme}> {username}</AuthorName>
