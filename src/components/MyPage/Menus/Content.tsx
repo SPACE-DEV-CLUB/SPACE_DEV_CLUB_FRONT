@@ -9,6 +9,7 @@ import ContentData from "../../Common/ContentData"
 import { useData } from "@hooks/useData"
 import qs from "qs"
 import { Theme } from "@styles/theme"
+import Cookies from "js-cookie"
 
 interface ContentProps {
   username: string | string[] | undefined
@@ -20,6 +21,7 @@ export const Content = ({ username }: ContentProps) => {
   const tagData = useRef([])
   const [tag, setTag] = useState("")
   const [search, setSearch] = useState("")
+  const loginUser = JSON.parse(Cookies.get("user")!)
 
   const query = qs.stringify(
     {
@@ -47,6 +49,12 @@ export const Content = ({ username }: ContentProps) => {
             $eq: username,
           },
         },
+        private:
+          username !== loginUser.attributes.userid
+            ? {
+                $eq: false,
+              }
+            : {},
       },
     },
     {
