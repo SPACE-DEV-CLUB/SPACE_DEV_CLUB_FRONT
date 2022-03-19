@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { useState, useContext  } from 'react';
+import { useState, useContext } from 'react';
 import { ThemeContext } from '@pages/_app';
 import { Theme } from '@styles/theme';
 
@@ -17,7 +17,12 @@ const OPTIONS = [
   { key: 'notice', value: 'notice', link: '/@sdv', name: '공지사항' },
   { key: 'tag', value: 'tag', link: '/tags', name: '태그 목록' },
   { key: 'policy', value: 'policy', link: '/policy', name: '서비스 정책' },
-  { key: 'EasterEgg', value: 'EasterEgg', link: '/introduce', name: 'easter egg' },
+  {
+    key: 'EasterEgg',
+    value: 'EasterEgg',
+    link: '/introduce',
+    name: 'easter egg',
+  },
 ];
 
 export const Notice = ({ route }: { route: string }) => {
@@ -42,7 +47,7 @@ export const Notice = ({ route }: { route: string }) => {
           );
         })}
         <List theme={theme}>
-          <Link href={"mailto:spacedevclub@gmail.com"} passHref>
+          <Link href={'mailto:spacedevclub@gmail.com'} passHref>
             <Anchor theme={theme}>
               문의 <AnchorDesc>spacedevclub@gmail.com</AnchorDesc>
             </Anchor>
@@ -54,8 +59,8 @@ export const Notice = ({ route }: { route: string }) => {
 };
 
 const Container = styled.div<{ route: string }>`
-  display: ${(props) =>
-    props.route === 'home' || props.route === 'recent' ? 'block' : 'none'};
+  display: ${({ route }) =>
+    route === 'home' || route === 'recent' ? 'block' : 'none'};
   position: relative;
   cursor: pointer;
   font-weight: bold;
@@ -66,7 +71,7 @@ const Button = styled.div`
   color: rgb(134, 142, 150);
 `;
 const Box = styled.div<StyledType>`
-  display: ${(props) => (props.visible ? 'block' : 'none')};
+  display: ${({ visible }) => (visible ? 'block' : 'none')};
   position: absolute;
   background-color: ${({ theme }) => theme.CARD_BACKGROUND};
   top: 125%;
@@ -96,13 +101,12 @@ const List = styled.li<ThemeProps>`
 `;
 
 const Anchor = styled.a<ThemeProps>`
-  display:block;
+  display: block;
   color: ${({ theme }) => theme.MAIN_FONT};
-  padding: 12px 16px; 
+  padding: 12px 16px;
 `;
 
 const AnchorDesc = styled.p`
   font-weight: 400;
   font-size: 12px;
 `;
-

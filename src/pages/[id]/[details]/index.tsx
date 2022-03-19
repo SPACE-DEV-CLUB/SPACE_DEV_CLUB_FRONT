@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import styled from "@emotion/styled";
+import qs from "qs";
 import Head from "next/head";
 
 import {
@@ -104,10 +105,10 @@ const DetailsIndexPage: NextPage = ({ data, id, allDatas }: any) => {
       window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
   }, []);
 
-  // const { data: DetailData, error: DetailError } = useData(
-  //   "posts",
-  //   "populate=*"
-  // );
+  const { data: DetailData, error: DetailError } = useData(
+    "posts",
+    "populate=*"
+  );
 
   // if (!DetailData)
   //   return (
@@ -137,13 +138,19 @@ const DetailsIndexPage: NextPage = ({ data, id, allDatas }: any) => {
     aboutme: "",
     snsemail: "",
   };
+
   postid = data.id;
   postObj = data.attributes;
   user = id;
+
   // DetailData.data.some((details: Post) => {
   //   if (
-  //     userDetails === details.attributes.url &&
-  //     userName === details.attributes.userid.data.attributes.userid
+  //     userDetails ===
+  //       qs.stringify({ v: details.attributes.url }).substring(2) &&
+  //     userName ===
+  //       qs
+  //         .stringify({ v: details.attributes.userid.data.attributes.userid })
+  //         .substring(2)
   //   ) {
   //     postid = details.id;
   //     postObj = details.attributes;
@@ -219,10 +226,12 @@ const DetailsIndexPage: NextPage = ({ data, id, allDatas }: any) => {
 
 export const getServerSideProps = async (context: any) => {
   const id = context.query.id;
-  const detail = context.query.details;
+  const detail = qs.stringify({ v: context.query.details }).substring(2);
 
   const res = await axios.get(
-    `${API_ENDPOINT}/posts?populate=*&filters[userid][userid]=${id}&filters[url]=${detail}`
+    `${API_ENDPOINT}/posts?populate=*&filters[userid][userid]=${qs
+      .stringify({ v: id })
+      .substring(2)}&filters[url]=${detail}`
   );
   const detailRes = await axios.get(`${API_ENDPOINT}/posts?populate=*`);
 
