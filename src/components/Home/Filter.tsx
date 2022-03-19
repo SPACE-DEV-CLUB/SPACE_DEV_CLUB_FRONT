@@ -1,7 +1,7 @@
 import MovingIcon from '@mui/icons-material/Moving';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import styled from '@emotion/styled';
-import { useSession } from "next-auth/react"
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React, { useState, useContext } from 'react';
 import { MEDIA_QUERY_END_POINT } from '@constants/.';
@@ -17,11 +17,15 @@ export const Filter = ({ route }: { route: string }) => {
   const { theme } = useContext(ThemeContext);
 
   const [filteredText, setFilteredText] = useState(
-    route === 'home' ? '이번 주' :
-    route === 'recent' ? '최신' : 
-    route ===  'read' ? 'readingposts' :
-    route ===  'liked' ? 'likeposts' :
-    ''
+    route === 'home'
+      ? '이번 주'
+      : route === 'recent'
+      ? '최신'
+      : route === 'read'
+      ? 'readingposts'
+      : route === 'liked'
+      ? 'likeposts'
+      : ''
   );
 
   function handleFilter(e: string) {
@@ -69,34 +73,29 @@ export const Filter = ({ route }: { route: string }) => {
         </BoxContainer>
         <Notice route={route}></Notice>
       </FilterContainer>
-      {(route === 'recent' || route === 'home')?
-      <CardContainer
-        filter={filteredText}
-      ></CardContainer>
-      : 
-      <ListCardContainer 
-        filter={filteredText}
-        username={session?.user?.email}
-  />
-    }
+      {route === 'recent' || route === 'home' ? (
+        <CardContainer filter={filteredText}></CardContainer>
+      ) : (
+        <ListCardContainer
+          filter={filteredText}
+          username={session?.user?.email}
+        />
+      )}
     </>
   );
 };
 
 const TrendIcon = styled(MovingIcon)<{ route: string }>`
-  display: ${(props) =>
-    props.route === 'home' || props.route === 'recent'
-      ? 'inline-block'
-      : 'none'};
+  display: ${({ route }) =>
+    route === 'home' || route === 'recent' ? 'inline-block' : 'none'};
   @media (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     font-size: 20px;
   }
 `;
+
 const ClockIcon = styled(AccessTimeIcon)<{ route: string }>`
-  display: ${(props) =>
-    props.route === 'home' || props.route === 'recent'
-      ? 'inline-block'
-      : 'none'};
+  display: ${({ route }) =>
+    route === 'home' || route === 'recent' ? 'inline-block' : 'none'};
   @media (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     font-size: 20px;
   }
@@ -104,35 +103,33 @@ const ClockIcon = styled(AccessTimeIcon)<{ route: string }>`
 
 const FilterName = styled.a<StyledType>`
   font-weight: bold;
-  width: ${(props) =>
-    props.route === 'home' || props.route === 'recent' ? '80px' : '144px'};
+  width: ${({ route }) =>
+    route === 'home' || route === 'recent' ? '80px' : '144px'};
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
   text-decoration: none;
-  color: ${(props) =>
-    props.route === 'home' || props.route === 'liked'
-      ? props.theme.MAIN_FONT
-      : props.theme.POINT_FONT};
+  color: ${({ route, theme }) =>
+    route === 'home' || route === 'liked' ? theme.MAIN_FONT : theme.POINT_FONT};
   height: 48px;
   & + & {
-    color: ${(props) =>
-      props.route === 'home' || props.route === 'liked'
-        ? props.theme.POINT_FONT
-        : props.theme.MAIN_FONT};
+    color: ${({ route, theme }) =>
+      route === 'home' || route === 'liked'
+        ? theme.POINT_FONT
+        : theme.MAIN_FONT};
   }
   @media (min-width: 1024px) {
     font-size: 18px;
-    width: ${(props) =>
-      props.route === 'home' || props.route === 'recent' ? '112px' : '144px'};
+    width: ${({ route }) =>
+      route === 'home' || route === 'recent' ? '112px' : '144px'};
   }
 `;
 
 const Line = styled.div<StyledType>`
   width: 50%;
-  left: ${(props) =>
-    props.route === 'home' || props.route === 'liked' ? '0%' : '50%'};
+  left: ${({ route }) =>
+    route === 'home' || route === 'liked' ? '0%' : '50%'};
   height: 2px;
   position: absolute;
   bottom: 0px;
