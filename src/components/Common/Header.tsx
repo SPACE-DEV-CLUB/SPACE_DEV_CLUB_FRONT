@@ -1,76 +1,80 @@
-import styled from "@emotion/styled"
-import Image from "next/image"
-import SearchIcon from "@mui/icons-material/Search"
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
-import { useEffect, useRef, useState } from "react"
-import { HeaderMenu } from "./HeaderMenu"
-import Link from "next/link"
-import { css } from "@emotion/react"
-import { Theme } from "@styles/theme"
-import { useContext } from "react"
-import { ThemeContext } from "@pages/_app"
-import { ThemeProps } from "@src/types/Theme"
-import { signIn, useSession } from "next-auth/react"
+import styled from "@emotion/styled";
+import Image from "next/image";
+import SearchIcon from "@mui/icons-material/Search";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { useEffect, useRef, useState } from "react";
+import { HeaderMenu } from "./HeaderMenu";
+import Link from "next/link";
+import { css } from "@emotion/react";
+import { Theme } from "@styles/theme";
+import { useContext } from "react";
+import { ThemeContext } from "@pages/_app";
+import { ThemeProps } from "@src/types/Theme";
+import { signIn, useSession } from "next-auth/react";
 
-import { MEDIA_QUERY_END_POINT } from "@src/constants"
-import { useRouter } from "next/router"
-import { useData } from "@src/hooks/useData"
-import qs from "qs"
+import { MEDIA_QUERY_END_POINT } from "@src/constants";
+import { useRouter } from "next/router";
+import { useData } from "@src/hooks/useData";
+import qs from "qs";
 
 interface HeaderProps {
-  username?: string | string[] | undefined
-  user: boolean
-  velogtitle?: string | undefined
+  username?: string | string[] | undefined;
+  user: boolean;
+  velogtitle?: string | undefined;
 }
 export interface IUser {
-  isUser: boolean
+  isUser: boolean;
 }
 
 export const Header = ({
   username = "",
   user = false,
 }: HeaderProps): JSX.Element => {
-  const { theme } = useContext(ThemeContext)
-  const router = useRouter()
-  const [check, setCheck] = useState(false)
-  const [showMenu, setShowMenu] = useState(false)
-  const [navTop, setNavTop] = useState(0)
-  const [isUserName, setUserName] = useState(false)
+  const { theme } = useContext(ThemeContext);
+  const router = useRouter();
+  const [check, setCheck] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const [navTop, setNavTop] = useState(0);
+  const [isUserName, setUserName] = useState(false);
 
   useEffect(() => {
-    setUserName(detectUserName())
-  })
+    setUserName(detectUserName());
+  });
 
   useEffect(() => {
-    window.addEventListener("scroll", scrollNav)
+    window.addEventListener("scroll", scrollNav);
 
     return () => {
-      window.removeEventListener("scroll", scrollNav)
-    }
-  }, [])
+      window.removeEventListener("scroll", scrollNav);
+    };
+  }, []);
 
   const handleMenu = () => {
-    setShowMenu(!showMenu)
-  }
-  const scrollTop = useRef(0)
-  const lastscrollTop = useRef(0)
+    setShowMenu(!showMenu);
+  };
+  const scrollTop = useRef(0);
+  const lastscrollTop = useRef(0);
   const scrollNav = () => {
-    scrollTop.current = window.scrollY
+    scrollTop.current = window.scrollY;
     if (scrollTop.current > lastscrollTop.current) {
-      setNavTop(-64)
-      setShowMenu(false)
+      setNavTop(-64);
+      setShowMenu(false);
     } else {
       if (scrollTop.current <= 64) {
-        setCheck(false)
+        setCheck(false);
       } else {
-        setCheck(true)
+        setCheck(true);
       }
-      setNavTop(0)
+      setNavTop(0);
     }
-    lastscrollTop.current = scrollTop.current
-  }
+    lastscrollTop.current = scrollTop.current;
+  };
 
-  const { data: session, status } = useSession()
+  const handleWriteBtn = () => {
+    document.location.href = "/write";
+  };
+
+  const { data: session, status } = useSession();
 
   const query = qs.stringify(
     {
@@ -82,15 +86,15 @@ export const Header = ({
     },
     {
       encodeValuesOnly: true,
-    },
-  )
-  const { data: userData } = useData("userinfos", query)
+    }
+  );
+  const { data: userData } = useData("userinfos", query);
 
   function detectUserName() {
     if (router.query.id) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     }
   }
 
@@ -168,7 +172,9 @@ export const Header = ({
                   <SearchIcon htmlColor={theme.MAIN_FONT} />
                 </SearchBtn>
               </Link>
-              <NewPostBtn theme={theme}>새 글 작성</NewPostBtn>
+              <NewPostBtn onClick={handleWriteBtn} theme={theme}>
+                새 글 작성
+              </NewPostBtn>
               <UserUtils theme={theme} onClick={handleMenu}>
                 <UserProfile
                   src={session?.user?.image as string}
@@ -185,20 +191,20 @@ export const Header = ({
         </HeaderUtils>
       </HeaderContainer>
     </HeaderComponent>
-  )
-}
+  );
+};
 
 type HeaderComponentProps = {
-  top: number
-  theme: Theme
-  check: boolean
-}
+  top: number;
+  theme: Theme;
+  check: boolean;
+};
 
 const headerTop = ({ top, theme, check }: HeaderComponentProps) => css`
   background: ${theme.BACKGROUND};
   top: ${top}px;
   ${check && `box-shadow:  0 5px 10px 0 ${theme.TOGGLE_BACKGROUND}`};
-`
+`;
 
 const HeaderComponent = styled.header`
   position: sticky;
@@ -209,7 +215,7 @@ const HeaderComponent = styled.header`
   align-items: center;
   ${headerTop}
   transition : 0.1s linear;
-`
+`;
 
 const HeaderContainer = styled.section`
   display: flex;
@@ -229,7 +235,7 @@ const HeaderContainer = styled.section`
   @media screen and (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     width: calc(100% - 32px);
   }
-`
+`;
 
 const HeaderUtils = styled.article<ThemeProps>`
   display: flex;
@@ -245,19 +251,19 @@ const HeaderUtils = styled.article<ThemeProps>`
     color: ${({ theme }) => theme.MAIN_FONT};
     font-size: 16px;
   }
-`
+`;
 
-const LogoContainer = styled(Link)``
+const LogoContainer = styled(Link)``;
 
 const LogoLink = styled.a`
   display: flex;
   align-items: center;
-`
+`;
 const LogoImg = styled.svg`
   width: 24px;
   height: 24px;
   flex-shrink: 0;
-`
+`;
 
 const UserName = styled.a<ThemeProps>`
   font-family: "Fira Mono", monospace;
@@ -266,7 +272,7 @@ const UserName = styled.a<ThemeProps>`
   white-space: nowrap;
   overflow: hidden;
   color: ${({ theme }) => theme.MAIN_FONT};
-`
+`;
 const SearchBtn = styled.a<ThemeProps>`
   display: flex;
   align-items: center;
@@ -279,7 +285,7 @@ const SearchBtn = styled.a<ThemeProps>`
     border-radius: 50%;
     background: ${({ theme }) => theme.TOGGLE_BACKGROUND};
   }
-`
+`;
 const UserUtils = styled.article<ThemeProps>`
   cursor: pointer;
   display: flex;
@@ -295,11 +301,11 @@ const UserUtils = styled.article<ThemeProps>`
       color: ${({ theme }) => theme.MAIN};
     }
   }
-`
+`;
 
 const UserProfile = styled(Image)`
   border-radius: 50%;
-`
+`;
 
 const NewPostBtn = styled.button<ThemeProps>`
   height: 32px;
@@ -321,4 +327,4 @@ const NewPostBtn = styled.button<ThemeProps>`
   @media screen and (max-width: ${MEDIA_QUERY_END_POINT.TABLET}) {
     display: none;
   }
-`
+`;

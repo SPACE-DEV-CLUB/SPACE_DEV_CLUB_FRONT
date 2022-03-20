@@ -231,7 +231,9 @@ export const EditorContainer = () => {
         },
       })
       .then((res) => {
-        console.log(res);
+        if (res.status === 200) {
+          document.location.href = "/";
+        }
       });
   };
 
