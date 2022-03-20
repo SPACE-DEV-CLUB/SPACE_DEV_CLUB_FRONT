@@ -17,7 +17,7 @@ const SignUp = () => {
   const { data: session } = useSession()
   const { theme } = useContext(ThemeContext)
   const [nickName, setNickName] = useState(session?.user?.name)
-  const [email, setEmail] = useState(session?.user?.email)
+  const [email, setEmail] = useState<string>(session?.user?.email || "")
   const [userId, setUserId] = useState("")
   const [lineIntro, setLineIntro] = useState("")
   const [isDuplicate, setDuplicate] = useState(false)
@@ -37,7 +37,7 @@ const SignUp = () => {
     },
   )
 
-  const { data, error } = useData("userinfos", query)  
+  const { data, error } = useData("userinfos", query)
   const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault()
     setDuplicate(false)
@@ -94,9 +94,9 @@ const SignUp = () => {
           className="fixed-value"
           id="email"
           disabled
-          value={session?.user?.email as string}
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
-        ></input>
+        />
         <label htmlFor="userId">아이디</label>
         <input
           id="userId"

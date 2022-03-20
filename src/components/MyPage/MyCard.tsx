@@ -1,15 +1,13 @@
 import styled from "@emotion/styled"
 import Image from "next/image"
-import Link from "next/link"
 import { Lock } from "@mui/icons-material"
 import { MEDIA_QUERY_END_POINT } from "@constants/index"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { ThemeContext } from "@pages/_app"
 import { ThemeProps } from "@src/types/Theme"
 import { Profile } from "."
 import { Tag } from "../Common/Tag"
 import { handleDate } from "@utils/date"
-import { useRouter } from "next/router"
 
 type PropsTypes = {
   imageUrl: string
@@ -44,57 +42,43 @@ export const MyCard = ({
   const { theme } = useContext(ThemeContext)
   const filteredDate = handleDate(date)
   return (
-        <MyCardContainer theme={theme}>
-          {mySearch && (
-            <a href={`/${userid}`}>
-              <Profile id={username} profileImgUrl={profileImg}></Profile>
-            </a>
-          )}
-          {imageUrl && (
-            <a href={`/${username}/${url}`}>
-            <ImageContainer
-              layout="responsive"
-              width={734}
-              height={402}
-              alt="sample image"
-              src={imageUrl}
-            />
-            </a>
-          )}
-          {imageUrl && isPrivate && (
-            <ImageContainer
-              layout="responsive"
-              width={734}
-              height={402}
-              alt="sample image"
-              src={imageUrl}
-            />
-          )}
-          {isPrivate && 
-            <h2>{title}</h2>
-          }
-          {!isPrivate && <a href={`/${username}/${url}`}>
-            <h2>{title}</h2>
-          </a>}
-          <p>{contents}</p>
-          {tag?.map((e: any, index) => (
-            <Tag tagName={e.attributes.name} key={index} />
-          ))}
-          <DateCommentContainer theme={theme}>
-            <span>{filteredDate}</span>
+    <MyCardContainer theme={theme}>
+      {mySearch && (
+        <a href={`/${userid}`}>
+          <Profile id={username} profileImgUrl={profileImg}></Profile>
+        </a>
+      )}
+      <a href={`/${username}/${url}`}>
+        {imageUrl && (
+          <ImageContainer
+            layout="responsive"
+            width={734}
+            height={402}
+            alt="sample image"
+            src={imageUrl}
+          />
+        )}
+        <h2>{title}</h2>
+        <p>{contents}</p>
+      </a>
+      {tag?.map((e: any, index) => (
+        <Tag tagName={e.attributes.name} key={index} />
+      ))}
+      <DateCommentContainer theme={theme}>
+        <span>{filteredDate}</span>
+        <span> · </span>
+        <span>{commentLength}개의 댓글</span>
+        {isPrivate && (
+          <>
             <span> · </span>
-            <span>{commentLength}개의 댓글</span>
-            {isPrivate && (
-              <>
-                <span> · </span>
-                <Private theme={theme}>
-                  <Lock className="lock-icon" fontSize="small" />
-                  비공개
-                </Private>
-              </>
-            )}
-          </DateCommentContainer>
-        </MyCardContainer>
+            <Private theme={theme}>
+              <Lock className="lock-icon" fontSize="small" />
+              비공개
+            </Private>
+          </>
+        )}
+      </DateCommentContainer>
+    </MyCardContainer>
   )
 }
 

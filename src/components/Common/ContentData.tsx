@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, memo } from "react"
 import styled from "@emotion/styled"
 import qs from "qs"
 import BlankPage from "../MyPage/Menus/BlankPage"
+import Cookies from "js-cookie"
 
 const PAGE_SIZE = 2
 
@@ -21,6 +22,8 @@ const ContentData = ({
   search = undefined,
   username = undefined,
 }: ContentDataProps) => {
+  const loginUser = JSON.parse(Cookies.get("user")!)
+
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.data) return null
     const query = qs.stringify(
@@ -32,6 +35,12 @@ const ContentData = ({
         },
         populate: ["hashtags", "userid", "photos", "comments"],
         filters: {
+          private:
+            username !== loginUser.attributes.userid
+              ? {
+                  $eq: false,
+                }
+              : {},
           hashtags: tag
             ? {
                 name: {
@@ -112,6 +121,7 @@ const ContentData = ({
                   userid={e.attributes.userid.data.attributes.userid}
                   username={e.attributes.userid.data?.attributes.userid}
                   url={e.attributes.url}
+                  isPrivate={e.attributes.private}
                 />
               ))
             })

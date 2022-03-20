@@ -12,7 +12,10 @@ import SkeletonLoading from "../Common/SkeletonLoading"
 import { MyCard } from "../MyPage/MyCard"
 import { FindPost } from "./FindPost"
 import { SearchBar } from "./SearchBar"
-import { useSession } from "next-auth/react"
+import qs from "qs"
+import Cookies from "js-cookie"
+import CardLoading from "../Common/CardLoading"
+import Error from "next/error"
 
 type MapType = {
   attributes: {
@@ -29,41 +32,50 @@ function SearchFilter() {
   const { theme } = useContext(ThemeContext)
   const router = useRouter()
   const res = router.query.q
-  const [filteredData, setFilteredData] = useState<CardProps[]>([])
+  const [filteredData, setFilteredDate] = useState<CardProps[]>()
   const [isLoaded, setIsLoaded] = useState(false)
   const [itemIndex, setItemIndex] = useState(1)
-  const { data: session, status } = useSession()
-  const { data, error, isValidating } = useSWR(
-    `${API_ENDPOINT}/posts?populate=*`,
-    fetcher,
-  )
+  const loginUser = JSON.parse(Cookies.get("user") || "{}")
+
+  const query = qs.stringify({
+    populate: ["userid"],
+    filters: {
+      private:
+        loginUser.attribute &&
+        router.query.username !== loginUser.attributes.userid
+          ? {
+              $eq: false,
+            }
+          : {},
+      userid: router.query.username
+        ? {
+            userid: {
+              $eq: router.query.username,
+            },
+          }
+        : {},
+      $or: [
+        {
+          contents: {
+            $containsi: [res],
+          },
+        },
+        {
+          title: {
+            $containsi: [res],
+          },
+        },
+      ],
+    },
+  })
+  const { data, error } = useSWR(`${API_ENDPOINT}/posts?${query}`, fetcher)
+
   useEffect(() => {
-    {
-      if (!isValidating && router.query.username) {
-        setFilteredData(
-          data.data
-            ?.filter(
-              (e: any) =>
-                e.attributes.userid.data?.attributes.userid ==
-                router.query.username
-            ).filter((e: any) => (e.attributes.private == false) || (e.attributes.userid.data.attributes.email == session?.user?.email))
-            .filter(
-              (e: FilterType) =>
-                e.attributes.title.includes(res as string) ||
-                e.attributes.contents.includes(res as string),
-            ),
-        )
-      } else if (!isValidating) {
-        setFilteredData(
-          data.data?.filter((e: any) => (e.attributes.private == false) || (e.attributes.userid.data.attributes.email == session?.user?.email)).filter(
-            (e: FilterType) =>
-              e.attributes.title.includes(res as string) ||
-              e.attributes.contents.includes(res as string)
-          ),
-        )
-      }
+    if (data) {
+      setFilteredDate(data.data)
     }
-  }, [res])
+  }, [data])
+
   const timeoutFetcher = (delay = 500) =>
     new Promise((res) => setTimeout(res, delay))
 
@@ -78,7 +90,7 @@ function SearchFilter() {
     [entry],
     observer,
   ) => {
-    if (entry.isIntersecting && !isLoaded && filteredData.length) {
+    if (entry.isIntersecting && !isLoaded && filteredData?.length) {
       if (itemIndex < 3) {
         observer.unobserve(entry.target)
         await getMoreItem()
@@ -93,12 +105,15 @@ function SearchFilter() {
     onIntersect,
   })
 
+  if (!data) return <CardLoading />
+  if (error) return <Error statusCode={error.status}></Error>
+
   return (
     <>
       <SearchBar />
       {res && (
         <CardContainer>
-          {filteredData.length ? (
+          {filteredData && filteredData.length > 0 ? (
             <>
               <FindPost postNum={filteredData.length} />
               {filteredData.slice(0, itemIndex * 5).map((e, index) => (
