@@ -13,6 +13,8 @@ interface SubmitModalProps {
   handleSubmitModal: React.MouseEventHandler<HTMLButtonElement>;
   infoPostLength: number;
   imageSrc: any;
+  writeUrl: string;
+  infoPost: string;
   handleSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void;
   handleUrlValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
   hadlePublicState: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -26,15 +28,17 @@ export const SubmitModal = ({
   handleImageUpload,
   removeThumbNail,
   handleSubmit,
+  infoPost,
   hadlePublicState,
   handleUrlValue,
+  writeUrl,
 }: SubmitModalProps) => {
   const { theme } = useContext(ThemeContext);
   const userCookieData = Cookies.get("user");
   const submitCookieData = userCookieData && JSON.parse(userCookieData!);
   const loginUserName =
     userCookieData && JSON.parse(userCookieData!).attributes.userid;
-
+  console.log("infoPost", infoPost);
   return (
     <SubmitContainer theme={theme}>
       <h3 className="sr-only">에디터 제출 모달</h3>
@@ -79,6 +83,7 @@ export const SubmitModal = ({
             maxLength={150}
             placeholder="당신의 포스트를 짧게 소개해보세요."
             theme={theme}
+            value={infoPost}
           />
           <PostLength>
             <p>{infoPostLength}/150</p>
@@ -122,7 +127,7 @@ export const SubmitModal = ({
               <Title theme={theme}>URL 설정</Title>
               <UrlInput theme={theme}>
                 <div>`/@{loginUserName}/`</div>
-                <input type="text" onChange={handleUrlValue} />
+                <input type="text" onChange={handleUrlValue} value={writeUrl} />
               </UrlInput>
             </SettingUrl>
             <SettingSeries theme={theme}>

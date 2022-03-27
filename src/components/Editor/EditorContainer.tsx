@@ -31,7 +31,7 @@ export const EditorContainer = () => {
   const [imageSrc, setImageSrc] = useState<
     string | null | ArrayBuffer | undefined
   >("");
-  const [writeUrl, setWriteUrl] = useState("");
+  const [writeUrl, setWriteUrl] = useState(title);
   const [isPrivate, setIsPrivate] = useState(false);
   const { theme } = useContext(ThemeContext);
 
@@ -195,6 +195,9 @@ export const EditorContainer = () => {
   //submitModal
   const handleSubmitModal = () => {
     setSubmit(!submit);
+    let replaceUrl = title.replace(/ /g, "-");
+    setWriteUrl(replaceUrl);
+    setInfoPost(contents);
   };
 
   const hadlePublicState = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -239,7 +242,14 @@ export const EditorContainer = () => {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    write(title, contents, writeUrl, isPrivate, infoPost);
+    let submitUrl = writeUrl.replace(/ /g, "-");
+    if (title.length === 0) {
+      alert("제목을 입력하세요.");
+    } else if (contents.length === 0) {
+      alert("본문을 입력하세요.");
+    } else {
+      write(title, contents, submitUrl, isPrivate, infoPost);
+    }
   };
 
   const handleUrlValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -290,6 +300,8 @@ export const EditorContainer = () => {
           handleSubmit={handleSubmit}
           handleUrlValue={handleUrlValue}
           hadlePublicState={hadlePublicState}
+          writeUrl={writeUrl}
+          infoPost={infoPost}
         />
       )}
     </>
