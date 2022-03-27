@@ -6,7 +6,7 @@ const Editor: NextPage = () => {
   return (
     <Container>
       <h1 className="sr-only">Editor</h1>
-      <EditorContainer />
+      <EditorContainer DetailData={null} />
     </Container>
   );
 };

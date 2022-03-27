@@ -13,17 +13,32 @@ import { ThemeProps } from "@src/types/Theme";
 import toolBarDeco from "@src/utils/toolBarDeco";
 import toolBarChkBtn from "@src/utils/toolBarChkBtn";
 import toolBarCodeBox from "@src/utils/toolBarCodeBox";
-import axios from "axios";
+import axios, { Method } from "axios";
 import Cookies from "js-cookie";
+import { Post } from "@src/types/Detail";
 
-export const EditorContainer = () => {
+interface Props {
+  DetailData: Post | null;
+}
+
+export const EditorContainer = ({ DetailData }: Props) => {
   const [tagInput, setTagInput] = useState("");
   //state data for POST down below
-  const [title, setTitle] = useState<string>("");
-  const [contents, setContents] = useState<string>("");
+  const [title, setTitle] = useState<string>(
+    DetailData === null ? "" : DetailData?.attributes.title!
+  );
+  const [contents, setContents] = useState<string>(
+    DetailData === null ? "" : DetailData?.attributes.contents!
+  );
   const [linkModal, setLinkModal] = useState(false);
   const txtAreaCont = useRef<any>("");
-  const [listTagDatas, setListTagDatas] = useState<Array<string>>([]);
+  const [listTagDatas, setListTagDatas] = useState<Array<string>>(
+    DetailData === null
+      ? []
+      : DetailData?.attributes.hashtags.data.map(
+          (data) => data.attributes.name
+        )!
+  );
   //Modal state for POST down below
   const [infoPost, setInfoPost] = useState("");
   const [submit, setSubmit] = useState(false);
@@ -214,6 +229,30 @@ export const EditorContainer = () => {
   const userCookieData = Cookies.get("user");
   const submitCookieData = userCookieData && JSON.parse(userCookieData!);
 
+  const update = async (
+    postTitle: string,
+    postContents: string,
+    postUrl: string,
+    postPublicStatus: Boolean,
+    postDescription: string
+  ) => {
+    await axios({
+      method: "put" as Method,
+      url: `${API_ENDPOINT}/posts/${DetailData?.id}`,
+      data: {
+        data: {
+          title: postTitle,
+          contents: postContents,
+          url: postUrl,
+          private: postPublicStatus,
+          description: postDescription,
+          hastags: listTagDatas,
+        },
+      },
+    });
+    document.location.href = `/${DetailData?.attributes.userid.data.attributes.velogtitle}/${DetailData?.attributes.url}`;
+  };
+
   const write = (
     postTitle: string,
     postContents: string,
@@ -248,7 +287,9 @@ export const EditorContainer = () => {
     } else if (contents.length === 0) {
       alert("본문을 입력하세요.");
     } else {
-      write(title, contents, submitUrl, isPrivate, infoPost);
+      DetailData === null
+        ? write(title, contents, submitUrl, isPrivate, infoPost)
+        : update(title, contents, writeUrl, isPrivate, infoPost);
     }
   };
 

@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import { useContext, useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
 import { PostContext } from "@src/pages/[id]/[details]";
 
 import { Theme } from "@styles/theme";
@@ -48,7 +47,7 @@ export const RightHeader = () => {
               ?.match(/[^#]/g)
               ?.join("")
               .replace(/\s/g, "-");
-            const target = document.getElementById(`${headerId}`);
+            const target = document?.getElementById(`${headerId}`)!;
             const targetTop = target?.getBoundingClientRect().top;
             const headerTop = window.pageYOffset + targetTop!;
             const isTrue = scrollY + 1 >= headerTop;

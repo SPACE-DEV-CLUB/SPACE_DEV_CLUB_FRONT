@@ -79,7 +79,7 @@ export const UDHashContainer = ({ userName, loginUserId }: Props) => {
             {/* <Link href="#" passHref>
               <UDItem theme={theme}>통계</UDItem>
             </Link> */}
-            <Link href="#" passHref>
+            <Link href={`/write/${postObj.url}`} passHref>
               <UDItem theme={theme}>수정</UDItem>
             </Link>
             <UDItem onClick={onClickDelete} type="button" theme={theme}>
