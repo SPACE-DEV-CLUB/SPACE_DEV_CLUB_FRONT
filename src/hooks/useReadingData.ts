@@ -1,5 +1,8 @@
-import { API_ENDPOINT } from '@constants/index';
+import useSWR from 'swr';
+import qs from 'qs';
 import axios, { Method } from 'axios';
+import { fetcher } from '@utils/fetcher';
+import { API_ENDPOINT } from '@constants/index';
 import { ListPost } from '@src/types/Main';
 
 interface useReadingDataProps {
@@ -14,20 +17,26 @@ const useReadingData = async ({
   postId,
 }: useReadingDataProps) => {
   let putId = 0;
+  const query = qs.stringify({
+    filters: {
+      userid: {
+        userid: userName,
+      },
+      postid: {
+        id: postId,
+      },
+    },
+  });
+
   const response = await axios({
     method: 'get',
-    url: `${API_ENDPOINT}/readingposts?populate=*&filters[userid][userid]=${userName}`,
+    url: `${API_ENDPOINT}/readingposts?${query}`,
   });
-  const handleOverlap = response.data.data.some((post: ListPost) => {
-    if (post.attributes.postid.data !== null) {
-      if (post.attributes.postid.data.id === postId) {
-        putId = post.id;
-        return true;
-      }
-    }
-  });
-  handleOverlap
-    ? postReadingData('put', `${putId}`, userId, postId)
+
+  const { data } = response.data;
+
+  data.length
+    ? postReadingData('put', `${data[0].id}`, userId, postId)
     : postReadingData('post', '', userId, postId);
 };
 
@@ -37,7 +46,7 @@ const postReadingData = async (
   userId: number | undefined,
   postId: number
 ) => {
-  await axios({
+  const res = await axios({
     method: method as Method,
     url: `${API_ENDPOINT}/readingposts/${putid}`,
     data: {
