@@ -1,23 +1,23 @@
-import { useRouter } from "next/router"
-import { memo, useEffect, useState } from "react"
-import { useSession } from "next-auth/react"
-import { LinearProgress } from "@mui/material"
-import { useData } from "@hooks/useData"
-import qs from "qs"
-import Cookies from "js-cookie"
+import { useRouter } from 'next/router';
+import { memo, useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { LinearProgress } from '@mui/material';
+import { useData } from '@hooks/useData';
+import qs from 'qs';
+import Cookies from 'js-cookie';
 
 export interface IUser {
-  isUser: boolean
+  isUser: boolean;
 }
 
 function Loading() {
-  const [isUser, setUser] = useState<IUser | undefined | any>("1")
-  const router = useRouter()
-  const { data: session } = useSession()
+  const [isUser, setUser] = useState<IUser | undefined | any>('1');
+  const router = useRouter();
+  const { data: session } = useSession();
 
   const query = qs.stringify(
     {
-      populate: ["*"],
+      populate: ['*'],
       filters: {
         email: {
           $eq: session?.user?.email,
@@ -26,31 +26,31 @@ function Loading() {
     },
     {
       encodeValuesOnly: true,
-    },
-  )
+    }
+  );
 
-  const { data, error } = useData("userinfos", query)
+  const { data, error } = useData('userinfos', query);
 
   useEffect(() => {
     if (session && data) {
       if (data.data[0]?.attributes.email) {
-        setUser(true)
-        Cookies.set("user", JSON.stringify(data.data[0]))
+        setUser(true);
+        Cookies.set('user', JSON.stringify(data.data[0]));
       } else if (!data.data[0]?.attributes.email) {
-        setUser(false)
+        setUser(false);
       }
-      checkOurUser()
+      checkOurUser();
     }
-  })
-console.log('test')
+  });
+
   const checkOurUser = () => {
     if (isUser === false) {
-      router.push("/signup")
+      router.push('/signup');
     } else if (isUser === true) {
-      router.replace("/")
+      router.replace('/');
     }
-  }
-  return <LinearProgress />
+  };
+  return <LinearProgress />;
 }
 
-export default memo(Loading)
+export default memo(Loading);
