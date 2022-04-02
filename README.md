@@ -97,6 +97,10 @@
 - strapi
 - postgreSQL
 
+### 데이터구조
+![space dev club drawio](https://user-images.githubusercontent.com/77158595/161386392-c1a1cba8-1764-4338-9a50-99e29ebf379c.png)
+
+
 ### Library
 
 - next-auth
