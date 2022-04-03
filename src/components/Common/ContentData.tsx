@@ -22,7 +22,7 @@ const ContentData = ({
   search = undefined,
   username = undefined,
 }: ContentDataProps) => {
-  const loginUser = JSON.parse(Cookies.get("user")!)
+  const loginUser = JSON.parse(Cookies.get("user") || "{}")
 
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.data) return null
@@ -36,7 +36,7 @@ const ContentData = ({
         populate: ["hashtags", "userid", "photos", "comments"],
         filters: {
           private:
-            username !== loginUser.attributes.userid
+            username !== loginUser?.attributes?.userid
               ? {
                   $eq: false,
                 }

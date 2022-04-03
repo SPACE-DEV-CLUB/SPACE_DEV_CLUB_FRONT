@@ -74,11 +74,10 @@ export const SelfIntro = () => {
 
   const { userid, aboutme } = data.data[0].attributes
 
-  const userCookieData = Cookies.get("user")
-  if (!userCookieData) return <Loading />
+  const userCookieData = Cookies.get("user") || "{}"
   // 에러 처리
   const userInfo = JSON.parse(userCookieData)
-  const loginUserid = userInfo.attributes.userid
+  const loginUserid = userInfo?.attributes?.userid
 
   const handleEdit = () => {
     setMode(!mode)

@@ -10,6 +10,7 @@ import { useData } from "@hooks/useData"
 import qs from "qs"
 import { Theme } from "@styles/theme"
 import Cookies from "js-cookie"
+import { useRouter } from "next/router"
 
 interface ContentProps {
   username: string | string[] | undefined
@@ -21,13 +22,30 @@ export const Content = ({ username }: ContentProps) => {
   const tagData = useRef([])
   const [tag, setTag] = useState("")
   const [search, setSearch] = useState("")
-  const loginUser = JSON.parse(Cookies.get("user")!)
+  const loginUser = JSON.parse(Cookies.get("user") || "{}")
+  const router = useRouter()
+  const id = router.query.id
 
   const query = qs.stringify(
     {
       populate: {
         posts: {
-          populate: ["userid"],
+          populate: ["user"],
+        },
+      },
+      filters: {
+        posts: {
+          userid: {
+            userid: {
+              $eq: id,
+            },
+          },
+          private:
+            username !== loginUser?.attributes?.userid
+              ? {
+                  $eq: false,
+                }
+              : {},
         },
       },
     },
@@ -40,37 +58,11 @@ export const Content = ({ username }: ContentProps) => {
     setSearch(e.target.value)
   }
 
-  const postquery = qs.stringify(
-    {
-      populate: ["userid"],
-      filters: {
-        userid: {
-          userid: {
-            $eq: username,
-          },
-        },
-        private:
-          username !== loginUser.attributes.userid
-            ? {
-                $eq: false,
-              }
-            : {},
-      },
-    },
-    {
-      encodeValuesOnly: true,
-    },
-  )
+  const { data, isValidating } = useData("hashtags", query)
 
-  const {
-    data: Postdata,
-    error: Posterror,
-    isValidating: isPostLoading,
-  } = useData("posts", postquery)
+  if (!data) return <></>
 
-  const { data, error, isValidating } = useData("hashtags", query)
-
-  if (!isValidating && !isPostLoading) {
+  if (!isValidating) {
     tagData.current = data.data.filter((e: any) =>
       e.attributes.posts.data.some(
         (post: any) =>
@@ -104,7 +96,7 @@ export const Content = ({ username }: ContentProps) => {
             theme={theme}
           >
             <a>
-              전체보기<span>({Postdata?.data.length})</span>
+              전체보기<span>({data.meta.pagination.total})</span>
             </a>
           </SmallTagBtn>
           {tagData.current.map((tag: any) => {
@@ -144,7 +136,7 @@ export const Content = ({ username }: ContentProps) => {
           >
             <LargeTagName>전체보기</LargeTagName>
             <LargeTagCount theme={theme}>
-              ({Postdata?.data.length})
+              ({data.meta.pagination.total})
             </LargeTagCount>
           </LargeTagBtn>
           {tagData.current.map((tag: any) => {
