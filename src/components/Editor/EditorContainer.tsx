@@ -206,7 +206,6 @@ export const EditorContainer = ({ DetailData }: Props) => {
   const handleLinkModal = (e: React.MouseEvent<HTMLButtonElement>) => {
     setLinkModal(!linkModal);
   };
-
   //submitModal
   const handleSubmitModal = () => {
     setSubmit(!submit);
@@ -253,14 +252,14 @@ export const EditorContainer = ({ DetailData }: Props) => {
     document.location.href = `/${DetailData?.attributes.userid.data.attributes.velogtitle}/${DetailData?.attributes.url}`;
   };
 
-  const write = (
+  const write = async (
     postTitle: string,
     postContents: string,
     postUrl: string,
     postPublicStatus: Boolean,
     postDescription: string
   ) => {
-    axios
+    await axios
       .post(`${API_ENDPOINT}/posts`, {
         data: {
           title: postTitle,
@@ -277,6 +276,38 @@ export const EditorContainer = ({ DetailData }: Props) => {
           document.location.href = "/";
         }
       });
+  };
+
+  const save = async (
+    postTitle: string,
+    postContents: string,
+    postUrl: string,
+    postPublicStatus: Boolean,
+    postDescription: string
+  ) => {
+    await axios
+      .post(`${API_ENDPOINT}/posts`, {
+        data: {
+          title: postTitle,
+          contents: postContents,
+          url: postUrl,
+          private: postPublicStatus,
+          description: postDescription,
+          hastags: listTagDatas,
+          userid: submitCookieData,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          document.location.href = "/";
+        }
+      });
+  };
+
+  const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    let submitUrl = title.replace(/ /g, "-");
+    save(title, contents, submitUrl, true, infoPost);
   };
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -323,7 +354,10 @@ export const EditorContainer = ({ DetailData }: Props) => {
               linkModal={linkModal}
             />
           </EditorForm>
-          <BottomMenu handleSubmitModal={handleSubmitModal} />
+          <BottomMenu
+            handleSubmitModal={handleSubmitModal}
+            handleSave={handleSave}
+          />
         </EditorWrap>
         <MDWrap theme={theme}>
           <MDviewer title={title} contents={contents} />

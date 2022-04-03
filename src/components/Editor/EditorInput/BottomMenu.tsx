@@ -12,8 +12,12 @@ interface ButtonProps {
   fontWeight: number;
 }
 
-export const BottomMenu = ({ handleSubmitModal }: any) => {
+export const BottomMenu = ({ handleSubmitModal, handleSave }: any) => {
   const { theme } = useContext(ThemeContext);
+
+  const handleReturnBtn = () => {
+    document.location.href = "/";
+  };
 
   return (
     <Wrap theme={theme}>
@@ -22,6 +26,7 @@ export const BottomMenu = ({ handleSubmitModal }: any) => {
         ftColor={theme.SUB_FONT}
         bgColor={theme.TOGGLE_BACKGROUND}
         type="submit"
+        handleBtn={handleReturnBtn}
       >
         <ArrowBackIcon />
         <span>나가기</span>
@@ -32,6 +37,7 @@ export const BottomMenu = ({ handleSubmitModal }: any) => {
           ftColor="#fff"
           bgColor={theme.BUTTON_SUB}
           type="submit"
+          handleBtn={handleSave}
         >
           임시저장
         </Button>
