@@ -66,7 +66,7 @@ export const Content = ({ username }: ContentProps) => {
     tagData.current = data.data.filter((e: any) =>
       e.attributes.posts.data.some(
         (post: any) =>
-          post.attributes.userid.data?.attributes.userid === username,
+          post.attributes.userid?.data?.attributes.userid === username,
       ),
     )
   }
