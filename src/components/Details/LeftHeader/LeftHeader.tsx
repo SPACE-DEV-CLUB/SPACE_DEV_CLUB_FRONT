@@ -220,9 +220,9 @@ const HeartShare = styled.article<ThemeProps>`
     border: 1px solid ${PALLETS_LIGHT.ICON};
     background-color: none;
   }
-  @media screen and (max-width: 1025px) {
+  /* @media screen and (max-width: 1025px) {
     display: none;
-  }
+  } */
 `;
 
 const HeartCounter = styled.p`
