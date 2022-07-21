@@ -144,8 +144,4 @@ export const Container = styled.article`
   .ShareItem3 {
     transform: translateX(70px) translateY(0px);
   }
-
-  @media screen and (max-width: 1025px) {
-    display: none;
-  }
 `;

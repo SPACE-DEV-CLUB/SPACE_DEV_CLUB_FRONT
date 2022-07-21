@@ -1,7 +1,6 @@
 import { NextPage } from "next";
 import styled from "@emotion/styled";
 import qs from "qs";
-import Head from "next/head";
 
 import {
   DetailHeader,
@@ -13,10 +12,9 @@ import {
 import { Header } from "@components/Common/Header";
 
 import { Theme } from "@styles/theme";
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ThemeContext } from "@pages/_app";
 import { useRouter } from "next/router";
-import { useData } from "@hooks/useData";
 import { ErrorPage } from "@components/Common/ErrorPage";
 import { userInfo } from "../../../types/Main";
 import Cookies from "js-cookie";
@@ -38,6 +36,7 @@ let postObj = {
   likeposts: {
     data: [],
   },
+  private: false,
   comments: {
     data: [
       {
@@ -95,28 +94,28 @@ export const PostContext = createContext({
 });
 
 const DetailsIndexPage: NextPage = ({ data, id, allDatas }: any) => {
+  const [isClient, setIsClient] = useState(false);
   const { theme } = useContext(ThemeContext);
   const router = useRouter();
   const userName = router.query.id;
-  const userDetails = router.query.details;
 
   useEffect(() => {
     if (!window.Kakao.isInitialized())
       window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
   }, []);
 
-  const { data: DetailData, error: DetailError } = useData(
-    "posts",
-    "populate=*"
-  );
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      setIsClient(true);
+    }
+  }, []);
 
-  // if (!DetailData)
-  //   return (
-  //     <SkeletonContainer>
-  //       <SkeletonLoading />
-  //     </SkeletonContainer>
-  //   );
-  // if (DetailError) return <ErrorPage />;
+  if (!isClient)
+    return (
+      <SkeletonContainer>
+        <SkeletonLoading />
+      </SkeletonContainer>
+    );
 
   const userCookieData = Cookies.get("user");
 
@@ -143,31 +142,20 @@ const DetailsIndexPage: NextPage = ({ data, id, allDatas }: any) => {
   postObj = data.attributes;
   user = id;
 
-  // DetailData.data.some((details: Post) => {
-  //   if (
-  //     userDetails ===
-  //       qs.stringify({ v: details.attributes.url }).substring(2) &&
-  //     userName ===
-  //       qs
-  //         .stringify({ v: details.attributes.userid.data.attributes.userid })
-  //         .substring(2)
-  //   ) {
-  //     postid = details.id;
-  //     postObj = details.attributes;
-  //     user = details.attributes.userid.data.attributes;
-  //     return true;
-  //   }
-  // });
+  if (postObj.private && loginUserId !== postObj.userid.data.id)
+    return <ErrorPage />;
 
-  const interested = allDatas.filter((details: Post) => {
-    const hashtagArr = details.attributes.hashtags.data.map(
-      (data) => data.attributes.name
-    );
-    const isInclude = postObj.hashtags.data.filter((data) =>
-      hashtagArr.includes(data.attributes.name)
-    );
-    return isInclude.length > 0;
-  });
+  const interested = postObj.hashtags
+    ? allDatas.filter((details: Post) => {
+        const hashtagArr = details.attributes.hashtags.data.map(
+          (data) => data.attributes.name
+        );
+        const isInclude = postObj.hashtags.data.filter((data) =>
+          hashtagArr.includes(data.attributes.name)
+        );
+        return isInclude.length > 0;
+      })
+    : [];
 
   function shuffle(arr: Post[]) {
     return arr.sort(() => Math.random() - 0.5);
@@ -179,19 +167,21 @@ const DetailsIndexPage: NextPage = ({ data, id, allDatas }: any) => {
 
   return (
     <div>
-      <NextSeo
-        openGraph={{
-          type: "website",
-          title: `${data.attributes.title}`,
-          description: `${data.attributes.contents}`,
-          images: [
-            {
-              url: "https://user-images.githubusercontent.com/47337588/155908236-e0fa1e38-31fd-4616-a382-ef0431b7f362.png",
-              alt: "Og Image Alt",
-            },
-          ],
-        }}
-      />
+      {postObj.title && (
+        <NextSeo
+          openGraph={{
+            type: "website",
+            title: `${data.attributes.title}`,
+            description: `${data.attributes.contents}`,
+            images: [
+              {
+                url: "https://user-images.githubusercontent.com/47337588/155908236-e0fa1e38-31fd-4616-a382-ef0431b7f362.png",
+                alt: "Og Image Alt",
+              },
+            ],
+          }}
+        />
+      )}
 
       <PostContext.Provider value={{ postid, postObj }}>
         {postObj.title ? (
@@ -227,16 +217,27 @@ const DetailsIndexPage: NextPage = ({ data, id, allDatas }: any) => {
 export const getServerSideProps = async (context: any) => {
   const id = context.query.id;
   const detail = qs.stringify({ v: context.query.details }).substring(2);
-
-  const res = await axios.get(
+  const PublishedData = await axios.get(
     `${API_ENDPOINT}/posts?populate=*&filters[userid][userid]=${qs
       .stringify({ v: id })
       .substring(2)}&filters[url]=${detail}`
   );
+
+  const UnPublishedData = await axios.get(
+    `${API_ENDPOINT}/posts?populate=*&publicationState=preview&filters[userid][userid]=${qs
+      .stringify({ v: id })
+      .substring(2)}&filters[url]=${detail}`
+  );
+
   const detailRes = await axios.get(`${API_ENDPOINT}/posts?populate=*`);
 
-  const data = res.data.data[0];
+  let data =
+    PublishedData.data.data.length === 0
+      ? UnPublishedData.data.data[0]
+      : PublishedData.data.data[0];
+  if (!data) data = { attributes: {} };
   const allDatas = detailRes.data.data;
+
   return {
     props: {
       data,
