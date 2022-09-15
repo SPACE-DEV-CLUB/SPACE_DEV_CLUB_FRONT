@@ -11,7 +11,7 @@ import qs from "qs"
 import { Theme } from "@styles/theme"
 import Cookies from "js-cookie"
 import { useRouter } from "next/router"
-import { Post } from "@src/types/Detail"
+import { Hashtags, Post } from "@src/types/Detail"
 
 interface ContentProps {
   username: string | string[] | undefined
@@ -64,7 +64,7 @@ export const Content = ({ username }: ContentProps) => {
   if (!data) return <></>
 
   if (!isValidating) {
-    tagData.current = data.data.filter((e: any) =>
+    tagData.current = data.data.filter((e: Hashtags) =>
       e.attributes.posts.data.some(
         (post: Post) =>
           post.attributes.userid?.data?.attributes.userid === username,
@@ -100,7 +100,7 @@ export const Content = ({ username }: ContentProps) => {
               전체보기<span>({data.meta.pagination.total})</span>
             </a>
           </SmallTagBtn>
-          {tagData.current.map((tag: any) => {
+          {tagData.current.map((tag: Hashtags) => {
             return (
               <SmallTagBtn
                 key={tag.attributes.id}
@@ -114,7 +114,7 @@ export const Content = ({ username }: ContentProps) => {
                     (
                     {
                       tag.attributes.posts.data.filter(
-                        (e: any) =>
+                        (e: Post) =>
                           e.attributes.userid.data?.attributes.userid ===
                           username,
                       ).length
@@ -140,7 +140,7 @@ export const Content = ({ username }: ContentProps) => {
               ({data.meta.pagination.total})
             </LargeTagCount>
           </LargeTagBtn>
-          {tagData.current.map((tag: any) => {
+          {tagData.current.map((tag: Hashtags) => {
             return (
               <LargeTagBtn
                 key={tag.attributes.id}
@@ -153,7 +153,7 @@ export const Content = ({ username }: ContentProps) => {
                   (
                   {
                     tag.attributes.posts.data.filter(
-                      (e: any) =>
+                      (e: Post) =>
                         e.attributes.userid.data?.attributes.userid ===
                         username,
                     ).length

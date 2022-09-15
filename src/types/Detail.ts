@@ -1,98 +1,102 @@
-import { userInfo } from './Main';
+import { userInfo } from "./Main"
 
 export interface Hashtags {
-  id: number;
+  id: number
   attributes: {
-    name: string;
-    createdAt: string;
-    description: string;
-    image: string;
-  };
+    id?: string
+    name: string
+    createdAt: string
+    description: string
+    image: string
+    posts: {
+      data: Post[]
+    }
+  }
 }
 
 export interface Photos {
-  id: number;
+  id: number
   attributes: {
-    src: string;
-    createdAt: string;
-  };
+    src: string
+    createdAt: string
+  }
 }
 export interface Post {
-  id: number;
+  id: number
   attributes: {
-    title: string;
-    contents: string;
-    published: boolean;
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-    url: string;
-    private: null;
-    description: string;
+    title: string
+    contents: string
+    published: boolean
+    createdAt: string
+    updatedAt: string
+    publishedAt: string
+    url: string
+    private: null
+    description: string
     userid: {
       data: {
-        id: number;
-        attributes: userInfo;
-      };
-    };
+        id: number
+        attributes: userInfo
+      }
+    }
 
     likeposts: {
-      data: [];
-    };
+      data: []
+    }
 
     comments: {
-      data: [];
-    };
+      data: []
+    }
     hashtags: {
-      data: Hashtags[];
-    };
+      data: Hashtags[]
+    }
     photos: {
-      data: Photos[];
-    };
-  };
+      data: Photos[]
+    }
+  }
 }
 
 export interface CommentUser {
-  id: number;
+  id: number
   attributes: {
-    userid: string;
-    profileimage: string;
-  };
+    userid: string
+    profileimage: string
+  }
 }
 
 export interface CommentData {
-  id: number;
+  id: number
   attributes: {
-    userid: number;
-    postid: number;
-    content: string;
-    createdAt: string;
-    depth: number;
-    order: number;
-    group: number;
-    is_deleted: boolean;
-  };
+    userid: number
+    postid: number
+    content: string
+    createdAt: string
+    depth: number
+    order: number
+    group: number
+    is_deleted: boolean
+  }
 }
 
 export interface SeriesBox {
-  title: string;
+  title: string
   userid: {
     data: {
-      id: number;
+      id: number
       attributes: {
-        userid: string;
-      };
-    };
-  };
+        userid: string
+      }
+    }
+  }
   post: {
-    data: SeriesBoxPost[];
-  };
+    data: SeriesBoxPost[]
+  }
 }
 
 export interface SeriesBoxPost {
-  id: number;
+  id: number
   attributes: {
-    title: string;
-    url: string;
-  };
+    title: string
+    url: string
+  }
 }
