@@ -11,6 +11,7 @@ import qs from "qs"
 import { Theme } from "@styles/theme"
 import Cookies from "js-cookie"
 import { useRouter } from "next/router"
+import { Post } from "@src/types/Detail"
 
 interface ContentProps {
   username: string | string[] | undefined
@@ -65,7 +66,7 @@ export const Content = ({ username }: ContentProps) => {
   if (!isValidating) {
     tagData.current = data.data.filter((e: any) =>
       e.attributes.posts.data.some(
-        (post: any) =>
+        (post: Post) =>
           post.attributes.userid?.data?.attributes.userid === username,
       ),
     )
