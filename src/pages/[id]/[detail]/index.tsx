@@ -28,8 +28,8 @@ interface ThemeProps {
 }
 
 interface Props {
-  data: Post;
-  id: userInfo;
+  postData: Post;
+  postUser: userInfo;
   allDatas: Post[];
 }
 
@@ -43,11 +43,16 @@ export const PostContext = createContext<Context>({
   postObj: postInit,
 });
 
-const DetailsIndexPage: NextPage<Props> = ({ data, id, allDatas }) => {
+const DetailsIndexPage: NextPage<Props> = ({
+  postData,
+  postUser,
+  allDatas,
+}) => {
   const [isClient, setIsClient] = useState(false);
   const { theme } = useContext(ThemeContext);
   const router = useRouter();
   const userName = router.query.id;
+  console.log(userName, postUser);
 
   useEffect(() => {
     if (!window.Kakao.isInitialized())
@@ -67,15 +72,12 @@ const DetailsIndexPage: NextPage<Props> = ({ data, id, allDatas }) => {
       </SkeletonContainer>
     );
 
+  if (!postData) return <ErrorPage />;
+  const { id: postid, attributes: postObj } = postData;
   const userCookieData = Cookies.get("user");
-
   const loginUserId = userCookieData && JSON.parse(userCookieData!).id;
   const loginUserName =
     userCookieData && JSON.parse(userCookieData!).attributes.userid;
-
-  const postid = data.id;
-  const postObj: PostAttr = data.attributes;
-  const user = id;
 
   if (postObj.private && loginUserId !== postObj.userid.data.id)
     return <ErrorPage />;
@@ -106,8 +108,8 @@ const DetailsIndexPage: NextPage<Props> = ({ data, id, allDatas }) => {
         <NextSeo
           openGraph={{
             type: "website",
-            title: `${data.attributes.title}`,
-            description: `${data.attributes.contents}`,
+            title: `${postData.attributes.title}`,
+            description: `${postData.attributes.contents}`,
             images: [
               {
                 url: "https://user-images.githubusercontent.com/47337588/155908236-e0fa1e38-31fd-4616-a382-ef0431b7f362.png",
@@ -121,7 +123,7 @@ const DetailsIndexPage: NextPage<Props> = ({ data, id, allDatas }) => {
       <PostContext.Provider value={{ postid, postObj }}>
         {postObj.title ? (
           <div>
-            <Header username={`${id}`} user={true} />
+            <Header username={`${postUser}`} user={true} />
             <DetailContainer>
               <LeftHeader
                 loginUserId={loginUserId}
@@ -129,7 +131,7 @@ const DetailsIndexPage: NextPage<Props> = ({ data, id, allDatas }) => {
               />
               <DetailHeader
                 userName={userName}
-                userdata={user}
+                userdata={postUser}
                 loginUserId={loginUserId}
                 loginUserName={loginUserName}
               />
@@ -150,33 +152,35 @@ const DetailsIndexPage: NextPage<Props> = ({ data, id, allDatas }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const id = context.query.id;
-  const detail = qs.stringify({ v: context.query.details }).substring(2);
+  const {
+    query: { id: postUser, detail },
+  } = context;
+  const EncodingDetail = qs.stringify({ v: detail }).substring(2);
   const PublishedData = await axios.get(
     `${API_ENDPOINT}/posts?populate=*&filters[userid][userid]=${qs
-      .stringify({ v: id })
-      .substring(2)}&filters[url]=${detail}`
+      .stringify({ v: postUser })
+      .substring(2)}&filters[url]=${EncodingDetail}`
   );
 
   const UnPublishedData = await axios.get(
     `${API_ENDPOINT}/posts?populate=*&publicationState=preview&filters[userid][userid]=${qs
-      .stringify({ v: id })
-      .substring(2)}&filters[url]=${detail}`
+      .stringify({ v: postUser })
+      .substring(2)}&filters[url]=${EncodingDetail}`
   );
 
-  const detailRes = await axios.get(`${API_ENDPOINT}/posts?populate=*`);
+  const {
+    data: { data: allDatas },
+  } = await axios.get(`${API_ENDPOINT}/posts?populate=*`);
 
-  let data =
+  const postData: Post =
     PublishedData.data.data.length === 0
       ? UnPublishedData.data.data[0]
       : PublishedData.data.data[0];
-  if (!data) data = { attributes: {} };
-  const allDatas = detailRes.data.data;
 
   return {
     props: {
-      data,
-      id,
+      postData,
+      postUser,
       allDatas,
     },
   };

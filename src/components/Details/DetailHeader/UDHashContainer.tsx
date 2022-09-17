@@ -9,7 +9,7 @@ import { handleDate } from "@utils/date";
 import { Modal } from "@src/components/Common/Modal";
 
 import { Tag } from "../../Common/Tag";
-import { PostContext } from "@pages/[id]/[details]";
+import { PostContext } from "@src/pages/[id]/[detail]";
 import { useRouter } from "next/router";
 import axios, { Method } from "axios";
 import { API_ENDPOINT } from "@src/constants";

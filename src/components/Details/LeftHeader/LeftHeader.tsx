@@ -8,7 +8,7 @@ import { Theme } from "@styles/theme";
 import { ThemeContext } from "@pages/_app";
 import axios, { Method } from "axios";
 
-import { PostContext } from "@src/pages/[id]/[details]";
+import { PostContext } from "@src/pages/[id]/[detail]";
 import { Share } from "./Share";
 
 interface ThemeProps {

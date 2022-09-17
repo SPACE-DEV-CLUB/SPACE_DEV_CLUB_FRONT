@@ -9,7 +9,7 @@ import { handleDate } from "@utils/date";
 import { UpdateCommentForm } from "./UpdateCommentForm";
 import { CommentData, CommentUser } from "@src/types/detail";
 import { Modal } from "@src/components/Common/Modal";
-import { PostContext } from "@src/pages/[id]/[details]";
+import { PostContext } from "@src/pages/[id]/[detail]";
 import { useSWRConfig } from "swr";
 import axios, { Method } from "axios";
 import { API_ENDPOINT } from "@src/constants";

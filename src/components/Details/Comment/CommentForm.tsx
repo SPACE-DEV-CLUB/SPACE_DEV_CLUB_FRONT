@@ -5,7 +5,7 @@ import { Theme } from "@styles/theme";
 import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { ThemeContext } from "@pages/_app";
 import axios, { Method } from "axios";
-import { PostContext } from "@src/pages/[id]/[details]";
+import { PostContext } from "@src/pages/[id]/[detail]";
 import { useSWRConfig } from "swr";
 
 interface ThemeProps {

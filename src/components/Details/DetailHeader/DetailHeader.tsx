@@ -1,15 +1,15 @@
-import styled from '@emotion/styled';
-import { UDHashContainer, SeriesContainer, Carousel } from '.';
-import { Intro } from '../../MyPage';
-import { CommentFormContainer } from '../Comment';
-import useIO from '@hooks/useIO';
-import { API_ENDPOINT } from '@constants/index';
-import axios from 'axios';
-import { userInfo } from '../../../types/Main';
-import { PostContext } from '@pages/[id]/[details]';
-import { useContext, useEffect, useState } from 'react';
-import { MDviewer } from '../../Editor/EditorViewer';
-import useReadingData from '@hooks/useReadingData';
+import styled from "@emotion/styled";
+import { UDHashContainer, SeriesContainer, Carousel } from ".";
+import { Intro } from "../../MyPage";
+import { CommentFormContainer } from "../Comment";
+import useIO from "@hooks/useIO";
+import { API_ENDPOINT } from "@constants/index";
+import axios from "axios";
+import { userInfo } from "../../../types/Main";
+import { PostContext } from "@src/pages/[id]/[detail]";
+import { useContext, useEffect, useState } from "react";
+import { MDviewer } from "../../Editor/EditorViewer";
+import useReadingData from "@hooks/useReadingData";
 
 interface Props {
   userName: string | string[] | undefined;
@@ -28,17 +28,17 @@ export const DetailHeader = ({
   const userId = postObj.userid.data.id;
   const [currentPost, setCurrentPost] = useState(1);
   const [seriesData, setSeriesData] = useState({
-    title: '',
+    title: "",
     userid: {
       data: {
         id: 0,
         attributes: {
-          userid: '',
+          userid: "",
         },
       },
     },
     post: {
-      data: [{ id: 0, attributes: { title: '', url: '' } }],
+      data: [{ id: 0, attributes: { title: "", url: "" } }],
     },
   });
 
@@ -56,7 +56,7 @@ export const DetailHeader = ({
 
   const GetSeries = async () => {
     const response = await axios({
-      method: 'get',
+      method: "get",
       url: `${API_ENDPOINT}/series-boxes?populate=*&filters[userid]=${userId}&filters[post][id]=${postid}`,
     });
     if (response.data.data[0]) {
@@ -84,7 +84,7 @@ export const DetailHeader = ({
 
   const { setTarget } = useIO({
     root: null,
-    rootMargin: '0px',
+    rootMargin: "0px",
     threshold: 1,
     onIntersect,
   });

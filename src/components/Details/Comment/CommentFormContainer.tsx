@@ -7,7 +7,7 @@ import { ThemeContext } from "@pages/_app";
 import BorderInnerIcon from "@mui/icons-material/BorderInner";
 
 import { CommentForm, ReCommentForm, CommentContainer } from ".";
-import { PostContext } from "@src/pages/[id]/[details]";
+import { PostContext } from "@src/pages/[id]/[detail]";
 import { CommentData } from "@src/types/detail";
 
 interface ThemeProps {

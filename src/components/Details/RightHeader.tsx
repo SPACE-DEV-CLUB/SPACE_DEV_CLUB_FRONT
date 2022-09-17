@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useContext, useEffect, useState } from "react";
-import { PostContext } from "@src/pages/[id]/[details]";
+import { PostContext } from "@src/pages/[id]/[detail]";
 
 import { Theme } from "@styles/theme";
 import { ThemeContext } from "@pages/_app";
