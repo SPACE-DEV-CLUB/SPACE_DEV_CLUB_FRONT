@@ -5,7 +5,7 @@ import { CommentForm } from ".";
 import { Theme } from "@styles/theme";
 import { useContext } from "react";
 import { ThemeContext } from "@pages/_app";
-import { CommentData } from "@src/types/Detail";
+import { CommentData } from "@src/types/detail";
 
 interface ThemeProps {
   theme: Theme;

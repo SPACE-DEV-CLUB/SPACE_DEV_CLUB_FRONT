@@ -6,7 +6,7 @@ import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { PALLETS_LIGHT } from "@constants/index";
-import { SeriesBoxPost } from "@src/types/Detail";
+import { SeriesBoxPost } from "@src/types/detail";
 
 type IndexTypeProps = {
   index: number;

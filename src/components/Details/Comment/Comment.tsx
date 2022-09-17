@@ -7,7 +7,7 @@ import { ThemeContext } from "@pages/_app";
 
 import { handleDate } from "@utils/date";
 import { UpdateCommentForm } from "./UpdateCommentForm";
-import { CommentData, CommentUser } from "@src/types/Detail";
+import { CommentData, CommentUser } from "@src/types/detail";
 import { Modal } from "@src/components/Common/Modal";
 import { PostContext } from "@src/pages/[id]/[details]";
 import { useSWRConfig } from "swr";
