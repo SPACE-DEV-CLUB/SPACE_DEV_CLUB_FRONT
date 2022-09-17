@@ -1,11 +1,19 @@
-export const postInit = {
+import { PostAttr } from "@src/types/Detail";
+import { user } from "./user";
+
+export const postInit: PostAttr = {
   title: "",
   contents: "",
+  published: false,
+  createdAt: "",
+  updatedAt: "",
+  publishedAt: "",
   url: "",
+  private: false,
+  description: "",
   likeposts: {
     data: [],
   },
-  private: false,
   comments: {
     data: [
       {
@@ -27,11 +35,10 @@ export const postInit = {
     data: {
       id: 0,
       attributes: {
-        userid: "",
+        userid: user,
       },
     },
   },
-  createdAt: "",
   hashtags: {
     data: [
       {
@@ -41,6 +48,9 @@ export const postInit = {
           createdAt: "",
           description: "",
           image: "",
+          posts: {
+            data: [],
+          },
         },
       },
     ],
@@ -51,6 +61,7 @@ export const postInit = {
         id: 0,
         attributes: {
           src: "",
+          createdAt: "",
         },
       },
     ],
