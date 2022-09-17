@@ -13,7 +13,7 @@ import { PostContext } from "@pages/[id]/[details]";
 import { useRouter } from "next/router";
 import axios, { Method } from "axios";
 import { API_ENDPOINT } from "@src/constants";
-import { CommentData } from "@src/types/Detail";
+import { CommentData } from "@src/types/detail";
 
 interface ThemeProps {
   theme: Theme;

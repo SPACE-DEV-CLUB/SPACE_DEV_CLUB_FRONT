@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { API_ENDPOINT } from "@src/constants";
-import { CommentData } from "@src/types/Detail";
+import { CommentData } from "@src/types/detail";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Comment } from ".";

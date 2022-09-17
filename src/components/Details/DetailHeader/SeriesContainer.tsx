@@ -12,7 +12,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { Theme } from "@styles/theme";
 import { ThemeContext } from "@pages/_app";
 import { useRouter } from "next/router";
-import { SeriesBox, SeriesBoxPost } from "@src/types/Detail";
+import { SeriesBox, SeriesBoxPost } from "@src/types/detail";
 
 interface ThemeProps {
   theme: Theme;
