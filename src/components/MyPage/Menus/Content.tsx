@@ -1,31 +1,31 @@
-import styled from "@emotion/styled"
-import { css } from "@emotion/react"
-import { MEDIA_QUERY_END_POINT } from "@constants/index"
-import SearchIcon from "@mui/icons-material/Search"
-import { ChangeEvent, useContext, useRef, useState } from "react"
-import { ThemeContext } from "@pages/_app"
-import { ThemeProps } from "@src/types/Theme"
-import ContentData from "../../Common/ContentData"
-import { useData } from "@hooks/useData"
-import qs from "qs"
-import { Theme } from "@styles/theme"
-import Cookies from "js-cookie"
-import { useRouter } from "next/router"
-import { Hashtags, Post } from "@src/types/Detail"
+import styled from "@emotion/styled";
+import { css } from "@emotion/react";
+import { MEDIA_QUERY_END_POINT } from "@constants/index";
+import SearchIcon from "@mui/icons-material/Search";
+import { ChangeEvent, useContext, useRef, useState } from "react";
+import { ThemeContext } from "@pages/_app";
+import { ThemeProps } from "@src/types/Theme";
+import ContentData from "../../Common/ContentData";
+import { useData } from "@hooks/useData";
+import qs from "qs";
+import { Theme } from "@styles/theme";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import { Hashtags, Post } from "@src/types/detail";
 
 interface ContentProps {
-  username: string | string[] | undefined
+  username: string | string[] | undefined;
 }
 
 export const Content = ({ username }: ContentProps) => {
-  const { theme } = useContext(ThemeContext)
-  const tagchecker = useRef("")
-  const tagData = useRef([])
-  const [tag, setTag] = useState("")
-  const [search, setSearch] = useState("")
-  const loginUser = JSON.parse(Cookies.get("user") || "{}")
-  const router = useRouter()
-  const id = router.query.id
+  const { theme } = useContext(ThemeContext);
+  const tagchecker = useRef("");
+  const tagData = useRef([]);
+  const [tag, setTag] = useState("");
+  const [search, setSearch] = useState("");
+  const loginUser = JSON.parse(Cookies.get("user") || "{}");
+  const router = useRouter();
+  const id = router.query.id;
 
   const query = qs.stringify(
     {
@@ -52,30 +52,30 @@ export const Content = ({ username }: ContentProps) => {
     },
     {
       encodeValuesOnly: true,
-    },
-  )
+    }
+  );
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value)
-  }
+    setSearch(e.target.value);
+  };
 
-  const { data, isValidating } = useData("hashtags", query)
+  const { data, isValidating } = useData("hashtags", query);
 
-  if (!data) return <></>
+  if (!data) return <></>;
 
   if (!isValidating) {
     tagData.current = data.data.filter((e: Hashtags) =>
       e.attributes.posts.data.some(
         (post: Post) =>
-          post.attributes.userid?.data?.attributes.userid === username,
-      ),
-    )
+          post.attributes.userid?.data?.attributes.userid === username
+      )
+    );
   }
 
   const handleTag = (tagName: string) => {
-    setTag(tagName)
-    tagchecker.current = tagName
-  }
+    setTag(tagName);
+    tagchecker.current = tagName;
+  };
 
   return (
     <ContentContainer>
@@ -116,14 +116,14 @@ export const Content = ({ username }: ContentProps) => {
                       tag.attributes.posts.data.filter(
                         (e: Post) =>
                           e.attributes.userid.data?.attributes.userid ===
-                          username,
+                          username
                       ).length
                     }
                     )
                   </span>
                 </a>
               </SmallTagBtn>
-            )
+            );
           })}
         </ul>
       </SmallTaglist>
@@ -154,14 +154,13 @@ export const Content = ({ username }: ContentProps) => {
                   {
                     tag.attributes.posts.data.filter(
                       (e: Post) =>
-                        e.attributes.userid.data?.attributes.userid ===
-                        username,
+                        e.attributes.userid.data?.attributes.userid === username
                     ).length
                   }
                   )
                 </LargeTagCount>
               </LargeTagBtn>
-            )
+            );
           })}
         </ul>
       </LargeTaglist>
@@ -171,8 +170,8 @@ export const Content = ({ username }: ContentProps) => {
         search={search}
       />
     </ContentContainer>
-  )
-}
+  );
+};
 
 const ContentContainer = styled.section`
   position: relative;
@@ -180,7 +179,7 @@ const ContentContainer = styled.section`
   @media screen and (max-width: ${MEDIA_QUERY_END_POINT.MOBILE}) {
     padding: 0 16px;
   }
-`
+`;
 
 const SearchContainer = styled.article<ThemeProps>`
   display: flex;
@@ -204,7 +203,7 @@ const SearchContainer = styled.article<ThemeProps>`
       color: ${({ theme }) => theme.MAIN_FONT};
     }
   }
-`
+`;
 const LargeTaglist = styled.section<ThemeProps>`
   display: block;
   position: absolute;
@@ -221,7 +220,7 @@ const LargeTaglist = styled.section<ThemeProps>`
     margin-bottom: 16px;
     border-bottom: 1px solid ${({ theme }) => theme.SUB_FONT};
   }
-`
+`;
 
 const SmallTaglist = styled.section<ThemeProps>`
   display: none;
@@ -246,35 +245,35 @@ const SmallTaglist = styled.section<ThemeProps>`
       margin-left: 8px;
     }
   }
-`
+`;
 
 interface TagBtnProps {
-  check: boolean
-  theme: Theme
+  check: boolean;
+  theme: Theme;
 }
 
 const largeBtnStyle = (props: TagBtnProps) => css`
   color: ${props.check ? props.theme.MAIN : props.theme.MAIN_FONT};
-`
+`;
 
 const LargeTagBtn = styled.li`
   ${largeBtnStyle};
   & {
     padding-top: 8px;
   }
-`
+`;
 
 const LargeTagName = styled.a`
   color: inherit;
   &:hover {
     text-decoration: underline;
   }
-`
+`;
 
 const LargeTagCount = styled.span<ThemeProps>`
   margin-left: 10px;
   color: ${({ theme }) => theme.POINT_FONT};
-`
+`;
 
 const tagBtnStyle = (props: TagBtnProps) => css`
   background: ${props.check ? props.theme.MAIN : props.theme.SUBBACKGROUND};
@@ -287,7 +286,7 @@ const tagBtnStyle = (props: TagBtnProps) => css`
     color: ${props.check ? props.theme.SUBBACKGROUND : props.theme.SUB_FONT};
     margin-left: 5px;
   }
-`
+`;
 
 const SmallTagBtn = styled.li`
   display: flex;
@@ -302,4 +301,4 @@ const SmallTagBtn = styled.li`
   font-size: 12px;
   border-radius: 12px;
   ${tagBtnStyle}
-`
+`;

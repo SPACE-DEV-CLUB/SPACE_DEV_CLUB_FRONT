@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { createContext, useContext, useEffect, useState } from "react";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
 import qs from "qs";
@@ -149,7 +149,7 @@ const DetailsIndexPage: NextPage<Props> = ({ data, id, allDatas }) => {
   );
 };
 
-export const getServerSideProps = async (context: any) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const id = context.query.id;
   const detail = qs.stringify({ v: context.query.details }).substring(2);
   const PublishedData = await axios.get(

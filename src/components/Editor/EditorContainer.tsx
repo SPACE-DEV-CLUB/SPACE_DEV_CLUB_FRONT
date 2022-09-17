@@ -15,7 +15,7 @@ import toolBarChkBtn from "@src/utils/toolBarChkBtn";
 import toolBarCodeBox from "@src/utils/toolBarCodeBox";
 import axios, { Method } from "axios";
 import Cookies from "js-cookie";
-import { Post } from "@src/types/Detail";
+import { Post } from "@src/types/detail";
 
 interface Props {
   DetailData: Post | null;
