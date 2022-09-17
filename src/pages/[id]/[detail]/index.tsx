@@ -1,48 +1,27 @@
 import styled from "@emotion/styled";
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
+
 import qs from "qs";
 import Cookies from "js-cookie";
 import axios from "axios";
 
-import {
-  DetailHeader,
-  LeftHeader,
-  RightHeader,
-  DetailCard,
-} from "@components/Details";
-import { Header } from "@components/Common/Header";
 import { ErrorPage } from "@components/Common/ErrorPage";
-import { ThemeContext } from "@pages/_app";
-import { Theme } from "@styles/theme";
-import { Hashtags, Post, PostAttr } from "@src/types/detail";
 import SkeletonLoading from "@src/components/Common/SkeletonLoading";
+import { DetailContainer } from "@src/components/Details";
+import { PostProvider } from "@src/components/Details/Context";
+import { Hashtags, Post } from "@src/types/detail";
 import { API_ENDPOINT } from "@src/constants";
-import { postInit } from "@src/constants/detail";
-
-interface ThemeProps {
-  theme: Theme;
-}
+import { shuffle } from "@src/utils/shuffle";
 
 interface Props {
   postData: Post;
-  allDatas: Post[];
+  random_interested: Post[];
 }
 
-interface Context {
-  postid: number;
-  postObj: PostAttr;
-}
-
-export const PostContext = createContext<Context>({
-  postid: 0,
-  postObj: postInit,
-});
-
-const DetailsIndexPage: NextPage<Props> = ({ postData, allDatas }) => {
+const DetailsIndexPage: NextPage<Props> = ({ postData, random_interested }) => {
   const [isClient, setIsClient] = useState(false);
-  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     if (!window.Kakao.isInitialized())
@@ -64,7 +43,6 @@ const DetailsIndexPage: NextPage<Props> = ({ postData, allDatas }) => {
 
   if (!postData) return <ErrorPage />;
   const { id: postid, attributes: postObj } = postData;
-  const { userid: postUserNickname } = postObj.userid.data.attributes;
   const userCookieData = Cookies.get("user");
   const loginUserId = userCookieData && JSON.parse(userCookieData!).id;
   const loginUserName =
@@ -73,34 +51,14 @@ const DetailsIndexPage: NextPage<Props> = ({ postData, allDatas }) => {
   if (postObj.private && loginUserId !== postObj.userid.data.id)
     return <ErrorPage />;
 
-  const interested = postObj.hashtags
-    ? allDatas.filter((details: Post) => {
-        const hashtagArr = details.attributes.hashtags.data.map(
-          (data) => data.attributes.name
-        );
-        const isInclude = postObj.hashtags.data.filter((data: Hashtags) =>
-          hashtagArr.includes(data.attributes.name)
-        );
-        return isInclude.length > 0;
-      })
-    : [];
-
-  function shuffle(arr: Post[]) {
-    return arr.sort(() => Math.random() - 0.5);
-  }
-  const random_interested =
-    interested.length >= 10
-      ? shuffle(interested).slice(0, 10)
-      : shuffle(interested);
-
   return (
-    <div>
+    <>
       {postObj.title && (
         <NextSeo
           openGraph={{
             type: "website",
-            title: `${postData.attributes.title}`,
-            description: `${postData.attributes.contents}`,
+            title: `${postObj.title}`,
+            description: `${postObj.contents}`,
             images: [
               {
                 url: "https://user-images.githubusercontent.com/47337588/155908236-e0fa1e38-31fd-4616-a382-ef0431b7f362.png",
@@ -110,33 +68,16 @@ const DetailsIndexPage: NextPage<Props> = ({ postData, allDatas }) => {
           }}
         />
       )}
-
-      <PostContext.Provider value={{ postid, postObj }}>
-        {postObj.title ? (
-          <div>
-            <Header username={`${postUserNickname}`} user={true} />
-            <DetailContainer>
-              <LeftHeader
-                loginUserId={loginUserId}
-                loginUserName={loginUserName}
-              />
-              <DetailHeader
-                loginUserId={loginUserId}
-                loginUserName={loginUserName}
-              />
-              <RightHeader />
-            </DetailContainer>
-            {random_interested.length !== 0 && (
-              <PostsContainer theme={theme}>
-                <DetailCard interested={random_interested} />
-              </PostsContainer>
-            )}
-          </div>
-        ) : (
-          <ErrorPage />
-        )}
-      </PostContext.Provider>
-    </div>
+      <PostProvider
+        postid={postid}
+        postObj={postObj}
+        random_interested={random_interested}
+        loginUserId={loginUserId}
+        loginUserName={loginUserName}
+      >
+        <DetailContainer />
+      </PostProvider>
+    </>
   );
 };
 
@@ -166,10 +107,29 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       ? UnPublishedData.data.data[0]
       : PublishedData.data.data[0];
 
+  const { attributes: postObj } = postData;
+
+  const interested = postObj.hashtags
+    ? allDatas.filter((details: Post) => {
+        const hashtagArr = details.attributes.hashtags.data.map(
+          (data) => data.attributes.name
+        );
+        const isInclude = postObj.hashtags.data.filter((data: Hashtags) =>
+          hashtagArr.includes(data.attributes.name)
+        );
+        return isInclude.length > 0;
+      })
+    : [];
+
+  const random_interested =
+    interested.length >= 10
+      ? shuffle(interested).slice(0, 10)
+      : shuffle(interested);
+
   return {
     props: {
       postData,
-      allDatas,
+      random_interested,
     },
   };
 };
@@ -177,19 +137,4 @@ export default DetailsIndexPage;
 
 const SkeletonContainer = styled.div`
   padding: 0 50px;
-`;
-const DetailContainer = styled.section`
-  position: relative;
-  display: flex;
-  width: 100%;
-  justify-content: center;
-`;
-
-const PostsContainer = styled.div<ThemeProps>`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  background-color: ${({ theme }) => theme.BACKGROUND};
-  box-shadow: rgb(0 0 0 / 8%) 0px 0px 32px;
-  margin-top: 50px;
 `;

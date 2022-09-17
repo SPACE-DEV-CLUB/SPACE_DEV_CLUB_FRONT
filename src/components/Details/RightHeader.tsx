@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
 import { useContext, useEffect, useState } from "react";
-import { PostContext } from "@src/pages/[id]/[detail]";
 
 import { Theme } from "@styles/theme";
 import { ThemeContext } from "@pages/_app";
+
+import { PostStore } from "./Context";
 
 interface StrNumTheme {
   strNum: number;
@@ -16,7 +17,7 @@ interface ThemeProps {
 }
 
 export const RightHeader = () => {
-  const { postObj } = useContext(PostContext);
+  const { postObj } = useContext(PostStore);
   const { theme } = useContext(ThemeContext);
   const [listData, setListData] = useState(postObj.contents.match(/#+ .*/g)!);
   const [scrollY, setScrollY] = useState<number>(0);

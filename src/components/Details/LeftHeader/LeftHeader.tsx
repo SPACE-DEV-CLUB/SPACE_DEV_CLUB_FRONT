@@ -1,15 +1,14 @@
 import styled from "@emotion/styled";
 import { useEffect, useState, useContext } from "react";
-import { API_ENDPOINT, PALLETS_LIGHT } from "@constants/index";
-
+import axios, { Method } from "axios";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
+import { API_ENDPOINT, PALLETS_LIGHT } from "@constants/index";
 import { Theme } from "@styles/theme";
 import { ThemeContext } from "@pages/_app";
-import axios, { Method } from "axios";
 
-import { PostContext } from "@src/pages/[id]/[detail]";
 import { Share } from "./Share";
+import { PostStore } from "../Context";
 
 interface ThemeProps {
   theme: Theme;
@@ -33,7 +32,7 @@ interface ILikePost {
 
 export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
   const { theme } = useContext(ThemeContext);
-  const { postid } = useContext(PostContext);
+  const { postid } = useContext(PostStore);
   const [heartNum, setHeartNum] = useState(0);
   const [heartClick, setHeartClick] = useState(false);
   const [shareClick, setShareClick] = useState(false);

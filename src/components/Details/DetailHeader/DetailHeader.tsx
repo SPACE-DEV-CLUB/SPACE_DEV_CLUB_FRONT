@@ -5,11 +5,11 @@ import { CommentFormContainer } from "../Comment";
 import useIO from "@hooks/useIO";
 import { API_ENDPOINT } from "@constants/index";
 import axios from "axios";
-import { userInfo } from "../../../types/Main";
-import { PostContext } from "@src/pages/[id]/[detail]";
 import { useContext, useEffect, useState } from "react";
-import { MDviewer } from "../../Editor/EditorViewer";
 import useReadingData from "@hooks/useReadingData";
+
+import { PostStore } from "../Context";
+import { MDviewer } from "../../Editor/EditorViewer";
 
 interface Props {
   loginUserId: number | undefined;
@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const DetailHeader = ({ loginUserId, loginUserName }: Props) => {
-  const { postid, postObj } = useContext(PostContext);
+  const { postid, postObj } = useContext(PostStore);
   const { id: postUserId, attributes: userData } = postObj.userid.data;
   const postUserNickname = userData.userid;
 
