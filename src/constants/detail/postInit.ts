@@ -1,4 +1,4 @@
-import { PostAttr } from "@src/types/Detail";
+import { PostAttr } from "@src/types/detail";
 import { user } from "./user";
 
 export const postInit: PostAttr = {
@@ -34,9 +34,7 @@ export const postInit: PostAttr = {
   userid: {
     data: {
       id: 0,
-      attributes: {
-        userid: user,
-      },
+      attributes: user,
     },
   },
   hashtags: {
