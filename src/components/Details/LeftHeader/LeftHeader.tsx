@@ -14,11 +14,6 @@ interface ThemeProps {
   theme: Theme;
 }
 
-interface Props {
-  loginUserId: number | undefined;
-  loginUserName: string | string[] | undefined;
-}
-
 interface ILikePost {
   id: number;
   attributes: {
@@ -30,9 +25,9 @@ interface ILikePost {
   };
 }
 
-export const LeftHeader = ({ loginUserId, loginUserName }: Props) => {
+export const LeftHeader = () => {
   const { theme } = useContext(ThemeContext);
-  const { postid } = useContext(PostStore);
+  const { postid, loginUserId, loginUserName } = useContext(PostStore);
   const [heartNum, setHeartNum] = useState(0);
   const [heartClick, setHeartClick] = useState(false);
   const [shareClick, setShareClick] = useState(false);

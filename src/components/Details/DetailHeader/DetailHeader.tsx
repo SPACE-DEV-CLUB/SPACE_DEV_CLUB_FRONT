@@ -11,13 +11,8 @@ import useReadingData from "@hooks/useReadingData";
 import { PostStore } from "../Context";
 import { MDviewer } from "../../Editor/EditorViewer";
 
-interface Props {
-  loginUserId: number | undefined;
-  loginUserName: string | string[] | undefined;
-}
-
-export const DetailHeader = ({ loginUserId, loginUserName }: Props) => {
-  const { postid, postObj } = useContext(PostStore);
+export const DetailHeader = () => {
+  const { postid, postObj, loginUserId, loginUserName } = useContext(PostStore);
   const { id: postUserId, attributes: userData } = postObj.userid.data;
   const postUserNickname = userData.userid;
 

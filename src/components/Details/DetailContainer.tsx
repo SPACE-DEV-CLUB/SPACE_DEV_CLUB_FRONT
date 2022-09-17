@@ -20,29 +20,22 @@ interface ThemeProps {
 
 export const DetailContainer = () => {
   const { theme } = useContext(ThemeContext);
-  const { postObj, random_interested, loginUserId, loginUserName } =
-    useContext(PostStore);
+  const { postObj, random_interested } = useContext(PostStore);
   const { userid: postUserNickname } = postObj.userid.data.attributes;
 
   return (
     <div>
       {postObj.title ? (
         <div>
-          <Header username={`${postUserNickname}`} user={true} />
+          <Header username={postUserNickname} user={true} />
           <ContentContainer>
-            <LeftHeader
-              loginUserId={loginUserId}
-              loginUserName={loginUserName}
-            />
-            <DetailHeader
-              loginUserId={loginUserId}
-              loginUserName={loginUserName}
-            />
+            <LeftHeader />
+            <DetailHeader />
             <RightHeader />
           </ContentContainer>
           {random_interested.length !== 0 && (
             <PostsContainer theme={theme}>
-              <DetailCard interested={random_interested} />
+              <DetailCard />
             </PostsContainer>
           )}
         </div>
