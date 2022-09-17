@@ -1,7 +1,7 @@
-import styled from '@emotion/styled';
-import { MEDIA_QUERY_END_POINT } from '@constants/index';
-import { Post } from '@src/types/Detail';
-import { ListCard } from '../Home';
+import styled from "@emotion/styled";
+import { MEDIA_QUERY_END_POINT } from "@constants/index";
+import { ListCard } from "../Home";
+import { Post } from "@src/types/detail";
 
 interface Interested {
   interested: Post[];
@@ -14,8 +14,9 @@ export const DetailCard = ({ interested }: Interested) => {
       <CardContainer>
         {interested.map((data: Post, index: number) => {
           // 게시글에 유저가 없는게 말이 안돼지만 일단 에러처리 해놓음
-          if (data.attributes.userid.data === null) var username = 'null';
-          else username = data.attributes.userid.data.attributes.userid;
+          if (data.attributes.userid.data === null)
+            return <div>유저의 정보를 불러오지 못했습니다.</div>;
+          const username = data.attributes.userid.data.attributes.userid;
 
           return (
             <ListCard
@@ -30,7 +31,7 @@ export const DetailCard = ({ interested }: Interested) => {
               // count={data.attributes.count}
               publishedAt={data.attributes.publishedAt}
               url={data.attributes.url}
-              userImg={''}
+              userImg={""}
             />
           );
         })}

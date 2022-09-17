@@ -18,7 +18,7 @@ import { ErrorPage } from "@components/Common/ErrorPage";
 import { ThemeContext } from "@pages/_app";
 import { Theme } from "@styles/theme";
 import { userInfo } from "@src/types/Main";
-import { Hashtags, Post, PostAttr } from "@src/types/Detail";
+import { Hashtags, Post, PostAttr } from "@src/types/detail";
 import SkeletonLoading from "@src/components/Common/SkeletonLoading";
 import { API_ENDPOINT } from "@src/constants";
 import { postInit } from "@src/constants/detail";

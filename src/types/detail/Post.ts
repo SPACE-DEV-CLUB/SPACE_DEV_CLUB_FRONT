@@ -21,9 +21,7 @@ export interface PostAttr {
   userid: {
     data: {
       id: number;
-      attributes: {
-        userid: userInfo;
-      };
+      attributes: userInfo;
     };
   };
   likeposts: {
