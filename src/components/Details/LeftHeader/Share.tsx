@@ -6,10 +6,11 @@ import ShareIcon from "@mui/icons-material/Share";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { PALLETS_LIGHT } from "@src/constants";
-import { PostContext } from "@src/pages/[id]/[details]";
+
+import { PostStore } from "../Context";
 
 export const Share = () => {
-  const { postObj } = useContext(PostContext);
+  const { postObj } = useContext(PostStore);
   const [shareClick, setShareClick] = useState(false);
 
   const handleShare = () => {

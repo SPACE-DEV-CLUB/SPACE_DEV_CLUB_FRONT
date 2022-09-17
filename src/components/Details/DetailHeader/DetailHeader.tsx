@@ -1,44 +1,34 @@
-import styled from '@emotion/styled';
-import { UDHashContainer, SeriesContainer, Carousel } from '.';
-import { Intro } from '../../MyPage';
-import { CommentFormContainer } from '../Comment';
-import useIO from '@hooks/useIO';
-import { API_ENDPOINT } from '@constants/index';
-import axios from 'axios';
-import { userInfo } from '../../../types/Main';
-import { PostContext } from '@pages/[id]/[details]';
-import { useContext, useEffect, useState } from 'react';
-import { MDviewer } from '../../Editor/EditorViewer';
-import useReadingData from '@hooks/useReadingData';
+import styled from "@emotion/styled";
+import { UDHashContainer, SeriesContainer, Carousel } from ".";
+import { Intro } from "../../MyPage";
+import { CommentFormContainer } from "../Comment";
+import useIO from "@hooks/useIO";
+import { API_ENDPOINT } from "@constants/index";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import useReadingData from "@hooks/useReadingData";
 
-interface Props {
-  userName: string | string[] | undefined;
-  userdata: userInfo;
-  loginUserId: number | undefined;
-  loginUserName: string | string[] | undefined;
-}
+import { PostStore } from "../Context";
+import { MDviewer } from "../../Editor/EditorViewer";
 
-export const DetailHeader = ({
-  userName,
-  userdata,
-  loginUserId,
-  loginUserName,
-}: Props) => {
-  const { postid, postObj } = useContext(PostContext);
-  const userId = postObj.userid.data.id;
+export const DetailHeader = () => {
+  const { postid, postObj, loginUserId, loginUserName } = useContext(PostStore);
+  const { id: postUserId, attributes: userData } = postObj.userid.data;
+  const postUserNickname = userData.userid;
+
   const [currentPost, setCurrentPost] = useState(1);
   const [seriesData, setSeriesData] = useState({
-    title: '',
+    title: "",
     userid: {
       data: {
         id: 0,
         attributes: {
-          userid: '',
+          userid: "",
         },
       },
     },
     post: {
-      data: [{ id: 0, attributes: { title: '', url: '' } }],
+      data: [{ id: 0, attributes: { title: "", url: "" } }],
     },
   });
 
@@ -56,8 +46,8 @@ export const DetailHeader = ({
 
   const GetSeries = async () => {
     const response = await axios({
-      method: 'get',
-      url: `${API_ENDPOINT}/series-boxes?populate=*&filters[userid]=${userId}&filters[post][id]=${postid}`,
+      method: "get",
+      url: `${API_ENDPOINT}/series-boxes?populate=*&filters[userid]=${postUserId}&filters[post][id]=${postid}`,
     });
     if (response.data.data[0]) {
       setSeriesData(response.data.data[0].attributes);
@@ -84,7 +74,7 @@ export const DetailHeader = ({
 
   const { setTarget } = useIO({
     root: null,
-    rootMargin: '0px',
+    rootMargin: "0px",
     threshold: 1,
     onIntersect,
   });
@@ -92,21 +82,21 @@ export const DetailHeader = ({
   return (
     <Header>
       <h2>{postObj.title}</h2>
-      <UDHashContainer userName={userName} loginUserId={loginUserId} />
+      <UDHashContainer userName={postUserNickname} loginUserId={loginUserId} />
       {seriesData.title && (
         <SeriesContainer
           seriesBox={seriesData}
-          userName={userName}
+          userName={postUserNickname}
           SeriesBoxPost={seriesData.post.data}
           currentPost={currentPost}
         />
       )}
       <MDviewer title="" contents={postObj.contents} />
       <div ref={setTarget}></div>
-      <Intro username={userName} userdata={userdata} />
+      <Intro username={postUserNickname} userdata={userData} />
       {seriesData.title && (
         <Carousel
-          userName={userName}
+          userName={postUserNickname}
           SeriesBoxPost={seriesData.post.data}
           currentPost={currentPost}
         />

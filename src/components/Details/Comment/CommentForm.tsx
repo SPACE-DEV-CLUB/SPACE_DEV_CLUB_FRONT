@@ -1,12 +1,13 @@
 import styled from "@emotion/styled";
-import { API_ENDPOINT, PALLETS_LIGHT } from "@constants/index";
+import React, { Dispatch, SetStateAction, useContext, useState } from "react";
+import axios, { Method } from "axios";
+import { useSWRConfig } from "swr";
 
 import { Theme } from "@styles/theme";
-import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { ThemeContext } from "@pages/_app";
-import axios, { Method } from "axios";
-import { PostContext } from "@src/pages/[id]/[details]";
-import { useSWRConfig } from "swr";
+import { API_ENDPOINT, PALLETS_LIGHT } from "@constants/index";
+
+import { PostStore } from "../Context";
 
 interface ThemeProps {
   theme: Theme;
@@ -32,7 +33,7 @@ export const CommentForm = ({
   type,
 }: Props) => {
   const { theme } = useContext(ThemeContext);
-  const { postid } = useContext(PostContext);
+  const { postid } = useContext(PostStore);
   const [commentText, setCommentText] = useState(CommentContent);
   const { mutate } = useSWRConfig();
 

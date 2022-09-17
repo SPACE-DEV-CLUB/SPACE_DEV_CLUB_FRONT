@@ -1,14 +1,13 @@
 import styled from "@emotion/styled";
-
-import { Theme } from "@styles/theme";
 import { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "@pages/_app";
-
 import BorderInnerIcon from "@mui/icons-material/BorderInner";
 
-import { CommentForm, ReCommentForm, CommentContainer } from ".";
-import { PostContext } from "@src/pages/[id]/[details]";
+import { Theme } from "@styles/theme";
+import { ThemeContext } from "@pages/_app";
 import { CommentData } from "@src/types/detail";
+
+import { CommentForm, ReCommentForm, CommentContainer } from ".";
+import { PostStore } from "../Context";
 
 interface ThemeProps {
   theme: Theme;
@@ -20,7 +19,7 @@ interface Props {
 
 export const CommentFormContainer = ({ loginUserId }: Props) => {
   const { theme } = useContext(ThemeContext);
-  const { postObj } = useContext(PostContext);
+  const { postObj } = useContext(PostStore);
   const [commentForm, setCommentForm] = useState(false);
   const [commentGroup, setCommentGroup] = useState(0);
 

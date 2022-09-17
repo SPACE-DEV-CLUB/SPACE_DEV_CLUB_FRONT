@@ -1,19 +1,18 @@
 import styled from "@emotion/styled";
-import Link from "next/link";
-
-import { Theme } from "@styles/theme";
 import { useContext, useState } from "react";
-import { ThemeContext } from "@pages/_app";
-
-import { handleDate } from "@utils/date";
-import { Modal } from "@src/components/Common/Modal";
-
-import { Tag } from "../../Common/Tag";
-import { PostContext } from "@pages/[id]/[details]";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import axios, { Method } from "axios";
+
+import { Theme } from "@styles/theme";
+import { ThemeContext } from "@pages/_app";
+import { handleDate } from "@utils/date";
+import { Modal } from "@src/components/Common/Modal";
 import { API_ENDPOINT } from "@src/constants";
 import { CommentData } from "@src/types/detail";
+
+import { PostStore } from "../Context";
+import { Tag } from "../../Common/Tag";
 
 interface ThemeProps {
   theme: Theme;
@@ -26,7 +25,7 @@ interface Props {
 
 export const UDHashContainer = ({ userName, loginUserId }: Props) => {
   const { theme } = useContext(ThemeContext);
-  const { postObj, postid } = useContext(PostContext);
+  const { postObj, postid } = useContext(PostStore);
   const [isDelete, setIsDelete] = useState(false);
   const router = useRouter();
 

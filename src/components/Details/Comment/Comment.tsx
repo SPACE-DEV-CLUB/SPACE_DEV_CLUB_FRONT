@@ -1,18 +1,18 @@
 import styled from "@emotion/styled";
-import Link from "next/link";
-
-import { Theme } from "@styles/theme";
 import { useContext, useState } from "react";
-import { ThemeContext } from "@pages/_app";
-
-import { handleDate } from "@utils/date";
-import { UpdateCommentForm } from "./UpdateCommentForm";
-import { CommentData, CommentUser } from "@src/types/detail";
-import { Modal } from "@src/components/Common/Modal";
-import { PostContext } from "@src/pages/[id]/[details]";
+import Link from "next/link";
 import { useSWRConfig } from "swr";
 import axios, { Method } from "axios";
+
+import { Theme } from "@styles/theme";
+import { ThemeContext } from "@pages/_app";
+import { handleDate } from "@utils/date";
 import { API_ENDPOINT } from "@src/constants";
+import { CommentData, CommentUser } from "@src/types/detail";
+import { Modal } from "@src/components/Common/Modal";
+
+import { PostStore } from "../Context";
+import { UpdateCommentForm } from "./UpdateCommentForm";
 
 interface ThemeProps {
   theme: Theme;
@@ -25,7 +25,7 @@ interface Props {
 }
 
 export const Comment = ({ comment, user, loginUserId }: Props) => {
-  const { postObj } = useContext(PostContext);
+  const { postObj } = useContext(PostStore);
   const { mutate } = useSWRConfig();
   const [isDelete, setIsDelete] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
