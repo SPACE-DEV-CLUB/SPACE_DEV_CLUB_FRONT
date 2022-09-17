@@ -15,11 +15,10 @@ import {
 } from "@components/Details";
 import { Header } from "@components/Common/Header";
 import { ErrorPage } from "@components/Common/ErrorPage";
-
 import { ThemeContext } from "@pages/_app";
 import { Theme } from "@styles/theme";
-import { Hashtags, Post } from "@src/types/Detail";
 import { userInfo } from "@src/types/Main";
+import { Hashtags, Post, PostAttr } from "@src/types/Detail";
 import SkeletonLoading from "@src/components/Common/SkeletonLoading";
 import { API_ENDPOINT } from "@src/constants";
 import { postInit } from "@src/constants/detail";
@@ -28,12 +27,23 @@ interface ThemeProps {
   theme: Theme;
 }
 
-export const PostContext = createContext({
+interface Props {
+  data: Post;
+  id: userInfo;
+  allDatas: Post[];
+}
+
+interface Context {
+  postid: number;
+  postObj: PostAttr;
+}
+
+export const PostContext = createContext<Context>({
   postid: 0,
   postObj: postInit,
 });
 
-const DetailsIndexPage: NextPage = ({ data, id, allDatas }: any) => {
+const DetailsIndexPage: NextPage<Props> = ({ data, id, allDatas }) => {
   const [isClient, setIsClient] = useState(false);
   const { theme } = useContext(ThemeContext);
   const router = useRouter();
@@ -64,7 +74,7 @@ const DetailsIndexPage: NextPage = ({ data, id, allDatas }: any) => {
     userCookieData && JSON.parse(userCookieData!).attributes.userid;
 
   const postid = data.id;
-  const postObj = data.attributes;
+  const postObj: PostAttr = data.attributes;
   const user = id;
 
   if (postObj.private && loginUserId !== postObj.userid.data.id)
