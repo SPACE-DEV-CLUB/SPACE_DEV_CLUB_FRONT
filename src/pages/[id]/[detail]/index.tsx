@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { createContext, useContext, useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
-import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
 import qs from "qs";
 import Cookies from "js-cookie";
@@ -17,7 +16,6 @@ import { Header } from "@components/Common/Header";
 import { ErrorPage } from "@components/Common/ErrorPage";
 import { ThemeContext } from "@pages/_app";
 import { Theme } from "@styles/theme";
-import { userInfo } from "@src/types/Main";
 import { Hashtags, Post, PostAttr } from "@src/types/detail";
 import SkeletonLoading from "@src/components/Common/SkeletonLoading";
 import { API_ENDPOINT } from "@src/constants";
@@ -29,7 +27,6 @@ interface ThemeProps {
 
 interface Props {
   postData: Post;
-  postUser: userInfo;
   allDatas: Post[];
 }
 
@@ -43,16 +40,9 @@ export const PostContext = createContext<Context>({
   postObj: postInit,
 });
 
-const DetailsIndexPage: NextPage<Props> = ({
-  postData,
-  postUser,
-  allDatas,
-}) => {
+const DetailsIndexPage: NextPage<Props> = ({ postData, allDatas }) => {
   const [isClient, setIsClient] = useState(false);
   const { theme } = useContext(ThemeContext);
-  const router = useRouter();
-  const userName = router.query.id;
-  console.log(userName, postUser);
 
   useEffect(() => {
     if (!window.Kakao.isInitialized())
@@ -74,6 +64,7 @@ const DetailsIndexPage: NextPage<Props> = ({
 
   if (!postData) return <ErrorPage />;
   const { id: postid, attributes: postObj } = postData;
+  const { userid: postUserNickname } = postObj.userid.data.attributes;
   const userCookieData = Cookies.get("user");
   const loginUserId = userCookieData && JSON.parse(userCookieData!).id;
   const loginUserName =
@@ -123,15 +114,13 @@ const DetailsIndexPage: NextPage<Props> = ({
       <PostContext.Provider value={{ postid, postObj }}>
         {postObj.title ? (
           <div>
-            <Header username={`${postUser}`} user={true} />
+            <Header username={`${postUserNickname}`} user={true} />
             <DetailContainer>
               <LeftHeader
                 loginUserId={loginUserId}
                 loginUserName={loginUserName}
               />
               <DetailHeader
-                userName={userName}
-                userdata={postUser}
                 loginUserId={loginUserId}
                 loginUserName={loginUserName}
               />
@@ -180,7 +169,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       postData,
-      postUser,
       allDatas,
     },
   };

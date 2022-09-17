@@ -12,20 +12,15 @@ import { MDviewer } from "../../Editor/EditorViewer";
 import useReadingData from "@hooks/useReadingData";
 
 interface Props {
-  userName: string | string[] | undefined;
-  userdata: userInfo;
   loginUserId: number | undefined;
   loginUserName: string | string[] | undefined;
 }
 
-export const DetailHeader = ({
-  userName,
-  userdata,
-  loginUserId,
-  loginUserName,
-}: Props) => {
+export const DetailHeader = ({ loginUserId, loginUserName }: Props) => {
   const { postid, postObj } = useContext(PostContext);
-  const userId = postObj.userid.data.id;
+  const { id: postUserId, attributes: userData } = postObj.userid.data;
+  const postUserNickname = userData.userid;
+
   const [currentPost, setCurrentPost] = useState(1);
   const [seriesData, setSeriesData] = useState({
     title: "",
@@ -57,7 +52,7 @@ export const DetailHeader = ({
   const GetSeries = async () => {
     const response = await axios({
       method: "get",
-      url: `${API_ENDPOINT}/series-boxes?populate=*&filters[userid]=${userId}&filters[post][id]=${postid}`,
+      url: `${API_ENDPOINT}/series-boxes?populate=*&filters[userid]=${postUserId}&filters[post][id]=${postid}`,
     });
     if (response.data.data[0]) {
       setSeriesData(response.data.data[0].attributes);
@@ -92,21 +87,21 @@ export const DetailHeader = ({
   return (
     <Header>
       <h2>{postObj.title}</h2>
-      <UDHashContainer userName={userName} loginUserId={loginUserId} />
+      <UDHashContainer userName={postUserNickname} loginUserId={loginUserId} />
       {seriesData.title && (
         <SeriesContainer
           seriesBox={seriesData}
-          userName={userName}
+          userName={postUserNickname}
           SeriesBoxPost={seriesData.post.data}
           currentPost={currentPost}
         />
       )}
       <MDviewer title="" contents={postObj.contents} />
       <div ref={setTarget}></div>
-      <Intro username={userName} userdata={userdata} />
+      <Intro username={postUserNickname} userdata={userData} />
       {seriesData.title && (
         <Carousel
-          userName={userName}
+          userName={postUserNickname}
           SeriesBoxPost={seriesData.post.data}
           currentPost={currentPost}
         />
