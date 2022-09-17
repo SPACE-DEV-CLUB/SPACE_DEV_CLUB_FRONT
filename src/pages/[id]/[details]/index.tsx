@@ -1,6 +1,11 @@
-import { NextPage } from "next";
 import styled from "@emotion/styled";
+import { createContext, useContext, useEffect, useState } from "react";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { NextSeo } from "next-seo";
 import qs from "qs";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 import {
   DetailHeader,
@@ -8,89 +13,24 @@ import {
   RightHeader,
   DetailCard,
 } from "@components/Details";
-
 import { Header } from "@components/Common/Header";
-
-import { Theme } from "@styles/theme";
-import { createContext, useContext, useEffect, useState } from "react";
-import { ThemeContext } from "@pages/_app";
-import { useRouter } from "next/router";
 import { ErrorPage } from "@components/Common/ErrorPage";
-import { userInfo } from "../../../types/Main";
-import Cookies from "js-cookie";
-import { Post } from "@src/types/Detail";
+
+import { ThemeContext } from "@pages/_app";
+import { Theme } from "@styles/theme";
+import { Hashtags, Post } from "@src/types/Detail";
+import { userInfo } from "@src/types/Main";
 import SkeletonLoading from "@src/components/Common/SkeletonLoading";
-import axios from "axios";
 import { API_ENDPOINT } from "@src/constants";
-import { NextSeo } from "next-seo";
+import { postInit } from "@src/constants/detail";
 
 interface ThemeProps {
   theme: Theme;
 }
 
-let postid = 0;
-let postObj = {
-  title: "",
-  contents: "",
-  url: "",
-  likeposts: {
-    data: [],
-  },
-  private: false,
-  comments: {
-    data: [
-      {
-        id: 0,
-        attributes: {
-          userid: 0,
-          postid: 0,
-          content: "",
-          createdAt: "",
-          depth: 0,
-          order: 0,
-          group: 0,
-          is_deleted: false,
-        },
-      },
-    ],
-  },
-  userid: {
-    data: {
-      id: 0,
-      attributes: {
-        userid: "",
-      },
-    },
-  },
-  createdAt: "",
-  hashtags: {
-    data: [
-      {
-        id: 0,
-        attributes: {
-          name: "",
-          createdAt: "",
-          description: "",
-          image: "",
-        },
-      },
-    ],
-  },
-  photos: {
-    data: [
-      {
-        id: 0,
-        attributes: {
-          src: "",
-        },
-      },
-    ],
-  },
-};
-
 export const PostContext = createContext({
-  postid: postid,
-  postObj: postObj,
+  postid: 0,
+  postObj: postInit,
 });
 
 const DetailsIndexPage: NextPage = ({ data, id, allDatas }: any) => {
@@ -123,24 +63,9 @@ const DetailsIndexPage: NextPage = ({ data, id, allDatas }: any) => {
   const loginUserName =
     userCookieData && JSON.parse(userCookieData!).attributes.userid;
 
-  let user: userInfo = {
-    email: "",
-    userid: "",
-    profile: "",
-    profileimage: "",
-    facebook: "",
-    home: "",
-    twitter: "",
-    github: "",
-    velogtitle: "",
-    profilename: "",
-    aboutme: "",
-    snsemail: "",
-  };
-
-  postid = data.id;
-  postObj = data.attributes;
-  user = id;
+  const postid = data.id;
+  const postObj = data.attributes;
+  const user = id;
 
   if (postObj.private && loginUserId !== postObj.userid.data.id)
     return <ErrorPage />;
@@ -150,7 +75,7 @@ const DetailsIndexPage: NextPage = ({ data, id, allDatas }: any) => {
         const hashtagArr = details.attributes.hashtags.data.map(
           (data) => data.attributes.name
         );
-        const isInclude = postObj.hashtags.data.filter((data) =>
+        const isInclude = postObj.hashtags.data.filter((data: Hashtags) =>
           hashtagArr.includes(data.attributes.name)
         );
         return isInclude.length > 0;
