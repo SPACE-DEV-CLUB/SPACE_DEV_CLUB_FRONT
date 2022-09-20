@@ -4,7 +4,7 @@ import { useContext } from "react";
 import {
   DetailHeader,
   LeftHeader,
-  RightHeader,
+  DetialNavigation,
   DetailCard,
 } from "@components/Details";
 import { Header } from "@components/Common/Header";
@@ -31,7 +31,7 @@ export const DetailContainer = () => {
           <ContentContainer>
             <LeftHeader />
             <DetailHeader />
-            <RightHeader />
+            <DetialNavigation />
           </ContentContainer>
           {random_interested.length !== 0 && (
             <PostsContainer theme={theme}>
