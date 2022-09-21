@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { useEffect, useState, useContext } from "react";
 import axios, { Method } from "axios";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+// import { useSWRConfig } from "swr";
 
 import { API_ENDPOINT, PALLETS_LIGHT } from "@constants/index";
 import { Theme } from "@styles/theme";
@@ -15,17 +16,6 @@ interface ThemeProps {
   theme: Theme;
 }
 
-interface ILikePost {
-  id: number;
-  attributes: {
-    postid: {
-      data: {
-        id: number;
-      };
-    };
-  };
-}
-
 export const LeftHeader = () => {
   const { theme } = useContext(ThemeContext);
   const { postid, loginUserId, loginUserName } = useContext(PostStore);
@@ -34,6 +24,8 @@ export const LeftHeader = () => {
   const [shareClick, setShareClick] = useState(false);
   const [loggedUserLikepostId, setLoggedUserLikepostId] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  // const { mutate } = useSWRConfig();
 
   console.log(postid, loginUserId, loginUserName);
 
@@ -46,7 +38,7 @@ export const LeftHeader = () => {
         LoggedUserIsLike,
         handleLoggedUserLikepost
       );
-  }, [postid]);
+  }, []);
 
   const handleHeartNum = (currentHeartNum: number) => {
     setHeartNum(currentHeartNum);
@@ -89,16 +81,6 @@ export const LeftHeader = () => {
       },
     }).then(function (response) {
       setLoading(false);
-    });
-
-    await axios({
-      method: "put" as Method,
-      url: `${API_ENDPOINT}/posts/${postid}`,
-      data: {
-        data: {
-          likes: heartNum + 1,
-        },
-      },
     });
   };
 
