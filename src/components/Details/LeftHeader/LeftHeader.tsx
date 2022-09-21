@@ -32,12 +32,20 @@ export const LeftHeader = () => {
   const [heartNum, setHeartNum] = useState(0);
   const [heartClick, setHeartClick] = useState(false);
   const [shareClick, setShareClick] = useState(false);
-  const [putId, setPutId] = useState(0);
+  const [loggedUserLikepostId, setLoggedUserLikepostId] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  console.log(postid, loginUserId, loginUserName);
 
   useEffect(() => {
     getLikeData(handleHeartNum, postid);
-    loginUserId && getLoggedUserIsLike(loginUserName, postid, LoggedUserIsLike);
+    loginUserId &&
+      getLoggedUserIsLike(
+        loginUserId,
+        postid,
+        LoggedUserIsLike,
+        handleLoggedUserLikepost
+      );
   }, [postid]);
 
   const handleHeartNum = (currentHeartNum: number) => {
@@ -46,6 +54,10 @@ export const LeftHeader = () => {
 
   const LoggedUserIsLike = () => {
     setHeartClick(true);
+  };
+
+  const handleLoggedUserLikepost = (likepostId: number) => {
+    setLoggedUserLikepostId(likepostId);
   };
 
   const handleHeart = () => {
@@ -58,11 +70,9 @@ export const LeftHeader = () => {
       alert("로딩중입니다. 잠시만 기다려주세요.");
       return;
     }
-    let num = heartNum;
-
+    const num = heartClick ? heartNum - 1 : heartNum + 1;
+    heartClick ? postUnLike() : postLike();
     setHeartClick(!heartClick);
-    !heartClick ? (num += 1) : (num -= 1);
-    !heartClick ? postLike() : postUnLike();
     handleHeartNum(num);
   };
 
@@ -78,7 +88,6 @@ export const LeftHeader = () => {
         },
       },
     }).then(function (response) {
-      setPutId(response.data.data.id);
       setLoading(false);
     });
 
@@ -95,28 +104,26 @@ export const LeftHeader = () => {
 
   const postUnLike = async () => {
     setLoading(true);
-    await axios({
-      method: "delete" as Method,
-      url: `${API_ENDPOINT}/likeposts/${putId}`,
-      data: {
-        data: {
-          userid: loginUserId,
-          postid: postid,
-        },
-      },
-    }).then(function (response) {
-      setLoading(false);
-    });
+    try {
+      await axios({
+        method: "delete" as Method,
+        url: `${API_ENDPOINT}/likeposts/${loggedUserLikepostId}`,
+      }).then(function (response) {
+        setLoading(false);
+      });
 
-    await axios({
-      method: "put" as Method,
-      url: `${API_ENDPOINT}/posts/${postid}`,
-      data: {
+      await axios({
+        method: "put" as Method,
+        url: `${API_ENDPOINT}/posts/${postid}`,
         data: {
-          likes: heartNum - 1,
+          data: {
+            likes: heartNum - 1,
+          },
         },
-      },
-    });
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
