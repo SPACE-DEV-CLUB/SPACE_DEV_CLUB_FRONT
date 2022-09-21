@@ -9,6 +9,7 @@ import { ThemeContext } from "@pages/_app";
 
 import { Share } from "./Share";
 import { PostStore } from "../Context";
+import { getLikeData, getLoggedUserIsLike } from "./helper";
 
 interface ThemeProps {
   theme: Theme;
@@ -35,9 +36,17 @@ export const LeftHeader = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getLikeData();
-    loginUserId && getLoggedUserLikeData();
+    getLikeData(handleHeartNum, postid);
+    loginUserId && getLoggedUserIsLike(loginUserName, postid, LoggedUserIsLike);
   }, [postid]);
+
+  const handleHeartNum = (currentHeartNum: number) => {
+    setHeartNum(currentHeartNum);
+  };
+
+  const LoggedUserIsLike = () => {
+    setHeartClick(true);
+  };
 
   const handleHeart = () => {
     if (!loginUserId) {
@@ -54,31 +63,7 @@ export const LeftHeader = () => {
     setHeartClick(!heartClick);
     !heartClick ? (num += 1) : (num -= 1);
     !heartClick ? postLike() : postUnLike();
-    setHeartNum(num);
-  };
-
-  const getLikeData = async () => {
-    const response = await axios({
-      method: "get",
-      url: `${API_ENDPOINT}/likeposts?populate=*&filters[postid][id]=${postid}`,
-    });
-    setHeartNum(response.data.data.length);
-  };
-
-  const getLoggedUserLikeData = async () => {
-    const response = await axios({
-      method: "get",
-      url: `${API_ENDPOINT}/likeposts?populate=*&filters[userid][userid]=${loginUserName}`,
-    });
-    const handleOverlap = response.data.data.some((post: ILikePost) => {
-      if (post.attributes.postid.data !== null) {
-        if (post.attributes.postid.data.id === postid) {
-          setPutId(post.id);
-          return true;
-        }
-      }
-    });
-    handleOverlap && setHeartClick(true);
+    handleHeartNum(num);
   };
 
   const postLike = async () => {
