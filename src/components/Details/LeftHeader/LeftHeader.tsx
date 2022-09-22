@@ -1,137 +1,71 @@
+import { throttle } from "lodash";
 import styled from "@emotion/styled";
-import { useEffect, useState, useContext } from "react";
-import axios, { Method } from "axios";
+import { useEffect, useState, useContext, useMemo } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
-import { API_ENDPOINT, PALLETS_LIGHT } from "@constants/index";
+import { PALLETS_LIGHT } from "@constants/index";
 import { Theme } from "@styles/theme";
 import { ThemeContext } from "@pages/_app";
 
 import { Share } from "./Share";
 import { PostStore } from "../Context";
-
+import {
+  getLikeData,
+  getLoggedUserIsLike,
+  postLike,
+  deleteLike,
+} from "./helper";
 interface ThemeProps {
   theme: Theme;
 }
 
-interface ILikePost {
-  id: number;
-  attributes: {
-    postid: {
-      data: {
-        id: number;
-      };
-    };
-  };
-}
-
 export const LeftHeader = () => {
   const { theme } = useContext(ThemeContext);
-  const { postid, loginUserId, loginUserName } = useContext(PostStore);
+  const { postid, loginUserId } = useContext(PostStore);
   const [heartNum, setHeartNum] = useState(0);
   const [heartClick, setHeartClick] = useState(false);
-  const [shareClick, setShareClick] = useState(false);
-  const [putId, setPutId] = useState(0);
+  const [loggedUserLikepostId, setLoggedUserLikepostId] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  const [shareClick, setShareClick] = useState(false);
+
   useEffect(() => {
-    getLikeData();
-    loginUserId && getLoggedUserLikeData();
-  }, [postid]);
+    getLikeData(handleHeartNum, postid);
+    loginUserId &&
+      getLoggedUserIsLike(
+        loginUserId,
+        postid,
+        LoggedUserIsLike,
+        handleLoggedUserLikepost
+      );
+  }, []);
+
+  const handleHeartNum = (currentHeartNum: number) => {
+    setHeartNum(currentHeartNum);
+  };
+
+  const LoggedUserIsLike = () => {
+    setHeartClick(true);
+  };
+
+  const handleLoggedUserLikepost = (likepostId: number) => {
+    setLoggedUserLikepostId(likepostId);
+  };
+
+  const handleLoading = (isLoading: boolean) => {
+    setLoading(isLoading);
+  };
 
   const handleHeart = () => {
-    if (!loginUserId) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
+    if (!loginUserId) return alert("로그인이 필요합니다.");
+    if (loading) return alert("로딩중입니다. 잠시만 기다려주세요.");
 
-    if (loading) {
-      alert("로딩중입니다. 잠시만 기다려주세요.");
-      return;
-    }
-    let num = heartNum;
-
+    const num = heartClick ? heartNum - 1 : heartNum + 1;
+    heartClick
+      ? deleteLike(loggedUserLikepostId, handleLoading)
+      : postLike(loginUserId, postid, handleLoggedUserLikepost, handleLoading);
     setHeartClick(!heartClick);
-    !heartClick ? (num += 1) : (num -= 1);
-    !heartClick ? postLike() : postUnLike();
-    setHeartNum(num);
-  };
-
-  const getLikeData = async () => {
-    const response = await axios({
-      method: "get",
-      url: `${API_ENDPOINT}/likeposts?populate=*&filters[postid][id]=${postid}`,
-    });
-    setHeartNum(response.data.data.length);
-  };
-
-  const getLoggedUserLikeData = async () => {
-    const response = await axios({
-      method: "get",
-      url: `${API_ENDPOINT}/likeposts?populate=*&filters[userid][userid]=${loginUserName}`,
-    });
-    const handleOverlap = response.data.data.some((post: ILikePost) => {
-      if (post.attributes.postid.data !== null) {
-        if (post.attributes.postid.data.id === postid) {
-          setPutId(post.id);
-          return true;
-        }
-      }
-    });
-    handleOverlap && setHeartClick(true);
-  };
-
-  const postLike = async () => {
-    setLoading(true);
-    await axios({
-      method: "post" as Method,
-      url: `${API_ENDPOINT}/likeposts`,
-      data: {
-        data: {
-          userid: loginUserId,
-          postid: postid,
-        },
-      },
-    }).then(function (response) {
-      setPutId(response.data.data.id);
-      setLoading(false);
-    });
-
-    await axios({
-      method: "put" as Method,
-      url: `${API_ENDPOINT}/posts/${postid}`,
-      data: {
-        data: {
-          likes: heartNum + 1,
-        },
-      },
-    });
-  };
-
-  const postUnLike = async () => {
-    setLoading(true);
-    await axios({
-      method: "delete" as Method,
-      url: `${API_ENDPOINT}/likeposts/${putId}`,
-      data: {
-        data: {
-          userid: loginUserId,
-          postid: postid,
-        },
-      },
-    }).then(function (response) {
-      setLoading(false);
-    });
-
-    await axios({
-      method: "put" as Method,
-      url: `${API_ENDPOINT}/posts/${postid}`,
-      data: {
-        data: {
-          likes: heartNum - 1,
-        },
-      },
-    });
+    handleHeartNum(num);
   };
 
   return (
