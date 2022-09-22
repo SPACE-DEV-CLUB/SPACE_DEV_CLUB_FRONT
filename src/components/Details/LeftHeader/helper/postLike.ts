@@ -3,13 +3,16 @@ import axios, { Method } from "axios";
 import { API_ENDPOINT } from "@src/constants";
 import { mutate } from "swr";
 
-export const postLike = (
+export const postLike = async (
   loginUserId: number,
   postid: number,
-  handleLoggedUserLikepost: (likepostId: number) => void
+  handleLoggedUserLikepost: (likepostId: number) => void,
+  handleLoading: (isLoading: boolean) => void
 ) => {
+  handleLoading(true);
   const url = `${API_ENDPOINT}/likeposts`;
-  mutate(url, fetcher(loginUserId, postid, handleLoggedUserLikepost));
+  await mutate(url, fetcher(loginUserId, postid, handleLoggedUserLikepost));
+  handleLoading(false);
 };
 
 const fetcher = async (

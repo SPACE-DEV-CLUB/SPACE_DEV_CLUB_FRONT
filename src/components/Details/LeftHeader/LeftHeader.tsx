@@ -1,5 +1,6 @@
+import { throttle } from "lodash";
 import styled from "@emotion/styled";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useMemo } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import { PALLETS_LIGHT } from "@constants/index";
@@ -23,9 +24,10 @@ export const LeftHeader = () => {
   const { postid, loginUserId } = useContext(PostStore);
   const [heartNum, setHeartNum] = useState(0);
   const [heartClick, setHeartClick] = useState(false);
-  const [shareClick, setShareClick] = useState(false);
   const [loggedUserLikepostId, setLoggedUserLikepostId] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  const [shareClick, setShareClick] = useState(false);
 
   useEffect(() => {
     getLikeData(handleHeartNum, postid);
@@ -50,20 +52,18 @@ export const LeftHeader = () => {
     setLoggedUserLikepostId(likepostId);
   };
 
-  const handleHeart = () => {
-    if (!loginUserId) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
+  const handleLoading = (isLoading: boolean) => {
+    setLoading(isLoading);
+  };
 
-    if (loading) {
-      alert("로딩중입니다. 잠시만 기다려주세요.");
-      return;
-    }
+  const handleHeart = () => {
+    if (!loginUserId) return alert("로그인이 필요합니다.");
+    if (loading) return alert("로딩중입니다. 잠시만 기다려주세요.");
+
     const num = heartClick ? heartNum - 1 : heartNum + 1;
     heartClick
-      ? deleteLike(loggedUserLikepostId)
-      : postLike(loginUserId, postid, handleLoggedUserLikepost);
+      ? deleteLike(loggedUserLikepostId, handleLoading)
+      : postLike(loginUserId, postid, handleLoggedUserLikepost, handleLoading);
     setHeartClick(!heartClick);
     handleHeartNum(num);
   };

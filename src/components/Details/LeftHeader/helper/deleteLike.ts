@@ -3,9 +3,14 @@ import { mutate } from "swr";
 
 import { API_ENDPOINT } from "@src/constants";
 
-export const deleteLike = async (loggedUserLikepostId: number) => {
+export const deleteLike = async (
+  loggedUserLikepostId: number,
+  handleLoading: (isLoading: boolean) => void
+) => {
+  handleLoading(true);
   const url = `${API_ENDPOINT}/likeposts/${loggedUserLikepostId}`;
-  mutate(url, fetcher(url));
+  await mutate(url, fetcher(url));
+  handleLoading(false);
 };
 
 const fetcher = async (url: string) => {
