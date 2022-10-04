@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import styled from "@emotion/styled";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import ShareIcon from "@mui/icons-material/Share";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -95,9 +94,7 @@ export const Share = () => {
           !shareClick ? "ShareOff" : "ShareItem3"
         }`}
       >
-        <CopyToClipboard text={window.location.href}>
-          <AttachFileIcon />
-        </CopyToClipboard>
+        <AttachFileIcon />
       </div>
     </Container>
   );
