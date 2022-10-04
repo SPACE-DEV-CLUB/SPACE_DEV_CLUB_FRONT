@@ -12,11 +12,16 @@ export const MDviewer = ({ title, contents }: MDViewerProps) => {
   return (
     <ViewerWrap>
       <h1>{title}</h1>
-      <div dangerouslySetInnerHTML={{ __html: marked(contents) }} />
+      <Viewer dangerouslySetInnerHTML={{ __html: marked(contents) }} />
     </ViewerWrap>
   );
 };
 
 const ViewerWrap = styled.article`
   ${editorStyle}
+`;
+const Viewer = styled.div`
+  & > * {
+    line-height: 30px;
+  }
 `;

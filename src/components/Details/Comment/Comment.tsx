@@ -168,5 +168,6 @@ const CreatedAt = styled.p<ThemeProps>`
 `;
 const CommentText = styled.div`
   font-size: 19px;
+  line-height: 30px;
   margin: 30px 0 60px 0;
 `;
