@@ -1,3 +1,4 @@
+import { throttle } from "lodash";
 import styled from "@emotion/styled";
 import { useEffect, useState, useContext, useMemo } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -25,8 +26,6 @@ export const LeftHeader = () => {
   const [heartClick, setHeartClick] = useState(false);
   const [loggedUserLikepostId, setLoggedUserLikepostId] = useState(0);
   const [loading, setLoading] = useState(false);
-
-  const [shareClick, setShareClick] = useState(false);
 
   const handleHeartNum = (currentHeartNum: number) => {
     setHeartNum(currentHeartNum);
