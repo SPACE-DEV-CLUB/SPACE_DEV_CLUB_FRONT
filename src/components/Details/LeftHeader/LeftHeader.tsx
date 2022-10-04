@@ -1,4 +1,3 @@
-import { throttle } from "lodash";
 import styled from "@emotion/styled";
 import { useEffect, useState, useContext, useMemo } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -10,7 +9,7 @@ import { ThemeContext } from "@pages/_app";
 import { Share } from "./Share";
 import { PostStore } from "../Context";
 import {
-  getLikeData,
+  useGetLikeData,
   getLoggedUserIsLike,
   postLike,
   deleteLike,
@@ -29,17 +28,6 @@ export const LeftHeader = () => {
 
   const [shareClick, setShareClick] = useState(false);
 
-  useEffect(() => {
-    getLikeData(handleHeartNum, postid);
-    loginUserId &&
-      getLoggedUserIsLike(
-        loginUserId,
-        postid,
-        LoggedUserIsLike,
-        handleLoggedUserLikepost
-      );
-  }, []);
-
   const handleHeartNum = (currentHeartNum: number) => {
     setHeartNum(currentHeartNum);
   };
@@ -55,6 +43,18 @@ export const LeftHeader = () => {
   const handleLoading = (isLoading: boolean) => {
     setLoading(isLoading);
   };
+
+  useGetLikeData(handleHeartNum, postid);
+
+  useEffect(() => {
+    loginUserId &&
+      getLoggedUserIsLike(
+        loginUserId,
+        postid,
+        LoggedUserIsLike,
+        handleLoggedUserLikepost
+      );
+  }, []);
 
   const handleHeart = () => {
     if (!loginUserId) return alert("로그인이 필요합니다.");

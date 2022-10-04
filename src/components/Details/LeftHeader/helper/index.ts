@@ -1,4 +1,4 @@
 export * from "./deleteLike";
-export * from "./getLikeData";
+export * from "./useGetLikeData";
 export * from "./getLoggedUserIsLike";
 export * from "./postLike";
