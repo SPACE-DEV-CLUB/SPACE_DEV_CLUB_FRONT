@@ -18,6 +18,7 @@ export const Share = () => {
   };
 
   const copyUrl = () => {
+    navigator.clipboard.writeText(window.location.href);
     alert("링크가 복사되었습니다.");
     setShareClick(false);
   };
@@ -94,9 +95,9 @@ export const Share = () => {
           !shareClick ? "ShareOff" : "ShareItem3"
         }`}
       >
-        {/* <CopyToClipboard text={window.location.href}>
+        <CopyToClipboard text={window.location.href}>
           <AttachFileIcon />
-        </CopyToClipboard> */}
+        </CopyToClipboard>
       </div>
     </Container>
   );
