@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import ShareIcon from "@mui/icons-material/Share";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { PALLETS_LIGHT } from "@src/constants";
 
 import { PostStore } from "../Context";
@@ -86,7 +87,7 @@ export const Share = () => {
           !shareClick ? "ShareOff" : "ShareItem2"
         }`}
       >
-        <img src="/image/kakao.png" />
+        <ChatBubbleOutlineIcon />
       </div>
       <div
         onClick={copyUrl}
