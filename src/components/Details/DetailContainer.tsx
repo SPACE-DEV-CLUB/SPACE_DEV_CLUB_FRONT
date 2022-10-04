@@ -1,18 +1,14 @@
 import styled from "@emotion/styled";
 import { useContext } from "react";
 
-import {
-  DetailHeader,
-  LeftHeader,
-  DetialNavigation,
-  DetailCard,
-} from "@components/Details";
+import { DetailHeader, LeftHeader, DetailCard } from "@components/Details";
 import { Header } from "@components/Common/Header";
 import { ErrorPage } from "@components/Common/ErrorPage";
 import { ThemeContext } from "@pages/_app";
 import { Theme } from "@styles/theme";
 
 import { PostStore } from "./Context";
+import { DetialNavigation } from "./Navigation";
 
 interface ThemeProps {
   theme: Theme;

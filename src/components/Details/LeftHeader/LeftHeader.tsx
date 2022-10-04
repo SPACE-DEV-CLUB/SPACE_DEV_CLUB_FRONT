@@ -10,7 +10,7 @@ import { ThemeContext } from "@pages/_app";
 import { Share } from "./Share";
 import { PostStore } from "../Context";
 import {
-  getLikeData,
+  useGetLikeData,
   getLoggedUserIsLike,
   postLike,
   deleteLike,
@@ -27,19 +27,6 @@ export const LeftHeader = () => {
   const [loggedUserLikepostId, setLoggedUserLikepostId] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const [shareClick, setShareClick] = useState(false);
-
-  useEffect(() => {
-    getLikeData(handleHeartNum, postid);
-    loginUserId &&
-      getLoggedUserIsLike(
-        loginUserId,
-        postid,
-        LoggedUserIsLike,
-        handleLoggedUserLikepost
-      );
-  }, []);
-
   const handleHeartNum = (currentHeartNum: number) => {
     setHeartNum(currentHeartNum);
   };
@@ -55,6 +42,18 @@ export const LeftHeader = () => {
   const handleLoading = (isLoading: boolean) => {
     setLoading(isLoading);
   };
+
+  useGetLikeData(handleHeartNum, postid);
+
+  useEffect(() => {
+    loginUserId &&
+      getLoggedUserIsLike(
+        loginUserId,
+        postid,
+        LoggedUserIsLike,
+        handleLoggedUserLikepost
+      );
+  }, []);
 
   const handleHeart = () => {
     if (!loginUserId) return alert("로그인이 필요합니다.");

@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
 import styled from "@emotion/styled";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import ShareIcon from "@mui/icons-material/Share";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { PALLETS_LIGHT } from "@src/constants";
 
 import { PostStore } from "../Context";
@@ -18,6 +18,7 @@ export const Share = () => {
   };
 
   const copyUrl = () => {
+    navigator.clipboard.writeText(window.location.href);
     alert("링크가 복사되었습니다.");
     setShareClick(false);
   };
@@ -86,7 +87,7 @@ export const Share = () => {
           !shareClick ? "ShareOff" : "ShareItem2"
         }`}
       >
-        <img src="/image/kakao.png" />
+        <ChatBubbleOutlineIcon />
       </div>
       <div
         onClick={copyUrl}
@@ -94,9 +95,7 @@ export const Share = () => {
           !shareClick ? "ShareOff" : "ShareItem3"
         }`}
       >
-        {/* <CopyToClipboard text={window.location.href}>
-          <AttachFileIcon />
-        </CopyToClipboard> */}
+        <AttachFileIcon />
       </div>
     </Container>
   );
