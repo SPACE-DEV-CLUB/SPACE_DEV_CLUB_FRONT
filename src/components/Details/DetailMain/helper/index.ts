@@ -1,0 +1,1 @@
+export { useGetSeriesData } from "./useGetSeriesData";
