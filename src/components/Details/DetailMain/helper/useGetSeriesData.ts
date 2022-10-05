@@ -16,7 +16,7 @@ export const useGetSeriesData = () => {
   const query = `populate=*&filters[userid][id]=${postUserId}&filters[post][id]=${postid}`;
   const { data: series } = useData(path, query);
 
-  const handleSeriesData = async (seriesData: SeriesBox) => {
+  const handleSeriesData = (seriesData: SeriesBox) => {
     if (seriesData) {
       setSeriesData(seriesData);
     }
