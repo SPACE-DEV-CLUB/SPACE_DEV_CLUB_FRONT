@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useContext } from "react";
 
-import { LeftHeader, DetailCard } from "@components/Details";
+import { LeftHeader, DetailInterested } from "@components/Details";
 import { Header } from "@components/Common/Header";
 import { ErrorPage } from "@components/Common/ErrorPage";
 import { ThemeContext } from "@pages/_app";
@@ -32,7 +32,7 @@ export const DetailContainer = () => {
           </ContentContainer>
           {random_interested.length !== 0 && (
             <PostsContainer theme={theme}>
-              <DetailCard />
+              <DetailInterested />
             </PostsContainer>
           )}
         </div>
