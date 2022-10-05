@@ -1,58 +1,23 @@
 import styled from "@emotion/styled";
-import { UDHashContainer, SeriesContainer, Carousel } from ".";
-import { Intro } from "../../MyPage";
-import { CommentFormContainer } from "../Comment";
-import useIO from "@hooks/useIO";
-import { API_ENDPOINT } from "@constants/index";
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import useReadingData from "@hooks/useReadingData";
 
+import { SeriesBox } from "@src/types/detail";
+import useReadingData from "@hooks/useReadingData";
+import useIO from "@hooks/useIO";
+import { seriesInit } from "@src/constants/detail";
+
+import { UDHashContainer, SeriesContainer, Carousel } from ".";
+import { useGetSeriesData } from "./helper";
+import { CommentFormContainer } from "../Comment";
 import { PostStore } from "../Context";
+import { Intro } from "../../MyPage";
 import { MDviewer } from "../../Editor/EditorViewer";
 
-export const DetailHeader = () => {
+export const DetailMain = () => {
   const { postid, postObj, loginUserId, loginUserName } = useContext(PostStore);
-  const { id: postUserId, attributes: userData } = postObj.userid.data;
+  const { attributes: userData } = postObj.userid.data;
   const postUserNickname = userData.userid;
-
-  const [currentPost, setCurrentPost] = useState(1);
-  const [seriesData, setSeriesData] = useState({
-    title: "",
-    userid: {
-      data: {
-        id: 0,
-        attributes: {
-          userid: "",
-        },
-      },
-    },
-    post: {
-      data: [{ id: 0, attributes: { title: "", url: "" } }],
-    },
-  });
-
-  useEffect(() => {
-    GetSeries();
-    if (seriesData.title) {
-      seriesData.post.data.filter((data, i) => {
-        if (data.id === postid) {
-          setCurrentPost(i + 1);
-          return true;
-        }
-      })[0];
-    }
-  }, [postid]);
-
-  const GetSeries = async () => {
-    const response = await axios({
-      method: "get",
-      url: `${API_ENDPOINT}/series-boxes?populate=*&filters[userid]=${postUserId}&filters[post][id]=${postid}`,
-    });
-    if (response.data.data[0]) {
-      setSeriesData(response.data.data[0].attributes);
-    }
-  };
+  const { seriesData, currentPost } = useGetSeriesData();
 
   const onIntersect: IntersectionObserverCallback = async (
     [entry],
