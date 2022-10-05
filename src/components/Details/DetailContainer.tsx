@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useContext } from "react";
 
-import { DetailHeader, LeftHeader, DetailCard } from "@components/Details";
+import { LeftHeader, DetailCard } from "@components/Details";
 import { Header } from "@components/Common/Header";
 import { ErrorPage } from "@components/Common/ErrorPage";
 import { ThemeContext } from "@pages/_app";
@@ -9,6 +9,7 @@ import { Theme } from "@styles/theme";
 
 import { PostStore } from "./Context";
 import { DetialNavigation } from "./Navigation";
+import { DetailMain } from "./DetailMain/DetailMain";
 
 interface ThemeProps {
   theme: Theme;
@@ -26,7 +27,7 @@ export const DetailContainer = () => {
           <Header username={postUserNickname} user={true} />
           <ContentContainer>
             <LeftHeader />
-            <DetailHeader />
+            <DetailMain />
             <DetialNavigation />
           </ContentContainer>
           {random_interested.length !== 0 && (
