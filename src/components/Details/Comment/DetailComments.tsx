@@ -8,6 +8,11 @@ import { CommentData } from "@src/types/detail";
 
 import { CommentForm, ReCommentForm, CommentContainer } from ".";
 import { PostStore } from "../Context";
+import {
+  sortComments,
+  groupByComments,
+  currentCommentGroup,
+} from "./helper/DetailComments";
 
 interface ThemeProps {
   theme: Theme;
@@ -17,42 +22,44 @@ interface Props {
   loginUserId?: number;
 }
 
-export const CommentFormContainer = ({ loginUserId }: Props) => {
+export const DetailComments = ({ loginUserId }: Props) => {
   const { theme } = useContext(ThemeContext);
   const { postObj } = useContext(PostStore);
+  const [commentDatas, setCommentDatas] = useState<CommentData[][]>([]);
+  const [currentGroup, setCurrentGroup] = useState(0);
+  const [commentMoreBtn, setCommentMoreBtn] = useState<boolean[]>([]);
+
   const [commentForm, setCommentForm] = useState(false);
-  const [commentGroup, setCommentGroup] = useState(0);
 
-  postObj.comments.data
-    .sort((a, b) => a.attributes.order - b.attributes.order)
-    .sort((a, b) => a.attributes.depth - b.attributes.depth)
-    .sort((a, b) => a.attributes.group - b.attributes.group);
+  const handleCommentDatas = (newComment: CommentData[][]) => {
+    setCommentDatas(newComment);
+  };
 
-  let newComment: CommentData[][] = [];
-  postObj.comments.data.forEach((comment) => {
-    const group = comment.attributes.group;
+  // 댓글 입력 Form에서 현재 몇 번째 댓글인지 판단하여 생성 하기 위한 state 관리
+  // ex) 댓글 3개 있으면 이번에 작성될 댓글 그룹은 4
+  const handleCurrentCommentGroup = (groupNum: number) => {
+    setCurrentGroup(groupNum);
+  };
 
-    if (!newComment[group]) newComment[group] = [comment];
-    else newComment[group] = [...newComment[group], comment];
-  });
+  // 댓글마다 더 보기 및 답글을 달기 위한 버튼이 존재
+  // 댓글에 맞는 대댓글 UI만 펼쳐지기 위함
+  const commentMoreBtnInit = (newComment: CommentData[][]) => {
+    if (newComment) {
+      const init = Array(newComment.length).fill(false);
+      setCommentMoreBtn(init);
+    }
+  };
 
   useEffect(() => {
-    if (newComment.length === 0) {
-      setCommentGroup(1);
-    } else {
-      const groupNum =
-        newComment[newComment.length - 1][0].attributes.group + 1;
-      setCommentGroup(groupNum);
-    }
-  }, [newComment]);
-
-  const [commentBtn, setCommentBtn] = useState(
-    Array(newComment.length).fill(false)
-  );
+    const sortCommetnsData = sortComments(postObj.comments.data);
+    const newComment = groupByComments(sortCommetnsData, handleCommentDatas);
+    currentCommentGroup(newComment, handleCurrentCommentGroup);
+    commentMoreBtnInit(newComment);
+  }, []);
 
   const onComment = (i: number) => {
-    commentBtn[i] = !commentBtn[i];
-    setCommentBtn([...commentBtn]);
+    commentMoreBtn[i] = !commentMoreBtn[i];
+    setCommentMoreBtn([...commentMoreBtn]);
   };
 
   return (
@@ -62,14 +69,14 @@ export const CommentFormContainer = ({ loginUserId }: Props) => {
       <CommentForm
         CommentOrder={0}
         loginUserId={loginUserId}
-        CommentGroup={commentGroup}
+        CommentGroup={currentGroup}
         setCommentForm={setCommentForm}
         type="CommentCreate"
         CommentContent=""
         CommentId={0}
       />
 
-      {newComment.map((group: CommentData[], i: number) => {
+      {commentDatas.map((group: CommentData[], i: number) => {
         return (
           <div key={`${i + 1}`}>
             {group.map((comment: CommentData) => {
@@ -77,26 +84,26 @@ export const CommentFormContainer = ({ loginUserId }: Props) => {
                 <div key={`CommentUser-${comment.id}`}>
                   <CommentContainer
                     comment={comment}
-                    commentBtn={commentBtn}
+                    commentBtn={commentMoreBtn}
                     index={i}
                     loginUserId={loginUserId}
                   />
                 </div>
               );
             })}
-            {group.length > 1 && commentBtn[i] === false && (
+            {group.length > 1 && commentMoreBtn[i] === false && (
               <OnComment theme={theme} onClick={(e) => onComment(i)}>
                 <BorderInnerIcon />
                 {group.length - 1}개의 답글
               </OnComment>
             )}
-            {group.length < 2 && commentBtn[i] === false && (
+            {group.length < 2 && commentMoreBtn[i] === false && (
               <OnComment theme={theme} onClick={(e) => onComment(i)}>
                 <BorderInnerIcon />
                 댓글 남기기
               </OnComment>
             )}
-            {commentBtn[i] === true && (
+            {commentMoreBtn[i] === true && (
               <ReCommentForm
                 onComment={onComment}
                 index={i}

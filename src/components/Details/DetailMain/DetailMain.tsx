@@ -8,7 +8,7 @@ import { seriesInit } from "@src/constants/detail";
 
 import { UDHashContainer, SeriesContainer, Carousel } from ".";
 import { useGetSeriesData } from "./helper";
-import { CommentFormContainer } from "../Comment";
+import { DetailComments } from "../Comment";
 import { PostStore } from "../Context";
 import { Intro } from "../../MyPage";
 import { MDviewer } from "../../Editor/EditorViewer";
@@ -67,7 +67,7 @@ export const DetailMain = () => {
         />
       )}
 
-      <CommentFormContainer loginUserId={loginUserId} />
+      <DetailComments loginUserId={loginUserId} />
     </Header>
   );
 };
