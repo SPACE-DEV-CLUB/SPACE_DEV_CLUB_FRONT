@@ -14,6 +14,8 @@ export const DetailCard = () => {
       <Title>관심 있을 만한 포스트</Title>
       <CardContainer>
         {random_interested.map((data: Post, index: number) => {
+          console.log(data);
+
           // 게시글에 유저가 없는게 말이 안돼지만 일단 에러처리 해놓음
           if (data.attributes.userid.data === null)
             return <div>유저의 정보를 불러오지 못했습니다.</div>;
@@ -32,7 +34,7 @@ export const DetailCard = () => {
               // count={data.attributes.count}
               publishedAt={data.attributes.publishedAt}
               url={data.attributes.url}
-              userImg={""}
+              userImg={data.attributes.userid.data.attributes.profileimage}
             />
           );
         })}
