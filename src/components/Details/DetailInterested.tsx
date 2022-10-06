@@ -7,7 +7,7 @@ import { Post } from "@src/types/detail";
 import { PostStore } from "./Context";
 import { ListCard } from "../Home";
 
-export const DetailCard = () => {
+export const DetailInterested = () => {
   const { random_interested } = useContext(PostStore);
   return (
     <Container>
@@ -32,7 +32,7 @@ export const DetailCard = () => {
               // count={data.attributes.count}
               publishedAt={data.attributes.publishedAt}
               url={data.attributes.url}
-              userImg={""}
+              userImg={data.attributes.userid.data.attributes.profileimage}
             />
           );
         })}

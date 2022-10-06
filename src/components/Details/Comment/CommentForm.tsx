@@ -71,7 +71,10 @@ export const CommentForm = ({
         });
         setCommentText("");
         setCommentForm(false);
-        mutate(`${API_ENDPOINT}/posts?populate=*`);
+
+        mutate(
+          `${API_ENDPOINT}/comments?populate=*&filters[posts][id]=${postid}`
+        );
       } else if (type === "CommentUpdate") {
         const Data = {
           content: commentText,
@@ -84,7 +87,10 @@ export const CommentForm = ({
           },
         });
         setCommentForm(false);
-        mutate(`${API_ENDPOINT}/posts?populate=*`);
+
+        mutate(
+          `${API_ENDPOINT}/comments?populate=*&filters[posts][id]=${postid}`
+        );
       }
     } else {
       alert("로그인 이후에 이용할 수 있습니다.");

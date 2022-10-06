@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import BorderInnerIcon from "@mui/icons-material/BorderInner";
 
 import { Theme } from "@styles/theme";
@@ -7,7 +7,7 @@ import { ThemeContext } from "@pages/_app";
 import { CommentData } from "@src/types/detail";
 
 import { CommentForm, ReCommentForm, CommentContainer } from ".";
-import { PostStore } from "../Context";
+import { useGetCommentData } from "./helper/CommentForm";
 
 interface ThemeProps {
   theme: Theme;
@@ -17,59 +17,28 @@ interface Props {
   loginUserId?: number;
 }
 
-export const CommentFormContainer = ({ loginUserId }: Props) => {
+export const DetailComments = ({ loginUserId }: Props) => {
   const { theme } = useContext(ThemeContext);
-  const { postObj } = useContext(PostStore);
-  const [commentForm, setCommentForm] = useState(false);
-  const [commentGroup, setCommentGroup] = useState(0);
 
-  postObj.comments.data
-    .sort((a, b) => a.attributes.order - b.attributes.order)
-    .sort((a, b) => a.attributes.depth - b.attributes.depth)
-    .sort((a, b) => a.attributes.group - b.attributes.group);
-
-  let newComment: CommentData[][] = [];
-  postObj.comments.data.forEach((comment) => {
-    const group = comment.attributes.group;
-
-    if (!newComment[group]) newComment[group] = [comment];
-    else newComment[group] = [...newComment[group], comment];
-  });
-
-  useEffect(() => {
-    if (newComment.length === 0) {
-      setCommentGroup(1);
-    } else {
-      const groupNum =
-        newComment[newComment.length - 1][0].attributes.group + 1;
-      setCommentGroup(groupNum);
-    }
-  }, [newComment]);
-
-  const [commentBtn, setCommentBtn] = useState(
-    Array(newComment.length).fill(false)
-  );
-
-  const onComment = (i: number) => {
-    commentBtn[i] = !commentBtn[i];
-    setCommentBtn([...commentBtn]);
-  };
+  const [_, setCommentForm] = useState(false);
+  const { commentDatas, currentGroup, commentMoreBtn, onComment, commentLen } =
+    useGetCommentData();
 
   return (
     <article>
       <h3 className="sr-only">상세 페이지 댓글</h3>
-      <CommentNum>{postObj.comments.data.length}개의 댓글</CommentNum>
+      <CommentNum>{commentLen}개의 댓글</CommentNum>
       <CommentForm
         CommentOrder={0}
         loginUserId={loginUserId}
-        CommentGroup={commentGroup}
+        CommentGroup={currentGroup}
         setCommentForm={setCommentForm}
         type="CommentCreate"
         CommentContent=""
         CommentId={0}
       />
 
-      {newComment.map((group: CommentData[], i: number) => {
+      {commentDatas.map((group: CommentData[], i: number) => {
         return (
           <div key={`${i + 1}`}>
             {group.map((comment: CommentData) => {
@@ -77,26 +46,26 @@ export const CommentFormContainer = ({ loginUserId }: Props) => {
                 <div key={`CommentUser-${comment.id}`}>
                   <CommentContainer
                     comment={comment}
-                    commentBtn={commentBtn}
+                    commentBtn={commentMoreBtn}
                     index={i}
                     loginUserId={loginUserId}
                   />
                 </div>
               );
             })}
-            {group.length > 1 && commentBtn[i] === false && (
+            {group.length > 1 && commentMoreBtn[i] === false && (
               <OnComment theme={theme} onClick={(e) => onComment(i)}>
                 <BorderInnerIcon />
                 {group.length - 1}개의 답글
               </OnComment>
             )}
-            {group.length < 2 && commentBtn[i] === false && (
+            {group.length < 2 && commentMoreBtn[i] === false && (
               <OnComment theme={theme} onClick={(e) => onComment(i)}>
                 <BorderInnerIcon />
                 댓글 남기기
               </OnComment>
             )}
-            {commentBtn[i] === true && (
+            {commentMoreBtn[i] === true && (
               <ReCommentForm
                 onComment={onComment}
                 index={i}

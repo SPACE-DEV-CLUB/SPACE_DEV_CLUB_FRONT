@@ -25,7 +25,7 @@ interface Props {
 }
 
 export const Comment = ({ comment, user, loginUserId }: Props) => {
-  const { postObj } = useContext(PostStore);
+  const { postObj, postid } = useContext(PostStore);
   const { mutate } = useSWRConfig();
   const [isDelete, setIsDelete] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
@@ -46,27 +46,27 @@ export const Comment = ({ comment, user, loginUserId }: Props) => {
     setIsUpdate(true);
   };
 
-  const Delete = async (id: number) => {
+  const commentDelete = async (id: number) => {
     await axios({
       method: "delete" as Method,
       url: `${API_ENDPOINT}/comments/${id}`,
     });
-    mutate(`${API_ENDPOINT}/posts?populate=*`);
+    mutate(`${API_ENDPOINT}/comments?populate=*&filters[posts][id]=${postid}`);
   };
 
-  const onClickNo = () => {
+  const onClickCancle = () => {
     setIsDelete(false);
     document.body.style.overflow = "unset";
   };
 
-  const onClickYes = async () => {
+  const deleteCommentAll = async () => {
     if (comment.attributes.depth === 0) {
       const everyComment = postObj.comments.data.filter(
         (group) => group.attributes.group === comment.attributes.group
       );
-      everyComment.forEach((data) => Delete(data.id));
+      everyComment.forEach((data) => commentDelete(data.id));
     } else {
-      Delete(comment.id);
+      await commentDelete(comment.id);
     }
     document.body.style.overflow = "unset";
   };
@@ -111,9 +111,9 @@ export const Comment = ({ comment, user, loginUserId }: Props) => {
       {isDelete && (
         <Modal
           title="댓글 삭제"
-          handleOK={onClickYes}
+          handleOK={deleteCommentAll}
           check={isDelete}
-          handleCancel={onClickNo}
+          handleCancel={onClickCancle}
         >
           댓글을 정말로 삭제하시겠습니까?
         </Modal>
