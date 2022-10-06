@@ -61,13 +61,14 @@ export const Comment = ({ comment, user, loginUserId }: Props) => {
 
   const deleteCommentAll = async () => {
     if (comment.attributes.depth === 0) {
-      const everyComment = await postObj.comments.data.filter(
+      const everyComment = postObj.comments.data.filter(
         (group) => group.attributes.group === comment.attributes.group
       );
       everyComment.forEach((data) => commentDelete(data.id));
     } else {
-      commentDelete(comment.id);
+      await commentDelete(comment.id);
     }
+    document.body.style.overflow = "unset";
   };
 
   return (

@@ -1,23 +1,27 @@
-import styled from "@emotion/styled"
-import React, { ReactChild, useContext } from "react"
-import { ThemeContext } from "@pages/_app"
-import { ThemeProps } from "@src/types/Theme"
+import styled from "@emotion/styled";
+import React, { ReactChild, useContext, useEffect } from "react";
+import { ThemeContext } from "@pages/_app";
+import { ThemeProps } from "@src/types/Theme";
 
 type ModalProps = {
-  title: string
-  handleOK: () => void
-  handleCancel: () => void
-  children: ReactChild
-  check: boolean
-}
+  title: string;
+  handleOK: () => void;
+  handleCancel: () => void;
+  children: ReactChild;
+  check: boolean;
+};
 export const Modal = ({
   title,
   handleOK,
   handleCancel,
   children,
 }: ModalProps) => {
-  const { theme } = useContext(ThemeContext)
-  document.body.style.overflow = "hidden"
+  const { theme } = useContext(ThemeContext);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+  }, []);
+
   return (
     <Container theme={theme}>
       <ContContainer theme={theme}>
@@ -35,8 +39,8 @@ export const Modal = ({
         </ModalBottom>
       </ContContainer>
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.section<ThemeProps>`
   position: fixed;
@@ -46,7 +50,7 @@ const Container = styled.section<ThemeProps>`
   z-index: 999;
   top: 0;
   left: 0;
-`
+`;
 
 const ContContainer = styled.section<ThemeProps>`
   position: absolute;
@@ -60,7 +64,7 @@ const ContContainer = styled.section<ThemeProps>`
   background: ${({ theme }) => theme.BACKGROUND};
   box-shadow: ${({ theme }) => theme.TOGGLE_BACKGROUND} 0px 0px 5px 1px;
   border-radius: 4px;
-`
+`;
 
 const ModalTop = styled.div<ThemeProps>`
   text-align: left;
@@ -72,7 +76,7 @@ const ModalTop = styled.div<ThemeProps>`
     line-height: 1.5;
     color: ${({ theme }) => theme.ICON};
   }
-`
+`;
 
 const ModalBottom = styled.div<ThemeProps>`
   display: flex;
@@ -96,4 +100,4 @@ const ModalBottom = styled.div<ThemeProps>`
     color: ${({ theme }) => theme.BACKGROUND};
     margin-left: 12px;
   }
-`
+`;

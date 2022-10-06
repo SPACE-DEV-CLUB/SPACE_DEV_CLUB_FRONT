@@ -11,6 +11,7 @@ import {
 } from "../DetailComments";
 
 export const useGetCommentData = () => {
+  const [commentLen, setCommentLen] = useState(0);
   const [commentDatas, setCommentDatas] = useState<CommentData[][]>([]);
   const [currentGroup, setCurrentGroup] = useState(0);
   const [commentMoreBtn, setCommentMoreBtn] = useState<boolean[]>([]);
@@ -45,6 +46,7 @@ export const useGetCommentData = () => {
 
   useEffect(() => {
     if (comments) {
+      setCommentLen(comments.data.length);
       const sortCommetnsData = sortComments(comments.data);
       const newComment = groupByComments(sortCommetnsData, handleCommentDatas);
       currentCommentGroup(newComment, handleCurrentCommentGroup);
@@ -57,5 +59,6 @@ export const useGetCommentData = () => {
     currentGroup,
     commentMoreBtn,
     onComment,
+    commentLen,
   };
 };

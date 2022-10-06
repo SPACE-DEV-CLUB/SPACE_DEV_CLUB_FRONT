@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import BorderInnerIcon from "@mui/icons-material/BorderInner";
 
 import { Theme } from "@styles/theme";
@@ -7,7 +7,6 @@ import { ThemeContext } from "@pages/_app";
 import { CommentData } from "@src/types/detail";
 
 import { CommentForm, ReCommentForm, CommentContainer } from ".";
-import { PostStore } from "../Context";
 import { useGetCommentData } from "./helper/CommentForm";
 
 interface ThemeProps {
@@ -20,16 +19,15 @@ interface Props {
 
 export const DetailComments = ({ loginUserId }: Props) => {
   const { theme } = useContext(ThemeContext);
-  const { postObj } = useContext(PostStore);
 
   const [_, setCommentForm] = useState(false);
-  const { commentDatas, currentGroup, commentMoreBtn, onComment } =
+  const { commentDatas, currentGroup, commentMoreBtn, onComment, commentLen } =
     useGetCommentData();
 
   return (
     <article>
       <h3 className="sr-only">상세 페이지 댓글</h3>
-      <CommentNum>{postObj.comments.data.length}개의 댓글</CommentNum>
+      <CommentNum>{commentLen}개의 댓글</CommentNum>
       <CommentForm
         CommentOrder={0}
         loginUserId={loginUserId}
