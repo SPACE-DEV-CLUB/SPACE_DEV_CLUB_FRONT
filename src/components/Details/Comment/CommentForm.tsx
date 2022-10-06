@@ -8,7 +8,6 @@ import { ThemeContext } from "@pages/_app";
 import { API_ENDPOINT, PALLETS_LIGHT } from "@constants/index";
 
 import { PostStore } from "../Context";
-import { createFetcher, updateFetcher } from "./helper/CommentForm";
 
 interface ThemeProps {
   theme: Theme;
@@ -63,13 +62,35 @@ export const CommentForm = ({
           posts: postid,
         };
 
-        const url = `${API_ENDPOINT}/comments`;
-        mutate(url, createFetcher(Data, url));
+        await axios({
+          method: "post" as Method,
+          url: `${API_ENDPOINT}/comments`,
+          data: {
+            data: Data,
+          },
+        });
         setCommentText("");
-        mutate(`${API_ENDPOINT}/posts?populate=*`);
+        setCommentForm(false);
+
+        mutate(
+          `${API_ENDPOINT}/comments?populate=*&filters[posts][id]=${postid}`
+        );
       } else if (type === "CommentUpdate") {
-        const url = `${API_ENDPOINT}/comments/${CommentId}`;
-        mutate(url, updateFetcher(url, commentText));
+        const Data = {
+          content: commentText,
+        };
+        await axios({
+          method: "put" as Method,
+          url: `${API_ENDPOINT}/comments/${CommentId}`,
+          data: {
+            data: Data,
+          },
+        });
+        setCommentForm(false);
+
+        mutate(
+          `${API_ENDPOINT}/comments?populate=*&filters[posts][id]=${postid}`
+        );
       }
     } else {
       alert("로그인 이후에 이용할 수 있습니다.");

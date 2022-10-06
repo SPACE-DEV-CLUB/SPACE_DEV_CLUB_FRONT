@@ -8,11 +8,7 @@ import { CommentData } from "@src/types/detail";
 
 import { CommentForm, ReCommentForm, CommentContainer } from ".";
 import { PostStore } from "../Context";
-import {
-  sortComments,
-  groupByComments,
-  currentCommentGroup,
-} from "./helper/DetailComments";
+import { useGetCommentData } from "./helper/CommentForm";
 
 interface ThemeProps {
   theme: Theme;
@@ -25,42 +21,10 @@ interface Props {
 export const DetailComments = ({ loginUserId }: Props) => {
   const { theme } = useContext(ThemeContext);
   const { postObj } = useContext(PostStore);
-  const [commentDatas, setCommentDatas] = useState<CommentData[][]>([]);
-  const [currentGroup, setCurrentGroup] = useState(0);
-  const [commentMoreBtn, setCommentMoreBtn] = useState<boolean[]>([]);
 
-  const [commentForm, setCommentForm] = useState(false);
-
-  const handleCommentDatas = (newComment: CommentData[][]) => {
-    setCommentDatas(newComment);
-  };
-
-  // 댓글 입력 Form에서 현재 몇 번째 댓글인지 판단하여 생성 하기 위한 state 관리
-  // ex) 댓글 3개 있으면 이번에 작성될 댓글 그룹은 4
-  const handleCurrentCommentGroup = (groupNum: number) => {
-    setCurrentGroup(groupNum);
-  };
-
-  // 댓글마다 더 보기 및 답글을 달기 위한 버튼이 존재
-  // 댓글에 맞는 대댓글 UI만 펼쳐지기 위함
-  const commentMoreBtnInit = (newComment: CommentData[][]) => {
-    if (newComment) {
-      const init = Array(newComment.length).fill(false);
-      setCommentMoreBtn(init);
-    }
-  };
-
-  useEffect(() => {
-    const sortCommetnsData = sortComments(postObj.comments.data);
-    const newComment = groupByComments(sortCommetnsData, handleCommentDatas);
-    currentCommentGroup(newComment, handleCurrentCommentGroup);
-    commentMoreBtnInit(newComment);
-  }, []);
-
-  const onComment = (i: number) => {
-    commentMoreBtn[i] = !commentMoreBtn[i];
-    setCommentMoreBtn([...commentMoreBtn]);
-  };
+  const [_, setCommentForm] = useState(false);
+  const { commentDatas, currentGroup, commentMoreBtn, onComment } =
+    useGetCommentData();
 
   return (
     <article>
